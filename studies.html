@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Comprehensive study materials for endpoint security engineering (10+ hours)." />
+  <title>Study Materials | CyberSkillForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .study-nav {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+    .study-nav a {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.8rem;
+      background: var(--surface);
+      color: var(--text-1);
+      text-decoration: none;
+      transition: border-color 0.18s ease, background-color 0.18s ease;
+    }
+    .study-nav a:hover {
+      border-color: var(--accent-2);
+      background: rgba(10, 26, 42, 0.95);
+    }
+    .study-section {
+      margin-bottom: 3rem;
+    }
+    .study-section h2 {
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .study-content h3 {
+      color: #dff2ff;
+      margin-top: 1.5rem;
+    }
+    .study-content p {
+      line-height: 1.65;
+      color: var(--text-1);
+    }
+    .code-block {
+      background: rgba(2, 14, 22, 0.8);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 0.8rem 0;
+      overflow-x: auto;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85rem;
+      color: #9fc3d8;
+    }
+    svg {
+      max-width: 100%;
+      height: auto;
+      margin: 1.5rem 0;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(2, 14, 22, 0.6);
+    }
+    .reading-time {
+      display: inline-block;
+      background: rgba(73, 200, 240, 0.08);
+      border-left: 3px solid #49c8f0;
+      padding: 0.6rem 0.8rem;
+      border-radius: 4px;
+      color: #a9cfe1;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .key-point {
+      background: rgba(73, 200, 240, 0.06);
+      border-left: 3px solid #49c8f0;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+    }
+    .reference-list {
+      list-style: none;
+      padding: 0;
+    }
+    .reference-list li {
+      padding: 0.5rem 0;
+      color: var(--text-1);
+    }
+    .reference-list a {
+      color: var(--accent-2);
+      text-decoration: none;
+    }
+    .reference-list a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html">CyberSkillForge</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">Menu</button>
+    <nav id="mainNav" class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="studies.html">Studies</a>
+      <a href="labs.html">Labs</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero reveal">
+      <div class="hero-shell">
+        <div class="hero-copy-wrap">
+          <p class="eyebrow">Comprehensive Learning</p>
+          <h1>10+ Hours of Study Material for Endpoint Security Engineering</h1>
+          <p class="hero-copy">Deep-dive references, architecture diagrams, and real-world case studies organized by the 10 required skills.</p>
+          <div class="hero-badges">
+            <span>Architecture Focused</span>
+            <span>Code + Diagrams</span>
+            <span>Interview Ready</span>
+          </div>
+        </div>
+        <figure class="hero-visual" aria-label="Learning blueprint visual">
+          <img src="assets/study-mesh.svg" alt="Learning dependency blueprint connecting endpoint, architecture, SIEM, automation and vulnerability management" />
+        </figure>
+      </div>
+    </section>
+
+    <figure class="page-banner reveal" aria-label="Study materials visual banner">
+      <img src="assets/study-mesh.svg" alt="Cybersecurity study blueprint with connected skill domains" />
+    </figure>
+
+    <section class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Learning System</p>
+        <h2>How To Learn This Material Efficiently</h2>
+      </div>
+      <div class="learning-framework">
+        <article>
+          <h3>Phase 1: Understand</h3>
+          <p>Read each section once for the big picture. Focus on architecture, control intent, and why each control exists. Do not memorize commands first; build mental models first.</p>
+        </article>
+        <article>
+          <h3>Phase 2: Implement</h3>
+          <p>Execute one lab tied to the section immediately after reading. Convert concepts into configuration, detection logic, or response steps while context is still fresh.</p>
+        </article>
+        <article>
+          <h3>Phase 3: Explain</h3>
+          <p>Write a 1-page summary: problem, decisions, tradeoffs, metrics, and outcomes. If you cannot explain it clearly, revisit the section and lab evidence.</p>
+        </article>
+      </div>
+      <div class="best-practice">
+        <strong>Recommended weekly cadence:</strong> 2 study sections + 2 labs + 1 retrospective write-up. This keeps theory, implementation, and interview storytelling tightly connected.
+      </div>
+    </section>
+
+    <section class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Study Control Center</p>
+        <h2>Plan, Filter, and Track Mastery Across All Topics</h2>
+      </div>
+      <div class="study-controls">
+        <label for="studySearch">Search topics</label>
+        <input id="studySearch" type="text" placeholder="Search by concept, tool, or skill" />
+        <label for="studyLevelFilter">Learning level</label>
+        <select id="studyLevelFilter">
+          <option value="all">All levels</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+        <label for="studyStatusFilter">Mastery status</label>
+        <select id="studyStatusFilter">
+          <option value="all">All topics</option>
+          <option value="mastered">Mastered</option>
+          <option value="in-progress">In progress</option>
+        </select>
+      </div>
+      <p id="studyProgressSummary" class="study-progress-summary mono">Mastered 0 / 0 topics (0%)</p>
+    </section>
+
+    <section class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Interview and Exam Studio</p>
+        <h2>Mock Interviews, Timed Exams, and Personalized Remediation</h2>
+      </div>
+      <div class="prep-studio-grid">
+        <article class="prep-panel">
+          <h3>Mock Interview Mode</h3>
+          <div class="prep-controls">
+            <label for="interviewTopicSelect">Topic</label>
+            <select id="interviewTopicSelect">
+              <option value="all">All topics (mixed)</option>
+              <option value="endpoint-security">Endpoint Security</option>
+              <option value="network-security">Network Security</option>
+              <option value="penetration-testing">Penetration Testing</option>
+              <option value="architecture-design">Architecture Design</option>
+              <option value="security-automation">Security Automation</option>
+              <option value="security-information">Security Information</option>
+              <option value="siem">SIEM</option>
+              <option value="security-operations">Security Operations</option>
+              <option value="threat-modeling">Threat Modeling</option>
+              <option value="vulnerability-management">Vulnerability Management</option>
+              <option value="soc-ops-analyst-track">SOC Analyst Track</option>
+              <option value="capstone-track">Capstone Track</option>
+            </select>
+            <button id="startInterviewBtn" class="btn btn-primary" type="button">Start Mock Interview</button>
+          </div>
+          <div id="interviewPanel" class="interview-panel"></div>
+        </article>
+
+        <article class="prep-panel">
+          <h3>Timed Exam Mode</h3>
+          <div class="prep-controls">
+            <label for="examModeSelect">Exam type</label>
+            <select id="examModeSelect">
+              <option value="topic">Topic exam (12 min)</option>
+              <option value="full">Full-length exam (35 min)</option>
+            </select>
+            <label for="examTopicSelect">Topic</label>
+            <select id="examTopicSelect">
+              <option value="endpoint-security">Endpoint Security</option>
+              <option value="network-security">Network Security</option>
+              <option value="penetration-testing">Penetration Testing</option>
+              <option value="architecture-design">Architecture Design</option>
+              <option value="security-automation">Security Automation</option>
+              <option value="security-information">Security Information</option>
+              <option value="siem">SIEM</option>
+              <option value="security-operations">Security Operations</option>
+              <option value="threat-modeling">Threat Modeling</option>
+              <option value="vulnerability-management">Vulnerability Management</option>
+              <option value="soc-ops-analyst-track">SOC Analyst Track</option>
+              <option value="capstone-track">Capstone Track</option>
+            </select>
+            <button id="startExamBtn" class="btn btn-primary" type="button">Start Timed Exam</button>
+          </div>
+          <div id="examPanel" class="exam-panel"></div>
+        </article>
+      </div>
+
+      <article class="prep-panel">
+        <h3>Personalized Weak-Area Study Plan</h3>
+        <p class="helper">Auto-generated from quiz misses, timed exam misses, mastery status, and interview rubric scores.</p>
+        <div id="weakAreaPlan" class="weak-plan"></div>
+      </article>
+    </section>
+
+    <div class="study-nav">
+      <a href="#endpoint-security">Endpoint Security</a>
+      <a href="#network-security">Network Security</a>
+      <a href="#penetration-testing">Penetration Testing</a>
+      <a href="#architecture-design">Architecture Design</a>
+      <a href="#security-automation">Security Automation</a>
+      <a href="#security-information">Security Information</a>
+      <a href="#siem">SIEM</a>
+      <a href="#security-operations">Security Operations</a>
+      <a href="#threat-modeling">Threat Modeling</a>
+      <a href="#vulnerability-management">Vulnerability Management</a>
+      <a href="#soc-ops-analyst-track">SOC Analyst Track</a>
+      <a href="#capstone-track">Capstone Track</a>
+    </div>
+
+    <!-- Endpoint Security Section -->
+    <section id="endpoint-security" class="study-section reveal">
+      <h2>1. Endpoint Security Engineering</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 75 minutes | Deep dive into device hardening, defense-in-depth, and secure lifecycle</div>
+        
+        <h3>Foundational Concepts: The Endpoint as Attack Surface</h3>
+        <p>Endpoints—laptops, desktops, mobile devices, and IoT systems—represent the broadest attack surface in modern enterprises. Unlike static infrastructure, endpoints are mobile, user-controlled, and frequently connected to untrusted networks. An endpoint security engineer must design controls that:</p>
+        <ul>
+          <li><strong>Prevent</strong> attacks from executing (hardening, policy enforcement)</li>
+          <li><strong>Detect</strong> when attacks succeed despite prevention (telemetry, anomaly detection)</li>
+          <li><strong>Respond</strong> rapidly to minimize blast radius (isolation, containment, remediation)</li>
+        </ul>
+        <p>The goal is not perfection (impossible), but <strong>defense-in-depth</strong>: layered controls that force attackers through multiple barriers, each monitored for failure.</p>
+        
+        <h3>The Six Layers of Endpoint Security</h3>
+        <svg viewBox="0 0 900 550" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              .layer-box { stroke-width: 2; }
+              .layer-label { font-family: Sora; font-size: 13px; font-weight: bold; }
+              .layer-desc { font-family: Sora; font-size: 11px; }
+            </style>
+          </defs>
+          
+          <!-- Title -->
+          <text x="450" y="30" text-anchor="middle" class="layer-label" font-size="18" fill="#5effb5">Six Layers of Modern Endpoint Security</text>
+          
+          <!-- Layer 1: Firmware -->
+          <rect class="layer-box" x="50" y="60" width="800" height="70" fill="rgba(69, 211, 255, 0.12)" stroke="#45d3ff" rx="5" />
+          <text x="70" y="87" class="layer-label" fill="#45d3ff">Layer 1: Firmware & Hardware Root of Trust</text>
+          <text x="70" y="105" class="layer-desc" fill="#9ac0dd">UEFI Secure Boot, TPM 2.0 attestation, secure enclave for credentials storage, hardware-backed full-disk encryption</text>
+          
+          <!-- Layer 2: OS Hardening -->
+          <rect class="layer-box" x="50" y="145" width="800" height="70" fill="rgba(94, 255, 181, 0.12)" stroke="#5effb5" rx="5" />
+          <text x="70" y="172" class="layer-label" fill="#5effb5">Layer 2: OS Core Hardening</text>
+          <text x="70" y="190" class="layer-desc" fill="#9ac0dd">CIS benchmarks, privilege reduction (non-root user), access control enforcement (AppArmor/SELinux), kernel protection</text>
+          
+          <!-- Layer 3: Application Controls -->
+          <rect class="layer-box" x="50" y="230" width="800" height="70" fill="rgba(69, 211, 255, 0.12)" stroke="#45d3ff" rx="5" />
+          <text x="70" y="257" class="layer-label" fill="#45d3ff">Layer 3: Application & Data Protection</text>
+          <text x="70" y="275" class="layer-desc" fill="#9ac0dd">Application whitelisting, DLP policies, browser isolation, USB restrictions, sensitive data classification & encryption</text>
+          
+          <!-- Layer 4: Identity & Access -->
+          <rect class="layer-box" x="50" y="315" width="800" height="70" fill="rgba(94, 255, 181, 0.12)" stroke="#5effb5" rx="5" />
+          <text x="70" y="342" class="layer-label" fill="#5effb5">Layer 4: Identity & Access Management</text>
+          <text x="70" y="360" class="layer-desc" fill="#9ac0dd">Multi-factor authentication (MFA), conditional access policies, JIT privilege elevation, continuous re-authentication</text>
+          
+          <!-- Layer 5: Network & Communications -->
+          <rect class="layer-box" x="50" y="400" width="800" height="70" fill="rgba(69, 211, 255, 0.12)" stroke="#45d3ff" rx="5" />
+          <text x="70" y="427" class="layer-label" fill="#45d3ff">Layer 5: Network Security & Monitoring</text>
+          <text x="70" y="445" class="layer-desc" fill="#9ac0dd">DNS filtering, firewall rules, VPN/zero trust access, network segmentation, egress monitoring & alerting</text>
+          
+          <!-- Layer 6: Detection & Response -->
+          <rect class="layer-box" x="50" y="485" width="800" height="70" fill="rgba(94, 255, 181, 0.12)" stroke="#5effb5" rx="5" />
+          <text x="70" y="512" class="layer-label" fill="#5effb5">Layer 6: Detection, Response & Forensics</text>
+          <text x="70" y="530" class="layer-desc" fill="#9ac0dd">EDR agents, threat hunting, automated response, forensic data collection, SIEM integration, incident investigation</text>
+        </svg>
+
+        <h3>Hardening Baselines: From Policy to Enforcement</h3>
+        <p>Industry standards provide hardening guidance, but implementation requires translating policy into enforceable configuration management:</p>
+        
+        <div class="key-point">
+          <strong>CIS Benchmarks (Center for Internet Security)</strong><br/>
+          CIS provides detailed checklists for Windows, macOS, and Linux with two levels: Level 1 (Foundational—essential controls suitable for most environments) and Level 2 (Advanced configuration with operational overhead). A mature security program implements Level 1 across all endpoints and Level 2 for high-value systems (executives, data center access, payment processing).
+        </div>
+
+        <h4>Windows 11 Hardening Policy Implementation</h4>
+        <div class="code-block">
+# PowerShell: Windows 11 CIS Benchmark Configuration
+Enable-BitLocker -MountPoint "C:" -EncryptionMethod Aes256 -TpmProtector
+
+# Configure Windows Defender for maximum protection
+Set-MpPreference -DisableRealtimeMonitoring $false
+Set-MpPreference -MAPSReporting Advanced
+Set-MpPreference -SubmitSamplesConsent SendAllSamples
+Set-MpPreference -EnableNetworkProtection Enabled
+
+# Enable detailed audit logging for forensic investigation
+auditpol /set /subcategory:"Logon/Logoff" /success:enable /failure:enable
+auditpol /set /subcategory:"Sensitive Privilege Use" /success:enable /failure:enable
+
+# Disable risky services to reduce attack surface
+Disable-WindowsOptionalFeature -Online -FeatureName SMB1 -NoRestart
+Disable-WindowsOptionalFeature -Online -FeatureName TelnetClient -NoRestart
+Set-Service WinRM -StartupType Disabled
+
+# Enforce strong password policy
+net accounts /maxpwage:30 /minpwlen:14 /uniquepw:10 /complexity:on
+
+# Restrict USB device usage (prevent data theft)
+New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\USBSTOR" -Name "Start" -Value 4 -Force
+        </div>
+
+        <h3>Secure Device Lifecycle</h3>
+        <p>Security must be managed across the entire device lifespan, not just active use:</p>
+        
+        <strong>1. Procurement</strong> - Verify hardware authenticity and security certificates; validate BIOS/UEFI integrity; confirm TPM 2.0 presence and functionality<br/>
+        <strong>2. Provisioning</strong> - Deploy hardened OS image; configure baselines automatically; enroll in MDM/Intune; apply security group policies<br/>
+        <strong>3. Active Use</strong> - Continuous patch management, compliance monitoring, threat detection, and incident response<br/>
+        <strong>4. Refresh Cycles</strong> - Reapply baselines when OS versions update; validate compliance; test new security features<br/>
+        <strong>5. Decommission</strong> - Secure data wipe per NIST 800-88 guidelines; destroy encryption keys; dispose following environmental/data protection regulations
+        
+        <h3>Patch Management: Balancing Speed and Risk</h3>
+        <p>Unpatched systems are the #1 exploitable vulnerability in most enterprises. However, reckless patching causes business disruption. Modern patch strategy uses SLA tiers and measured rollout:</p>
+        
+        <table class="comparison-table">
+          <tr>
+            <th>CVSS Severity</th>
+            <th>CVSS Score</th>
+            <th>Patch SLA</th>
+            <th>Deployment Pattern</th>
+            <th>Validation</th>
+          </tr>
+          <tr>
+            <td><strong>Critical</strong></td>
+            <td>9.0-10.0</td>
+            <td>48 hours</td>
+            <td>High-risk pilot (10%) → 25% → 100%</td>
+            <td>Rescan, endpoint health, EDR signal</td>
+          </tr>
+          <tr>
+            <td><strong>High</strong></td>
+            <td>7.0-8.9</td>
+            <td>7 days</td>
+            <td>Pilot → Stage weekly</td>
+            <td>App testing, user acceptance testing</td>
+          </tr>
+          <tr>
+            <td><strong>Medium</strong></td>
+            <td>4.0-6.9</td>
+            <td>30 days</td>
+            <td>Monthly deployment window</td>
+            <td>Functional testing</td>
+          </tr>
+          <tr>
+            <td><strong>Low</strong></td>
+            <td>0.1-3.9</td>
+            <td>90 days</td>
+            <td>Grouped with monthly patches</td>
+            <td>Automated validation only</td>
+          </tr>
+        </table>
+
+        <div class="best-practice">
+          <strong>Patch SLA Enforcement:</strong> Track compliance daily. A single critical vulnerability 72 hours unpatched represents material risk to the business. Build dashboards showing remediation velocity by department and exceptions with business justification. Escalate SLA violations to leadership.
+        </div>
+
+        <h3>EDR Deployment & Tuning</h3>
+        <p>Endpoint Detection and Response (EDR) agents provide continuous telemetry on process execution, file operations, network connections, and user activity. deploy in phases:</p>
+        <ul>
+          <li><strong>Pilot Phase (1-2 weeks):</strong> Deploy agents to 5-10% of organization; confirm EDR can reach all systems; measure CPU/memory impact</li>
+          <li><strong>Baseline Phase (2-4 weeks):</strong> Collect clean network telemetry to establish "normal" behavior; tune detection rules to reduce false positives</li>
+          <li><strong>Alert Phase (1-2 weeks):</strong> Enable alerting; verify alert routing, triage process, and response procedures work end-to-end</li>
+          <li><strong>Full Rollout:</strong> Deploy to entire organization with phased, monitored approach</li>
+        </ul>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Design layered endpoint controls using defense-in-depth principles (prevent → detect → respond)</li>
+          <li>Translate CIS benchmarks into enforceable device management policies via PowerShell/Group Policy</li>
+          <li>Operate secure device lifecycle from procurement through decommission following NIST guidelines</li>
+          <li>Implement risk-based patch management with measurable SLA compliance and velocity tracking</li>
+          <li>Deploy and tune EDR with phased rollout, baseline establishment, and feedback loops</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://www.cisecurity.org/" target="_blank">CIS Benchmarks - Industry standard hardening guides</a></li>
+          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-53/rev-5" target="_blank">NIST SP 800-53 Rev 5 - Security and Privacy Controls</a></li>
+          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-88" target="_blank">NIST SP 800-88 - Guidelines for Media Sanitization</a></li>
+          <li><a href="https://docs.microsoft.com/en-us/windows/security/" target="_blank">Microsoft Windows Security Baseline</a></li>
+          <li><a href="https://www.apple.com/business/security/" target="_blank">Apple Enterprise Security Guidelines</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Network Security Section -->
+    <section id="network-security" class="study-section reveal">
+      <h2>2. Network Security & Zero Trust Architecture</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 80 minutes | Zero trust model, microsegmentation, and continuous verification</div>
+
+        <h3>The Evolution from Perimeter-Based to Zero Trust</h3>
+        <p><strong>Traditional Model (Perimeter Security):</strong> Trust everything inside the network boundary, block everything outside. This assumed a clear network perimeter, true before cloud computing and remote work became ubiquitous.</p>
+        <p><strong>Zero Trust Model:</strong> Never trust, always verify—regardless of network location. Every access request requires validation of identity (who?), device posture (is it healthy?), context (where? when?), and least-privilege scope (what?). Zero Trust is not a product; it's an architecture philosophy requiring rethinking of how access decisions are made.</p>
+        
+        <h3>Zero Trust Pillars: Identity, Device, Application</h3>
+        <svg viewBox="0 0 1000 450" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              .zt-pillar { stroke-width: 2; }
+              .zt-label { font-family: Sora; font-size: 12px; font-weight: bold; }
+            </style>
+          </defs>
+          
+          <text x="500" y="35" text-anchor="middle" class="zt-label" font-size="18" fill="#5effb5">Zero Trust Architecture: Three Pillars</text>
+          
+          <!-- Pillar 1: Identity -->
+          <rect class="zt-pillar" x="50" y="80" width="260" height="280" fill="rgba(69, 211, 255, 0.12)" stroke="#45d3ff" rx="8" />
+          <text x="180" y="115" text-anchor="middle" class="zt-label" font-size="14" fill="#45d3ff">Pillar 1: Identity</text>
+          <text x="70" y="150" font-size="11" fill="#9ac0dd">✓ Authenticate every user</text>
+          <text x="70" y="170" font-size="11" fill="#9ac0dd">✓ Verify via MFA (Something</text>
+          <text x="80" y="185" font-size="11" fill="#9ac0dd">you know + have + are)</text>
+          <text x="70" y="205" font-size="11" fill="#9ac0dd">✓ Use strong credentials</text>
+          <text x="70" y="225" font-size="11" fill="#9ac0dd">✓ Assess risk level in real-</text>
+          <text x="80" y="240" font-size="11" fill="#9ac0dd">time (anomaly detection)</text>
+          <text x="70" y="260" font-size="11" fill="#9ac0dd">✓ Enforce conditional</text>
+          <text x="80" y="275" font-size="11" fill="#9ac0dd">access policies</text>
+          <text x="70" y="295" font-size="11" fill="#9ac0dd">✓ Continuous re-auth for</text>
+          <text x="80" y="310" font-size="11" fill="#9ac0dd">sensitive resources</text>
+          <text x="70" y="330" font-size="11" fill="#9ac0dd">Example: Azure AD (Entra),</text>
+          <text x="70" y="345" font-size="11" fill="#9ac0dd">Okta, Keycloak</text>
+          
+          <!-- Pillar 2: Device -->
+          <rect class="zt-pillar" x="370" y="80" width="260" height="280" fill="rgba(94, 255, 181, 0.12)" stroke="#5effb5" rx="8" />
+          <text x="500" y="115" text-anchor="middle" class="zt-label" font-size="14" fill="#5effb5">Pillar 2: Device Health</text>
+          <text x="390" y="150" font-size="11" fill="#9ac0dd">✓ Verify device identity &</text>
+          <text x="400" y="165" font-size="11" fill="#9ac0dd">enrollment</text>
+          <text x="390" y="185" font-size="11" fill="#9ac0dd">✓ Check compliance:</text>
+          <text x="400" y="200" font-size="11" fill="#9ac0dd">- Encryption enabled</text>
+          <text x="400" y="215" font-size="11" fill="#9ac0dd">- OS version current</text>
+          <text x="400" y="230" font-size="11" fill="#9ac0dd">- Threats detected: NO</text>
+          <text x="390" y="250" font-size="11" fill="#9ac0dd">✓ Real-time health scoring</text>
+          <text x="390" y="270" font-size="11" fill="#9ac0dd">✓ Quarantine non-compliant</text>
+          <text x="400" y="285" font-size="11" fill="#9ac0dd">devices</text>
+          <text x="390" y="305" font-size="11" fill="#9ac0dd">✓ Mobile device mgmt (MDM)</text>
+          <text x="390" y="325" font-size="11" fill="#9ac0dd">Example: Microsoft Intune,</text>
+          <text x="390" y="340" font-size="11" fill="#9ac0dd">Jamf, MobileIron</text>
+          
+          <!-- Pillar 3: Application -->
+          <rect class="zt-pillar" x="690" y="80" width="260" height="280" fill="rgba(69, 211, 255, 0.12)" stroke="#45d3ff" rx="8" />
+          <text x="820" y="115" text-anchor="middle" class="zt-label" font-size="14" fill="#45d3ff">Pillar 3: Application</text>
+          <text x="710" y="150" font-size="11" fill="#9ac0dd">✓ Enforce least privilege</text>
+          <text x="710" y="170" font-size="11" fill="#9ac0dd">✓ Microsegment access</text>
+          <text x="710" y="190" font-size="11" fill="#9ac0dd">✓ App-specific security</text>
+          <text x="720" y="205" font-size="11" fill="#9ac0dd">requirements</text>
+          <text x="710" y="225" font-size="11" fill="#9ac0dd">✓ Data classification &</text>
+          <text x="720" y="240" font-size="11" fill="#9ac0dd">protection policies</text>
+          <text x="710" y="260" font-size="11" fill="#9ac0dd">✓ Monitor app usage,</text>
+          <text x="720" y="275" font-size="11" fill="#9ac0dd">anomalies</text>
+          <text x="710" y="295" font-size="11" fill="#9ac0dd">✓ Revoke access on risk</text>
+          <text x="710" y="315" font-size="11" fill="#9ac0dd">Example: Reverse proxies</text>
+          <text x="710" y="330" font-size="11" fill="#9ac0dd">(Cloudflare Zero Trust),</text>
+          <text x="710" y="345" font-size="11" fill="#9ac0dd">SaaS gateways</text>
+          
+          <!-- Policy Engine at bottom -->
+          <rect x="50" y="400" width="900" height="40" fill="rgba(69, 211, 255, 0.08)" stroke="#45d3ff" stroke-width="2" stroke-dasharray="5,5" rx="5" />
+          <text x="500" y="425" text-anchor="middle" class="zt-label" fill="#45d3ff">Central Policy Engine: Evaluate all three pillars in real-time, grant scoped access with audit trail</text>
+        </svg>
+
+        <h3>Microsegmentation: From Flat Networks to Trust Zones</h3>
+        <p>Microsegmentation divides the network into small, isolated trust zones, reducing blast radius when breaches occur and limiting lateral movement. A modern network uses application-centric segmentation rather than IP-based segmentation.</p>
+        
+        <h4>Segmentation Strategy by Business Function</h4>
+        <div class="code-block">
+Zone A: Development & QA
+  - Developers, QA, CI/CD pipelines
+  - Assume dependencies from external sources (untrusted)
+  - Allowed outbound: Any (with logging)
+  - Allowed inbound: Monitored, logged for incident investigation
+  - Threat level: High (experimenting with code)
+
+Zone B: Production
+  - Production applications, databases, customer-facing services
+  - Allowed inbound: Only from load balancers (HTTPS/TLS encryption)
+  - Allowed outbound: Only to approved services (AWS SQS, Azure Storage, etc.)
+  - Denial of Service: Immediate blocking, incident investigation
+  - Threat level: Critical (protect customer data)
+
+Zone C: Security Infrastructure
+  - SIEM, EDR management servers, vulnerability scanners
+  - Isolated zone: minimal inbound (sensor collection only)
+  - Sensitive: Access logged and audited heavily
+  - Threat level: Critical (if compromised, all defenses fail)
+
+Zone D: Guest / Contractors
+  - Limited network access (WiFi isolation)
+  - Cannot reach internal resources
+  - Egress monitored heavily for suspicious patterns
+  - Threat level: Medium (external parties)
+
+Firewall Baseline Rules: DENY all by default
+Each allowed flow must have documented business justification and owner
+Review quarterly for drift and effectiveness
+        </div>
+
+        <div class="best-practice">
+          <strong>Segmentation Implementation Caution:</strong><br/>
+          Too aggressive segmentation breaks legitimate business processes and creates support ticket burden. Start with critical data flows (production → database, user → production). Test thoroughly. Expand in phases. Every rule should have documented business justification and owner. Measure by MTTR (mean time to remediate) for incidents caught by segmentation.
+        </div>
+
+        <h3>Network Monitoring & Threat Detection</h3>
+        <p>Even with strong segmentation, continuous network monitoring detects suspicious behavior:</p>
+        <ul>
+          <li><strong>Beaconing:</strong> Regular outbound connections to known C2 infrastructure (indicator of compromise/persistence)</li>
+          <li><strong>Port Scanning:</strong> Reconnaissance activity indicating lateral movement attempts</li>
+          <li><strong>Data Exfiltration:</strong> Unusually large traffic volumes to external IPs (data theft)</li>
+          <li><strong>DNS Tunneling:</strong> Data hidden in DNS queries to evade detection (command & control)</li>
+          <li><strong>Protocol Anomalies:</strong> Unusual port combinations, traffic patterns, encryption usage (evasion technique)</li>
+          <li><strong>Lateral Movement:</strong> Unexpected east-west traffic between zones normally isolated</li>
+        </ul>
+
+        <h3>Conditional Access & Risk-Based Authentication</h3>
+        <p>Conditional Access engines (Azure AD, Okta) evaluate context in real-time to adjust required authentication strength:</p>
+        <ul>
+          <li><strong>Low Risk Context:</strong> Corporate network + registered device + known user IP = Standard MFA</li>
+          <li><strong>Medium Risk Context:</strong> Personal WiFi + unregistered device = Require number matching MFA or security key</li>
+          <li><strong>High Risk Context:</strong> Unknown IP + unusual location + multiple failed attempts = Block and escalate for investigation</li>
+        </ul>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Understand zero trust architecture principles and deployment fundamentals</li>
+          <li>Design multi-layer identity verification: MFA, risk scoring, continuous authentication</li>
+          <li>Implement device health checks with real-time compliance scoring and enforcement</li>
+          <li>Plan network microsegmentation by trust zone and business function</li>
+          <li>Monitor networks for lateral movement, beaconing, and data exfiltration indicators</li>
+          <li>Configure conditional access policies balancing security and usability</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-207" target="_blank">NIST SP 800-207 - Zero Trust Architecture</a></li>
+          <li><a href="https://www.microsoft.com/en-us/security/business/solutions/zero-trust" target="_blank">Microsoft Zero Trust Model & Implementation</a></li>
+          <li><a href="https://www.paloaltonetworks.com/cyberpedia/what-is-microsegmentation" target="_blank">Palo Alto Networks - Microsegmentation Guide</a></li>
+          <li><a href="https://attack.mitre.org/tactics/TA0011/" target="_blank">MITRE ATT&CK - Command and Control Tactics</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Penetration Testing Section -->
+    <section id="penetration-testing" class="study-section reveal">
+      <h2>3. Penetration Testing & Assessment Methodology</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 85 minutes | Assessment frameworks, exploit validation, risk communication</div>
+
+        <h3>Purpose & Scope of Penetration Testing</h3>
+        <p>Penetration testing is a controlled, legitimate attack against defined targets to validate that security controls function as intended. Unlike vulnerability scanning (which identifies weaknesses), pentesting demonstrates actual exploitation and business impact.</p>
+        <p><strong>Critical Principle:</strong> Testing should validate controls work, not just find vulnerabilities. Ask "Can this control actually prevent/detect this attack?" rather than "Does this vulnerability exist?" A vulnerability with a working compensating control is not a finding.</p>
+
+        <h3>Assessment Methodologies</h3>
+        <ul>
+          <li><strong>NIST SP 800-115:</strong> Federal standard for technical security testing; provides detailed methods for vulnerability discovery and exploitation</li>
+          <li><strong>OWASP Testing Guide (OTG):</strong> Web application security testing methodology with 100+ detailed test cases organized by vulnerability type</li>
+          <li><strong>PTES (Penetration Testing Execution Standard):</strong> Industry consensus on phases, from scoping through post-engagement activities</li>
+          <li><strong>MITRE ATT&CK:</strong> Framework for mapping adversary tactics and techniques observed in real attacks; use to scope testing to realistic threat scenarios</li>
+        </ul>
+
+        <h3>Pentesting Lifecycle</h3>
+        <svg viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>
+              .pt-phase { stroke-width: 2; }
+              .pt-label { font-family: Sora; font-size: 12px; }
+            </style>
+          </defs>
+          
+          <text x="500" y="30" text-anchor="middle" class="pt-label" font-size="16" font-weight="bold" fill="#5effb5">Penetration Test Phases & Artifacts</text>
+          
+          <!-- Phase 1: Scoping -->
+          <rect class="pt-phase" x="20" y="60" width="140" height="100" fill="rgba(69, 211, 255, 0.12)" stroke="#45d3ff" rx="8" />
+          <text x="90" y="90" text-anchor="middle" class="pt-label" font-weight="bold" fill="#45d3ff">Phase 1:</text>
+          <text x="90" y="105" text-anchor="middle" class="pt-label" font-weight="bold" fill="#45d3ff">Scoping</text>
+          <text x="32" y="130" class="pt-label" font-size="10" fill="#9ac0dd">• Define boundaries</text>
+          <text x="32" y="143" class="pt-label" font-size="10" fill="#9ac0dd">• Rules of engagement</text>
+          <text x="32" y="156" class="pt-label" font-size="10" fill="#9ac0dd">• Emergency contacts</text>
+          
+          <!-- Arrow -->
+          <line x1="160" y1="110" x2="190" y2="110" stroke="#45d3ff" stroke-width="2" marker-end="url(#arrow)" />
+          
+          <!-- Phase 2: Recon & Enumeration -->
+          <rect class="pt-phase" x="190" y="60" width="140" height="100" fill="rgba(94, 255, 181, 0.12)" stroke="#5effb5" rx="8" />
+          <text x="260" y="90" text-anchor="middle" class="pt-label" font-weight="bold" fill="#5effb5">Phase 2:</text>
+          <text x="260" y="105" text-anchor="middle" class="pt-label" font-weight="bold" fill="#5effb5">Recon</text>
+          <text x="202" y="130" class="pt-label" font-size="10" fill="#9ac0dd">• Identify hosts</text>
+          <text x="202" y="143" class="pt-label" font-size="10" fill="#9ac0dd">• Service discovery</text>
+          <text x="202" y="156" class="pt-label" font-size="10" fill="#9ac0dd">• Baseline assessment</text>
+          
+          <!-- Arrow -->
+          <line x1="330" y1="110" x2="360" y2="110" stroke="#45d3ff" stroke-width="2" marker-end="url(#arrow)" />
+          
+          <!-- Phase 3: Exploitation -->
+          <rect class="pt-phase" x="360" y="60" width="140" height="100" fill="rgba(69, 211, 255, 0.12)" stroke="#45d3ff" rx="8" />
+          <text x="430" y="90" text-anchor="middle" class="pt-label" font-weight="bold" fill="#45d3ff">Phase 3:</text>
+          <text x="430" y="105" text-anchor="middle" class="pt-label" font-weight="bold" fill="#45d3ff">Exploit</text>
+          <text x="372" y="130" class="pt-label" font-size="10" fill="#9ac0dd">• Execute attacks</text>
+          <text x="372" y="143" class="pt-label" font-size="10" fill="#9ac0dd">• Validate success</text>
+          <text x="372" y="156" class="pt-label" font-size="10" fill="#9ac0dd">• Capture evidence</text>
+          
+          <!-- Arrow -->
+          <line x1="500" y1="110" x2="530" y2="110" stroke="#45d3ff" stroke-width="2" marker-end="url(#arrow)" />
+          
+          <!-- Phase 4: Post-Exploit -->
+          <rect class="pt-phase" x="530" y="60" width="140" height="100" fill="rgba(94, 255, 181, 0.12)" stroke="#5effb5" rx="8" />
+          <text x="600" y="90" text-anchor="middle" class="pt-label" font-weight="bold" fill="#5effb5">Phase 4:</text>
+          <text x="600" y="105" text-anchor="middle" class="pt-label" font-weight="bold" fill="#5effb5">Post-Exploit</text>
+          <text x="542" y="130" class="pt-label" font-size="10" fill="#9ac0dd">• Measure scope</text>
+          <text x="542" y="143" class="pt-label" font-size="10" fill="#9ac0dd">• Lateral movement</text>
+          <text x="542" y="156" class="pt-label" font-size="10" fill="#9ac0dd">• Risk assessment</text>
+          
+          <!-- Arrow -->
+          <line x1="670" y1="110" x2="700" y2="110" stroke="#45d3ff" stroke-width="2" marker-end="url(#arrow)" />
+          
+          <!-- Phase 5: Reporting -->
+          <rect class="pt-phase" x="700" y="60" width="140" height="100" fill="rgba(69, 211, 255, 0.12)" stroke="#45d3ff" rx="8" />
+          <text x="770" y="90" text-anchor="middle" class="pt-label" font-weight="bold" fill="#45d3ff">Phase 5:</text>
+          <text x="770" y="105" text-anchor="middle" class="pt-label" font-weight="bold" fill="#45d3ff">Report</text>
+          <text x="712" y="130" class="pt-label" font-size="10" fill="#9ac0dd">• Document findings</text>
+          <text x="712" y="143" class="pt-label" font-size="10" fill="#9ac0dd">• Risk scoring (CVSS)</text>
+          <text x="712" y="156" class="pt-label" font-size="10" fill="#9ac0dd">• Recommendations</text>
+          
+          <!-- Arrow -->
+          <line x1="840" y1="110" x2="870" y2="110" stroke="#45d3ff" stroke-width="2" marker-end="url(#arrow)" />
+          
+          <!-- Phase 6: Retest -->
+          <rect class="pt-phase" x="870" y="60" width="110" height="100" fill="rgba(94, 255, 181, 0.12)" stroke="#5effb5" rx="8" />
+          <text x="925" y="90" text-anchor="middle" class="pt-label" font-weight="bold" fill="#5effb5">Phase 6:</text>
+          <text x="925" y="105" text-anchor="middle" class="pt-label" font-weight="bold" fill="#5effb5">Retest</text>
+          <text x="882" y="130" class="pt-label" font-size="10" fill="#9ac0dd">• Verify fixes</text>
+          <text x="882" y="143" class="pt-label" font-size="10" fill="#9ac0dd">• Control testing</text>
+          <text x="882" y="156" class="pt-label" font-size="10" fill="#9ac0dd">• Close findings</text>
+          
+          <!-- Critical Info Box -->
+          <rect x="20" y="200" width="960" height="100" fill="rgba(255, 122, 122, 0.08)" stroke="#ff7a7a" stroke-width="2" stroke-dasharray="5,5" rx="5" />
+          <text x="500" y="220" text-anchor="middle" class="pt-label" font-weight="bold" fill="#ff7a7a">Critical Deliverables & Evidence:</text>
+          <text x="40" y="245" class="pt-label" fill="#ff7a7a">• Scoping document with rules of engagement • Technical findings with proof-of-concept (screenshots, video, code) • CVSS risk scoring for each vulnerability</text>
+          <text x="40" y="265" class="pt-label" fill="#ff7a7a">• Executive summary highlighting business impact • Remediation roadmap with priority levels • Before/after evidence showing mitigation effectiveness</text>
+          <text x="40" y="285" class="pt-label" fill="#ff7a7a">• Audit trail documenting test execution • Attest to legal and compliance compliance of testing methodology</text>
+          
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="#45d3ff" />
+            </marker>
+          </defs>
+        </svg>
+
+        <h4>Vulnerability Finding Framework: From Discovery to Risk Communication</h4>
+        <div class="code-block">
+Finding: Weak SSH Configuration on Production Database Server
+CVE: CVE-2023-4567 (Hypothetical)
+CVSS Score: 8.2 (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N)
+
+TECHNICAL IMPACT:
+  - Attacker can login to database server using SSH weak authentication
+  - No password enforcement; default or predictable credentials work
+  - Example: SSH key-based authentication disabled
+
+BUSINESS IMPACT:
+  - Unauthorized access to production customer database
+  - Database contains: PII (10M+ records), payment card data (PCI-DSS scope)
+  - Estimated breach cost: $5M-$15M (forensics, notification, legal, reputation)
+  - Regulatory violations: GDPR, PCI-DSS, HIPAA (depending on data classification)
+
+PROOF OF CONCEPT:
+  Step 1: Connect via SSH with weak credentials
+  $ ssh root@prod-db.example.com
+  password: [default password works]
+  
+  Step 2: Access full database
+  $ mysql -u root -p [no password required]
+
+REMEDIATION:
+  1. Immediate: Enforce SSH key-based authentication only; disable password auth
+  2. Short-term: Rotate all SSH keys; audit access logs for unauthorized attempts
+  3. Long-term: Implement bastion host; require MFA for database access
+
+VERIFICATION:
+  After remediation, re-test to confirm: (1) weak auth method removed (2) only key-based auth works (3) access logs show new baseline
+        </div>
+
+        <h3>Building Your Professional Pentesting Portfolio</h3>
+        <p>Create GitHub repositories demonstrating capabilities to prospective employers:</p>
+        <ul>
+          <li><strong>Assessment Reports:</strong> Lab reports from scoped, controlled environments (home lab, target practice environments)</li>
+          <li><strong>Vulnerability Findings:</strong> 10-20 documented findings with CVSS scoring, business impact, PoC</li>
+          <li><strong>Methodology Documentation:</strong> Reusable playbooks, custom scripts, tool combinations</li>
+          <li><strong>Evidence Collections:</strong> Before/after screenshots, terminal recordings, network diagrams</li>
+          <li><strong>Risk Communication:</strong> Executive summaries, remediation roadmaps, metrics dashboards</li>
+        </ul>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Understand pentesting as risk validation, not vulnerability discovery</li>
+          <li>Plan assessments using NIST/OWASP/PTES methodologies with clear scope and rules of engagement</li>
+          <li>Execute controlled attacks mapping to MITRE ATT&CK tactics and techniques</li>
+          <li>Document findings with CVSS scoring, business impact analysis, and remediation guidance</li>
+          <li>Communicate technical findings to business and executive audiences</li>
+          <li>Manage evidence collection and maintain confidentiality of sensitive information</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-115" target="_blank">NIST SP 800-115 - Technical Security Testing and Assessment</a></li>
+          <li><a href="https://owasp.org/www-project-web-security-testing-guide/" target="_blank">OWASP Testing Guide - Web Application Security Testing</a></li>
+          <li><a href="https://www.pentest-standard.org/" target="_blank">PTES - Penetration Testing Execution Standard</a></li>
+          <li><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&CK - Adversary Tactics, Techniques &Procedures</a></li>
+          <li><a href="https://nvd.nist.gov/vuln/metrics/cvss" target="_blank">CVSS v3.1 Calculator & Scoring Guidance</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Architecture Design Section -->
+    <section id="architecture-design" class="study-section reveal">
+      <h2>4. Security Architecture Design & Risk Modeling</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 75 minutes | ADRs, threat modeling, control mapping</div>
+
+        <h3>Architecture as Security Control</h3>
+        <p>Good security architecture makes attacks expensive and detection obvious. Poor architecture makes breaches cheap and undetectable. Architecture decisions made early are the hardest and most expensive to change later. Security must be designed in, not bolted on.</p>
+
+        <h3>Architecture Decision Records (ADRs)</h3>
+        <p>Capture the "why" behind security choices so teams understand context, constraints, tradeoffs, and alternatives considered. ADRs form the institutional memory of security decisions.</p>
+        
+        <div class="code-block">
+# ADR-001: Mandatory Full-Disk Encryption for All Endpoints
+
+Status: Accepted
+Date: 2026-01-15
+Stakeholders: CISO, IT Operations, Legal, CFO
+
+### Context
+- Regulatory requirement (HIPAA, GDPR): Encrypted storage of sensitive data
+- Increasing theft/loss of company devices (5+ incidents this year)
+- Performance concern about encryption overhead on older laptops
+- Support cost of password resets and recovery
+
+### Decision
+Implement BitLocker (Windows) / FileVault (macOS) with mandatory encryption on all endpoints by 2026-02-15, with opt-out period for existing devices showing hardship.
+
+### Rationale
+- Regulatory compliance (mandatory for covered systems under HIPAA/GDPR)
+- Mitigates risk if devices lost/stolen (impossible to access without encryption key)
+- Modern hardware mitigates performance impact (~2-5% on SSDs, 10-15% on older spinners)
+- Escrow recovery keys to IT helpdesk reduces support burden vs. password-only recovery
+
+### Alternatives Considered
+1. **Optional encryption** (rejected: only 15-20% adoption rate in test, leaves risk)
+2. **Hardware-only encryption** (rejected: not all devices support, doesn't protect all data)
+3. **Defer 6 months** (rejected: regulatory deadline is non-negotiable)
+4. **Full-disk encryption + passphrase escrow** (accepted - provides both security and recovery)
+
+### Trade-offs
+- Performance impact: ~2-5% on SSDs, ~10-15% on spinning disks
+- Recovery key management overhead (escrow to IT)
+- Support calls for password resets (mitigation: strong self-service reset)
+- Initial deployment: 2-3 months to roll out to 5,000+ devices
+
+### Implementation Plan
+- **Phase 1 (Week 1-2):** Pilot with IT department + security team (100 devices)
+  - Measure: Performance baseline, support ticket volume, user satisfaction
+  - Success criteria: &gt;95% devices encrypt successfully, MTTD (mean time to deploy) &lt; 15 min/device
+  
+- **Phase 2 (Week 3-6):** Staged rollout to executives + data handlers (500 devices)
+  - Monitor: Boot times, application performance, issue patterns
+  
+- **Phase 3 (Week 7-12):** Wave deployment to all remaining devices (4,400 devices)
+  - Track: Adoption compliance, exception requests, support costs vs. baseline
+
+### Success Metrics
+- Encryption adoption: 95%+ within 60 days of rollout deadline
+- User impact: &lt; 0.5% of users unable to access systems due to encryption
+- Data protection: Zero data breaches attributed to unencrypted endpoint storage
+- Support cost: &lt; 10% increase in IT helpdesk volume
+- Business continuity: Production uptime &gt; 99.9% (no outages from encryption)
+
+### Rollback Plan
+If Phase 1 shows &gt;5% failure rate or &gt;30% performance degradation:
+- Pause deployment; revert pilot devices to non-encrypted state
+- Adjust implementation approach (different tool, staggered timeline)
+- Require approval from CISO + CFO before resuming
+        </div>
+
+        <h3>Threat Modeling & Attack Trees</h3>
+        <p>Threat modeling identifies risks early in design, when fixes are cheapest. Use STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) to systematically identify threats.</p>
+
+        <h4>Example: Threat Model for Device Enrollment</h4>
+        <div class="key-point">
+          <strong>Threat:</strong> Attacker enrolls rogue device into MDM using stolen corporate credentials<br/>
+          <strong>Attack Vector:</strong> Phishing email steals employee credentials; attacker uses them to enroll personal device into Intune<br/>
+          <strong>Business Impact:</strong> Compromised device can access corporate data, move laterally to other systems<br/>
+          <strong>Mitigation 1:</strong> Require hardware-backed attestation (TPM) to prove device is genuine<br/>
+          <strong>Mitigation 2:</strong> Require admin approval gate for new device enrollments<br/>
+          <strong>Mitigation 3:</strong> Monitor EDR for unusual device patterns and disable compromised devices
+        </div>
+
+        <h3>Trust Boundaries & Data Flow Diagrams</h3>
+        <p>Map trust boundaries to understand where authentication, encryption, and monitoring must occur:</p>
+        <ul>
+          <li><strong>Boundary Between User Device and Corporate Network:</strong> All traffic must be authenticated, encrypted, monitored</li>
+          <li><strong>Boundary Between Application and Database:</strong> Application authenticate to database, encrypt data in transit, log all queries</li>
+          <li><strong>Boundary Between Corporate Network and Internet:</strong> All outbound connections filtered; inbound blocked by default</li>
+        </ul>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Document security architecture decisions using ADRs with clear context/rationale/tradeoffs</li>
+          <li>Identify threats early using STRIDE framework and attack trees</li>
+          <li>Map trust boundaries and data flows across systems</li>
+          <li>Design layered controls with multiple compensating mechanisms</li>
+          <li>Communicate architecture decisions to business and technical audiences</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank">Architecture Decision Records (ADRs)</a></li>
+          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-37" target="_blank">NIST Risk Management Framework (RMF)</a></li>
+          <li><a href="https://www.microsoft.com/en-us/securityengineering/sdl/threatmodeling" target="_blank">Microsoft SDL Threat Modeling</a></li>
+          <li><a href="https://owasp.org/www-community/Threat_Modeling_Process" target="_blank">OWASP Threat Modeling Process</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Security Automation Section -->
+    <section id="security-automation" class="study-section reveal">
+      <h2>5. Security Automation & DevSecOps Integration</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 90 minutes | CI/CD security gates, IaC scanning, automated compliance</div>
+
+        <h3>Shifting Security Left in Software Development</h3>
+        <p><strong>Traditional Model:</strong> Security testing at the end (expensive fixes, delayed releases)</p>
+        <p><strong>DevSecOps Model:</strong> Security integrated throughout development—automated scanning in CI/CD, infrastructure security hardcoded in templates, compliance checked at deployment time. Security becomes a shared responsibility, not a gated review at the end.</p>
+
+        <h3>Automated Security in the Build Pipeline</h3>
+        <div class="code-block">
+name: Security CI/CD Pipeline
+on: [push, pull_request, schedule: {cron: "0 2 * * 0"}]
+
+jobs:
+  security-checks:
+    runs-on: ubuntu-latest
+    steps:
+      # SAST: Scan for code vulnerabilities
+      - name: Run SonarQube Analysis
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=myapp
+            -Dsonar.sources=src/
+            -Dsonar.tests=tests/
+            -Dsonar.securityHotspots.exclusions=**/*Test.java
+
+      # Dependency Check: Vulnerable libraries
+      - name: Run OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'My Application'
+          path: '.'
+          format: 'JSON'
+          args: >
+            --enableExperimental
+            --enableVulnerabilityXML
+
+      # Container Scanning: Docker image vulnerabilities
+      - name: Build and Scan Docker Image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'my-app:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      # Infra-as-Code Scanning
+      - name: Run Checkov IaC Scan
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: terraform/
+          framework: terraform,kubernetes
+          quiet: false
+          output_format: sarif
+
+      # Custom Security Policy Check
+      - name: Enforce Security Policies
+        run: |
+          # Fail if hardcoded secrets found
+          if grep -r "password\|api_key\|secret" src/ | grep -v ".test\|example"; then
+            echo "❌ FAIL: Hardcoded secrets found"
+            exit 1
+          fi
+          
+          # Check for insecure logging
+          if grep -r "logger.debug.*password\|print.*secret" src/; then
+            echo "❌ FAIL: Sensitive data in logs"
+            exit 1
+          fi
+          
+          # Verify encryption is used for PII
+          if grep -r "user\.email\|user\.phone\|user\.ssn" src/ | grep -v "AES\|encrypt"; then
+            echo "⚠️  WARN: PII may not be encrypted"
+          fi
+
+      # Security Gate: Block merge if vulnerabilities found
+      - name: Security Quality Gate
+        if: always()
+        run: |
+          if [ -f "sonar-report.json" ]; then
+            VULNS=$(jq '.issues | length' sonar-report.json)
+            if [ "$VULNS" -gt 0 ]; then
+              echo "❌ Found $VULNS security issues. Fix before merge."
+              exit 1
+            fi
+          fi
+          
+          echo "✅ Security checks passed. Ready for merge."
+        </div>
+
+        <h3>Infrastructure-as-Code (IaC) Security</h3>
+        <p>Treat infrastructure configurations like application code: version control, code review, automated scanning, and change tracking. Security misconfigurations are the #2 cause of cloud breaches after credential compromise.</p>
+        
+        <div class="best-practice">
+          <strong>IaC Security Best Practices:</strong><br/>
+          ✓ Never hardcode secrets in configs (use secret management: Vault, AWS Secrets Manager)<br/>
+          ✓ Enforce encryption by default on all storage resources<br/>
+          ✓ Require least-privilege IAM roles (specific actions/resources, no wildcards)<br/>
+          ✓ Implement tagging standards for cost allocation and security grouping<br/>
+          ✓ Scan all IaC before deployment with Checkov, Terraform Sentinel, OPA/Rego<br/>
+          ✓ Version all infrastructure changes; require approval before deployment<br/>
+          ✓ Maintain drift detection: compare current state vs. desired state
+        </div>
+
+        <h4>Example: Secure Kubernetes Deployment</h4>
+        <div class="code-block">
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: production
+  labels:
+    security: restricted
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secure-app
+  namespace: production
+  labels:
+    app: myapp
+    security-tier: critical
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      serviceAccountName: app-sa
+      
+      # Security Context: Pod-level security policies
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+        seccompProfile:
+          type: RuntimeDefault
+      
+      containers:
+      - name: app
+        image: myapp:v1.2.3 # Specify exact version
+        imagePullPolicy: Always # Always pull latest
+        
+        # Container Security Context
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+        
+        # Resource Limits: Prevent DoS/resource exhaustion
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        
+        # Health Checks
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTPS
+          initialDelaySeconds: 30
+        
+        # Secrets Management
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: db-password
+        
+        # Volume Mounts (Read-only where possible)
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: cache
+          mountPath: /app/cache
+      
+      # Network Policies enforced at cluster level
+      volumes:
+      - name: tmp
+        emptyDir: {}
+      - name: cache
+        emptyDir: {}
+
+---
+# Least-Privilege Service Account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: app-sa
+  namespace: production
+
+---
+# Role: Define minimum permissions
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: app-role
+  namespace: production
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list"]
+- apiGroups: ["batch", "batch/v1beta1"]
+  resources: ["jobs", "cronjobs"]
+  verbs: ["get"]
+
+---
+# RoleBinding: Bind role to service account
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: app-rolebinding
+  namespace: production
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: app-role
+subjects:
+- kind: ServiceAccount
+  name: app-sa
+  namespace: production
+        </div>
+
+        <h3>Automated Compliance & Continuous Monitoring</h3>
+        <p>After deployment, continuously monitor for drift and compliance violations:</p>
+        <ul>
+          <li><strong>Compliance Scanning:</strong> Daily re-scan of deployed infrastructure against CIS benchmarks and compliance policies</li>
+          <li><strong>Drift Detection:</strong> Alert when production configuration diverges from intended (IaC) configuration</li>
+          <li><strong>Automated Remediation:</strong> For non-critical drifts, automatically restore to desired state</li>
+          <li><strong>Alerting:</strong> Escalate critical compliance violations (e.g., encryption disabled) immediately</li>
+        </ul>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Integrate security scanning into CI/CD pipelines (SAST, DAST, dependency checking)</li>
+          <li>Implement infrastructure-as-code with security scanning and approval gates</li>
+          <li>Design Kubernetes deployments with security contexts, RBAC, and resource limits</li>
+          <li>Create automated compliance monitoring and drift detection</li>
+          <li>Implement remediation automation for non-critical violations</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://github.com/aquasecurity/trivy" target="_blank">Trivy - Container & IaC Scanner</a></li>
+          <li><a href="https://www.checkov.io/" target="_blank">Checkov - Infrastructure-as-Code Scanner</a></li>
+          <li><a href="https://docs.github.com/en/actions" target="_blank">GitHub Actions - CI/CD Automation</a></li>
+          <li><a href="https://www.owasp.org/index.php/OWASP_Dependency_Check" target="_blank">OWASP Dependency Check</a></li>
+          <li><a href="https://kubernetes.io/docs/concepts/security/" target="_blank">Kubernetes Security Best Practices</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Security Information Section -->
+    <section id="security-information" class="study-section reveal">
+      <h2>6. Security Information & Data Engineering</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 70 minutes | Log normalization, data quality, enrichment pipelines</div>
+        
+        <h3>Security Data as a Product</h3>
+        <p>Security data is only useful if it's high-quality, trusted, and accessible. Poor data quality leads to false positives, alert fatigue, and missed attacks. Design security telemetry the same way you'd design a customer-facing product: with clear requirements, quality metrics, and continuous improvement.</p>
+
+        <h3>Log Normalization & Schema Design</h3>
+        <p>Raw logs from thousands of sources (endpoints, firewalls, applications, cloud services) must be normalized into a common schema for correlation and investigation:</p>
+
+        <div class="code-block">
+# Normalized Security Event (Common Schema)
+{
+  "timestamp": "2026-04-07T14:32:18.456Z",
+  "source_system": "endpoint_edrmolton",
+  "event_type": "process_execution",
+  "event_severity": "high",
+  "event_status": "alert",
+  
+  # Process Information
+  "process": {
+    "name": "powershell.exe",
+    "path": "C:\\Windows\\System32\\powershell.exe",
+    "command_line": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File update.ps1",
+    "parent_name": "explorer.exe",
+    "hash": "sha256:abcd1234..."
+  },
+  
+  # User Context
+  "user": {
+    "name": "ACME\\joe.doe",
+    "domain": "ACME",
+    "account_type": "user",
+    "privilege_level": "user"
+  },
+  
+  # Device/Host Context
+  "device": {
+    "hostname": "LAPTOP-ABC123",
+    "os": "Windows 11",
+    "os_version": "21H2",
+    "enrolled_mdm": true,
+    "encryption_status": "encrypted"
+  },
+  
+  # Network Context
+  "network": {
+    "source_ip": "192.168.1.100",
+    "source_port": 54321,
+    "dest_ip": "10.0.1.50",
+    "dest_port": 443,
+    "protocol": "TCP",
+    "direction": "outbound"
+  },
+  
+  # Risk Assessment
+  "risk": {
+    "risk_score": 7.5,
+    "rule_match": "suspicious_powershell_obfuscation",
+    "rule_id": "EPR-2024-001",
+    "threat_level": "high",
+    "indicators_of_compromise": ["powershell obfuscation", "bypass execution policy"]
+  },
+  
+  # Metadata for Investigation
+  "metadata": {
+    "ingestion_time": "2026-04-07T14:35:18.000Z",
+    "retention_days": 365,
+    "data_classification": "internal",
+    "threat_intelligence_matched": ["APT28 tactics"]
+  }
+}
+        </div>
+
+        <h3>Data Quality Metrics</h3>
+        <div class="best-practice">
+          <strong>Measure and Monitor:</strong><br/>
+          ✓ Completeness: % of required fields populated<br/>
+          ✓ Accuracy: Does event correlation match reality?<br/>
+          ✓ Timeliness: Latency from event occurrence to SIEM ingestion<br/>
+          ✓ Uniqueness: Duplicate elimination and deduplication quality<br/>
+          ✓ Consistency: Same event type formatted consistently across sources
+        </div>
+
+        <h3>Data Enrichment Pipelines</h3>
+        <p>Enrich raw logs with contextual data for faster investigation:</p>
+        <ul>
+          <li><strong>Asset Management:</strong> Device ownership, location, criticality level</li>
+          <li><strong>User Context:</strong> Department, role, manager, when hired</li>
+          <li><strong>Threat Intelligence:</strong> Is this IP/domain known malicious? Any CVEs active?</li>
+          <li><strong>Compliance Mapping:</strong> Does this device/user require specific compliance controls?</li>
+          <li><strong>Anomaly Baselines:</strong> Is this user's behavior unusual for their role/time/location?</li>
+        </ul>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Design security data schemas for high-fidelity investigation</li>
+          <li>Implement log normalization and deduplication pipelines</li>
+          <li>Define and monitor data quality metrics</li>
+          <li>Build enrichment pipelines for context and investigation acceleration</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://www.elastic.co/guide/en/ecs/current/" target="_blank">Elastic Common Schema (ECS)</a></li>
+          <li><a href="https://oasis-open.github.io/cti-documentation/" target="_blank">OASIS Cyber Threat Intelligence (CTI) Format</a></li>
+          <li><a href="https://www.splunk.com/en_us/form/log-types.html" target="_blank">Splunk Common Information Model (CIM)</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SIEM Section -->
+    <section id="siem" class="study-section reveal">
+      <h2>7. SIEM & Detection Engineering</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 80 minutes | Detection rules, ATT&CK mapping, tuning for precision</div>
+        
+        <h3>SIEM is a Practice, Not a Product</h3>
+        <p>Effective SIEM correlates data to detect sophisticated attacks, but requires careful rule engineering and continuous tuning. A SIEM with poor detection logic generates alert fatigue; analysts stop reading alerts; real attacks are missed.</p>
+
+        <h3>Detection Logic Design: Hypothesis-Driven</h3>
+        <p>Frame detection as hypothesis testing against adversary behavior from MITRE ATT&CK:</p>
+
+        <div class="key-point">
+          <strong>Example: Detect Credential Dumping (ATT&CK T1003)</strong><br/>
+          <strong>Hypothesis:</strong> An attacker attempts to dump credentials from LSASS process memory<br/>
+          <strong>Signal:</strong> lsass.exe accessed by non-Windows DLL process + large data read (&gt;1MB)<br/>
+          <strong>Rule Logic:</strong> (process_name != "svchost.exe") AND (target_process="lsass.exe") AND (memory_read &gt; 1024000)<br/>
+          <strong>Risk Score:</strong> True positive = 8.5, False positive = -2.0<br/>
+          <strong>Tuning:</strong> Exclude known safe processes (debuggers, monitoring tools) to reduce false positives
+        </div>
+
+        <h3>MITRE ATT&CK Mapping</h3>
+        <p>Map each detection to the adversary tactic/technique it detects. This helps teams understand coverage and attackers understand defenses.</p>
+        <ul>
+          <li>**Reconnaissance:** Network scanning, OSINT gathering, account discovery</li>
+          <li>**Initial Access:** Phishing, exploit kits, default credentials</li>
+          <li>**Execution:** Script execution, command-line usage, scheduled tasks</li>
+          <li>**Persistence:** Registry persistence, scheduled tasks, service installation</li>
+          <li>**Privilege Escalation:** UAC bypass, kernel exploitation, privilege abuse</li>
+          <li>**Defense Evasion:** Obfuscation, disabling security tools, process injection</li>
+          <li>**Credential Access:** Credential dumping, brute force, keylogging</li>
+          <li>**Discovery:** System network configuration, process discovery, lateral movement reconnaissance</li>
+          <li>**Lateral Movement:** RDP, SMB, Kerberos delegation abuse</li>
+          <li>**Collection:** Data from clipboard, screen capture, email collection</li>
+          <li>**Exfiltration:** DNS tunneling, long-connection uploads, C2 communication</li>
+          <li>**Impact:** Ransom, deletion, resource denial</li>
+        </ul>
+
+        <h3>Alert Tuning While minimizing False Positives</h3>
+        <div class="code-block">
+Detection Rule: Suspicious PowerShell Script Execution
+
+# Initial Rule (High False Positives)
+process.name:powershell AND command_line:*-nop* OR command_line:*-enc*
+
+# Tuned Rule (Precision-focused)
+process.name:powershell 
+AND (
+  (command_line:*-nop* OR command_line:*exec* OR command_line:-bypass*)
+  AND NOT parent_process:*\windows\system32\*
+  AND NOT user:SYSTEM
+  AND NOT user:NT_AUTHORITY
+)
+AND NOT (
+  device.hostname:dev-* 
+  OR device.hostname:test-*
+)
+AND risk_score >= 7.0
+
+# Result: Reduced false positives from 50/day to 2/day
+# Sensitivity: Still catches 95% of real threats (measured in controlled testing)
+        </div>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Frame detection rules as hypothesis tests against MITRE ATT&CK techniques</li>
+          <li>Design detection logic for precision (reduce false positives)</li>
+          <li>Implement alert tuning and baselining to reduce alert fatigue</li>
+          <li>Map detections to tactics/techniques for coverage visualization</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&CK Framework</a></li>
+          <li><a href="https://sigma.readthedocs.io/" target="_blank">Sigma Rule Format - Detection-as-Code</a></li>
+          <li><a href="https://www.elastic.co/guide/en/security/current/" target="_blank">Elastic Detection Engineering Guide</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Security Operations Section -->
+    <section id="security-operations" class="study-section reveal">
+      <h2>8. Security Operations & Incident Response</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 85 minutes | IR playbooks, escalation, post-mortems</div>
+        
+        <h3>Incident Response as a Discipline</h3>
+        <p>Incident response transforms from chaotic to predictable through well-designed playbooks, clear escalation paths, and rigorous post-incident reviews that improve controls.</p>
+
+        <h3>The IR Lifecycle</h3>
+        <div class="code-block">
+Phase 1: DETECT & Alert
+  - Alert triggered in SIEM or monitoring system
+  - Alert routing rules determine who reviews (L1 Analyst, SOC Team Lead, etc.)
+  - Alert enrichment: Add context (device owner, criticality, recent changes)
+
+Phase 2: TRIAGE
+  - Analyst reviews alert + context
+  - Classify severity: Critical / High / Medium / Low
+  - Determine response: Immediate action / Investigation / Monitoring
+  - Escalate if needed: CISO, legal, incident commander
+
+Phase 3: CONTAIN  BLAST_RADIUS
+  - CRITICAL incidents: Isolate affected devices from network immediately
+  - Revoke tokens/sessions for compromised users
+  - Block suspicious IPs/domains at firewall
+  - Preserve evidence: Capture memory dumps, disk images (before containment)
+
+Phase 4: INVESTIGATE
+  - Forensics team analyzes preserved evidence
+  - Timeline reconstruction: What happened, when, how did attacker enter?
+  - Scope assessment: How many accounts/devices compromised?
+  - Root cause identification: What control failed?
+
+Phase 5: REMEDIATE & RECOVER
+  - Patch vulnerable system or rebuild from clean snapshot
+  - Reset compromised credentials
+  - Revoke attacker access (SSH keys, tokens, etc.)
+  - Validate fix effectiveness: Retest to confirm remediation
+
+Phase 6: COMMUNICATE & DOCUMENT
+  - Incident report for stakeholders (technical + executive summary)
+  - Regulatory notifications if required (GDPR takes 72h, others vary by law)
+  - Customer notification if data breach confirmed
+  - Lessons learned meeting with team
+
+Phase 7: LESSONS LEARNED & IMPROVEMENT
+  - Root cause analysis: Why did controls fail?
+  - Permanently fix root causes (not just symptoms)
+  - Update detection rules based on observed IOCs
+  - Conduct tabletop exercises with team to practice for similar incidents
+        </div>
+
+        <h3>IR Playbook Template</h3>
+        <div class="key-point">
+          <strong>Playbook: Ransomware Response</strong><br/>
+          <strong>Severity:</strong> Critical<br/>
+          <strong>Detection:</strong> Multiple files with suspicious extensions + high file write velocity + encryption-specific process<br/>
+          <strong>Immediate Actions:</strong>
+          <ol>
+            <li>Isolate affected device(s) from network (pull ethernet cable if needed)</li>
+            <li>Identify all backups accessible from device; check if encrypted/accessible</li>
+            <li>Preserve forensics: Memory dump, disk image before restoration</li>
+            <li>Engage incident commander + legal (know your incident response playbook!)</li>
+            <li>Assess scope: How many devices affected? Any production systems impacted?</li>
+          </ol>
+          <strong>Investigation:</strong> Determine entry point (phishing, exploit, credential theft?); identify lateral movement
+          <strong>Recovery:</strong> Restore from unencrypted backup or rebuild from known-good image
+          <strong>Prevention for Next Time:</strong> Immutable backups, network segmentation to prevent lateral movement, email filtering improvements
+        </div>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Understand the IR lifecycle from detection through post-incident improvement</li>
+          <li>Develop incident playbooks for common attack scenarios</li>
+          <li>Practice incident response with tabletop exercises</li>
+          <li>Implement escalation procedures and communication templates</li>
+          <li>Conduct blameless post-mortems that focus on control improvements</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://www.nist.gov/cyberframework/guidance" target="_blank">NIST Cybersecurity Framework</a></li>
+          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-61/rev-2" target="_blank">NIST SP 800-61 Computer Security Incident Handling</a></li>
+          <li><a href="https://www.sans.org/white-papers/" target="_blank">SANS Incident Handling Guide</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Threat Modeling Section -->
+    <section id="threat-modeling" class="study-section reveal">
+      <h2>9. Threat Modeling & Risk Analysis</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 75 minutes | STRIDE framework, attack trees, control validation</div>
+
+        <h3>Why Threat Modeling Matters</h3>
+        <p>Threat modeling identifies risks early in design, making fixes cheap. A design flaw caught in architecture review costs $100 to fix; the same flaw caught in production costs $100,000 to remediate.</p>
+
+        <h3>STRIDE Threat Categories</h3>
+        <ul>
+          <li><strong>Spoofing:</strong> Attacker impersonates someone/something (fake identity, forged token, credential theft)</li>
+          <li><strong>Tampering:</strong> Attacker modifies data in transit or at rest (MITM, SQL injection, file modification)</li>
+          <li><strong>Repudiation:</strong> Attacker denies their actions ("I didn't do it")—logging and audit trails prevent</li>
+          <li><strong>Information Disclosure:</strong> Attacker accesses sensitive data (eavesdropping, SQL injection, weak encryption)</li>
+          <li><strong>Denial of Service:</strong> Attacker makes system unavailable (network saturation, resource exhaustion, crashes)</li>
+          <li><strong>Elevation of Privilege:</strong> Attacker gains higher permissions than authorized (privesc exploits, misconfigured RBAC)</li>
+        </ul>
+
+        <h3>Threat Model Example: API Authentication Flow</h3>
+        <div class="code-block">
+System: Mobile App ← HTTPS → API Server ← Database
+
+STRIDE Analysis:
+
+SPOOFING (who am I?)
+  Threat: App makes request with forged JWT token
+  Mitigation: Validate JWT signature, check expiration, require HTTPS only
+  
+  Threat: Attacker spoofs API server (MITM attack)
+  Mitigation: Certificate pinning in mobile app, HTTPS with TLS 1.3+
+
+TAMPERING (integrity)
+  Threat: Attacker modifies request in transit (MITM)
+  Mitigation: HTTPS encryption, request signing with HMAC
+
+REPUDIATION (accountability)
+  Threat: User denies they made a purchase
+  Mitigation: Log all API calls with user ID, timestamp, request signature
+
+INFORMATION DISCLOSURE
+  Threat: API returns too much data (e.g., user emails in list query)
+  Mitigation: API field-level access control, return only necessary data
+
+  Threat: Attacker sniffs traffic on public WiFi
+  Mitigation: Enforce HTTPS only, certificate pinning, data encryption at rest
+
+DENIAL OF SERVICE
+  Threat: Attacker floods API with requests
+  Mitigation: Rate limiting, DDoS protection (AWS Shield), auth challenges
+
+ELEVATION OF PRIVILEGE
+  Threat: Regular user modifies admin flag in JWT token
+  Mitigation: Sign JWT server-side, never trust client-provided roles
+
+MITIGATIONS SUMMARY:
+  1. Enforce HTTPS/TLS 1.3+ for all traffic
+  2. Sign all tokens server-side; validate signatures
+  3. Implement rate limiting: 100 req/min per user
+  4. Log all API calls for audit trail
+  5. Field-level access control: only return authorized data
+  6. Certificate pinning in mobile app
+  7. Input validation for all API parameters
+        </div>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Conduct threat modeling using STRIDE framework</li>
+          <li>Identify threats early in architecture/design phase</li>
+          <li>Map threats to mitigations (controls)</li>
+          <li>Prioritize risk by likelihood × impact</li>
+          <li>Track threat model ROI: how many controls prevented real incidents?</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://www.microsoft.com/en-us/securityengineering/sdl/threatmodeling" target="_blank">Microsoft SDL Threat Modeling</a></li>
+          <li><a href="https://owasp.org/www-community/Threat_Modeling_Process" target="_blank">OWASP Threat Modeling</a></li>
+          <li><a href="https://www.threatsmodeler.com/" target="_blank">Threats Modeler Tool</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Vulnerability Management Section -->
+    <section id="vulnerability-management" class="study-section reveal">
+      <h2>10. Vulnerability Management & Patch Operations</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 80 minutes | CVSS scoring, remediation tracking, SLA enforcement</div>
+
+        <h3>Vulnerability Management is Risk Management</h3>
+        <p>Effective vulnerability programs prioritize by real business impact, measure remediation velocity, and close the feedback loop through validation and continuous improvement.</p>
+
+        <h3>Vulnerability Prioritization Model</h3>
+        <div class="code-block">
+Risk Score = CVSS_Base_Score × Exploitability_Factor × Exposure_Factor × Asset_Criticality
+
+CVSS_Base_Score: 0-10 (industry standard, published with each CVE)
+  - ATT&CK (Accessible over network, low complexity, no auth): +0.5 multiplier
+  - LOCAL (Local attack only, high complexity, auth required): +0.1 multiplier
+
+Exploitability_Factor: 1.0 = public exploit available; 0.5 = no public exploit known
+  - Check: CISA Known Exploited Vulnerabilities (KEV) catalog
+
+Exposure_Factor: 1.0 = internet-facing; 0.5 = internal only; 0.1 = air-gapped
+  - Check: Network scan results
+
+Asset_Criticality: 5.0 = production database; 3.0 = standard device; 1.0 = dev machine
+  - Check: Asset management system
+
+EXAMPLES:
+  CVSS 9.8 × 1.0 (public exploit) × 1.0 (internet-facing) × 5.0 (prod DB) = 49.0 → Patch in 24 hours
+  CVSS 6.2 × 0.5 (no exploit) × 0.5 (internal) × 1.0 (dev device) = 1.55 → Patch in 90 days
+  CVSS 7.5 × 1.0 × 0.5 (internal only) × 3.0 = 11.25 → Patch in 30 days
+        </div>
+
+        <h3>Patch Management SLAs</h3>
+        <table class="comparison-table">
+          <tr>
+            <th>Severity</th>
+            <th>CVSS Range</th>
+            <th>Patch SLA</th>
+            <th>Deployment Strategy</th>
+            <th>Validation</th>
+          </tr>
+          <tr>
+            <td><strong>Critical</strong></td>
+            <td>9.0-10.0</td>
+            <td>48 hours</td>
+            <td>High-risk pilot → 25% → 100%</td>
+            <td>Rescan + validation</td>
+          </tr>
+          <tr>
+            <td><strong>High</strong></td>
+            <td>7.0-8.9</td>
+            <td>14 days</td>
+            <td>Pilot → Weekly stages</td>
+            <td>UAT + monitoring</td>
+          </tr>
+          <tr>
+            <td><strong>Medium</strong></td>
+            <td>4.0-6.9</td>
+            <td>30 days</td>
+            <td>Monthly window</td>
+            <td>Functional testing</td>
+          </tr>
+          <tr>
+            <td><strong>Low</strong></td>
+            <td>0.1-3.9</td>
+            <td>90 days</td>
+            <td>Grouped deployment</td>
+            <td>Automated only</td>
+          </tr>
+        </table>
+
+        <h3>Measuring Vulnerability Program Effectiveness</h3>
+        <div class="best-practice">
+          <strong>Key Metrics:</strong><br/>
+          ✓ MTTR (Mean Time to Remediate): Average days from vulnerability discovery to patch deployed<br/>
+          ✓ SLA Compliance: % of vulnerabilities patched within SLA (target: &gt;95%)<br/>
+          ✓ Reinfection Rate: % of previously-remediated vulnerabilities found again (target: &lt;5%, indicates drifting configs)<br/>
+          ✓ Coverage: % of assets scanned for vulnerabilities (target: 100%)<br/>
+          ✓ ROI: Incident prevented / Cost of patching program
+        </div>
+
+        <h3>Remediation Tracking & Auditing</h3>
+        <div class="code-block">
+Vulnerability Tracking Process:
+
+1. DISCOVERY
+   - Vulnerability scan (Nessus, Qualys) identifies CVE-2026-0001
+   - CVSS score: 8.5 (High); affects Windows Server 2019
+   - 47 servers found vulnerable
+   - SLA: 14 days
+
+2. TRIAGE
+   - Validate finding: Real positive or false positive? (70% of vulns are false positives)
+   - Check compensating controls: Is this vulnerability actually exploitable given our controls?
+   - Business Impact: How many production systems affected?
+   - Assignment: Assign to infrastructure team with deadline tracking
+
+3. REMEDIATION
+   - Apply patch to pilot group (3 servers) on [DATE]
+   - Monitor for issues: Application errors, performance degradation
+   - Proceed to remaining servers in waves
+   - Document: Who applied patch, when, any issues, evidence
+
+4. VALIDATION
+   - Re-scan pilot systems: Vulnerability gone? 
+   - Performance baseline: Any degradation?
+   - Security telemetry: Any suspicious behavior post-patch?
+   - Sign-off: Infrastructure + Security sign-off on remediation
+
+5. AUDIT & SLA TRACKING
+   - Overall SLA: 14 days; actual: 9 days ✅ (early)
+   - Remaining exceptions: 3 servers requiring manual remediation; due [DATE]
+   - Document lessons learned: Why was [Server X] harder to patch?
+
+6. CONTINUOUS MONITORING
+   - Schedule re-scan for 30 days post-patch
+   - Monitor for configuration drift (devices accidentally reverted to unpatched state)
+   - Alert if vulnerability reappears on previously-remediated device
+        </div>
+
+        <h3>Key Learning Outcomes</h3>
+        <ul>
+          <li>Build vulnerability prioritization models using CVSS + business context</li>
+          <li>Design patch management SLAs balanced between security and operational stability</li>
+          <li>Implement remediation tracking with clear accountability</li>
+          <li>Measure patch compliance and calculate MTTR trends</li>
+          <li>Close the feedback loop: learn from remediation difficulties and prevent them next time</li>
+        </ul>
+
+        <h3>References & Standards</h3>
+        <ul class="reference-list">
+          <li><a href="https://nvd.nist.gov/vuln/metrics/cvss" target="_blank">NIST NVD - CVSS v3.1 Calculator & Scoring</a></li>
+          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA Known Exploited Vulnerabilities (KEV) Catalog</a></li>
+          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-40/rev-4" target="_blank">NIST SP 800-40 - Guide to Software Vulnerability Disclosure</a></li>
+          <li><a href="https://www.rapid7.com/blog/post/vulnerability-management/" target="_blank">Rapid7 - Vulnerability Management Best Practices</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="soc-ops-analyst-track" class="study-section reveal">
+      <h2>11. Cybersecurity Operations Analyst Track (Job-Aligned Master Plan)</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 110 minutes | End-to-end SOC operations program mapped to the role responsibilities and requirements</div>
+
+        <h3>Role Mission Mapping</h3>
+        <p>This track is designed for a Cybersecurity Operations Analyst role in a regulated enterprise with on-call participation, SIEM/EDR ownership support, phishing response, incident handling, IAM approvals, audit support, and awareness training. It translates the job description into an executable study system.</p>
+
+        <table class="comparison-table">
+          <tr>
+            <th>Responsibility</th>
+            <th>What You Must Learn</th>
+            <th>Proof Artifact</th>
+          </tr>
+          <tr>
+            <td>Monitor security events with SIEM and EDR</td>
+            <td>Detection engineering, triage decision trees, endpoint telemetry validation</td>
+            <td>Detection runbook + tuned rules + false-positive report</td>
+          </tr>
+          <tr>
+            <td>Participate in on-call rotation</td>
+            <td>Escalation protocols, severity matrix, communication discipline</td>
+            <td>On-call handbook + post-incident timeline samples</td>
+          </tr>
+          <tr>
+            <td>Internal phishing simulation and analysis</td>
+            <td>Campaign planning, reporting workflow, indicator extraction</td>
+            <td>Campaign dashboard + phishing incident case study</td>
+          </tr>
+          <tr>
+            <td>Threat modeling and vulnerability impact analysis</td>
+            <td>Business impact scoring, exploitability checks, residual risk</td>
+            <td>Threat model packet + risk-prioritized vuln backlog</td>
+          </tr>
+          <tr>
+            <td>Audit support</td>
+            <td>Evidence collection, control mapping, exception documentation</td>
+            <td>Audit evidence binder and control narrative</td>
+          </tr>
+          <tr>
+            <td>IAM approvals and temporary escalations</td>
+            <td>RBAC governance, SoD checks, TTL access, revocation controls</td>
+            <td>Access governance workflow + approval SLA metrics</td>
+          </tr>
+        </table>
+
+        <h3>12-Week Structured Curriculum</h3>
+        <h4>Weeks 1-2: SIEM + EDR Operations Baseline</h4>
+        <ul>
+          <li>Build a triage workflow: alert intake, enrichment, prioritization, disposition</li>
+          <li>Study rule anatomy across platforms (Splunk, Sumo Logic, QRadar equivalent logic)</li>
+          <li>Validate endpoint telemetry quality: process tree, command line, parent-child behavior, user context</li>
+          <li>Create severity matrix with business impact and containment urgency dimensions</li>
+        </ul>
+
+        <h4>Weeks 3-4: Incident Response and On-Call Readiness</h4>
+        <ul>
+          <li>Practice IR lifecycle: detect, scope, contain, eradicate, recover, lessons learned</li>
+          <li>Build communication templates for analysts, managers, legal, and executive stakeholders</li>
+          <li>Create after-hours playbook for Central time operations: handoff checklist, paging thresholds, update cadence</li>
+          <li>Define escalation and swarm criteria for ransomware, credential compromise, and insider misuse scenarios</li>
+        </ul>
+
+        <h4>Weeks 5-6: Phishing Operations + Security Awareness Engineering</h4>
+        <ul>
+          <li>Design phishing simulation campaigns by persona and risk profile</li>
+          <li>Build analysis process for reported emails (headers, links, attachments, impersonation indicators)</li>
+          <li>Create role-based awareness content for executives, finance, engineering, and helpdesk</li>
+          <li>Track behavioral metrics: report rate, click rate, repeat offender trends, remediation completion</li>
+        </ul>
+
+        <h4>Weeks 7-8: Threat Intelligence, IOCs, and Detection Rule Writing</h4>
+        <ul>
+          <li>Establish IOC ingestion pipeline and confidence scoring model</li>
+          <li>Convert intelligence into detections with clear assumptions and data requirements</li>
+          <li>Map alerts to MITRE ATT&amp;CK techniques and expected analyst actions</li>
+          <li>Tune noisy detections with suppression conditions and exception expiry</li>
+        </ul>
+
+        <h4>Weeks 9-10: IAM Governance + Access Escalation Controls</h4>
+        <ul>
+          <li>Implement approval model for RBAC changes with separation-of-duties checks</li>
+          <li>Define temporary escalation controls with TTL and automatic revocation</li>
+          <li>Audit dormant privileges and excess grants using monthly recertification</li>
+          <li>Create access-risk dashboard with P95 approval time and exception rates</li>
+        </ul>
+
+        <h4>Weeks 11-12: Audit, Compliance, and Regulated Environment Operations</h4>
+        <ul>
+          <li>Build evidence pipeline mapped to controls (firewall, EDR, vulnerability management, IAM)</li>
+          <li>Prepare for auditor interviews with traceable narratives and ticket references</li>
+          <li>Practice handling findings with root cause, corrective action, and due date governance</li>
+          <li>Create a quarterly cybersecurity posture report for leadership</li>
+        </ul>
+
+        <h3>Platform and Tooling Coverage (Preferred Skills)</h3>
+        <div class="best-practice">
+          <strong>SIEM Stack:</strong> Build equivalent workflows for Splunk, Sumo Logic, or QRadar query paradigms.<br/>
+          <strong>EDR Stack:</strong> Practice with Defender for Endpoint, CrowdStrike, or SentinelOne telemetry interpretation.<br/>
+          <strong>Firewall Focus:</strong> Learn Palo Alto rulebase analysis, policy optimization, and threat logs.<br/>
+          <strong>Cloud Security:</strong> Build detections around AWS Security Hub findings and Azure security posture events.<br/>
+          <strong>Automation:</strong> Use Python/PowerShell + Jira/Confluence workflows and optional XSOAR-style orchestration concepts.
+        </div>
+
+        <h3>Weekly Study Cadence (Central Time Compatible)</h3>
+        <ul>
+          <li><strong>Monday:</strong> Detection review and threat-intel alignment (90 min)</li>
+          <li><strong>Tuesday:</strong> Lab execution and tool configuration practice (2 hrs)</li>
+          <li><strong>Wednesday:</strong> Incident simulation and runbook rehearsal (90 min)</li>
+          <li><strong>Thursday:</strong> IAM or compliance evidence workshop (90 min)</li>
+          <li><strong>Friday:</strong> Retrospective, metrics, and backlog planning (60 min)</li>
+          <li><strong>Weekend optional:</strong> Certification prep and deep-dive reading (2 hrs)</li>
+        </ul>
+
+        <h3>Readiness Checklist for This Role</h3>
+        <ul>
+          <li>Can independently triage SIEM and EDR alerts with clear severity rationale</li>
+          <li>Can execute incident response workflows and produce executive-friendly updates</li>
+          <li>Can run phishing simulations and transform results into awareness improvements</li>
+          <li>Can perform RBAC and temporary escalation approvals with strong governance</li>
+          <li>Can support audits with complete, traceable evidence packages</li>
+          <li>Can collaborate in cross-functional enterprise environments under changing priorities</li>
+        </ul>
+
+        <h3>Reference Targets</h3>
+        <ul class="reference-list">
+          <li><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK - Detection and response framework</a></li>
+          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final" target="_blank">NIST SP 800-61 - Incident Handling Guide</a></li>
+          <li><a href="https://www.cisa.gov/topics/cyber-threats-and-advisories" target="_blank">CISA Advisories and threat trend monitoring</a></li>
+          <li><a href="https://www.sans.org/white-papers/" target="_blank">SANS white papers for SOC and IR practical operations</a></li>
+          <li><a href="https://www.isaca.org/resources/isaca-journal" target="_blank">ISACA resources for governance and audit context</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="capstone-track" class="study-section reveal">
+      <h2>12. Capstone Integration Track (Real-World Portfolio Projects)</h2>
+      <div class="study-content">
+        <div class="reading-time">Reading time: 60 minutes | Multi-skill projects that combine architecture, detection, operations, and governance</div>
+
+        <h3>Capstone Project Sequence</h3>
+        <table class="comparison-table">
+          <tr>
+            <th>Project</th>
+            <th>Skills Integrated</th>
+            <th>Deliverables</th>
+            <th>Success Metric</th>
+          </tr>
+          <tr>
+            <td>Capstone 1: Endpoint Baseline + Drift Detection</td>
+            <td>Endpoint, Automation, Security Information</td>
+            <td>Baseline-as-code, drift pipeline, compliance dashboard</td>
+            <td>95%+ baseline compliance in simulated fleet</td>
+          </tr>
+          <tr>
+            <td>Capstone 2: Detection Engineering Sprint</td>
+            <td>SIEM, Threat Modeling, SecOps</td>
+            <td>Detection pack, tuning changelog, ATT&amp;CK mapping</td>
+            <td>False positives reduced while maintaining coverage</td>
+          </tr>
+          <tr>
+            <td>Capstone 3: IAM Escalation Governance</td>
+            <td>Architecture, IAM, Audit Readiness</td>
+            <td>RBAC matrix, temporary access workflow, evidence binder</td>
+            <td>100% TTL revocation and clean audit traceability</td>
+          </tr>
+          <tr>
+            <td>Capstone 4: Cloud + Endpoint Incident Simulation</td>
+            <td>SOC Operations, AWS/Azure Security, IR</td>
+            <td>Incident timeline, containment actions, executive report</td>
+            <td>Incident handled within defined SLA and escalation protocol</td>
+          </tr>
+        </table>
+
+        <div class="best-practice">
+          <strong>Portfolio strategy:</strong> Treat each capstone as a recruiter-facing artifact. Publish architecture diagram, implementation notes, measurable outcomes, and lessons learned in a consistent template.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><span id="year"></span> CyberSkillForge. Study materials for endpoint security engineering career development.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<svg width="980" height="620" viewBox="0 0 980 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cybersecurity learning architecture map">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1e30"/>
+      <stop offset="100%" stop-color="#163348"/>
+    </linearGradient>
+  </defs>
+  <rect x="18" y="18" width="944" height="584" rx="26" fill="url(#bg2)" stroke="#355d76"/>
+  <g stroke="#2f556c" stroke-width="1" opacity="0.6">
+    <path d="M70 100H910"/><path d="M70 180H910"/><path d="M70 260H910"/><path d="M70 340H910"/><path d="M70 420H910"/><path d="M70 500H910"/>
+    <path d="M150 70V550"/><path d="M290 70V550"/><path d="M430 70V550"/><path d="M570 70V550"/><path d="M710 70V550"/><path d="M850 70V550"/>
+  </g>
+
+  <text x="490" y="84" text-anchor="middle" font-family="Sora, sans-serif" font-size="24" fill="#e0f3ff">Learning Architecture Blueprint</text>
+
+  <g stroke="#4e7b96" stroke-width="2" fill="#123249">
+    <rect x="120" y="150" width="180" height="68" rx="12"/>
+    <rect x="400" y="120" width="180" height="68" rx="12"/>
+    <rect x="680" y="155" width="180" height="68" rx="12"/>
+    <rect x="180" y="360" width="200" height="68" rx="12"/>
+    <rect x="580" y="380" width="220" height="68" rx="12"/>
+  </g>
+
+  <g font-family="Sora, sans-serif" font-size="16" fill="#def3ff" text-anchor="middle">
+    <text x="210" y="192">Endpoint Defense</text>
+    <text x="490" y="162">Architecture Design</text>
+    <text x="770" y="197">Detection Engineering</text>
+    <text x="280" y="402">Automation and Ops</text>
+    <text x="690" y="422">Vulnerability Governance</text>
+  </g>
+
+  <g stroke-width="3" fill="none">
+    <path d="M300 184L400 154" stroke="#49c8f0"/>
+    <path d="M580 154L680 184" stroke="#78e7bd"/>
+    <path d="M230 219L250 360" stroke="#78e7bd"/>
+    <path d="M500 188L630 380" stroke="#49c8f0"/>
+    <path d="M380 394L580 414" stroke="#78e7bd"/>
+  </g>
+</svg>

@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Extensive hands-on security labs and exercises for endpoint security engineering." />
+  <title>Labs & Exercises | CyberSkillForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .lab-toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+    .lab-toc a {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.6rem 0.9rem;
+      background: var(--surface);
+      color: var(--text-1);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: border-color 0.18s ease;
+    }
+    .lab-toc a:hover {
+      border-color: var(--accent-2);
+    }
+    .lab-category {
+      margin-bottom: 3rem;
+    }
+    .lab-category h2 {
+      border-bottom: 2px solid var(--line);
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .lab {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--surface);
+      padding: 1.3rem;
+      margin-bottom: 1.2rem;
+    }
+    .lab-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 0.8rem;
+    }
+    .lab h3 {
+      margin: 0;
+      color: #dff2ff;
+    }
+    .lab-meta {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      margin-bottom: 0.8rem;
+    }
+    .lab-badge {
+      background: rgba(73, 200, 240, 0.12);
+      border: 1px solid rgba(73, 200, 240, 0.45);
+      color: #abd0e3;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+    }
+    .lab-description {
+      color: var(--text-1);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .lab-steps {
+      background: rgba(2, 14, 22, 0.8);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .lab-steps h4 {
+      margin-top: 0;
+      color: #d8edf9;
+    }
+    .lab-steps ol {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+    .lab-steps li {
+      margin-bottom: 0.6rem;
+      color: var(--text-1);
+    }
+    .lab-success {
+      background: rgba(120, 231, 189, 0.08);
+      border-left: 3px solid #78e7bd;
+      padding: 0.8rem;
+      border-radius: 4px;
+      color: #b3dfc8;
+    }
+    .lab-challenge {
+      background: rgba(73, 200, 240, 0.08);
+      border-left: 3px solid #49c8f0;
+      padding: 0.8rem;
+      border-radius: 4px;
+      color: #a9cfe1;
+      margin-top: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html">CyberSkillForge</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">Menu</button>
+    <nav id="mainNav" class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="studies.html">Studies</a>
+      <a href="labs.html">Labs</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero reveal">
+      <div class="hero-shell">
+        <div class="hero-copy-wrap">
+          <p class="eyebrow">Hands-On Practice</p>
+          <h1>50+ Comprehensive Security Labs & Exercises</h1>
+          <p class="hero-copy">5+ hours of practical, step-by-step labs covering all 10 required skill areas. Build portfolio-grade evidence as you work.</p>
+          <div class="hero-badges">
+            <span>Step-by-Step</span>
+            <span>Validation Criteria</span>
+            <span>Advanced Challenges</span>
+          </div>
+        </div>
+        <figure class="hero-visual" aria-label="Labs operations visual">
+          <img src="assets/labs-ops.svg" alt="Operations dashboard illustrating lab execution, validation gates, and coverage" />
+        </figure>
+      </div>
+    </section>
+
+    <figure class="page-banner reveal" aria-label="Labs coverage visual banner">
+      <img src="assets/labs-ops.svg" alt="Cybersecurity labs coverage dashboard with progress indicators" />
+    </figure>
+
+    <div class="lab-toc">
+      <a href="#endpoint-sec-labs">Endpoint</a>
+      <a href="#network-labs">Network</a>
+      <a href="#pentest-labs">Pentesting</a>
+      <a href="#arch-labs">Architecture</a>
+      <a href="#auto-labs">Automation</a>
+      <a href="#data-labs">Data Eng</a>
+      <a href="#siem-labs">SIEM</a>
+      <a href="#secops-labs">SecOps</a>
+      <a href="#threat-labs">Threat Model</a>
+      <a href="#vuln-labs">Vulnerability</a>
+      <a href="#soc-analyst-labs">SOC Analyst</a>
+    </div>
+
+    <section class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Lab Control Center</p>
+        <h2>Track Progress, Search Labs, and Build Portfolio Evidence</h2>
+      </div>
+      <div class="lab-controls">
+        <label for="labSearch">Search labs</label>
+        <input id="labSearch" type="text" placeholder="Search by topic, tool, or objective" />
+        <label for="labStatusFilter">Status</label>
+        <select id="labStatusFilter">
+          <option value="all">All labs</option>
+          <option value="complete">Completed</option>
+          <option value="incomplete">Not completed</option>
+        </select>
+      </div>
+      <p id="labProgressSummary" class="lab-progress-summary mono">Completed 0 / 0 labs (0%)</p>
+    </section>
+
+    <!-- ENDPOINT SECURITY LABS -->
+    <section id="endpoint-sec-labs" class="lab-category reveal">
+      <h2>Endpoint Security Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 1: Build a Windows Hardening Baseline</h3>
+          <span class="lab-badge">45 min</span>
+        </div>
+        <p class="lab-description">Create and document a secure baseline configuration for Windows 11 endpoints.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Download the Microsoft Windows 11 Security Baseline from MSFT Security Baselines repo</li>
+            <li>Import baseline into Group Policy Editor (gpedit.msc)</li>
+            <li>Document 20 key hardening settings (encryption, firewall, UAC, audit policies)</li>
+            <li>Create a before/after security risk assessment using CVSS-style scoring</li>
+            <li>Build exception workflow for non-compliant scenarios (e.g., legacy applications)</li>
+            <li>Create rollback procedure in case of production issues</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Push config to GitHub repo, include README explaining each setting and remediation time</div>
+        <div class="lab-challenge">Advanced Challenge: Automate baseline validation using PowerShell DSC or Chef/Puppet</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 2: Implement Full Disk Encryption (FDE)</h3>
+          <span class="lab-badge">40 min</span>
+        </div>
+        <p class="lab-description">Enable and manage BitLocker or FileVault with key escrow.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Enable BitLocker on system drive with TPM protector</li>
+            <li>Configure recovery key escrow to Azure Key Vault or similar</li>
+            <li>Test recovery key retrieval process</li>
+            <li>Measure boot time impact before/after encryption</li>
+            <li>Document user experience and support procedures</li>
+            <li>Create recovery playbook for BitLocker unlock scenarios</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Document encryption status dashboard and recovery SLA metrics</div>
+        <div class="lab-challenge">Advanced Challenge: Automate FDE status reporting daily to compliance system</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 3: USB Device Control & Data Loss Prevention</h3>
+          <span class="lab-badge">50 min</span>
+        </div>
+        <p class="lab-description">Implement policies to restrict USB storage and enforce DLP controls.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Configure USB device restrictions via Group Policy or Intune</li>
+            <li>Whitelist approved devices (keyboards, mice)</li>
+            <li>Implement 90-day device rotation policy</li>
+            <li>Set up audit logging for USB connection attempts</li>
+            <li>Design exception workflow for legitimate USB needs</li>
+            <li>Create user communication around policy rationale</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Create policy document with risk analysis and user FAQ</div>
+        <div class="lab-challenge">Advanced Challenge: Build detection rule for unauthorized USB device connections</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 4: Patch Management Automation</h3>
+          <span class="lab-badge">60 min</span>
+        </div>
+        <p class="lab-description">Automate patch deployment with SLA enforcement and validation.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Set up patch management system (WSUS, Intune, or cloud alternative)</li>
+            <li>Define SLA tiers: Critical (48h), High (7d), Medium (30d), Low (90d)</li>
+            <li>Configure automatic update testing on pilot devices</li>
+            <li>Implement staged rollout: dev → staging → production (10% → 50% → 100%)</li>
+            <li>Create post-patch validation checks using Tenable or Qualys</li>
+            <li>Build reporting dashboard tracking SLA compliance</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish patch SLA metrics and mean-time-to-deploy (MTTD) improvements</div>
+        <div class="lab-challenge">Advanced Challenge: Implement automatic rollback for patches that fail validation</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 5: Endpoint EDR Configuration</h3>
+          <span class="lab-badge">50 min</span>
+        </div>
+        <p class="lab-description">Deploy and tune endpoint detection and response agent.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Install EDR agent (Microsoft Defender, CrowdStrike, or Rapid7)</li>
+            <li>Configure threat level sensitivity (aggressive vs. balanced)</li>
+            <li>Enable process monitoring, file integrity monitoring, and network telemetry</li>
+            <li>Set up event forwarding to SIEM (if available)</li>
+            <li>Create local response playbooks (isolate, quarantine, alert SOC)</li>
+            <li>Run threat simulation to validate detections (Atomic Red Team)</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Document EDR detection coverage against ATT&CK techniques</div>
+        <div class="lab-challenge">Advanced Challenge: Tune detection rules to reduce false positives by 50%</div>
+      </article>
+    </section>
+
+    <!-- NETWORK SECURITY LABS -->
+    <section id="network-labs" class="lab-category reveal">
+      <h2>Network Security Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 6: Enterprise Firewall Rule Design</h3>
+          <span class="lab-badge">60 min</span>
+        </div>
+        <p class="lab-description">Design and validate least-privilege firewall rules for endpoint access.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Map business applications to required network flows (inbound/outbound)</li>
+            <li>Document trust zones: dev, staging, prod, guest, guest-wifi</li>
+            <li>Create firewall rules denying by default, allowing specific flows by exception</li>
+            <li>Test rule effectiveness with port scanning (nmap, netstat)</li>
+            <li>Implement rule version control and change tracking</li>
+            <li>Set up quarterly rule audit and cleanup process</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish firewall rule documentation with business justification for each rule</div>
+        <div class="lab-challenge">Advanced Challenge: Implement automated rule drift detection and alerting</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 7: Network Segmentation Model</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Design and implement network segmentation archi tecture.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Create network segmentation diagram by business function</li>
+            <li>Define VLAN strategy and IP space allocation</li>
+            <li>Implement firewall ACLs between segments</li>
+            <li>Test east-west movement restrictions with lateral movement simulations</li>
+            <li>Document exceptions and compensating controls</li>
+            <li>Create remediation plan for oversegmentation blockers</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish network architecture diagram and segment access matrix</div>
+        <div class="lab-challenge">Advanced Challenge: Implement microsegmentation for critical data access</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 8: Zero Trust VPN & Conditional Access</h3>
+          <span class="lab-badge">65 min</span>
+        </div>
+        <p class="lab-description">Implement zero trust remote access controls.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Remove traditional VPN; implement BeyondCorp/zero trust model</li>
+            <li>Set up identity-based access (SSO + MFA)</li>
+            <li>Configure conditional access rules: device health check, location, risk level</li>
+            <li>Implement just-in-time (JIT) privileged access approval</li>
+            <li>Test access denial and remediation workflows</li>
+            <li>Measure VPN usage reduction and user satisfaction</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Document access control policies and measured security improvements</div>
+        <div class="lab-challenge">Advanced Challenge: Implement device posture scores that dynamically update access grants</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 9: DNS Security & Egress Filtering</h3>
+          <span class="lab-badge">50 min</span>
+        </div>
+        <p class="lab-description">Secure DNS and prevent outbound malware communication.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Implement DNS filtering (Umbrella, Cloudflare, Quad9)</li>
+            <li>Block known malicious domains and DNS tunneling techniques</li>
+            <li>Enable DNS security extensions (DNSSEC) validation</li>
+            <li>Configure egress firewall rules to block non-whitelisted outbound</li>
+            <li>Set up DNS query logging for investigation</li>
+            <li>Create false-positive suppression list for legitimate DNS</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Provide DNS query logs and blocked traffic statistics</div>
+        <div class="lab-challenge">Advanced Challenge: Detect DNS beaconing and data exfiltration via DNS tunneling</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 10: Packet Capture & Analysis</h3>
+          <span class="lab-badge">55 min</span>
+        </div>
+        <p class="lab-description">Collect and analyze network traffic for security investigations.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Set up Wireshark and packet capture on network segments</li>
+            <li>Capture suspicious traffic patterns (port scans, lateral movement, exfiltration)</li>
+            <li>Analyze protocol behavior and decode payloads</li>
+            <li>Identify command-and-control (C2) communication indicators</li>
+            <li>Document findings as forensic evidence</li>
+            <li>Create correlation rules for future detection</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Deliver packet analysis report with threat classification</div>
+        <div class="lab-challenge">Advanced Challenge: Detect encrypted malware communication using behavioral anomalies</div>
+      </article>
+    </section>
+
+    <!-- PENETRATION TESTING LABS -->
+    <section id="pentest-labs" class="lab-category reveal">
+      <h2>Penetration Testing & Assessment Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 11: Scoped Windows Endpoint Assessment</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Conduct legal, scoped penetration test on Windows lab system.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define scope: single Windows 11 VM, no network boundary crossing</li>
+            <li>Perform reconnaissance (systeminfo, net user, wmic)</li>
+            <li>Enumerate local vulnerabilities (missing patches, weak configs)</li>
+            <li>Attempt privilege escalation using known techniques (BypassUAC, DLL injection)</li>
+            <li>Capture proof-of-concept evidence (screenshots, command output)</li>
+            <li>Document findings with CVSS scoring and remediation steps</li>
+            <li>Verify patch/mitigation eliminates vulnerability</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish professional pentest-style findings report with risk ratings</div>
+        <div class="lab-challenge">Advanced Challenge: Use living-off-the-land techniques (only built-in tools) to evade detection</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 12: Active Directory Exploitation Path Analysis</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Map attack paths in Active Directory environment.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Use BloodHound to visualize AD attack paths</li>
+            <li>Identify high-value targets (domain admins, service accounts)</li>
+            <li>Find misconfigured ACLs and delegation weaknesses</li>
+            <li>Document path from low-privilege user to domain compromise</li>
+            <li>Test exploitation proof-of-concept (e.g., Kerberoast attack)</li>
+            <li>Recommend mitigations (least privilege groups, JIT elevation)</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Create BloodHound report showing critical attack paths and remediations</div>
+        <div class="lab-challenge">Advanced Challenge: Exploit a complete AD attack chain without alerts</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 13: Web Application Security Testing (OWASP Top 10)</h3>
+          <span class="lab-badge">120 min</span>
+        </div>
+        <p class="lab-description">Find and exploit common web vulnerabilities in lab app.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Set up vulnerable lab app (DVWA, WebGoat, or similar)</li>
+            <li>Test for OWASP Top 10: SQL injection, XSS, CSRF, etc.</li>
+            <li>Use Burp Suite to intercept and modify requests</li>
+            <li>Document each vulnerability with proof-of-concept</li>
+            <li>Rate findings using OWASP Risk Rating Methodology</li>
+            <li>Build secure code remediation examples</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish comprehensive web app security assessment report</div>
+        <div class="lab-challenge">Advanced Challenge: Chain multiple vulnerabilities to achieve business impact</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 14: Social Engineering & Phishing Simulation</h3>
+          <span class="lab-badge">60 min</span>
+        </div>
+        <p class="lab-description">Design and execute authorized phishing simulation.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Get written approval from security leadership for simulation</li>
+            <li>Design convincing phishing email targeting test group</li>
+            <li>Use phishing simulation platform (Gophish, KnowBe4, etc.)</li>
+            <li>Capture click rates and credential submission metrics</li>
+            <li>Send follow-up training to users who fell for phishing</li>
+            <li>Measure behavioral change in repeat simulation</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Report on phishing awareness metrics and user training impact</div>
+        <div class="lab-challenge">Advanced Challenge: Design multi-stage attack combining phishing + payload delivery</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 15: Threat Simulation & Control Validation</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Run red-team-style attack simulations to validate controls.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Select MITRE ATT&CK techniques to test (e.g., T1087 Account Discovery)</li>
+            <li>Download Atomic Red Team playbooks</li>
+            <li>Execute attacks in lab environment and capture telemetry</li>
+            <li>Verify endpoint detection and response (EDR triggers correctly)</li>
+            <li>Document detection gaps and false negatives</li>
+            <li>Recommend detection rule improvements to SOC</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Show detection coverage matrix against tested ATT&CK techniques</div>
+        <div class="lab-challenge">Advanced Challenge: Detect 80%+ of ATT&CK techniques with &lt;5% false positive rate</div>
+      </article>
+    </section>
+
+    <!-- ARCHITECTURE DESIGN LABS -->
+    <section id="arch-labs" class="lab-category reveal">
+      <h2>Security Architecture Design Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 16: Design Device Lifecycle Security Architecture</h3>
+          <span class="lab-badge">120 min</span>
+        </div>
+        <p class="lab-description">Create end-to-end secure device lifecycle design.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Map phases: Procurement → Provisioning → Active Use → Decommission</li>
+            <li>Identify security control requirements per phase</li>
+            <li>Design enrollment workflow with hardware attestation</li>
+            <li>Create architecture decision records (ADRs) for key trade-offs</li>
+            <li>Document data retention and secure wiping procedures</li>
+            <li>Design rollback and exception handling for each phase</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish full lifecycle architecture with ADRs and diagrams</div>
+        <div class="lab-challenge">Advanced Challenge: Design zero-touch provisioning for 10,000+ devices</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 17: Cloud IAM & Identity Architecture</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Design secure identity and access management for cloud infrastructure.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Design Azure AD (Entra) tenant structure</li>
+            <li>Implement least-privilege RBAC for app teams</li>
+            <li>Set up conditional access policies (device trust, location, risk)</li>
+            <li>Implement privileged identity management (PIM) for elevation</li>
+            <li>Create service principal and managed identity strategy</li>
+            <li>Document compliance controls (HIPAA, SOC2, PCI)</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish IAM architecture with role definitions and policies</div>
+        <div class="lab-challenge">Advanced Challenge: Achieve zero standing admin access while maintaining operational efficiency</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 18: Zero Trust Architecture Design</h3>
+          <span class="lab-badge">100 min</span>
+        </div>
+        <p class="lab-description">Design full zero trust model for enterprise.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Document trust assumptions (or lack thereof)</li>
+            <li>Design identity verification: MFA, device health, continuous auth</li>
+            <li>Implement microSegmentation and least-privilege network access</li>
+            <li>Set up real-time threat detection and response</li>
+            <li>Create policy engine for dynamic access decisions</li>
+            <li>Design fallback and exception handling</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish zero trust architecture aligned with NIST SP 800-207</div>
+        <div class="lab-challenge">Advanced Challenge: Migrate existing enterprise to zero trust without business disruption</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 19: Threat Model a Sensitive Workflow</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Perform formal threat modeling using STRIDE.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Select workflow: e.g., privileged access request approval</li>
+            <li>Draw data flow diagram (DFD) with actors, processes, stores, flows</li>
+            <li>Apply STRIDE threat analysis per component</li>
+            <li>Identify mitigations and existing controls</li>
+            <li>Rate threats by exploitability and business impact</li>
+            <li>Create threat model with prioritized recommendations</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Deliver threat model document with SvC prioritization</div>
+        <div class="lab-challenge">Advanced Challenge: Model supply chain attack scenarios for applications</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 20: Design Incident Response Architecture</h3>
+          <span class="lab-badge">85 min</span>
+        </div>
+        <p class="lab-description">Design architecture for detecting and responding to incidents.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Design telemetry collection architecture (agents, APIs, logs)</li>
+            <li>Implement SIEM for centralized alerting</li>
+            <li>Create incident classification and severity models</li>
+            <li>Design playbook automation and orchestration</li>
+            <li>Set up quarantine and isolation mechanisms</li>
+            <li>Document escalation and communication procedures</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish IR architecture with response playbooks</div>
+        <div class="lab-challenge">Advanced Challenge: Design self-healing and automated response systems</div>
+      </article>
+    </section>
+
+    <!-- SECURITY AUTOMATION LABS -->
+    <section id="auto-labs" class="lab-category reveal">
+      <h2>Security Automation Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 21: Automate Endpoint Compliance Checks with Python</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Write Python scripts to validate endpoint security baselines.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Create Python script to check Windows security settings</li>
+            <li>Validate encryption, firewall, audit policies, patch levels</li>
+            <li>Score compliance per CIS benchmark</li>
+            <li>Generate compliance report in JSON/CSV</li>
+            <li>Create GitHub Actions workflow to run checks nightly</li>
+            <li>Set up failure alerts when compliance score drops</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Push Python automation to GitHub with test coverage &gt;80%</div>
+        <div class="lab-challenge">Advanced Challenge: Extend to 1000+ endpoint fleet with distributed architecture</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 22: CI/CD Security Pipeline with GitHub Actions</h3>
+          <span class="lab-badge">80 min</span>
+        </div>
+        <p class="lab-description">Build automated security scanning into application pipelines.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Create GitHub Actions workflow YAML</li>
+            <li>Add SAST scanning (SonarQube, Bandit, or similar)</li>
+            <li>Integrate dependency vulnerability checking</li>
+            <li>Add container image scanning for Docker</li>
+            <li>Implement security gate to block merges on high-severity findings</li>
+            <li>Create dashboard tracking security debt trends</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish working CI/CD pipeline with passing security gates</div>
+        <div class="lab-challenge">Advanced Challenge: Integrate with Snyk or Dependabot for real-time vulnerability intelligence</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 23: Infrastructure-as-Code (IaC) Security Scanning</h3>
+          <span class="lab-badge">70 min</span>
+        </div>
+        <p class="lab-description">Scan Terraform/CloudFormation for security misconfigurations.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Write sample Terraform creating Azure resources</li>
+            <li>Run Checkov to scan for security issues</li>
+            <li>Fix identified misconfigurations</li>
+            <li>Integrate Checkov into CI/CD pipeline</li>
+            <li>Document denied patterns and approved configurations</li>
+            <li>Create policy-as-code to enforce standards</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Demonstrate 100% infrastructure passing security gate</div>
+        <div class="lab-challenge">Advanced Challenge: Implement custom security policies for organization-specific controls</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 24: Automated Threat Simulation & Remediation</h3>
+          <span class="lab-badge">95 min</span>
+        </div>
+        <p class="lab-description">Build automated red-team attack simulations that trigger remediation.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Create Atomic Red Team attack scripts for common TTPs</li>
+            <li>Configure automated execution against lab systems</li>
+            <li>Capture EDR telemetry from attacks</li>
+            <li>Write automation to correlate detections</li>
+            <li>Trigger automatic containment (isolate device, revoke session)</li>
+            <li>Measure MTTD (mean time to detect) and MTTR (mean time to respond)</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Demonstrate &lt;5 minute detection and 10 minute remediation</div>
+        <div class="lab-challenge">Advanced Challenge: Implement true self-healing that patches root causes automatically</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 25: Configuration Drift Detection & Alerting</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Detect and alert on unauthorized configuration changes.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Establish baseline endpoint configurations</li>
+            <li>Build script to periodically audit actual configurations</li>
+            <li>Compare against baseline and identify drift</li>
+            <li>Classify drift as malicious, administrative, or legitimate</li>
+            <li>Auto-alert on suspicious changes (firewall disabled, admin added)</li>
+            <li>Create auto-remediation for known-good deviations</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Demonstration detecting unauthorized changes within 15 minutes</div>
+        <div class="lab-challenge">Advanced Challenge: Implement predictive alerting on configuration anomalies</div>
+      </article>
+    </section>
+
+    <!-- DATA ENGINEERING LABS -->
+    <section id="data-labs" class="lab-category reveal">
+      <h2>Security Information & Data Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 26: Log Normalization & Schema Design</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Create unified log schema from heterogeneous endpoints.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Collect logs from Windows Event Log, syslog, EDR, firewall</li>
+            <li>Design common event schema (timestamp, source, event_type, user, hostname, etc.)</li>
+            <li>Build parsers in Python or ELK/Splunk</li>
+            <li>Map heterogeneous fields to schema</li>
+            <li>Validate data quality (missing fields, incorrect types)</li>
+            <li>Build data quality dashboard</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish normalized log schema and sample queries</div>
+        <div class="lab-challenge">Advanced Challenge: Normalize 50+ different log source types with &gt;90% accuracy</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 27: Event Enrichment & Threat Intelligence Integration</h3>
+          <span class="lab-badge">85 min</span>
+        </div>
+        <p class="lab-description">Enrich security logs with contextual threat intelligence.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Collect events into data pipeline</li>
+            <li>Integrate IP reputation service (AbuseIPDB, Shodan)</li>
+            <li>Look up domain reputation (URLhaus, phishing databases)</li>
+            <li>Cross-reference file hashes against VirusTotal</li>
+            <li>Build risk scores based on enriched data</li>
+            <li>Store enriched events for investigation</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Show correlation between internal events and external threat intel</div>
+        <div class="lab-challenge">Advanced Challenge: Real-time enrichment at &gt;10k events per second</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 28: Telemetry Quality Benchmarking</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Measure and improve security telemetry quality.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define quality metrics: latency, completeness, consistency</li>
+            <li>Collect baseline measurements from current telemetry sources</li>
+            <li>Identify quality bottlenecks (agent, network, collection)</li>
+            <li>Implement improvements (agent optimization, caching)</li>
+            <li>Re-measure quality after improvements</li>
+            <li>Create quality SLA and monitoring</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Achieve 95% uptime, &lt;2 second latency on telemetry ingestion</div>
+        <div class="lab-challenge">Advanced Challenge: Detect and remediate telemetry quality degradation automatically</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 29: Forensic Data Collection & Preservation</h3>
+          <span class="lab-badge">80 min</span>
+        </div>
+        <p class="lab-description">Collect evidence-grade forensic data from endpoints.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Design forensic data collection toolkit</li>
+            <li>Collect: memory dumps, disk images, registry, event logs, MFT</li>
+            <li>Ensure chain of custody and cryptographic hashing</li>
+            <li>Store in forensically sound repository</li>
+            <li>Build data retention and purge policies</li>
+            <li>Create analysis workflows for incident investigation</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Demonstrate court-admissible forensic evidence collection</div>
+        <div class="lab-challenge">Advanced Challenge: Perform post-mortem analysis on full disk image using open tools</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 30: Analytics & Dashboarding for Security Metrics</h3>
+          <span class="lab-badge">70 min</span>
+        </div>
+        <p class="lab-description">Create dashboards tracking security KPIs.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define security KPIs: patch SLA compliance, EDR detection rate, MTTR, etc.</li>
+            <li>Build queries aggregating data</li>
+            <li>Create Splunk/Grafana dashboards visualizing KPIs</li>
+            <li>Set up alerts for SLA breaches</li>
+            <li>Create executive summary dashboard</li>
+            <li>Share trends with leadership monthly</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish executive dashboard showing risk reduction over time</div>
+        <div class="lab-challenge">Advanced Challenge: Predict future KPI trends using time-series forecasting</div>
+      </article>
+    </section>
+
+    <!-- SIEM LABS -->
+    <section id="siem-labs" class="lab-category reveal">
+      <h2>SIEM & Detection Engineering Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 31: Build Detection Rules from ATT&CK Techniques</h3>
+          <span class="lab-badge">100 min</span>
+        </div>
+        <p class="lab-description">Engineer detection rules tied to MITRE ATT&CK techniques.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Select 5 ATT&CK techniques: Discovery, Persistence, Lateral Movement, etc.</li>
+            <li>Identify data sources and telemetry available per technique</li>
+            <li>Write detection logic (correlation, thresholds, patterns)</li>
+            <li>Test rules against benign and attack traffic</li>
+            <li>Tune rules to achieve high precision (&gt;90%) and recall (&gt;80%)</li>
+            <li>Document coverage matrix and future improvements</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Deliver detection-as-code rules with validation test coverage</div>
+        <div class="lab-challenge">Advanced Challenge: Detect 90% of ATT&CK techniques with &lt;1% false positive rate</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 32: SIEM Response Automation with Playbooks</h3>
+          <span class="lab-badge">85 min</span>
+        </div>
+        <p class="lab-description">Automate response actions triggered by SIEM alerts.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Configure SIEM (Splunk, ArcSight, or OSS Wazuh)</li>
+            <li>Create alert rules for priority threats</li>
+            <li>Integrate with SOARs (Demisto, Swimlane, or Zapier)</li>
+            <li>Build playbooks: auto-isolate endpoint, disable user, quarantine file</li>
+            <li>Log automation actions for audit trail</li>
+            <li>Create manual approval gates for high-impact actions</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Demonstrate automated response improving MTTR by 50%</div>
+        <div class="lab-challenge">Advanced Challenge: Orchestrate multi-step response across multiple tools and teams</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 33: Alert Tuning & False Positive Suppression</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Reduce alert fatigue through intelligent tuning.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Analyze alert volume and false positive rate per rule</li>
+            <li>Identify tuning opportunities (whitelist benign activity, improve logic)</li>
+            <li>Build whitelist of known-good processes, IPs, users</li>
+            <li>Adjust alert thresholds based on business baseline</li>
+            <li>Measure false positive reduction before/after tuning</li>
+            <li>Create tuning documentation and change log</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Reduce false positive rate from 30% to &lt;5% through tuning</div>
+        <div class="lab-challenge">Advanced Challenge: Achieve 99.5% alert precision while maintaining 90%+ recall</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 34: Threat Hunting Workflows & Investigations</h3>
+          <span class="lab-badge">120 min</span>
+        </div>
+        <p class="lab-description">Perform hypothesis-driven threat hunts.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Develop hunt hypothesis: e.g., "adversary is using LOLBins"</li>
+            <li>Formulate hunt query in SIEM searching for indicators</li>
+            <li>Investigate results, correlate with other events</li>
+            <li>Document findings and escalate if threat confirmed</li>
+            <li>Convert successful hunt into detection rule</li>
+            <li>Share hunt methodology with SOC team</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish 3+ successful hunt reports with documented methodology</div>
+        <div class="lab-challenge">Advanced Challenge: Hunt for and detect persistent APT-style campaigns</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 35: Metrics-Driven Alert Testing & Burndown</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Validate detection coverage through simulations.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Replay attack simulations against SIEM</li>
+            <li>Measure detection rate and time-to-detection</li>
+            <li>Identify detection gaps per technique</li>
+            <li>Engineer rules to close gaps</li>
+            <li>Re-test to verify closure</li>
+            <li>Publish coverage matrix showing % of ATT&CK techniques detected</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Achieve 85%+ ATT&CK coverage with documented test evidence</div>
+        <div class="lab-challenge">Advanced Challenge: Detect advanced persistent threats with 95% confidence</div>
+      </article>
+    </section>
+
+    <!-- SECURITY OPERATIONS LABS -->
+    <section id="secops-labs" class="lab-category reveal">
+      <h2>Security Operations Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 36: Incident Response Runbook Development</h3>
+          <span class="lab-badge">80 min</span>
+        </div>
+        <p class="lab-description">Create executable incident response playbooks.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Select incident scenario (ransomware, data exfiltration, etc.)</li>
+            <li>Document step-by-step response procedures</li>
+            <li>Specify tools, access requirements, and time limits</li>
+            <li>Identify decision points requiring management approval</li>
+            <li>Create template for evidence preservation</li>
+            <li>Define escalation and communication procedures</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish 5+ incident runbooks with step-by-step procedures</div>
+        <div class="lab-challenge">Advanced Challenge: Execute runbook under pressure with accuracy &gt;95%</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 37: Incident Simulation & Tabletop Exercise</h3>
+          <span class="lab-badge">120 min</span>
+        </div>
+        <p class="lab-description">Run realistic incident simulations with full team.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define incident scenario with injects (time-based events)</li>
+            <li>Assemble incident commander, analyst, engineer, manager teams</li>
+            <li>Execute simulation with realistic timeline and communications</li>
+            <li>Measure response times: detect → contain → investigate → recover</li>
+            <li>Record decisions and actions taken</li>
+            <li>Conduct post-mortem and capture lessons learned</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Conduct incident drill achieving &lt;1 hour MTTD and MTTR</div>
+        <div class="lab-challenge">Advanced Challenge: Handle multi-incident simultaneous scenarios with coordination</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 38: Evidence Collection & Forensic Readiness</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Establish forensically sound evidence collection processes.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Design evidence collection kit (tools, procedures, templates)</li>
+            <li>Document chain of custody process</li>
+            <li>Collect forensic artifacts from lab incident</li>
+            <li>Ensure data integrity through hashing (MD5, SHA256)</li>
+            <li>Build evidence repository with access controls</li>
+            <li>Create retention and destruction policies</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Collect forensically sound evidence admissible in court</div>
+        <div class="lab-challenge">Advanced Challenge: Perform live forensics without shutting down compromised system</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 39: Post-Incident Review & Control Improvement</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Drive control improvements from incident learnings.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Conduct blameless post-mortem on incident</li>
+            <li>Identify root causes and contributing factors</li>
+            <li>Determine control failures or gaps</li>
+            <li>Recommend detection, prevention, response improvements</li>
+            <li>Track recommendations through implementation</li>
+            <li>Verify control effectiveness in follow-up incident</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Implement 3+ control improvements and verify effectiveness</div>
+        <div class="lab-challenge">Advanced Challenge: Prevent similar incidents from recurring within 6 months</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 40: Security Operations Metrics & Reporting</h3>
+          <span class="lab-badge">70 min</span>
+        </div>
+        <p class="lab-description">Track and report security operations KPIs.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define metrics: alert volume, triage time, MTTD, MTTR, SLA compliance</li>
+            <li>Collect baseline measurements over 30 days</li>
+            <li>Build reporting dashboard for SOC leadership</li>
+            <li>Identify improvement opportunities</li>
+            <li>Implement process improvements</li>
+            <li>Report monthly on improvement progress</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Present monthly SOC metrics showing 20% MTTR improvement</div>
+        <div class="lab-challenge">Advanced Challenge: Achieve industry benchmarks for 99% uptime and &lt;1hr MTTR</div>
+      </article>
+    </section>
+
+    <!-- THREAT MODELING LABS -->
+    <section id="threat-labs" class="lab-category reveal">
+      <h2>Threat Modeling Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 41: STRIDE Threat Modeling Exercise</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Complete STRIDE threat model for device lifecycle.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Draw data flow diagram (DFD) for device provisioning</li>
+            <li>Identify components: user, provisioning service, MDM, device</li>
+            <li>Apply STRIDE threat analysis per component</li>
+            <li>Catalog threats: spoofing identity, tampering data, repudiation, etc.</li>
+            <li>Map mitigations and existing controls</li>
+            <li>Rate residual risk for each threat</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Complete threat model with 20+ threats and mitigations</div>
+        <div class="lab-challenge">Advanced Challenge: Use automated threat modeling tools (Microsoft TMT)</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 42: Attack Tree Analysis</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Build attack trees for business-critical systems.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Select goal: e.g., "steal confidential documents"</li>
+            <li>Decompose goal into attack techniques</li>
+            <li>Build tree with AND/OR nodes showing attack paths</li>
+            <li>Estimate difficulty and likelihood per path</li>
+            <li>Identify most likely attack chains</li>
+            <li>Map controls that block attack paths</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish attack tree with prioritized mitigations</div>
+        <div class="lab-challenge">Advanced Challenge: Use probability scoring to predict attacker success rate</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 43: Abuse Case Development</h3>
+          <span class="lab-badge">80 min</span>
+        </div>
+        <p class="lab-description">Create abuse cases from attacker perspective.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Select user persona (insider, external attacker, contractor)</li>
+            <li>Define attack goals and motivation</li>
+            <li>Document abuse case: preconditions → trigger → action → outcome</li>
+            <li>Identify control failures enabling abuse</li>
+            <li>Design preventive and detective controls</li>
+            <li>Build abuse case acceptance tests for development teams</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Create 10+ abuse cases with embedded security requirements</div>
+        <div class="lab-challenge">Advanced Challenge: Drive abuse case-based secure development processes</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 44: Control Effectiveness Assessment</h3>
+          <span class="lab-badge">85 min</span>
+        </div>
+        <p class="lab-description">Validate that controls actually prevent threats.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Select threat and mapped control</li>
+            <li>Design attack attempt that would exploit vulnerability</li>
+            <li>Test if control prevents or detects attack</li>
+            <li>Document control effectiveness score (0-100%)</li>
+            <li>Identify gaps and compensating controls</li>
+            <li>Plan improvements for next cycle</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Validate &gt;95% of threats have compensating/effective controls</div>
+        <div class="lab-challenge">Advanced Challenge: Build continuous control validation system</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 45: Supply Chain Security Risk Assessment</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Model threats from third-party dependencies.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Identify critical third-party dependencies (software, data, infrastructure)</li>
+            <li>Assess each for compromise risk</li>
+            <li>Model cascading impact if vendor compromised</li>
+            <li>Design vendor security requirements</li>
+            <li>Build monitoring for supply chain indicators of compromise</li>
+            <li>Create contingency plans for vendor compromise</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish supply chain risk register with mitigation plans</div>
+        <div class="lab-challenge">Advanced Challenge: Detect and respond to supply chain attacks in real-time</div>
+      </article>
+    </section>
+
+    <!-- VULNERABILITY MANAGEMENT LABS -->
+    <section id="vuln-labs" class="lab-category reveal">
+      <h2>Vulnerability Management Labs</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 46: Vulnerability Scanning & Assessment</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Conduct comprehensive vulnerability assessments.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Set up vulnerability scanner (Nessus, Qualys, Tenable, or OSS Vulners)</li>
+            <li>Scan lab network and endpoints for misconfigurations, missing patches</li>
+            <li>Export results and deduplicate findings</li>
+            <li>Prioritize by CVSS score, business impact, exploitability</li>
+            <li>Create remediation tickets with SLA tiers</li>
+            <li>Track remediation progress and validate fixes</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Scan and report on 50+ vulnerabilities with remediation SLAs</div>
+        <div class="lab-challenge">Advanced Challenge: Achieve 90%+ remediation rate within SLA timelines</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 47: CVSS Scoring & Risk Prioritization</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Apply risk-based prioritization for patch management.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Learn CVSS v3.1 scoring methodology</li>
+            <li>Score 20 vulnerabilities using CVSS calculator</li>
+            <li>Adjust scores for business context (asset criticality, exposure)</li>
+            <li>Build prioritization matrix (CVSS vs. business impact)</li>
+            <li>Assign exploit priority based on public exploits (CISA KEV)</li>
+            <li>Create final prioritization for patching</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish risk prioritization model and patch schedule</div>
+        <div class="lab-challenge">Advanced Challenge: Reduce patch cycle time from 30 to 14 days for critical vulns</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 48: Patch Deployment & Validation</h3>
+          <span class="lab-badge">100 min</span>
+        </div>
+        <p class="lab-description">Execute staged patch rollout with validation.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Identify patches for critical vulnerabilities</li>
+            <li>Test patches on staging environment for compatibility issues</li>
+            <li>Create patch kits and distribute to pilot groups</li>
+            <li>Monitor pilot group for issues (crashes, performance, app failures)</li>
+            <li>Expand to 25%, then 50%, then 100% of endpoints</li>
+            <li>Validate patch effectiveness with rescans</li>
+            <li>Document deployment timeline and issues</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Deploy patches to 1000+ endpoints with &lt;1% rollback rate</div>
+        <div class="lab-challenge">Advanced Challenge: Achieve &lt;2 hour patch deployment with zero system disruption</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 49: False Positive Analysis & Tuning</h3>
+          <span class="lab-badge">80 min</span>
+        </div>
+        <p class="lab-description">Reduce scanner false positives through tuning.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Review scanner results for false positives</li>
+            <li>Verify: test manually, check vendor docs, search CVE database</li>
+            <li>Build exclusion list for known false positives</li>
+            <li>Understand root cause (config, plugin limitation)</li>
+            <li>Implement permanent fix (config tuning or agent upgrade)</li>
+            <li>Measure false positive reduction before/after</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Reduce false positive rate from 20% to &lt;5%</div>
+        <div class="lab-challenge">Advanced Challenge: Achieve industry-leading accuracy benchmark (&gt;95%)</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 50: Compliance Validation & Reporting</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Prove vulnerability management compliance.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define required scanning cadence per framework (PCI-DSS, HIPAA, ISO)</li>
+            <li>Execute scans on schedule and document results</li>
+            <li>Create remediation tickets and track through closure</li>
+            <li>Build compliance dashboard showing SLA adherence %</li>
+            <li>Generate audit report with evidence of remediation</li>
+            <li>Present findings to compliance and leadership</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Demonstrate 100% compliance with regulatory scanning and remediation requirements</div>
+        <div class="lab-challenge">Advanced Challenge: Achieve zero high-severity vulnerabilities in production at all times</div>
+      </article>
+    </section>
+
+    <section id="soc-analyst-labs" class="lab-category reveal">
+      <h2>SOC Analyst Job-Alignment Labs (Role-Specific Intensive)</h2>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 51: Build SIEM + EDR Triage Decision Tree</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Create a repeatable alert triage model for enterprise operations in a regulated environment.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define severity levels with business impact and exploitability dimensions</li>
+            <li>Create enrichment checklist: user, device, process tree, geo, known IOC context</li>
+            <li>Map each alert class to required response timeline and owner</li>
+            <li>Build Jira issue templates for incidents vs. detections vs. false positives</li>
+            <li>Run 10 sample alerts through the decision tree and document consistency</li>
+            <li>Review outcomes with peer analyst and tune decision criteria</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Publish a triage runbook with reproducible analyst outcomes</div>
+        <div class="lab-challenge">Advanced Challenge: Reduce P95 triage time by at least 35% without increasing misses</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 52: SIEM Detection Tuning Sprint</h3>
+          <span class="lab-badge">85 min</span>
+        </div>
+        <p class="lab-description">Tune noisy SIEM rules and capture measurable improvements.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Select three high-noise rules from your SIEM queue</li>
+            <li>Analyze 7-day alert history and identify dominant benign patterns</li>
+            <li>Add suppression logic with explicit expiration dates and owner</li>
+            <li>Test revised rules against replayed attack and benign samples</li>
+            <li>Record precision/recall tradeoffs and escalation impacts</li>
+            <li>Prepare change log entry for CAB/audit review</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Show before/after alert volume and analyst load reduction</div>
+        <div class="lab-challenge">Advanced Challenge: Maintain or improve attack-detection coverage while lowering noise</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 53: On-Call Rotation Simulation (Central Time)</h3>
+          <span class="lab-badge">75 min</span>
+        </div>
+        <p class="lab-description">Practice after-hours incident intake, escalation, and handoff operations.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define pager severity thresholds and mandatory response windows</li>
+            <li>Simulate 3 incidents occurring between 23:00-05:00 Central</li>
+            <li>Produce timestamped updates for manager, IT, and executive stakeholders</li>
+            <li>Escalate one incident requiring legal/compliance awareness</li>
+            <li>Build shift-handoff packet for day team continuation</li>
+            <li>Run post-shift retrospective and identify process debt</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Deliver complete on-call artifact set with no missing status data</div>
+        <div class="lab-challenge">Advanced Challenge: Keep communication SLA under 15 minutes for high severity cases</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 54: Internal Phishing Simulation Program</h3>
+          <span class="lab-badge">100 min</span>
+        </div>
+        <p class="lab-description">Design and execute phishing simulations with analysis and awareness follow-up.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define simulation scope and target personas (finance, engineering, support)</li>
+            <li>Create two campaign themes with distinct social-engineering patterns</li>
+            <li>Launch campaign in controlled window and collect behavior metrics</li>
+            <li>Investigate reported samples and classify true malicious vs benign</li>
+            <li>Create awareness micro-training for repeat clickers</li>
+            <li>Present KPI report: click rate, report rate, remediation completion</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Build phishing dashboard and documented response workflow</div>
+        <div class="lab-challenge">Advanced Challenge: Improve report rate by 25% over baseline in next campaign</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 55: Threat Intelligence to Detection Rule Pipeline</h3>
+          <span class="lab-badge">95 min</span>
+        </div>
+        <p class="lab-description">Operationalize threat intelligence and IOC ingestion into actionable detections.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Collect IOC feeds from 2 trusted sources and normalize formats</li>
+            <li>Score IOC confidence and expiry windows</li>
+            <li>Write SIEM correlation rules using IOC + behavior context</li>
+            <li>Validate against test data and synthetic adversary traffic</li>
+            <li>Define automatic deprecation policy for stale indicators</li>
+            <li>Publish weekly IOC quality report</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Demonstrate reduced stale IOC alerts and improved detection quality</div>
+        <div class="lab-challenge">Advanced Challenge: Include ATT&amp;CK tagging and automated severity assignment</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 56: IAM RBAC Approval and Temporary Escalation Governance</h3>
+          <span class="lab-badge">90 min</span>
+        </div>
+        <p class="lab-description">Implement governance workflow for RBAC approvals and temporary privileged access.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Define role matrix and separation-of-duties conflict rules</li>
+            <li>Create Jira workflow for access request approval chain</li>
+            <li>Set temporary access TTL and automatic revocation controls</li>
+            <li>Log full approval/audit trail in Confluence template</li>
+            <li>Run sample escalation request end-to-end and verify revocation</li>
+            <li>Build monthly recertification report for managers</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Show complete evidence package with 100% auto-revocation on TTL expiry</div>
+        <div class="lab-challenge">Advanced Challenge: Cut P95 approval latency while preserving governance controls</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 57: Audit Readiness Evidence Binder</h3>
+          <span class="lab-badge">80 min</span>
+        </div>
+        <p class="lab-description">Prepare an auditor-ready control evidence set for a quarterly compliance review.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Select 8 controls: SIEM monitoring, EDR, patching, IAM, firewall, encryption, logging, IR</li>
+            <li>For each control, gather objective evidence and ownership metadata</li>
+            <li>Map each artifact to policy statement and standard requirement</li>
+            <li>Document exceptions and compensating controls</li>
+            <li>Run mock auditor interview with evidence walk-through</li>
+            <li>Track findings and corrective actions in issue board</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Deliver a complete and reviewable audit binder with cross-references</div>
+        <div class="lab-challenge">Advanced Challenge: Close all mock findings with root-cause-backed corrective actions</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 58: Palo Alto Firewall Log Investigation</h3>
+          <span class="lab-badge">70 min</span>
+        </div>
+        <p class="lab-description">Analyze firewall logs to identify suspicious behavior and policy drift.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Collect threat, traffic, and URL logs for a 24-hour window</li>
+            <li>Identify denied high-risk outbound attempts and repeat offenders</li>
+            <li>Correlate suspect sessions with endpoint and identity telemetry</li>
+            <li>Validate whether rulebase changes introduced exposure</li>
+            <li>Create remediation recommendations with business owner mapping</li>
+            <li>Publish firewall hardening and review cadence proposal</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Produce a narrative report with validated findings and rule changes</div>
+        <div class="lab-challenge">Advanced Challenge: Detect a hidden exfiltration pattern without packet payload access</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 59: AWS Security Hub and Cloud Alert Correlation</h3>
+          <span class="lab-badge">85 min</span>
+        </div>
+        <p class="lab-description">Integrate cloud posture findings into SOC triage and incident workflows.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Ingest AWS Security Hub findings into SIEM pipeline</li>
+            <li>Normalize account, region, service, and severity attributes</li>
+            <li>Correlate cloud findings with IAM and endpoint activity</li>
+            <li>Define suppression for known accepted risks with expiry date</li>
+            <li>Create cloud-specific incident response checklist</li>
+            <li>Build KPI panel for open critical cloud findings age</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Demonstrate cloud findings triaged through one unified SOC workflow</div>
+        <div class="lab-challenge">Advanced Challenge: Add Azure security findings and cross-cloud risk scoring model</div>
+      </article>
+
+      <article class="lab">
+        <div class="lab-header">
+          <h3>Lab 60: Security Awareness Content Engineering</h3>
+          <span class="lab-badge">65 min</span>
+        </div>
+        <p class="lab-description">Develop internal awareness materials tied to incident response and role-based requirements.</p>
+        <div class="lab-steps">
+          <h4>Steps</h4>
+          <ol>
+            <li>Draft three role-specific modules: executives, engineers, and service desk</li>
+            <li>Include phishing reporting and incident escalation pathways</li>
+            <li>Map each module to measurable behavior objectives</li>
+            <li>Run pilot session and collect comprehension feedback</li>
+            <li>Iterate content based on low-performing outcomes</li>
+            <li>Publish completion and retention dashboard</li>
+          </ol>
+        </div>
+        <div class="lab-success">Success Criteria: Launch awareness package with metrics and revision plan</div>
+        <div class="lab-challenge">Advanced Challenge: Demonstrate measurable reduction in repeat phishing errors</div>
+      </article>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><span id="year"></span> CyberSkillForge. 50+ hands-on labs for endpoint security engineering mastery.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<svg width="980" height="640" viewBox="0 0 980 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Endpoint security performance dashboard">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0c1a29"/>
+      <stop offset="100%" stop-color="#132b3e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#49c8f0"/>
+      <stop offset="100%" stop-color="#78e7bd"/>
+    </linearGradient>
+  </defs>
+  <rect x="20" y="20" width="940" height="600" rx="26" fill="url(#bg)" stroke="#3b5f78"/>
+  <g opacity="0.4" stroke="#3a5e75">
+    <path d="M80 130H900"/><path d="M80 220H900"/><path d="M80 310H900"/><path d="M80 400H900"/><path d="M80 490H900"/>
+  </g>
+
+  <g>
+    <rect x="86" y="82" width="420" height="250" rx="14" fill="#0f2536" stroke="#4a6f86"/>
+    <text x="112" y="122" font-family="Sora, sans-serif" font-size="21" fill="#e7f7ff">Endpoint Security Posture</text>
+    <text x="112" y="148" font-family="JetBrains Mono, monospace" font-size="12" fill="#9fc0d6">last updated: 2026-04-07 05:58 CT</text>
+
+    <text x="112" y="188" font-family="Sora, sans-serif" font-size="13" fill="#bed9e8">Hardening Compliance</text>
+    <rect x="112" y="198" width="300" height="14" rx="7" fill="#1e3f54"/>
+    <rect x="112" y="198" width="264" height="14" rx="7" fill="url(#accent)"/>
+    <text x="424" y="210" font-family="JetBrains Mono, monospace" font-size="11" fill="#b7d4e5">88%</text>
+
+    <text x="112" y="242" font-family="Sora, sans-serif" font-size="13" fill="#bed9e8">EDR Sensor Health</text>
+    <rect x="112" y="252" width="300" height="14" rx="7" fill="#1e3f54"/>
+    <rect x="112" y="252" width="279" height="14" rx="7" fill="#49c8f0"/>
+    <text x="424" y="264" font-family="JetBrains Mono, monospace" font-size="11" fill="#b7d4e5">93%</text>
+
+    <text x="112" y="296" font-family="Sora, sans-serif" font-size="13" fill="#bed9e8">Critical Patch SLA</text>
+    <rect x="112" y="306" width="300" height="14" rx="7" fill="#1e3f54"/>
+    <rect x="112" y="306" width="246" height="14" rx="7" fill="#78e7bd"/>
+    <text x="424" y="318" font-family="JetBrains Mono, monospace" font-size="11" fill="#b7d4e5">82%</text>
+  </g>
+
+  <g>
+    <path d="M648 114L760 74L872 114V252C872 330 818 387 760 416C702 387 648 330 648 252V114Z" fill="#112d40" stroke="url(#accent)" stroke-width="4"/>
+    <path d="M760 162L790 224H858L804 260L825 325L760 287L695 325L716 260L662 224H730Z" fill="#78e7bd"/>
+  </g>
+
+  <g>
+    <rect x="548" y="438" width="350" height="138" rx="12" fill="#0f2536" stroke="#4a6f86"/>
+    <text x="572" y="473" font-family="Sora, sans-serif" font-size="18" fill="#e7f7ff">Detection Operations</text>
+    <text x="572" y="500" font-family="JetBrains Mono, monospace" font-size="12" fill="#a8c8dc">events per min: 18.4k</text>
+    <text x="572" y="523" font-family="JetBrains Mono, monospace" font-size="12" fill="#a8c8dc">high-fidelity detections: 42</text>
+    <text x="572" y="546" font-family="JetBrains Mono, monospace" font-size="12" fill="#a8c8dc">median triage time: 08m</text>
+  </g>
+</svg>

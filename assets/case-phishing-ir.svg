@@ -1,0 +1,20 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phishing incident response case study thumbnail">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10253a"/>
+      <stop offset="100%" stop-color="#1c3e54"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="620" height="380" rx="20" fill="url(#g2)" stroke="#4c728a"/>
+  <text x="40" y="56" font-family="Sora, sans-serif" font-size="27" fill="#e6f6ff">Phishing Incident Response</text>
+  <text x="40" y="84" font-family="JetBrains Mono, monospace" font-size="13" fill="#a9cadf">Campaign detection and containment workflow</text>
+  <path d="M40 126L600 126" stroke="#4c728a"/>
+  <text x="40" y="166" font-family="JetBrains Mono, monospace" font-size="14" fill="#c0dbe9">reported emails analyzed: 146</text>
+  <text x="40" y="196" font-family="JetBrains Mono, monospace" font-size="14" fill="#c0dbe9">true malicious findings: 19</text>
+  <text x="40" y="226" font-family="JetBrains Mono, monospace" font-size="14" fill="#c0dbe9">containment SLA achieved: 100%</text>
+  <circle cx="504" cy="270" r="70" fill="none" stroke="#4c728a" stroke-width="14"/>
+  <circle cx="504" cy="270" r="70" fill="none" stroke="#78e7bd" stroke-width="14" stroke-dasharray="370 80" transform="rotate(-90 504 270)"/>
+  <text x="504" y="278" text-anchor="middle" font-family="Sora, sans-serif" font-size="28" fill="#e6f6ff">82%</text>
+  <rect x="40" y="290" width="280" height="52" rx="10" fill="#0f2738" stroke="#4c728a"/>
+  <text x="56" y="321" font-family="Sora, sans-serif" font-size="16" fill="#78e7bd">Case Study 02</text>
+</svg>

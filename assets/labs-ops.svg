@@ -1,0 +1,51 @@
+<svg width="980" height="620" viewBox="0 0 980 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lab execution operations dashboard">
+  <defs>
+    <linearGradient id="opsbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f2236"/>
+      <stop offset="100%" stop-color="#183446"/>
+    </linearGradient>
+    <linearGradient id="ops" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#49c8f0"/>
+      <stop offset="100%" stop-color="#78e7bd"/>
+    </linearGradient>
+  </defs>
+  <rect x="20" y="20" width="940" height="580" rx="24" fill="url(#opsbg)" stroke="#3b6178"/>
+
+  <rect x="70" y="78" width="840" height="72" rx="12" fill="#10293a" stroke="#406884"/>
+  <text x="96" y="122" font-family="JetBrains Mono, monospace" font-size="17" fill="#b7d7e9">ops-lab status --track coverage --window 30d</text>
+
+  <rect x="70" y="180" width="280" height="360" rx="12" fill="#10293a" stroke="#406884"/>
+  <rect x="365" y="180" width="280" height="360" rx="12" fill="#10293a" stroke="#406884"/>
+  <rect x="660" y="180" width="250" height="360" rx="12" fill="#10293a" stroke="#406884"/>
+
+  <g font-family="Sora, sans-serif" font-size="15" fill="#e0f4ff">
+    <text x="94" y="214">Execution Phases</text>
+    <text x="390" y="214">Validation Quality</text>
+    <text x="684" y="214">Coverage Metrics</text>
+  </g>
+
+  <g>
+    <rect x="94" y="242" width="230" height="18" rx="9" fill="#1e4054"/><rect x="94" y="242" width="196" height="18" rx="9" fill="url(#ops)"/>
+    <rect x="94" y="276" width="230" height="18" rx="9" fill="#1e4054"/><rect x="94" y="276" width="212" height="18" rx="9" fill="#49c8f0"/>
+    <rect x="94" y="310" width="230" height="18" rx="9" fill="#1e4054"/><rect x="94" y="310" width="168" height="18" rx="9" fill="#78e7bd"/>
+    <rect x="94" y="344" width="230" height="18" rx="9" fill="#1e4054"/><rect x="94" y="344" width="201" height="18" rx="9" fill="#49c8f0"/>
+  </g>
+
+  <circle cx="505" cy="295" r="96" fill="none" stroke="#2f556c" stroke-width="16"/>
+  <circle cx="505" cy="295" r="96" fill="none" stroke="url(#ops)" stroke-width="16" stroke-dasharray="452 150" transform="rotate(-90 505 295)"/>
+  <text x="505" y="302" text-anchor="middle" font-family="Sora, sans-serif" font-size="35" fill="#e8f7ff">75%</text>
+  <text x="505" y="332" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#a6c4d8">validated objectives</text>
+
+  <g font-family="JetBrains Mono, monospace" font-size="12" fill="#b2cfdf">
+    <text x="684" y="252">Endpoint ............ 5/5</text>
+    <text x="684" y="279">Network ............. 5/5</text>
+    <text x="684" y="306">Penetration ......... 5/5</text>
+    <text x="684" y="333">Architecture ........ 5/5</text>
+    <text x="684" y="360">Automation .......... 5/5</text>
+    <text x="684" y="387">Data Engineering .... 5/5</text>
+    <text x="684" y="414">SIEM ................ 5/5</text>
+    <text x="684" y="441">Security Ops ........ 5/5</text>
+    <text x="684" y="468">Threat Modeling ..... 5/5</text>
+    <text x="684" y="495">Vulnerability ....... 5/5</text>
+  </g>
+</svg>

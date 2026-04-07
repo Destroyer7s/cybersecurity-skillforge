@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CyberSkillForge - a cybersecurity education and portfolio site built to showcase practical security skills." />
+  <meta name="keywords" content="cybersecurity, SOC, penetration testing, blue team, red team, portfolio" />
+  <meta property="og:title" content="CyberSkillForge | Cybersecurity Education Portfolio" />
+  <meta property="og:description" content="Hands-on cybersecurity learning paths, labs, and project proof for employers." />
+  <title>CyberSkillForge | Cybersecurity Education Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#home">CyberSkillForge</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">Menu</button>
+    <nav id="mainNav" class="main-nav">
+      <a href="#role">Role Fit</a>
+      <a href="studies.html">Studies</a>
+      <a href="labs.html">Labs</a>
+      <a href="#skills-proof">Skills Matrix</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero reveal">
+      <div class="hero-shell">
+        <div class="hero-copy-wrap">
+          <p class="eyebrow">Cybersecurity Education + Career Showcase</p>
+          <h1>Advanced Endpoint Security Engineer portfolio built for modern cloud enterprises.</h1>
+          <p class="hero-copy">This site is tailored to endpoint security engineering roles that blend software development, security operations, and cross-team delivery. Every topic includes practical learning plans and concrete proof artifacts employers can review.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="studies.html">Start Learning (10+ hrs)</a>
+            <a class="btn btn-ghost" href="labs.html">Try Labs (50+ exercises)</a>
+          </div>
+          <div class="hero-badges">
+            <span>10 Skill Domains</span>
+            <span>50+ Labs</span>
+            <span>Portfolio Ready</span>
+          </div>
+        </div>
+        <figure class="hero-visual" aria-label="Security dashboard visual">
+          <img src="assets/hero-shield.svg" alt="Stylized endpoint security dashboard with trust metrics and detection pipeline" />
+        </figure>
+      </div>
+      <div class="status-ticker" aria-live="polite">
+        <span class="mono">current_focus:</span>
+        <span id="tickerText"></span>
+      </div>
+    </section>
+
+    <section id="role" class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Target Position</p>
+        <h2>Advanced Security Engineer, Endpoint Security Alignment</h2>
+      </div>
+      <div class="project-grid">
+        <article class="project-card">
+          <h3>Role Mission</h3>
+          <p>Design, build, and operate endpoint controls that protect enterprise users, devices, and cloud-connected systems while preserving productivity with secure-by-default experiences.</p>
+          <ul>
+            <li>Scope: Laptops, mobile devices, and enterprise access pathways</li>
+            <li>Operating model: Security engineering + IT partnership + measurable outcomes</li>
+            <li>Environment: Cloud-first, automation-driven, DevSecOps friendly</li>
+          </ul>
+        </article>
+        <article class="project-card">
+          <h3>Core Responsibilities</h3>
+          <ul>
+            <li>Implement endpoint hardening baselines and privilege reduction controls</li>
+            <li>Automate policy enforcement and fleet-wide compliance workflows</li>
+            <li>Support endpoint incident response and investigation readiness</li>
+            <li>Track posture metrics, telemetry quality, and risk reduction trends</li>
+          </ul>
+        </article>
+        <article class="project-card">
+          <h3>Qualifications Strategy</h3>
+          <ul>
+            <li>Development depth: Python plus one additional language (C# or Java)</li>
+            <li>Cloud focus: Azure security controls and identity governance</li>
+            <li>Platform fluency: Device management, EDR, and security automation pipelines</li>
+            <li>Cert track: AZ-500 and SC-300 with mapped project evidence</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="metrics" class="metrics reveal">
+      <article>
+        <h3>80+</h3>
+        <p>Hours of guided security practice</p>
+      </article>
+      <article>
+        <h3>25</h3>
+        <p>Documented labs with attack and defense notes</p>
+      </article>
+      <article>
+        <h3>12</h3>
+        <p>Portfolio projects mapped to real job skills</p>
+      </article>
+      <article>
+        <h3>6</h3>
+        <p>Skill pathways from beginner to advanced</p>
+      </article>
+    </section>
+
+    <section id="pathways" class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Learning Architecture</p>
+        <h2>Structured Pathways for Endpoint Security Engineering</h2>
+      </div>
+      <div class="filter-row">
+        <label for="levelFilter">Filter by level</label>
+        <select id="levelFilter">
+          <option value="all">All levels</option>
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+      <div class="card-grid" id="pathwayGrid">
+        <article class="card" data-level="beginner">
+          <span class="tag">Beginner</span>
+          <h3>Endpoint Security Foundations</h3>
+          <p>OS internals, hardening standards, endpoint attack surface mapping, and secure device lifecycle basics.</p>
+        </article>
+        <article class="card" data-level="beginner">
+          <span class="tag">Beginner</span>
+          <h3>Security Operations Core</h3>
+          <p>SIEM workflows, endpoint log normalization, alert triage quality, and incident response fundamentals.</p>
+        </article>
+        <article class="card" data-level="intermediate">
+          <span class="tag">Intermediate</span>
+          <h3>Threat Modeling and Architecture</h3>
+          <p>Trust boundary mapping, abuse case analysis, and resilient enterprise security architecture design.</p>
+        </article>
+        <article class="card" data-level="intermediate">
+          <span class="tag">Intermediate</span>
+          <h3>Cloud and Identity Security</h3>
+          <p>Azure identity control patterns, least privilege access, conditional access, and secure SaaS operations.</p>
+        </article>
+        <article class="card" data-level="advanced">
+          <span class="tag">Advanced</span>
+          <h3>Security Automation Engineering</h3>
+          <p>Automate hardening, compliance checks, and response workflows using scripts and CI pipelines.</p>
+        </article>
+        <article class="card" data-level="advanced">
+          <span class="tag">Advanced</span>
+          <h3>Detection and Threat Defense</h3>
+          <p>Vulnerability management, endpoint detection tuning, and adversary-informed defense validation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills-proof" class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Required Skills Coverage</p>
+        <h2>Deep-Dive Mastery Plan: Learn and Prove Every Required Skill</h2>
+      </div>
+      <div class="skills-grid">
+        <article class="skill-card">
+          <h3>Endpoint Security</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Understand endpoint attack surface by OS layer: firmware, kernel, user space, identity, browser, and productivity tooling.</li>
+            <li>Apply hardening hierarchies: preventive controls first, detective controls second, recovery controls third.</li>
+            <li>Engineer secure-by-default configurations with exception management, not exception-by-default policy.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Study CIS baselines, Microsoft security baselines, and macOS/Linux hardening standards.</li>
+            <li>Map each policy to a threat or abuse case so every control has measurable purpose.</li>
+            <li>Practice translating policy text into enforceable device-management configuration.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Build baseline profiles for encryption, firewall, USB controls, local admin restrictions, and patch cadence.</li>
+            <li>Simulate non-compliant endpoints and measure detection and remediation response time.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Publish baseline-as-code configs, exception workflows, rollback procedures, and compliance trend dashboards.</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Network Security</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Design segmentation around business function and trust boundaries, not just subnet count.</li>
+            <li>Understand east-west movement controls, DNS security, and egress filtering for endpoint containment.</li>
+            <li>Use defense-in-depth for remote access: device trust, user trust, session trust, and conditional access.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Master firewall and ACL evaluation order, routing fundamentals, and secure VPN or zero trust access patterns.</li>
+            <li>Study packet capture interpretation for lateral movement, beaconing, and data exfiltration indicators.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Implement segmented lab zones, validate least-path communication, and test rule drift scenarios.</li>
+            <li>Run controlled attack traffic and verify network controls detect, block, or alert correctly.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Share architecture diagrams, firewall policy rationale, packet-level investigation reports, and validation scripts.</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Penetration Testing</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Frame testing as control validation, not vulnerability collection.</li>
+            <li>Understand kill chain progression from initial foothold to privilege escalation and impact.</li>
+            <li>Quantify exploitability, blast radius, and business outcome for every finding.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Practice legal CTF and lab environments with documented methodology and reproducible steps.</li>
+            <li>Develop repeatable recon, validation, exploitation, and evidence collection processes.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Run scoped endpoint and network assessments tied to known threat scenarios.</li>
+            <li>Retest after mitigation to verify closure and detect regression.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Deliver professional findings with proof-of-concept evidence, risk statement, and remediation verification logs.</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Security Architecture Design</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Design systems with explicit trust assumptions, failure domains, and secure operational boundaries.</li>
+            <li>Balance security, availability, maintainability, and user productivity tradeoffs with rationale.</li>
+            <li>Apply zero trust principles for identity, device health, and continuous authorization.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Study architecture patterns for endpoint management, identity federation, and cloud-native services.</li>
+            <li>Use architecture decision records to capture why controls were chosen over alternatives.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Create reference architectures for endpoint onboarding, privileged access, and secure software delivery.</li>
+            <li>Perform tabletop threat reviews and identify design control gaps.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Publish diagrams, ADRs, trust boundary models, and control effectiveness metrics by design domain.</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Security Automation</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Build idempotent automation with safe failure behavior and strong observability.</li>
+            <li>Integrate policy-as-code, linting, testing, and controlled rollout patterns.</li>
+            <li>Use automation to lower manual risk while preserving auditability and reproducibility.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Develop Python tooling for endpoint checks, data normalization, and response orchestration.</li>
+            <li>Use GitHub Actions for scheduled control validation, artifact generation, and compliance reporting.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Automate baseline drift detection and open remediation tickets with ownership metadata.</li>
+            <li>Measure pre-automation versus post-automation remediation cycle time.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Share automation repositories, workflow YAML files, tests, and quantified reduction in manual effort.</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Security Information</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Treat security data as an engineering product with schema governance and quality controls.</li>
+            <li>Understand timestamp integrity, field consistency, source reliability, and enrichment confidence.</li>
+            <li>Prioritize high-signal telemetry that directly supports detection and investigation decisions.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Study event normalization models and data lifecycle management from ingestion to retention.</li>
+            <li>Practice building parsers and enrichment pipelines for endpoint and identity logs.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Ingest mixed endpoint telemetry and map to a unified schema with quality checks.</li>
+            <li>Benchmark query performance and signal-to-noise ratio before and after enrichment.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Publish data contracts, parser test suites, quality dashboards, and investigation acceleration metrics.</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>SIEM</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Engineer detections as hypotheses tied to attacker behavior and available telemetry quality.</li>
+            <li>Understand detection lifecycle: design, test, deploy, monitor, tune, and retire.</li>
+            <li>Balance precision and recall based on business risk and analyst capacity.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Map ATT&amp;CK techniques to data sources and write correlation logic with context enrichment.</li>
+            <li>Study query optimization and cost-aware rule design for scalable operations.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Replay attack simulations to validate coverage and tune false positives.</li>
+            <li>Build severity models and response actions based on confidence and impact.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Provide detection-as-code repository, test evidence, tuning history, and MTTR improvement data.</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Security Operations</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Build operations that are predictable under pressure: playbooks, ownership, escalation, and quality gates.</li>
+            <li>Measure operational health with triage latency, containment speed, and false escalation rates.</li>
+            <li>Integrate post-incident reviews into continuous control and process improvements.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Practice incident lifecycle management from alert intake through lessons learned.</li>
+            <li>Develop stakeholder communication and decision documentation skills.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Run simulation drills with defined SLAs, communication checkpoints, and executive summaries.</li>
+            <li>Create runbooks for endpoint containment, evidence preservation, and recovery validation.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Show incident case studies with timeline, impact, actions, and measurable control improvements.</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Threat Modeling</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Identify attacker goals, entry points, privilege transitions, and impact paths for each system.</li>
+            <li>Use threat modeling as a design-time and change-time control, not a one-time artifact.</li>
+            <li>Prioritize mitigations by exploit feasibility and business consequence.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Apply STRIDE, abuse cases, and attack trees to endpoint lifecycle and cloud identity workflows.</li>
+            <li>Map threats to control families, ownership, and verification plans.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Model threats for device provisioning, software deployment, and privileged access scenarios.</li>
+            <li>Run threat-model review sessions and convert findings into tracked engineering tasks.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Publish model diagrams, prioritized risks, mitigation status, and residual risk acceptance records.</li>
+          </ul>
+        </article>
+        <article class="skill-card">
+          <h3>Vulnerability Management</h3>
+          <h4>Deep Knowledge</h4>
+          <ul>
+            <li>Operate vulnerability management as risk management, not scan report generation.</li>
+            <li>Prioritize with multi-factor scoring: CVSS, exploit activity, exposure path, asset criticality, and control context.</li>
+            <li>Track closure quality through validation, recurrence prevention, and mean remediation age.</li>
+          </ul>
+          <h4>Learn Path</h4>
+          <ul>
+            <li>Study scanner coverage limits, authentication quality, and false-positive handling.</li>
+            <li>Develop remediation workflows with SLA tiers and ownership accountability.</li>
+          </ul>
+          <h4>Hands-On Labs</h4>
+          <ul>
+            <li>Run vulnerability scans, prioritize findings with business-aware scoring, and patch in staged waves.</li>
+            <li>Validate fixes with rescans and exploitability checks, then record trend improvements.</li>
+          </ul>
+          <h4>Proof for Hiring Panels</h4>
+          <ul>
+            <li>Provide risk-prioritized backlog snapshots, SLA compliance metrics, and remediation verification evidence.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="labs" class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Interactive Practice</p>
+        <h2>Endpoint and SOC Command Lab Simulator</h2>
+      </div>
+      <p class="mono helper">Try commands: <span>nmap -sV target.local</span>, <span>grep "failed" auth.log</span>, <span>osqueryi "select * from processes limit 5"</span></p>
+      <div class="terminal" id="terminalOutput" role="status" aria-live="polite">
+        <p>Type a command and press Enter to simulate investigative workflows.</p>
+      </div>
+      <form id="terminalForm" class="terminal-form">
+        <label class="mono" for="commandInput">analyst@skillforge:~$</label>
+        <input id="commandInput" name="commandInput" type="text" autocomplete="off" placeholder="Enter command" />
+        <button class="btn btn-primary" type="submit">Run</button>
+      </form>
+    </section>
+
+    <section id="threats" class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Threat Intelligence</p>
+        <h2>Endpoint Attack Lifecycle Knowledge Map</h2>
+      </div>
+      <div class="timeline">
+        <article>
+          <h3>Initial Access</h3>
+          <p>Phishing payloads and exposed services are mapped to verification checks and user controls.</p>
+        </article>
+        <article>
+          <h3>Execution</h3>
+          <p>Script and process execution paths are correlated with EDR detections and command-line telemetry.</p>
+        </article>
+        <article>
+          <h3>Persistence</h3>
+          <p>Scheduled tasks, startup modifications, and key persistence artifacts are documented with hunting queries.</p>
+        </article>
+        <article>
+          <h3>Exfiltration</h3>
+          <p>Data movement detection baselines and anomaly thresholds are paired with containment actions.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="portfolio" class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Proof of Work</p>
+        <h2>Portfolio Projects Mapped to Endpoint Security Requirements</h2>
+      </div>
+      <div class="project-grid">
+        <article class="project-card">
+          <h3>Endpoint Baseline Enforcement Toolkit</h3>
+          <p>Built scripts and policy checks to enforce secure endpoint defaults across a managed device fleet.</p>
+          <ul>
+            <li>Skills: Endpoint Security, Security Automation, Security Operations</li>
+            <li>Output: Baseline-as-code repo, compliance reports, exception workflow</li>
+          </ul>
+        </article>
+        <article class="project-card">
+          <h3>SIEM Detection and Triage Pipeline</h3>
+          <p>Built endpoint-focused detections with telemetry enrichment and triage rules to reduce alert noise.</p>
+          <ul>
+            <li>Skills: SIEM, Security Information, Security Operations</li>
+            <li>Output: Detection library, tuning changelog, false-positive trend dashboard</li>
+          </ul>
+        </article>
+        <article class="project-card">
+          <h3>Threat Model to Pen-Test Validation Program</h3>
+          <p>Translated architecture threats into controlled penetration tests and remediation validation cycles.</p>
+          <ul>
+            <li>Skills: Threat Modeling, Penetration Testing, Security Architecture Design, Vulnerability Management</li>
+            <li>Output: Threat model docs, test evidence, mitigations, closure metrics</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="case-studies" class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Case Studies</p>
+        <h2>Project Screenshot Placeholders and Investigation Thumbnails</h2>
+      </div>
+      <div class="case-study-grid">
+        <article class="case-card reveal">
+          <img src="assets/case-siem-tuning.svg" alt="SIEM tuning case study thumbnail" />
+          <div class="case-card-body">
+            <h3>Case #01: SIEM Tuning Sprint</h3>
+            <p>Use this placeholder to link a future write-up showing detection rule tuning, false-positive reduction, and MTTR improvements.</p>
+            <ul>
+              <li>Attach dashboard screenshots and before/after alert data.</li>
+              <li>Include Jira ticket IDs and reviewer approvals.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="case-card reveal">
+          <img src="assets/case-phishing-ir.svg" alt="Phishing incident response case study thumbnail" />
+          <div class="case-card-body">
+            <h3>Case #02: Phishing Incident Response</h3>
+            <p>Capture simulation metrics, user report response times, containment actions, and security awareness follow-up outcomes.</p>
+            <ul>
+              <li>Attach campaign templates and mail-header analysis.</li>
+              <li>Document lessons learned for executive reporting.</li>
+            </ul>
+          </div>
+        </article>
+        <article class="case-card reveal">
+          <img src="assets/case-iam-escalation.svg" alt="IAM temporary access governance case study thumbnail" />
+          <div class="case-card-body">
+            <h3>Case #03: IAM Escalation Governance</h3>
+            <p>Demonstrate RBAC approvals, temporary access TTL controls, automated revocation, and audit-readiness artifacts.</p>
+            <ul>
+              <li>Show role matrix snapshots and exception workflows.</li>
+              <li>Publish measurable access-governance metrics.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="resources" class="content-section reveal">
+      <div class="section-head">
+        <p class="eyebrow">Self-Assessment</p>
+        <h2>Role-Focused Endpoint Security Quiz</h2>
+      </div>
+      <form id="quizForm" class="quiz">
+        <fieldset>
+          <legend>1. Which approach best supports secure-by-default endpoint experiences?</legend>
+          <label><input type="radio" name="q1" value="a" /> Multi-factor authentication and user awareness training</label>
+          <label><input type="radio" name="q1" value="b" /> Relying on user discretion for every security choice</label>
+          <label><input type="radio" name="q1" value="c" /> Granting permanent local admin rights to all users</label>
+        </fieldset>
+        <fieldset>
+          <legend>2. Which evidence best proves SIEM skill maturity?</legend>
+          <label><input type="radio" name="q2" value="a" /> Number of dashboards created only</label>
+          <label><input type="radio" name="q2" value="b" /> Detection rules, tuning history, and measurable false-positive reduction</label>
+          <label><input type="radio" name="q2" value="c" /> One screenshot of an alert console</label>
+        </fieldset>
+        <fieldset>
+          <legend>3. What is the strongest vulnerability prioritization method?</legend>
+          <label><input type="radio" name="q3" value="a" /> Sort only by CVSS score</label>
+          <label><input type="radio" name="q3" value="b" /> Patch only internet-facing systems</label>
+          <label><input type="radio" name="q3" value="c" /> Combine CVSS, exploitability, asset criticality, and exposure</label>
+        </fieldset>
+        <button class="btn btn-primary" type="submit">Score Quiz</button>
+        <p id="quizResult" class="quiz-result" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="contact" class="content-section contact reveal">
+      <h2>Ready for Advanced Endpoint Security Roles</h2>
+      <p>Use this as a living job showcase. Continuously add labs, architecture notes, automation repos, and investigation case studies to demonstrate continual improvement.</p>
+      <a class="btn btn-primary" href="mailto:your.email@example.com">Contact Me</a>
+    </section>
+  </main>
+
+  <footer>
+    <p><span id="year"></span> CyberSkillForge. Built for GitHub Pages deployment.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

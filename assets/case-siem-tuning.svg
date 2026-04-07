@@ -1,0 +1,18 @@
+<svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SIEM tuning case study thumbnail">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#11293d"/>
+      <stop offset="100%" stop-color="#1a3c53"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="620" height="380" rx="20" fill="url(#g1)" stroke="#4c728a"/>
+  <text x="40" y="56" font-family="Sora, sans-serif" font-size="27" fill="#e6f6ff">SIEM Detection Tuning</text>
+  <text x="40" y="84" font-family="JetBrains Mono, monospace" font-size="13" fill="#a9cadf">Program: False Positive Reduction</text>
+  <rect x="40" y="118" width="560" height="18" rx="9" fill="#1d3f54"/>
+  <rect x="40" y="118" width="464" height="18" rx="9" fill="#49c8f0"/>
+  <text x="40" y="168" font-family="JetBrains Mono, monospace" font-size="14" fill="#c0dbe9">alert volume: 980/day -> 360/day</text>
+  <text x="40" y="198" font-family="JetBrains Mono, monospace" font-size="14" fill="#c0dbe9">precision: 31% -> 74%</text>
+  <text x="40" y="228" font-family="JetBrains Mono, monospace" font-size="14" fill="#c0dbe9">median triage time: 22m -> 9m</text>
+  <rect x="40" y="276" width="280" height="64" rx="10" fill="#0f2738" stroke="#4c728a"/>
+  <text x="58" y="314" font-family="Sora, sans-serif" font-size="16" fill="#78e7bd">Case Study 01</text>
+</svg>
