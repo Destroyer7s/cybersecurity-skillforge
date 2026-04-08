@@ -1,18 +1,15 @@
 <svg width="640" height="400" viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="IAM escalation governance case study thumbnail">
-  <defs>
-    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#10263b"/>
-      <stop offset="100%" stop-color="#1b4157"/>
-    </linearGradient>
-  </defs>
-  <rect x="10" y="10" width="620" height="380" rx="20" fill="url(#g3)" stroke="#4c728a"/>
-  <text x="40" y="56" font-family="Sora, sans-serif" font-size="27" fill="#e6f6ff">IAM Escalation Governance</text>
-  <text x="40" y="84" font-family="JetBrains Mono, monospace" font-size="13" fill="#a9cadf">RBAC approval and temporary access controls</text>
-  <rect x="40" y="118" width="560" height="220" rx="14" fill="#0f2738" stroke="#4c728a"/>
-  <text x="66" y="154" font-family="JetBrains Mono, monospace" font-size="13" fill="#c0dbe9">request -> approval -> TTL grant -> auto revoke -> audit evidence</text>
-  <text x="66" y="188" font-family="JetBrains Mono, monospace" font-size="13" fill="#c0dbe9">P95 approval latency: 11 min</text>
-  <text x="66" y="218" font-family="JetBrains Mono, monospace" font-size="13" fill="#c0dbe9">expired access cleanup: 100%</text>
-  <text x="66" y="248" font-family="JetBrains Mono, monospace" font-size="13" fill="#c0dbe9">critical audit findings: 0</text>
-  <rect x="40" y="290" width="280" height="52" rx="10" fill="#10293a" stroke="#4c728a"/>
-  <text x="56" y="321" font-family="Sora, sans-serif" font-size="16" fill="#78e7bd">Case Study 03</text>
+  <rect x="10" y="10" width="620" height="380" rx="24" fill="#081A27" stroke="#31566C"/>
+  <text x="38" y="58" fill="#E3F5FF" font-family="Sora, sans-serif" font-size="26" font-weight="700">IAM Escalation Governance</text>
+  <text x="38" y="86" fill="#A9CFDF" font-family="JetBrains Mono, monospace" font-size="13">request, approval, temporary grant, auto-revoke</text>
+  <rect x="40" y="122" width="560" height="212" rx="18" fill="#0E2B3D" stroke="#426980"/>
+  <rect x="64" y="158" width="150" height="54" rx="12" fill="#102B3C" stroke="#49C8F0"/>
+  <rect x="246" y="158" width="150" height="54" rx="12" fill="#102B3C" stroke="#78E7BD"/>
+  <rect x="428" y="158" width="148" height="54" rx="12" fill="#102B3C" stroke="#49C8F0"/>
+  <text x="108" y="191" fill="#E3F5FF" font-family="Sora, sans-serif" font-size="14" font-weight="600">Request</text>
+  <text x="292" y="191" fill="#D4FAE8" font-family="Sora, sans-serif" font-size="14" font-weight="600">TTL Grant</text>
+  <text x="476" y="191" fill="#E3F5FF" font-family="Sora, sans-serif" font-size="14" font-weight="600">Audit Trail</text>
+  <path d="M214 185H246" stroke="#6A9AB2" stroke-width="4" stroke-dasharray="8 8"/>
+  <path d="M396 185H428" stroke="#6A9AB2" stroke-width="4" stroke-dasharray="8 8"/>
+  <text x="40" y="362" fill="#D4FAE8" font-family="Sora, sans-serif" font-size="15" font-weight="600">Case Study 03 · P95 approval 11m · expired cleanup 100%</text>
 </svg>

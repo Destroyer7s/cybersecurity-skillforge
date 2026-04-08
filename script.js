@@ -354,13 +354,919 @@ const studyPlainEnglishMap = {
   ]
 };
 
+const extendedStudyModules = {
+  "aws-security-hub-and-detection": {
+    navLabel: "AWS Security Hub",
+    title: "AWS Security Hub, GuardDuty, and Cloud Detection Operations",
+    readingTime: "90 minutes",
+    overview:
+      "This section builds deep AWS operational knowledge for SOC and security engineering roles. You will connect Security Hub findings, GuardDuty threat detections, CloudTrail events, IAM context, and remediation workflows so cloud incidents are triaged and closed with evidence.",
+    architecture:
+      "Focus on an event pipeline: CloudTrail/Config/GuardDuty -> Security Hub normalized findings -> SIEM correlation -> Jira case -> validated remediation and closure evidence. Treat each finding as a risk workflow, not a dashboard card.",
+    handsOn: [
+      "Enable AWS Security Hub standards (Foundational + CIS) and baseline control health.",
+      "Create triage runbook for Severity/Critical findings including IAM and network context checks.",
+      "Map Security Hub finding types to response playbooks and escalation rules.",
+      "Build evidence template for incident records: finding ID, affected resource, blast radius, owner, remediation timestamp."
+    ],
+    tools: ["AWS Security Hub", "GuardDuty", "CloudTrail", "AWS Config", "CloudWatch", "Jira", "Confluence"],
+    outcomes: [
+      "Prioritize cloud findings by exploitable risk and business impact.",
+      "Correlate finding + telemetry + identity activity quickly.",
+      "Demonstrate audit-ready closure evidence for cloud controls."
+    ],
+    guide: {
+      prerequisites: ["IAM policy basics", "CloudTrail event structure", "VPC and Security Group fundamentals"],
+      coreConcepts: ["Security Hub findings lifecycle", "Cloud misconfiguration vs active threat signal", "Risk-based finding triage"],
+      practiceDrills: ["Investigate one high-severity finding end-to-end", "Create mapping from finding type to response action", "Build closure checklist for cloud incidents"],
+      selfCheck: ["Can you explain why this finding is urgent in business terms?", "Can you show proof that remediation was effective?"]
+    },
+    explainer: {
+      what: "AWS Security Hub is your consolidated cloud security control and finding layer. It normalizes signals from multiple AWS services and standards so teams can triage consistently.",
+      why: "Without a disciplined Security Hub workflow, teams drown in findings and miss the truly dangerous ones. This section teaches how to prioritize and close cloud risk effectively.",
+      how: ["Baseline controls and account coverage first.", "Triage by severity + exposure + asset criticality.", "Document remediation evidence and re-validate controls."],
+      success: "You succeed when high-risk findings are handled quickly with clear ownership, measurable MTTR, and defensible closure evidence."
+    },
+    plainEnglish: [
+      "Security Hub is the cloud security inbox; learn what to act on first.",
+      "Connect alerts to real risk, not just severity labels.",
+      "Close tickets with proof, not assumptions."
+    ]
+  },
+  "aws-cloud-security-engineering": {
+    navLabel: "AWS Cloud Security",
+    title: "AWS Cloud Security Engineering: IAM, Network, Logging, and Response",
+    readingTime: "95 minutes",
+    overview:
+      "This is a broad AWS security engineering section covering identity boundaries, least privilege, account architecture, network controls, key management, logging, and response automation. It is designed for roles requiring practical AWS experience.",
+    architecture:
+      "Anchor your design on multi-account segmentation, SCP guardrails, IAM role boundaries, immutable logging, and automated detective controls. Build for both prevention and response.",
+    handsOn: [
+      "Design OU/account strategy with production, non-production, security, and log-archive separation.",
+      "Create IAM least-privilege role policy and test with access analyzer and denied-action review.",
+      "Implement VPC egress restrictions, security groups, and NACL validation checks.",
+      "Configure centralized logs (CloudTrail/Config/VPC Flow Logs) with retention and integrity controls."
+    ],
+    tools: ["AWS Organizations", "IAM", "KMS", "CloudTrail", "Config", "VPC", "S3", "Lambda"],
+    outcomes: [
+      "Design secure-by-default AWS foundations.",
+      "Explain cloud tradeoffs between speed and control.",
+      "Operate cloud incidents with reliable telemetry and clear guardrails."
+    ],
+    guide: {
+      prerequisites: ["AWS core service familiarity", "Basic Terraform/CloudFormation literacy", "Identity and network fundamentals"],
+      coreConcepts: ["Multi-account security architecture", "Least privilege and IAM boundaries", "Centralized logging and response"],
+      practiceDrills: ["Build one secure landing zone checklist", "Write one IAM role hardening playbook", "Run one cloud incident simulation"],
+      selfCheck: ["Can you show how your AWS design limits blast radius?", "Can you investigate suspicious IAM behavior quickly?"]
+    },
+    explainer: {
+      what: "This section teaches how to build and operate secure AWS environments, not just configure isolated services.",
+      why: "Cloud speed amplifies both good design and bad mistakes. Strong foundations prevent recurring incidents and audit failures.",
+      how: ["Start with account and identity boundaries.", "Enforce logging and control visibility everywhere.", "Automate high-value detections and response actions."],
+      success: "You are successful when new workloads inherit secure defaults and incidents are investigated with complete evidence."
+    },
+    plainEnglish: [
+      "Set up AWS so teams move fast without breaking security.",
+      "Good identity and logging design prevents most cloud chaos.",
+      "If you can explain and prove your guardrails, you are ready."
+    ]
+  },
+  "siem-tooling-platform-depth": {
+    navLabel: "SIEM Tooling",
+    title: "SIEM Platform Depth: QRadar, Splunk, Sumo Logic, Kibana, Security Onion, ArcSight",
+    readingTime: "85 minutes",
+    overview:
+      "This section targets 2+ years SIEM hands-on expectations by comparing query models, ingestion pipelines, detection workflow, tuning strategy, and operational strengths across major SIEM platforms.",
+    architecture:
+      "Treat SIEM as a lifecycle: ingest -> normalize -> detect -> triage -> tune -> report. Platform features differ, but disciplined operations are consistent.",
+    handsOn: [
+      "Write equivalent detection logic in at least two platforms (example: Splunk SPL and Sumo query syntax).",
+      "Compare correlation rule implementation between QRadar and ArcSight style models.",
+      "Tune one noisy detection and quantify before/after precision.",
+      "Build analyst runbook for triage fields required across tools."
+    ],
+    tools: ["QRadar", "Splunk", "Sumo Logic", "Kibana", "Security Onion", "ArcSight"],
+    outcomes: [
+      "Move between SIEM stacks without losing detection quality.",
+      "Tune detections using measurable operations metrics.",
+      "Design platform-agnostic SOC workflows."
+    ],
+    guide: {
+      prerequisites: ["Log schema basics", "Detection engineering fundamentals", "SOC triage workflow"],
+      coreConcepts: ["Platform query language tradeoffs", "Correlation and enrichment strategy", "Tuning governance and ownership"],
+      practiceDrills: ["Translate one rule across two SIEM tools", "Measure false-positive reduction", "Document platform migration considerations"],
+      selfCheck: ["Can you explain platform-specific limitations?", "Can you defend your tuning decisions with data?"]
+    },
+    explainer: {
+      what: "This section is practical SIEM cross-platform fluency: how to investigate, detect, and tune in multiple ecosystems.",
+      why: "Most teams use mixed or evolving tool stacks. Platform-agnostic detection capability makes you resilient and valuable.",
+      how: ["Map shared detection logic first.", "Account for platform-specific field mappings.", "Track tuning metrics in a consistent model."],
+      success: "You succeed when you can implement equivalent detections across tools and maintain analyst effectiveness."
+    },
+    plainEnglish: [
+      "Different SIEM tools speak different query languages but solve similar SOC problems.",
+      "Learn how to move your detection thinking between platforms.",
+      "Track outcomes, not just query syntax."
+    ]
+  },
+  "edr-and-edrm-operations": {
+    navLabel: "EDR Operations",
+    title: "EDR/EDRM Operations: Telemetry, Triage, Containment, and Recovery",
+    readingTime: "70 minutes",
+    overview:
+      "This section provides hands-on EDR operations depth: signal interpretation, process-tree analysis, containment actions, forensic evidence collection, and recovery verification with minimal business disruption.",
+    architecture:
+      "Build a response loop: high-fidelity alert -> host scope validation -> containment decision -> root-cause analysis -> remediation -> post-incident hardening.",
+    handsOn: [
+      "Investigate suspicious process lineage and command-line behavior.",
+      "Use host isolation and network containment with explicit rollback criteria.",
+      "Capture triage evidence (hashes, parent-child process tree, persistence indicators).",
+      "Write post-incident control-improvement actions tied to findings."
+    ],
+    tools: ["EDR platform", "SIEM", "Threat intel feeds", "Ticketing system"],
+    outcomes: ["Faster endpoint incident triage", "Safer containment decisions", "Evidence-driven remediation verification"],
+    guide: {
+      prerequisites: ["Windows/Linux process model basics", "Endpoint telemetry field familiarity", "IR severity model"],
+      coreConcepts: ["Detection confidence and triage prioritization", "Containment strategy", "Forensic traceability"],
+      practiceDrills: ["Run one simulated malware triage", "Practice isolation + recovery decision", "Create endpoint incident checklist"],
+      selfCheck: ["Can you explain containment risk tradeoffs?", "Can you prove host is clean after remediation?"]
+    },
+    explainer: {
+      what: "EDR operations focus on quickly understanding what happened on a host and what to do next without guesswork.",
+      why: "Endpoint incidents are time-sensitive. Good EDR handling reduces attacker dwell time and business impact.",
+      how: ["Validate alert quality and scope.", "Contain based on risk and business criticality.", "Confirm eradication with objective evidence."],
+      success: "You are successful when containment is fast, evidence is complete, and recurrence drops after lessons learned."
+    },
+    plainEnglish: [
+      "EDR helps you see what ran on a machine and how risky it is.",
+      "Contain first, investigate deeply, then prove cleanup.",
+      "Always leave a clear evidence trail."
+    ]
+  },
+  "threat-intelligence-and-ioc-engineering": {
+    navLabel: "Threat Intel & IOCs",
+    title: "Threat Intelligence, IOC Analysis, and Detection Rule Engineering",
+    readingTime: "78 minutes",
+    overview:
+      "This section covers converting threat intelligence into operational detections. You will prioritize feeds, validate IOC quality, map to ATT&CK behaviors, and write durable detection logic with false-positive controls.",
+    architecture:
+      "Use a repeatable chain: intel intake -> confidence scoring -> environment relevance -> detection authoring -> validation -> tuning -> retirement criteria.",
+    handsOn: [
+      "Score IOC confidence and relevancy before creating alerts.",
+      "Write one behavior-based rule and one IOC-anchored rule for the same threat cluster.",
+      "Map detections to ATT&CK techniques and expected evidence fields.",
+      "Define expiration and review cadence for short-lived indicators."
+    ],
+    tools: ["Threat intel platform", "SIEM", "EDR", "MITRE ATT&CK", "Case management"],
+    outcomes: ["Higher detection fidelity", "Reduced noisy IOC alerts", "Clear intel-to-detection traceability"],
+    guide: {
+      prerequisites: ["Basic intel feed concepts", "Detection query fundamentals", "SOC triage process"],
+      coreConcepts: ["IOC confidence scoring", "Behavior vs indicator detections", "Detection lifecycle governance"],
+      practiceDrills: ["Run one IOC validation exercise", "Create ATT&CK mapping for a campaign", "Tune one noisy intel-based rule"],
+      selfCheck: ["Can you justify why this IOC belongs in production detections?", "Can you explain rule quality and expected false positives?"]
+    },
+    explainer: {
+      what: "This section teaches how to turn raw threat intel into useful detections and SOC decisions.",
+      why: "Unfiltered intel causes alert fatigue. Strong engineering converts intel into high-confidence operational value.",
+      how: ["Validate IOC quality first.", "Prefer behavior-linked detections when possible.", "Continuously review and retire stale indicators."],
+      success: "You succeed when detections catch relevant threats without flooding analysts with low-value alerts."
+    },
+    plainEnglish: [
+      "Not every IOC should become an alert.",
+      "Use threat intel to improve detection quality, not noise.",
+      "Measure whether intel-driven rules actually help triage."
+    ]
+  },
+  "palo-alto-firewall-operations": {
+    navLabel: "Palo Alto",
+    title: "Palo Alto Firewall Operations: Policy, Threat Prevention, and SOC Integration",
+    readingTime: "68 minutes",
+    overview:
+      "This section focuses on Palo Alto operational depth: App-ID/User-ID policy design, threat prevention profiles, URL filtering, NAT interactions, and log-driven investigation workflows.",
+    architecture:
+      "Structure controls with least-privilege policy zones, explicit service/app constraints, and profile-based protection tied to logging and SOC response.",
+    handsOn: [
+      "Build one deny-by-default rule set with documented exception governance.",
+      "Tune threat prevention profiles for malware/C2 visibility.",
+      "Correlate firewall logs with SIEM detections for incident scoping.",
+      "Validate policy and profile impact using controlled traffic tests."
+    ],
+    tools: ["Palo Alto NGFW", "Panorama", "SIEM", "Ticketing"],
+    outcomes: ["Higher confidence firewall policy hygiene", "Faster network incident investigation", "Reduced lateral movement risk"],
+    guide: {
+      prerequisites: ["Firewall zone concepts", "Basic routing/NAT", "SOC log triage basics"],
+      coreConcepts: ["App-ID and policy granularity", "Threat profile strategy", "Log-driven response"],
+      practiceDrills: ["Create one controlled policy migration", "Analyze denied vs allowed suspicious flow", "Document firewall incident workflow"],
+      selfCheck: ["Can you defend why a rule exists and who owns it?", "Can you investigate suspicious traffic with full context?"]
+    },
+    explainer: {
+      what: "This section covers practical Palo Alto operations for prevention and investigation.",
+      why: "Firewall quality directly impacts blast radius and incident response speed.",
+      how: ["Design clear zone policies.", "Apply profile-based protections consistently.", "Use logs as incident evidence, not just counters."],
+      success: "You succeed when policies are precise, exceptions are governed, and investigations are faster and clearer."
+    },
+    plainEnglish: [
+      "Use Palo Alto rules to tightly control who can talk to what.",
+      "Profiles catch known bad behavior while logs tell the story.",
+      "Every exception should have an owner and end date."
+    ]
+  },
+  "checkpoint-and-firewall-technologies": {
+    navLabel: "Checkpoint & Firewall Tech",
+    title: "Checkpoint and Firewall Technologies: Core Operations and Governance",
+    readingTime: "62 minutes",
+    overview:
+      "This section addresses Checkpoint and broader firewall technologies requirements: rulebase governance, change management, policy lifecycle, and audit evidence practices.",
+    architecture:
+      "Use a policy lifecycle model: request -> risk review -> staged deployment -> validation -> periodic recertification -> retirement.",
+    handsOn: [
+      "Review and clean stale rules with owner and usage data.",
+      "Implement change template for firewall approvals and rollback.",
+      "Define quarterly recertification process for privileged rules.",
+      "Produce audit packet showing policy intent, approval, and validation evidence."
+    ],
+    tools: ["Checkpoint", "Firewall Manager", "Change management", "Audit tooling"],
+    outcomes: ["Governed firewall change process", "Reduced stale-risk surface", "Audit-ready policy traceability"],
+    guide: {
+      prerequisites: ["Firewall processing order basics", "Change control fundamentals", "Network path visibility"],
+      coreConcepts: ["Policy lifecycle governance", "Rule recertification", "Risk-aligned exceptions"],
+      practiceDrills: ["Run stale-rule cleanup simulation", "Build firewall change approval checklist", "Create quarterly policy review matrix"],
+      selfCheck: ["Can you prove rule necessity with evidence?", "Can you show policy governance in an audit?" ]
+    },
+    explainer: {
+      what: "This section teaches disciplined firewall operations with governance, not ad hoc rule growth.",
+      why: "Unmanaged firewall policies become hidden risk and operational drag.",
+      how: ["Track ownership for every rule.", "Require validation for every change.", "Retire unused rules on a schedule."],
+      success: "You succeed when rulebases stay clean, change risk is controlled, and audits are straightforward."
+    },
+    plainEnglish: [
+      "Firewall rules should be intentional, not historical leftovers.",
+      "Every change needs review, test, and rollback planning.",
+      "Good governance keeps policies secure and maintainable."
+    ]
+  },
+  "atlassian-jira-confluence-security-workflows": {
+    navLabel: "Jira & Confluence",
+    title: "Atlassian Security Workflows: Jira and Confluence for SOC Execution",
+    readingTime: "55 minutes",
+    overview:
+      "This section operationalizes Jira and Confluence for security teams: incident tracking, vulnerability workflows, evidence management, runbook versioning, and audit-ready documentation.",
+    architecture:
+      "Create linked workflows: detection/case ticket in Jira -> investigation notes and artifacts -> Confluence runbook updates -> closure metrics and retrospectives.",
+    handsOn: [
+      "Build Jira incident issue type with severity, owner, SLA, and evidence fields.",
+      "Create Confluence playbook templates for triage, containment, and post-incident review.",
+      "Map vulnerability ticket lifecycle from discovery to verified closure.",
+      "Create dashboard for SLA breaches and recurring issue categories."
+    ],
+    tools: ["Jira", "Confluence", "SIEM/EDR integrations", "Automation rules"],
+    outcomes: ["Faster cross-team coordination", "Consistent evidence capture", "Improved audit and postmortem quality"],
+    guide: {
+      prerequisites: ["Issue lifecycle concepts", "Incident process familiarity", "Documentation discipline"],
+      coreConcepts: ["Case management structure", "Knowledge base integrity", "SLA and ownership visibility"],
+      practiceDrills: ["Build one complete incident template", "Create one runbook with decision points", "Track one KPI in dashboard"],
+      selfCheck: ["Can responders execute from docs without ambiguity?", "Can leadership view risk and status quickly?"]
+    },
+    explainer: {
+      what: "This section teaches how to use Atlassian tools as operational security infrastructure, not just ticket notes.",
+      why: "Strong workflows reduce confusion, speed response, and improve audit outcomes.",
+      how: ["Standardize ticket fields and SLAs.", "Use reusable runbook templates.", "Close loop with metrics and retrospectives."],
+      success: "You succeed when teams collaborate faster and evidence quality improves across incidents and audits."
+    },
+    plainEnglish: [
+      "Jira tracks the work; Confluence explains how to do the work.",
+      "Clear templates reduce on-call confusion.",
+      "Good documentation is a security control, not busywork."
+    ]
+  },
+  "xsoar-and-security-automation-platforms": {
+    navLabel: "XSOAR Automation",
+    title: "XSOAR and Security Orchestration Platforms: Playbooks and Automated Response",
+    readingTime: "72 minutes",
+    overview:
+      "This section focuses on SOAR/XSOAR execution: building robust playbooks, human approval gates, enrichment pipelines, action safety controls, and measurable automation impact.",
+    architecture:
+      "Use layered automation: ingest alert -> enrich context -> decision branch -> optional containment action -> case update -> metrics capture.",
+    handsOn: [
+      "Build one triage enrichment playbook with confidence scoring.",
+      "Implement approval gate before disruptive containment actions.",
+      "Create rollback flow and failure-handling branch.",
+      "Measure cycle-time reduction and error rates before/after automation."
+    ],
+    tools: ["XSOAR/SOAR platform", "SIEM", "EDR", "Threat intel", "Ticketing"],
+    outcomes: ["Faster low-risk triage", "Safer automated actions", "Transparent automation governance"],
+    guide: {
+      prerequisites: ["API integration basics", "IR workflow understanding", "Script reliability fundamentals"],
+      coreConcepts: ["Playbook branching", "Human-in-the-loop control", "Automation observability"],
+      practiceDrills: ["Implement one enrichment-only workflow", "Add guarded containment action", "Publish automation KPI dashboard"],
+      selfCheck: ["Can you explain why this step is automated?", "Can you safely recover from automation failure?"]
+    },
+    explainer: {
+      what: "This section teaches how to automate security operations responsibly using SOAR platforms.",
+      why: "Automation without controls creates fast mistakes. Controlled automation improves speed and consistency safely.",
+      how: ["Automate enrichment first.", "Gate high-impact actions.", "Track outcomes and failure modes continuously."],
+      success: "You succeed when automation reduces toil, preserves quality, and remains auditable and safe."
+    },
+    plainEnglish: [
+      "Automate repetitive tasks, but keep risky actions gated.",
+      "Every playbook needs clear success and failure paths.",
+      "Measure whether automation truly helps analysts."
+    ]
+  },
+  "cloud-security-gcp-and-azure": {
+    navLabel: "GCP & Azure Security",
+    title: "Cloud Security Exposure: GCP and Azure Fundamentals for SOC Analysts",
+    readingTime: "64 minutes",
+    overview:
+      "This section provides practical exposure to GCP and Azure security controls so analysts can investigate incidents and assess posture beyond AWS-only environments.",
+    architecture:
+      "Map equivalent control planes: identity, network segmentation, logging, workload security, and posture findings. Build cross-cloud investigation habits.",
+    handsOn: [
+      "Compare IAM privilege models across AWS, GCP, and Azure.",
+      "Map logging sources to incident triage fields in each cloud.",
+      "Investigate one sample cross-cloud suspicious access scenario.",
+      "Create cloud-agnostic response checklist for identity abuse."
+    ],
+    tools: ["GCP Security Command Center", "Azure Defender/Sentinel integrations", "Cloud-native logs"],
+    outcomes: ["Cross-cloud investigation readiness", "Shared mental model across providers", "Reduced blind spots in mixed environments"],
+    guide: {
+      prerequisites: ["Cloud IAM fundamentals", "Basic cloud networking", "SOC incident process"],
+      coreConcepts: ["Cross-cloud control mapping", "Provider-specific telemetry", "Cloud incident workflow consistency"],
+      practiceDrills: ["Build control-equivalency matrix", "Run identity compromise triage across providers", "Document cloud-specific caveats"],
+      selfCheck: ["Can you map equivalent controls quickly?", "Can you investigate cloud incidents outside AWS?"]
+    },
+    explainer: {
+      what: "This section builds confidence investigating and securing GCP/Azure environments alongside AWS.",
+      why: "Most enterprises are multi-cloud. Analysts need cross-provider fluency to avoid blind spots.",
+      how: ["Map equivalent controls first.", "Understand provider-specific telemetry differences.", "Use unified response process with cloud-specific adaptations."],
+      success: "You succeed when cross-cloud incidents are handled with the same quality and speed as AWS incidents."
+    },
+    plainEnglish: [
+      "Cloud providers differ, but core security concepts are similar.",
+      "Learn what changes between AWS, GCP, and Azure during investigations.",
+      "Use one consistent response mindset across all clouds."
+    ]
+  },
+  "security-scripting-programming-practice": {
+    navLabel: "Security Scripting",
+    title: "Security Scripting and Programming: Python, PowerShell, Bash, and Beyond",
+    readingTime: "76 minutes",
+    overview:
+      "This section focuses on practical scripting for SOC and security engineering. It emphasizes small reliable automations, parsing telemetry, API integrations, and safe script deployment patterns.",
+    architecture:
+      "Use a simple engineering loop: define task -> script minimal solution -> validate output -> add error handling -> add logging -> operationalize with version control.",
+    handsOn: [
+      "Parse log files and extract IOC fields with Python and Bash.",
+      "Write PowerShell script for endpoint compliance checks.",
+      "Call SIEM or ticketing APIs and create normalized incident artifact output.",
+      "Package script with README, sample input/output, and failure behavior notes."
+    ],
+    tools: ["Python", "PowerShell", "Bash", "Java", "C", "Ruby", "APIs", "Version control"],
+    outcomes: ["Reduced manual toil", "Repeatable technical workflows", "Interview-ready automation portfolio"],
+    guide: {
+      prerequisites: ["CLI fundamentals", "Basic loops/conditions/functions", "JSON parsing basics"],
+      coreConcepts: ["Idempotency", "Input validation and error handling", "Operational logging"],
+      practiceDrills: ["Build one log parser utility", "Build one SOC triage helper script", "Add tests for common failure cases"],
+      selfCheck: ["Can someone else run your script safely?", "Does your script fail predictably with clear errors?"]
+    },
+    explainer: {
+      what: "This section teaches practical coding for real security operations, not abstract programming exercises.",
+      why: "Scripting multiplies analyst impact and unlocks reliable automation in daily workflows.",
+      how: ["Solve one small operational problem at a time.", "Harden scripts for reliability and traceability.", "Document and measure workflow improvement."],
+      success: "You succeed when scripts are reused by others and clearly reduce response or triage time."
+    },
+    plainEnglish: [
+      "Write small scripts that solve real SOC pain points.",
+      "Reliable scripts are better than clever but fragile scripts.",
+      "Document your code so teammates can trust and reuse it."
+    ]
+  },
+  "certification-and-standards-roadmap": {
+    navLabel: "Certs & Standards",
+    title: "Certification and Standards Roadmap: CC, SSCP, Security+, GSEC, and Governance Alignment",
+    readingTime: "58 minutes",
+    overview:
+      "This section helps you align certification study with actual job requirements and security standards. It prioritizes practical competency mapping rather than exam-only preparation.",
+    architecture:
+      "Map cert domains to operational evidence: incidents handled, detections written, cloud controls implemented, and governance artifacts produced.",
+    handsOn: [
+      "Create certification matrix: objective -> lab -> portfolio artifact.",
+      "Map standards controls (NIST/ISO/CIS) to your current study sections.",
+      "Build 12-week roadmap combining certifications with real hands-on deliverables.",
+      "Document evidence for resume and interview storytelling."
+    ],
+    tools: ["Certification objectives", "NIST/CIS/ISO references", "Portfolio templates"],
+    outcomes: ["Focused certification prep", "Reduced exam-study waste", "Stronger job-ready evidence"],
+    guide: {
+      prerequisites: ["Awareness of target role requirements", "Current skill baseline", "Time planning discipline"],
+      coreConcepts: ["Exam-to-practice mapping", "Control-framework literacy", "Evidence-driven progression"],
+      practiceDrills: ["Design 90-day cert + lab plan", "Link each domain to one artifact", "Run weekly competency retrospectives"],
+      selfCheck: ["Can you demonstrate each domain in practice?", "Are you building interview evidence while studying?"]
+    },
+    explainer: {
+      what: "This section aligns certifications and security standards to day-to-day operational capability.",
+      why: "Certifications are strongest when paired with practical implementation and evidence.",
+      how: ["Map domain objectives to hands-on labs.", "Track artifacts for each competency.", "Continuously align study with target role responsibilities."],
+      success: "You succeed when cert progress directly strengthens your practical performance and portfolio."
+    },
+    plainEnglish: [
+      "Use certifications to structure learning, not replace hands-on practice.",
+      "Every cert topic should produce a real artifact you can show.",
+      "Study smarter by tying exam prep to job-ready skills."
+    ]
+  }
+};
+
+function getAllStudyTopicIds() {
+  return [...new Set([...Object.keys(studyGuides), ...Object.keys(extendedStudyModules)])];
+}
+
+function getStudyGuide(sectionId) {
+  return studyGuides[sectionId] || extendedStudyModules[sectionId]?.guide || null;
+}
+
+const studyVisualMap = {
+  default: "assets/study-mesh.svg",
+  endpoint: "assets/hero-shield.svg",
+  detection: "assets/case-siem-tuning.svg",
+  incident: "assets/case-phishing-ir.svg",
+  cloud: "assets/case-iam-escalation.svg",
+  automation: "assets/labs-ops.svg",
+  "aws-security-hub-and-detection": "assets/aws-security-hub.svg",
+  "aws-cloud-security-engineering": "assets/aws-cloud-security.svg",
+  "siem-tooling-platform-depth": "assets/siem-platforms.svg",
+  "edr-and-edrm-operations": "assets/edr-operations.svg",
+  "threat-intelligence-and-ioc-engineering": "assets/threat-intel-iocs.svg",
+  "palo-alto-firewall-operations": "assets/palo-alto-firewall.svg",
+  "checkpoint-and-firewall-technologies": "assets/firewall-governance.svg",
+  "atlassian-jira-confluence-security-workflows": "assets/jira-confluence-security.svg",
+  "xsoar-and-security-automation-platforms": "assets/xsoar-playbook.svg",
+  "cloud-security-gcp-and-azure": "assets/multicloud-security.svg",
+  "security-scripting-programming-practice": "assets/security-scripting.svg",
+  "certification-and-standards-roadmap": "assets/certification-roadmap.svg"
+};
+
+const studyAppliedPlaybooks = {
+  "endpoint-security": {
+    category: "endpoint",
+    scenarioTitle: "Real-Life Scenario: Ransomware Staging on a Sales Laptop",
+    scenarioSummary: "A sales user clicks a malicious link while traveling. PowerShell launches from a browser child process, EDR flags suspicious script execution, and the device begins reaching out to newly observed domains over HTTPS.",
+    situation: [
+      "The user is remote and needs the laptop for a customer presentation in two hours.",
+      "The SOC needs to balance fast containment with business continuity.",
+      "The endpoint shows suspicious but not yet destructive behavior, so investigation speed matters."
+    ],
+    responseSteps: ["Validate alert lineage and command line", "Confirm whether credential theft or lateral movement has begun", "Isolate host and preserve evidence", "Reimage or remediate only after scope is understood"],
+    helpfulTips: ["Look at parent-child process relationships before reacting to a single IOC.", "Check whether the same script hash appears elsewhere in the fleet.", "Document user actions and timestamps early; memory fades quickly after the call.", "Always verify that isolation still allows the response team to pull needed evidence."],
+    artifacts: ["Process tree screenshot", "Hash and command-line evidence", "Containment decision log", "Post-remediation validation notes"],
+    toolchain: ["EDR console", "PowerShell event logs", "SIEM correlation", "Jira incident ticket"],
+    workflow: ["Alert", "Triage", "Contain", "Validate", "Recover"],
+    metrics: ["Time to isolate host", "Number of related endpoints found", "False-positive vs true-positive decision speed"],
+    analystNotes: "In real environments, endpoint work is rarely just about one machine. You are constantly judging whether you are dealing with a single compromised host, a phishing wave, or an early-stage broader intrusion."
+  },
+  "network-security": {
+    category: "endpoint",
+    scenarioTitle: "Real-Life Scenario: Flat VLAN Access Exposes Critical Server Segment",
+    scenarioSummary: "An internal red-team exercise shows a compromised user workstation can reach file servers, legacy admin services, and domain controllers because historical firewall exceptions were never cleaned up.",
+    situation: ["Operations teams depend on undocumented legacy flows.", "Security wants rapid segmentation but cannot trigger outages.", "Leadership wants proof that segmentation lowers breach impact."],
+    responseSteps: ["Map real traffic and owners", "Define trust zones and deny-by-default target state", "Pilot controlled policy tightening", "Measure blocked unauthorized paths and business exceptions"],
+    helpfulTips: ["Never start segmentation with a blind block list.", "Use flow data to identify which rules are truly in use.", "Tie exceptions to named owners and review dates.", "Prove success using reduced reachable assets, not just rule count."],
+    artifacts: ["Traffic-flow map", "Zone matrix", "Exception register", "Post-change validation report"],
+    toolchain: ["Firewall manager", "Flow logs", "DNS logs", "Change management ticket"],
+    workflow: ["Discover", "Classify", "Restrict", "Validate", "Govern"],
+    metrics: ["Unauthorized path reduction", "Exception count trend", "Change-induced outage count"],
+    analystNotes: "Good network security work is half engineering and half stakeholder negotiation. The hardest part is often proving which traffic is still necessary."
+  },
+  "penetration-testing": {
+    category: "incident",
+    scenarioTitle: "Real-Life Scenario: External Pentest Reveals MFA Gap in Admin Portal",
+    scenarioSummary: "A pentest finds that a rarely used admin portal enforces password policy but not MFA because it was excluded from a recent SSO migration. The issue is exploitable from the internet and tied to privileged access.",
+    situation: ["The vulnerable portal is business-critical and cannot be shut down immediately.", "Multiple teams own pieces of the authentication flow.", "Leadership needs a fix path with short-term containment and long-term correction."],
+    responseSteps: ["Validate exploit path and exposure", "Recommend interim restrictions", "Coordinate permanent identity integration fix", "Retest to prove the original path is closed"],
+    helpfulTips: ["A finding is strongest when it shows exactly how an attacker would chain weaknesses.", "Always distinguish compensating controls from actual remediation.", "Retesting is where credibility is won or lost.", "Write findings so engineers can act without a follow-up meeting."],
+    artifacts: ["Proof-of-concept notes", "Impact narrative", "Remediation plan", "Retest evidence"],
+    toolchain: ["Recon tools", "Burp Suite", "Identity logs", "Issue tracker"],
+    workflow: ["Scope", "Validate", "Report", "Remediate", "Retest"],
+    metrics: ["Time to reproduce", "Time to remediate", "Retest success rate"],
+    analystNotes: "The best pentest outputs are not dramatic screenshots. They are clear exploit stories that help teams fix real risks faster."
+  },
+  "architecture-design": {
+    category: "endpoint",
+    scenarioTitle: "Real-Life Scenario: Designing Secure Access for a New Internal Platform",
+    scenarioSummary: "A product team launches an internal analytics platform that ingests sensitive financial data. Security must define network placement, IAM boundaries, logging, and recovery patterns before production go-live.",
+    situation: ["The business deadline is tight.", "Developers want broad access during early rollout.", "Audit requirements demand traceability and data minimization."],
+    responseSteps: ["Map trust boundaries and data sensitivity", "Define least-privilege roles and service-to-service auth", "Require immutable logging and recovery paths", "Capture tradeoffs in an ADR for future review"],
+    helpfulTips: ["If a design choice cannot be explained in one sentence, it may not be mature enough.", "Architecture reviews should include failure and rollback scenarios, not just ideal state.", "Use diagrams to show where trust shifts, not just where services exist.", "Document assumptions that could later invalidate the design."],
+    artifacts: ["Reference architecture", "ADR", "Threat model", "Control validation checklist"],
+    toolchain: ["Diagramming tool", "Threat model template", "IAM policies", "Review notes"],
+    workflow: ["Model", "Decide", "Review", "Implement", "Validate"],
+    metrics: ["Number of unresolved high risks", "Time to review design change", "Control coverage across trust boundaries"],
+    analystNotes: "Architecture is where you prevent entire classes of incidents before they happen. Good design work compounds over time."
+  },
+  "security-automation": {
+    category: "automation",
+    scenarioTitle: "Real-Life Scenario: Automating Phishing Triage Enrichment",
+    scenarioSummary: "Analysts spend 12 minutes per phishing alert manually checking sender reputation, attachment hashes, URL detonation history, and mailbox spread. Security decides to automate enrichment before analyst review.",
+    situation: ["Analyst queue is growing daily.", "Bad automation could quarantine legitimate mail.", "Leadership wants measurable cycle-time reduction without quality loss."],
+    responseSteps: ["Automate evidence gathering only first", "Add confidence scoring and clear output", "Compare analyst decisions before/after automation", "Gate any destructive action behind approval"],
+    helpfulTips: ["Automate the steps analysts repeat, not the judgment they still need to make.", "Log every API failure and timeout explicitly.", "Small reliable automations beat big fragile playbooks.", "Track error rate, not just speed improvement."],
+    artifacts: ["Workflow diagram", "Sample enriched case", "Failure-path log", "Before/after queue metrics"],
+    toolchain: ["SOAR", "Email security platform", "Threat intel API", "Case system"],
+    workflow: ["Ingest", "Enrich", "Score", "Approve", "Close"],
+    metrics: ["Minutes saved per alert", "Automation failure rate", "Analyst decision consistency"],
+    analystNotes: "Automation maturity is not about how much runs without humans. It is about how much routine work is removed safely."
+  },
+  "security-information": {
+    category: "detection",
+    scenarioTitle: "Real-Life Scenario: Broken Field Mapping Silences a Detection",
+    scenarioSummary: "A detection that should flag suspicious privileged logons stops firing after a new data source onboarding. The root cause is a parser change that renamed a critical username field without updating the normalized schema.",
+    situation: ["Analysts trust the dashboard but alerts quietly degrade.", "The issue affects multiple downstream queries.", "Leadership assumes coverage is unchanged until an audit reveals the gap."],
+    responseSteps: ["Validate field-level coverage", "Trace parser-to-schema lineage", "Restore mapping and retest detections", "Add data-quality monitoring for critical fields"],
+    helpfulTips: ["Every critical detection should have a required-field checklist.", "Telemetry changes should be treated like production code changes.", "Confidence in enrichment fields should be explicit.", "Schema drift is a security problem, not just a data problem."],
+    artifacts: ["Field mapping diff", "Detection retest output", "Schema checklist", "Data-quality dashboard"],
+    toolchain: ["Parser pipeline", "SIEM", "Schema docs", "Monitoring alerts"],
+    workflow: ["Ingest", "Normalize", "Validate", "Detect", "Review"],
+    metrics: ["Critical field completeness", "Detection breakage rate", "Time to parser rollback"],
+    analystNotes: "Great detections rest on boring but essential engineering discipline: schemas, parsers, and field integrity."
+  },
+  siem: {
+    category: "detection",
+    scenarioTitle: "Real-Life Scenario: Noisy Authentication Detection Burns Out the Queue",
+    scenarioSummary: "A new brute-force rule correctly catches attacks but also floods analysts with password spray-like patterns caused by VPN reconnect storms and misconfigured internal scanners.",
+    situation: ["The alert was created quickly after a threat bulletin.", "Analysts are starting to ignore it because of volume.", "Security leadership wants to preserve coverage without drowning the SOC."],
+    responseSteps: ["Measure current precision", "Separate attack-like benign patterns", "Add bounded suppression with owner and expiry", "Replay attack and benign data to validate improvements"],
+    helpfulTips: ["Tuning is not suppression by frustration.", "Always record why a suppression exists and when it should expire.", "Measure queue health after rule changes.", "Keep a test dataset so you do not tune blindly."],
+    artifacts: ["Before/after precision report", "Suppression register", "Replay test output", "Rule ownership notes"],
+    toolchain: ["SIEM", "Attack replay dataset", "Threat intel", "Case management"],
+    workflow: ["Hypothesize", "Deploy", "Measure", "Tune", "Review"],
+    metrics: ["Precision", "MTTR", "Queue age", "Alert volume trend"],
+    analystNotes: "A useful detection program is built by operational discipline over time, not by writing lots of rules quickly."
+  },
+  "security-operations": {
+    category: "incident",
+    scenarioTitle: "Real-Life Scenario: Overnight Credential Theft Investigation",
+    scenarioSummary: "A privileged account authenticates from an unusual location after a suspicious OAuth consent event. The on-call analyst must determine whether to disable access immediately, who to notify, and how to preserve the timeline for day-shift handoff.",
+    situation: ["The affected user is an executive assistant with broad mailbox access.", "Leadership wants regular updates but facts are still emerging.", "Cloud and endpoint data both need to be correlated quickly."],
+    responseSteps: ["Establish severity and initial scope", "Separate confirmed facts from assumptions", "Assign owners for identity, endpoint, and communications", "Produce handoff timeline and action log"],
+    helpfulTips: ["The first 20 minutes determine incident clarity later.", "Write updates for the next responder, not just for yourself.", "Short status updates beat long speculative summaries.", "Capture exact timestamps from systems, not memory."],
+    artifacts: ["Incident timeline", "Stakeholder update log", "Containment checklist", "Post-incident action register"],
+    toolchain: ["SIEM", "EDR", "IAM logs", "Jira/Confluence"],
+    workflow: ["Detect", "Scope", "Coordinate", "Contain", "Improve"],
+    metrics: ["Time to severity classification", "Time to containment", "Post-incident action completion"],
+    analystNotes: "Security operations quality is visible in the clarity of decisions, ownership, and evidence during chaos."
+  },
+  "threat-modeling": {
+    category: "endpoint",
+    scenarioTitle: "Real-Life Scenario: Threat Modeling a Public API Release",
+    scenarioSummary: "A new public API will expose partner data and support machine-to-machine authentication. The team needs to identify abuse cases before launch rather than after the first security incident.",
+    situation: ["The product team is focused on performance and release deadlines.", "Authentication assumptions are changing during development.", "Some risks are acceptable only with clear owner sign-off."],
+    responseSteps: ["Map assets and entry points", "Enumerate attacker goals and abuse paths", "Prioritize risks by likelihood and impact", "Assign controls, owners, and validation tests"],
+    helpfulTips: ["Threat models should change decisions, not just document them.", "Residual risk must always have an owner.", "Include misuse and business logic abuse, not only classic technical attacks.", "Keep outputs small and actionable so teams use them."],
+    artifacts: ["Threat model diagram", "Risk register", "Control ownership matrix", "Validation test plan"],
+    toolchain: ["Threat model template", "Architecture diagram", "Backlog system", "ADR notes"],
+    workflow: ["Scope", "Enumerate", "Prioritize", "Map", "Validate"],
+    metrics: ["High risks with owners", "Design changes caused by model", "Residual risks accepted"],
+    analystNotes: "Threat modeling is powerful when it is lightweight, specific, and tied to actual engineering choices."
+  },
+  "vulnerability-management": {
+    category: "incident",
+    scenarioTitle: "Real-Life Scenario: Critical Internet-Facing Vulnerability Across Mixed Assets",
+    scenarioSummary: "A new actively exploited vulnerability affects edge devices, cloud workloads, and a few internal admin systems. Security must prioritize patching based on exposure and business criticality, not just scanner count.",
+    situation: ["The scanner shows hundreds of findings but only a subset are exploitable.", "Operations teams want maintenance windows; leadership wants immediate action.", "False positives are possible on legacy appliances."],
+    responseSteps: ["Identify exposed and privileged assets first", "Apply SLA by exploitability and business impact", "Track exception owners and compensating controls", "Retest closure and recurrence causes"],
+    helpfulTips: ["Volume is not priority.", "A verified false positive should still be documented for future audits.", "Separate patching status from remediation quality.", "Recurrence often signals a process gap, not just missed patching."],
+    artifacts: ["Prioritized backlog", "Exception log", "Retest evidence", "MTTR dashboard"],
+    toolchain: ["Scanner", "Asset inventory", "Ticketing", "Patch deployment tooling"],
+    workflow: ["Find", "Prioritize", "Fix", "Validate", "Review"],
+    metrics: ["Critical MTTR", "SLA breach count", "Repeat vuln rate"],
+    analystNotes: "Good vulnerability management is a risk-reduction program, not a patch-count program."
+  },
+  "soc-ops-analyst-track": {
+    category: "incident",
+    scenarioTitle: "Real-Life Scenario: Concurrent Phishing Incident, Audit Request, and Vulnerability Escalation",
+    scenarioSummary: "During one shift, the analyst must triage a phishing incident, respond to an auditor asking for evidence of privileged-access reviews, and escalate a critical internet-facing vulnerability approaching SLA breach.",
+    situation: ["All three tasks are legitimate and time-sensitive.", "There is limited escalation bandwidth.", "Poor prioritization could either increase breach risk or create compliance failure."],
+    responseSteps: ["Classify business risk of each workstream", "Assign immediate actions and escalation path", "Keep artifacts current while executing", "Communicate tradeoffs early to stakeholders"],
+    helpfulTips: ["SOC maturity shows up in prioritization under load.", "A clean decision log prevents confusion later.", "Use templates so evidence capture does not fall apart under pressure.", "Translate technical urgency into business language for leadership."],
+    artifacts: ["Decision log", "Executive status note", "Audit evidence packet", "SLA exception/escalation notes"],
+    toolchain: ["SIEM", "EDR", "Jira", "Confluence", "Vulnerability platform"],
+    workflow: ["Prioritize", "Escalate", "Execute", "Document", "Review"],
+    metrics: ["Time to stakeholder alignment", "Number of clean handoffs", "Evidence completeness"],
+    analystNotes: "SOC work is rarely serial. The real skill is making disciplined decisions across competing priorities."
+  },
+  "capstone-track": {
+    category: "automation",
+    scenarioTitle: "Real-Life Scenario: Building a Portfolio Project that Resembles Real Security Work",
+    scenarioSummary: "You design a capstone that combines cloud logging, detection rules, triage automation, and an incident case study rather than a disconnected collection of screenshots.",
+    situation: ["You need to show depth, not just breadth.", "Interviewers will ask why you chose each tool and what tradeoffs you made.", "The project must produce measurable outcomes and a clear narrative."],
+    responseSteps: ["Choose one meaningful problem", "Establish baseline and success metrics", "Implement and document decisions", "Package final story with evidence and lessons learned"],
+    helpfulTips: ["A smaller but measurable project beats a giant unfinished one.", "Capture evidence as you build, not at the end.", "Write the interview story while the project is still fresh.", "Include what went wrong and how you fixed it."],
+    artifacts: ["Architecture overview", "Before/after metrics", "Case study write-up", "Demo screenshots and logs"],
+    toolchain: ["Selected lab tools", "Diagram asset", "Git repo", "Presentation notes"],
+    workflow: ["Scope", "Build", "Measure", "Explain", "Iterate"],
+    metrics: ["Outcome vs baseline", "Number of integrated skills", "Interview readiness confidence"],
+    analystNotes: "Capstones stand out when they look like work a real team would care about, not like a classroom assignment."
+  }
+};
+
+Object.assign(studyAppliedPlaybooks, {
+  "aws-security-hub-and-detection": {
+    category: "cloud",
+    scenarioTitle: "Real-Life Scenario: Security Hub Flags Public S3 Exposure During Audit Week",
+    scenarioSummary: "A newly provisioned analytics bucket is exposed to the internet, Security Hub raises a high-severity finding, and the team must determine whether the bucket contains regulated data, whether public access was intentional, and how to prove closure quickly.",
+    situation: ["The owning application team insists the exposure was required for a partner integration.", "Auditors are already reviewing control exceptions for cloud storage.", "Security must confirm whether the finding is misconfiguration-only or evidence of broader account hygiene issues."],
+    responseSteps: ["Validate the resource, account, and region context", "Check object sensitivity, bucket policy, and public access block state", "Coordinate immediate restriction or compensating control", "Retest the finding and update audit evidence with clear owner sign-off"],
+    helpfulTips: ["Always verify whether a Security Hub finding is root cause or symptom.", "Use CloudTrail to determine when the exposure was introduced and by whom.", "Document both immediate containment and long-term prevention action.", "A finding is not closed until the control state and business exception state both make sense."],
+    artifacts: ["Security Hub finding record", "Bucket policy diff", "CloudTrail actor timeline", "Closure evidence with retest"],
+    toolchain: ["Security Hub", "CloudTrail", "AWS Config", "Jira", "Confluence"],
+    workflow: ["Review", "Trace", "Contain", "Retest", "Close"],
+    metrics: ["Finding MTTR", "Repeat bucket-exposure findings", "Time to ownership confirmation"],
+    analystNotes: "Security Hub becomes truly valuable when findings are treated as operational risk stories with clear ownership and evidence, not just rows in a dashboard."
+  },
+  "aws-cloud-security-engineering": {
+    category: "cloud",
+    scenarioTitle: "Real-Life Scenario: IAM Role Over-Permission Enables Cross-Account Abuse",
+    scenarioSummary: "A workload role intended for logging access can also enumerate secrets and assume a downstream administrative role because of overly broad wildcard permissions and missing SCP guardrails.",
+    situation: ["The role is already used by multiple production services.", "A rushed change window makes broad refactoring risky.", "Security needs a least-privilege fix without causing service outage."],
+    responseSteps: ["Review actual API usage and denied-action telemetry", "Break permissions into minimum viable actions by workload", "Apply scoped role boundaries and account-level guardrails", "Validate workload health and unauthorized action denial after rollout"],
+    helpfulTips: ["Least privilege is easier to defend when you have observed usage data.", "Do not fix role design without checking account-level guardrails too.", "Treat wildcard permissions as temporary design debt with expiration.", "Cloud design decisions should always include rollback and workload verification."],
+    artifacts: ["IAM policy diff", "Access analyzer findings", "Denied-action validation logs", "Post-change service health report"],
+    toolchain: ["IAM", "Access Analyzer", "Organizations/SCPs", "CloudTrail", "Change ticket"],
+    workflow: ["Observe", "Constrain", "Guardrail", "Validate", "Review"],
+    metrics: ["Roles with wildcard actions", "Privilege reduction count", "Post-change incident count"],
+    analystNotes: "Real AWS security engineering is less about knowing every service and more about designing identity and logging boundaries that scale safely."
+  },
+  "siem-tooling-platform-depth": {
+    category: "detection",
+    scenarioTitle: "Real-Life Scenario: Splunk-to-QRadar Detection Migration Under Deadline",
+    scenarioSummary: "A high-value lateral movement rule must be moved from Splunk to QRadar after a tooling change. The original detection relied on field aliases, custom lookups, and analyst notes that were never formally documented.",
+    situation: ["Leadership expects no detection gap during migration.", "Data field names differ across platforms.", "Analysts need the same triage context on day one of cutover."],
+    responseSteps: ["Write the detection logic in platform-agnostic language first", "Map required fields and enrichment dependencies", "Replay historical attack and benign events in both platforms", "Compare precision, triage steps, and queue impact before go-live"],
+    helpfulTips: ["The query is not the detection; the hypothesis and required evidence are the detection.", "Preserve analyst workflow details, not just syntax.", "Migration parity testing should include false-positive behavior.", "Document assumptions that were hidden in the old platform."],
+    artifacts: ["Logic mapping sheet", "Field dependency checklist", "Parity validation results", "Updated analyst runbook"],
+    toolchain: ["Splunk", "QRadar", "Replay dataset", "Runbook documentation"],
+    workflow: ["Abstract", "Map", "Replay", "Compare", "Cutover"],
+    metrics: ["Parity success rate", "Precision delta", "Analyst triage time after migration"],
+    analystNotes: "Cross-platform SIEM depth shows up when you can preserve detection quality and analyst clarity during change, not just retype a search."
+  },
+  "edr-and-edrm-operations": {
+    category: "detection",
+    scenarioTitle: "Real-Life Scenario: EDR Sees Suspicious Living-Off-the-Land Activity on an Admin Workstation",
+    scenarioSummary: "An administrator workstation launches encoded PowerShell, creates scheduled task persistence, and contacts a low-reputation domain. The question is whether this is red team, legitimate admin automation, or an actual intrusion.",
+    situation: ["The host has access to critical infrastructure.", "Immediate isolation may disrupt operations.", "Delaying containment increases risk if credentials are already exposed."],
+    responseSteps: ["Review process tree, user context, and command-line arguments", "Check whether the behavior is expected from approved admin tooling", "Contain host with minimal business blast radius", "Collect evidence and verify clean state before restoration"],
+    helpfulTips: ["Living-off-the-land activity is dangerous because it often looks partially legitimate.", "Ask whether the same behavior exists elsewhere before assuming uniqueness.", "Containment decisions are strongest when paired with rollback and communication plans.", "The absence of malware files does not mean the host is clean."],
+    artifacts: ["Process tree", "Scheduled task evidence", "User communication notes", "Host recovery validation"],
+    toolchain: ["EDR", "PowerShell logs", "SIEM", "Identity logs"],
+    workflow: ["Inspect", "Contextualize", "Contain", "Collect", "Restore"],
+    metrics: ["Time to containment", "Scope expansion count", "Repeat admin-workstation incidents"],
+    analystNotes: "Strong EDR work often depends on your ability to separate suspicious administration from true compromise under time pressure."
+  },
+  "threat-intelligence-and-ioc-engineering": {
+    category: "detection",
+    scenarioTitle: "Real-Life Scenario: IOC Feed Flood Causes Low-Value Alert Storm",
+    scenarioSummary: "A commercial intel feed pushes thousands of fresh domains and hashes after a campaign report, but many indicators have low relevance to your environment and begin triggering noisy SIEM alerts.",
+    situation: ["Analysts are already overloaded.", "Leadership wants assurance that the team is using premium intel effectively.", "Blindly suppressing the feed could hide real exposure."],
+    responseSteps: ["Score IOC confidence and environment relevance", "Separate short-lived indicators from durable behavioral detections", "Implement bounded alert logic with expiration and review", "Measure how many alerts actually lead to actionable investigation"],
+    helpfulTips: ["Fresh intel is not automatically useful intel.", "Behavior-based detections often outlive IOC-only rules.", "Track which feeds actually improve triage outcomes.", "Retire stale indicators aggressively to protect queue health."],
+    artifacts: ["IOC scoring matrix", "Alert-to-action analysis", "Feed review notes", "Detection retirement log"],
+    toolchain: ["Threat intel feed", "ATT&CK mapping", "SIEM", "EDR"],
+    workflow: ["Ingest", "Score", "Convert", "Measure", "Retire"],
+    metrics: ["IOC-driven alert precision", "Actionable-alert rate", "Indicator retirement lag"],
+    analystNotes: "Threat intelligence is strongest when it changes detection quality and investigation speed, not when it just increases alert count."
+  },
+  "palo-alto-firewall-operations": {
+    category: "endpoint",
+    scenarioTitle: "Real-Life Scenario: Palo Alto Rule Sprawl Enables Unnecessary East-West Access",
+    scenarioSummary: "An investigation into suspicious SMB traffic reveals multiple broad inter-zone allow rules created during emergency projects and never recertified. Some rules also bypass threat profiles for convenience.",
+    situation: ["Several application teams depend on loosely documented exceptions.", "Blocking too much too quickly could interrupt production services.", "SOC needs better logs and policy clarity to investigate laterally moving threats."],
+    responseSteps: ["Pull hit counts and owner history for broad rules", "Rebuild policy intent around zones and approved apps", "Apply threat profiles and logging consistently", "Validate traffic outcomes before retiring old exceptions"],
+    helpfulTips: ["Rule count is less important than rule clarity and ownership.", "Threat profiles without quality logging are harder to operationalize.", "Panorama governance should include review cadence, not just deployment.", "Use investigations to clean policy debt while context is fresh."],
+    artifacts: ["Rule recertification sheet", "Profile attachment validation", "Traffic hit analysis", "Exception retirement record"],
+    toolchain: ["Palo Alto", "Panorama", "SIEM", "Change review"],
+    workflow: ["Audit", "Refine", "Protect", "Validate", "Retire"],
+    metrics: ["Broad-rule reduction", "Threat-profile coverage", "Investigation clarity improvement"],
+    analystNotes: "Firewall maturity improves when policy, prevention profiles, and SOC visibility are managed together rather than as separate silos."
+  },
+  "checkpoint-and-firewall-technologies": {
+    category: "endpoint",
+    scenarioTitle: "Real-Life Scenario: Audit Finds 18-Month-Old Firewall Exceptions With No Owner",
+    scenarioSummary: "Checkpoint review shows many aging rules tied to past projects, no current owner, and no evidence of continued necessity. Several are highly permissive and touch sensitive networks.",
+    situation: ["Security cannot prove the business need for legacy rules.", "Infrastructure teams are afraid to remove them without usage validation.", "Audit requires governance evidence, not just technical cleanup."],
+    responseSteps: ["Correlate rule usage with current system ownership", "Classify high-risk exceptions first", "Create recertification and retirement workflow", "Package evidence for audit and future reviews"],
+    helpfulTips: ["Firewall governance fails long before the firewall technology fails.", "Usage data should guide cleanup sequencing.", "Expired project rules are often hidden exposure pathways.", "Audit-friendly policy operations depend on traceable approval history."],
+    artifacts: ["Usage review report", "Owner recertification log", "Exception retirement checklist", "Audit evidence packet"],
+    toolchain: ["Checkpoint", "Usage analytics", "Change control", "Audit documentation"],
+    workflow: ["Discover", "Recertify", "Prioritize", "Retire", "Evidence"],
+    metrics: ["Ownerless rule count", "Retired legacy exceptions", "Audit exception reduction"],
+    analystNotes: "Firewall governance is a long-term hygiene discipline; the absence of ownership is often the real risk signal."
+  },
+  "atlassian-jira-confluence-security-workflows": {
+    category: "automation",
+    scenarioTitle: "Real-Life Scenario: Incident Response Breaks Because Documentation and Ticketing Drifted Apart",
+    scenarioSummary: "A phishing incident exposes that the Jira incident template lacks required evidence fields and the linked Confluence runbook is outdated, causing analysts to miss approval steps and duplicate work.",
+    situation: ["On-call responders need fast, trusted documentation.", "Different teams have built their own ticket fields over time.", "Leadership wants consistent post-incident reporting across teams."],
+    responseSteps: ["Standardize case fields around execution-critical evidence", "Update runbooks to reflect actual responder decisions", "Link Jira issue types directly to Confluence procedures", "Review workflow quality after the next incident simulation"],
+    helpfulTips: ["If analysts do not trust the runbook, they will ignore it.", "Templates should reflect real decisions, not compliance theory.", "Use Jira automation to reduce missed fields and stale states.", "Confluence is most valuable when it stays close to actual practice."],
+    artifacts: ["Updated incident template", "Runbook version log", "Workflow gap list", "Case quality checklist"],
+    toolchain: ["Jira", "Confluence", "Automation rules", "Incident review notes"],
+    workflow: ["Template", "Link", "Execute", "Review", "Refine"],
+    metrics: ["Required-field completion", "Runbook adherence", "Post-incident documentation lag"],
+    analystNotes: "Operational tooling quality is visible when responders can move fast without guessing what good documentation should look like."
+  },
+  "xsoar-and-security-automation-platforms": {
+    category: "automation",
+    scenarioTitle: "Real-Life Scenario: XSOAR Playbook Auto-Quarantines Too Broadly",
+    scenarioSummary: "A new playbook that automatically disables accounts after suspicious sign-in enrichment fires against noisy travel-related alerts and causes unnecessary user disruption.",
+    situation: ["The automation reduced manual work but created operational trust issues.", "Leaders now question whether broader automation is safe.", "The team must fix the playbook without abandoning automation value."],
+    responseSteps: ["Reclassify which steps are safe for full automation", "Insert approval gates for high-impact actions", "Improve enrichment confidence scoring before containment", "Measure quality after controlled relaunch"],
+    helpfulTips: ["Automate confidence, not confidence theater.", "The best first automation removes analyst toil without changing system state.", "Every SOAR failure is also a workflow design lesson.", "Trust in automation is earned through transparent controls and outcomes."],
+    artifacts: ["Playbook version diff", "Approval-gate design", "Failure-path log", "Relaunch KPI report"],
+    toolchain: ["XSOAR", "Identity platform", "SIEM", "Case tracking"],
+    workflow: ["Enrich", "Score", "Approve", "Act", "Measure"],
+    metrics: ["Automation-caused false actions", "Cycle-time reduction", "Playbook error rate"],
+    analystNotes: "SOAR maturity depends less on the number of playbooks and more on whether automations are trusted, safe, and measurable."
+  },
+  "cloud-security-gcp-and-azure": {
+    category: "cloud",
+    scenarioTitle: "Real-Life Scenario: Cross-Cloud Identity Abuse Investigation",
+    scenarioSummary: "A suspicious contractor account is seen authenticating across AWS, Azure, and GCP admin portals over a short period. Each platform logs the activity differently, and the analyst must determine whether this is misconfiguration, token abuse, or legitimate federated access.",
+    situation: ["The organization recently expanded into multi-cloud.", "Each cloud team names roles and resources differently.", "A fragmented response could miss the full blast radius."],
+    responseSteps: ["Map the identity and federation path across providers", "Normalize activity timeline by provider logs", "Check privilege level and resource touch points in each cloud", "Contain and review federated trust assumptions after closure"],
+    helpfulTips: ["Cross-cloud incidents are easier when you normalize the investigation process even if tools differ.", "Identity events often reveal the real control weakness faster than workload events.", "Build equivalency matrices before incidents happen.", "Do not assume one provider's terminology maps cleanly to another's."],
+    artifacts: ["Cross-cloud timeline", "Federation trust review", "Privilege map", "Provider-specific containment evidence"],
+    toolchain: ["Cloud-native logs", "Identity provider logs", "SCC/Sentinel-style findings", "Case system"],
+    workflow: ["Map", "Normalize", "Compare", "Contain", "Review"],
+    metrics: ["Time to cross-cloud scope", "Identity mapping accuracy", "Post-incident trust fixes"],
+    analystNotes: "Multi-cloud readiness is mostly about maintaining one strong investigative mindset across several different control planes."
+  },
+  "security-scripting-programming-practice": {
+    category: "automation",
+    scenarioTitle: "Real-Life Scenario: Building a Python + PowerShell Utility for Endpoint Compliance Checks",
+    scenarioSummary: "The SOC keeps manually checking whether endpoints have encryption, EDR, and logging enabled before escalating tickets. A small utility is proposed to pull state automatically and output triage-ready evidence.",
+    situation: ["Manual checks are slow and inconsistent.", "The utility may be run by analysts with mixed scripting confidence.", "A bad script could create false confidence or miss exceptions."],
+    responseSteps: ["Define exact inputs and required outputs", "Write smallest viable script with clear validation", "Test against known-good and known-bad systems", "Document expected errors and sample outputs before team rollout"],
+    helpfulTips: ["Security scripts should be boringly reliable.", "Sample input/output is part of the deliverable, not optional documentation.", "Validate field assumptions before shipping automation to analysts.", "Small utilities become portfolio proof when they save real time and show clean engineering."],
+    artifacts: ["Script repo", "Sample output", "Validation test cases", "Adoption notes"],
+    toolchain: ["Python", "PowerShell", "Bash", "API clients", "Version control"],
+    workflow: ["Define", "Build", "Test", "Document", "Adopt"],
+    metrics: ["Minutes saved per ticket", "Script failure rate", "Analyst reuse count"],
+    analystNotes: "The most impressive security scripts are usually the ones teammates actually trust enough to reuse."
+  },
+  "certification-and-standards-roadmap": {
+    category: "automation",
+    scenarioTitle: "Real-Life Scenario: Turning Certification Study Into Job Evidence",
+    scenarioSummary: "Instead of reading certification material in isolation, you build a roadmap where each cert domain produces one hands-on artifact, one lab output, and one interview story tied to real operational work.",
+    situation: ["Time is limited and the material is broad.", "It is easy to study for exams without becoming more capable in practice.", "You need a plan that improves both confidence and employability."],
+    responseSteps: ["Map cert domains to existing study sections", "Assign one lab and one portfolio artifact per domain", "Track weekly evidence instead of only chapter completion", "Review whether study outputs strengthen interviews and practical speed"],
+    helpfulTips: ["A cert objective without a practical artifact fades quickly.", "Standards become easier when you connect them to systems and incidents you already understand.", "Track what you can now explain or do, not only what you finished reading.", "Your roadmap should support the role you want, not just the exam date."],
+    artifacts: ["90-day roadmap", "Cert-to-lab mapping", "Portfolio artifact list", "Weekly progress review"],
+    toolchain: ["Certification objectives", "Study plan", "Lab tracker", "Portfolio notes"],
+    workflow: ["Map", "Practice", "Capture", "Review", "Refine"],
+    metrics: ["Domains with artifacts", "Weekly practical outputs", "Interview confidence trend"],
+    analystNotes: "Certifications matter most when they create practical fluency and visible evidence, not just test familiarity."
+  }
+});
+
+function inferStudyPlaybook(sectionId) {
+  const guide = getStudyGuide(sectionId);
+  const explainer = studySectionExplainers[sectionId] || extendedStudyModules[sectionId]?.explainer;
+  const module = extendedStudyModules[sectionId];
+  const title = sectionId.replace(/-/g, " ");
+  const imageCategory = sectionId.includes("aws") || sectionId.includes("cloud") || sectionId.includes("azure") || sectionId.includes("gcp")
+    ? "cloud"
+    : sectionId.includes("siem") || sectionId.includes("threat") || sectionId.includes("security-information") || sectionId.includes("edr")
+      ? "detection"
+      : sectionId.includes("operations") || sectionId.includes("vulnerability") || sectionId.includes("incident") || sectionId.includes("soc")
+        ? "incident"
+        : sectionId.includes("automation") || sectionId.includes("script") || sectionId.includes("xsoar") || sectionId.includes("atlassian") || sectionId.includes("capstone")
+          ? "automation"
+          : "endpoint";
+
+  return {
+    category: imageCategory,
+    scenarioTitle: `Real-Life Scenario: ${title.replace(/\b\w/g, (char) => char.toUpperCase())} in Production`,
+    scenarioSummary: module?.overview || explainer?.what || `This topic affects day-to-day security work when teams need to make fast decisions with incomplete information and real business impact.`,
+    situation: [
+      `A production team depends on this capability to keep risk low without blocking the business.`,
+      `Security must balance control quality, investigation speed, and operational realism.`,
+      `Good execution requires both technical depth and clear evidence capture.`
+    ],
+    responseSteps: guide?.practiceDrills || explainer?.how || ["Understand the environment", "Validate assumptions", "Implement controls", "Measure outcomes"],
+    helpfulTips: [
+      "Tie every technical action to a risk-reduction reason.",
+      "Record assumptions, owners, and validation evidence as you go.",
+      "Use one repeatable checklist so quality does not depend on memory.",
+      "Measure the outcome after the change, not just whether the change was made."
+    ],
+    artifacts: ["Timeline or workflow notes", "Configuration or detection evidence", "Ownership and decision record", "Outcome metrics or validation output"],
+    toolchain: module?.tools || ["Primary security platform", "Logs/telemetry", "Ticketing", "Documentation"],
+    workflow: ["Understand", "Execute", "Validate", "Document", "Improve"],
+    metrics: ["Time to validate", "Quality of evidence", "Risk reduction achieved"],
+    analystNotes: explainer?.success || "Strong execution is visible when the team can explain the change, prove the result, and repeat the workflow confidently."
+  };
+}
+
+function getStudyPlaybook(sectionId) {
+  return studyAppliedPlaybooks[sectionId] || inferStudyPlaybook(sectionId);
+}
+
+function buildStudyStoryboard(sectionId) {
+  const playbook = getStudyPlaybook(sectionId);
+  const steps = playbook.workflow.slice(0, 5);
+  const colors = ["#49c8f0", "#78e7bd", "#49c8f0", "#78e7bd", "#49c8f0"];
+  const nodes = steps
+    .map((step, index) => {
+      const x = 82 + index * 132;
+      const color = colors[index] || "#49c8f0";
+      return `
+        <g class="story-node" style="--node-delay:${index * 0.14}s">
+          <circle cx="${x}" cy="86" r="24" fill="rgba(8,24,36,0.86)" stroke="${color}" stroke-width="2" />
+          <text x="${x}" y="90" text-anchor="middle" font-size="10" fill="#d9eefb">${step}</text>
+        </g>
+      `;
+    })
+    .join("");
+
+  const lines = steps
+    .slice(0, -1)
+    .map((_, index) => {
+      const x = 106 + index * 132;
+      return `<line x1="${x}" y1="86" x2="${x + 84}" y2="86" stroke="rgba(110,168,213,0.45)" stroke-width="2" stroke-dasharray="5 6" />`;
+    })
+    .join("");
+
+  return `
+    <div class="study-storyboard">
+      <h5>Animated Workflow View</h5>
+      <svg viewBox="0 0 700 172" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${sectionId} workflow diagram">
+        <rect x="18" y="18" width="664" height="136" rx="12" fill="rgba(8,24,36,0.82)" stroke="rgba(110,168,213,0.25)" />
+        <text x="38" y="48" font-size="13" fill="#d7ebf8">Operational flow for this topic</text>
+        ${lines}
+        ${nodes}
+      </svg>
+    </div>
+  `;
+}
+
+function buildAppliedFieldGuide(sectionId) {
+  const playbook = getStudyPlaybook(sectionId);
+  const image = studyVisualMap[sectionId] || studyVisualMap[playbook.category] || studyVisualMap.default;
+  return `
+    <section class="applied-field-guide">
+      <div class="applied-guide-head">
+        <div>
+          <p class="eyebrow">Applied Field Guide</p>
+          <h5>${playbook.scenarioTitle}</h5>
+          <p>${playbook.scenarioSummary}</p>
+        </div>
+        <figure class="study-image-card">
+          <img src="${image}" alt="Illustration supporting ${playbook.scenarioTitle}" />
+        </figure>
+      </div>
+      <div class="applied-guide-grid">
+        <article class="applied-card">
+          <h6>What the Team Is Facing</h6>
+          <ul>${playbook.situation.map((item) => `<li>${item}</li>`).join("")}</ul>
+        </article>
+        <article class="applied-card">
+          <h6>Recommended Response Path</h6>
+          <ol>${playbook.responseSteps.map((item) => `<li>${item}</li>`).join("")}</ol>
+        </article>
+        <article class="applied-card">
+          <h6>Helpful Tips</h6>
+          <ul>${playbook.helpfulTips.map((item) => `<li>${item}</li>`).join("")}</ul>
+        </article>
+        <article class="applied-card">
+          <h6>Artifacts You Should Capture</h6>
+          <ul>${playbook.artifacts.map((item) => `<li>${item}</li>`).join("")}</ul>
+        </article>
+      </div>
+      <div class="applied-mini-grid">
+        <article class="applied-strip">
+          <h6>Typical Toolchain</h6>
+          <div class="chip-row">${playbook.toolchain.map((item) => `<span>${item}</span>`).join("")}</div>
+        </article>
+        <article class="applied-strip">
+          <h6>Metrics That Matter</h6>
+          <ul>${playbook.metrics.map((item) => `<li>${item}</li>`).join("")}</ul>
+        </article>
+      </div>
+      ${buildStudyStoryboard(sectionId)}
+      <div class="field-note-callout">
+        <strong>Field Note:</strong> ${playbook.analystNotes}
+      </div>
+    </section>
+  `;
+}
+
 function buildStudyExplainer(sectionId) {
-  const explainer = studySectionExplainers[sectionId];
+  const explainer = studySectionExplainers[sectionId] || extendedStudyModules[sectionId]?.explainer;
   if (!explainer) {
     return "";
   }
 
-  const plainEnglish = studyPlainEnglishMap[sectionId] || [
+  const plainEnglish = studyPlainEnglishMap[sectionId] || extendedStudyModules[sectionId]?.plainEnglish || [
     "This section explains what the topic does and how to use it in real work.",
     "Focus on understanding the why behind controls, not memorizing terms.",
     "If you can explain decisions with evidence, you are progressing correctly."
@@ -562,6 +1468,57 @@ const topicQuizBank = {
   }
 };
 
+Object.assign(topicQuizBank, {
+  "aws-security-hub-and-detection": {
+    questions: [
+      { prompt: "Best first triage action for a critical Security Hub finding:", options: ["Close immediately", "Validate finding context, resource exposure, and ownership", "Ignore if no user complaint", "Disable Security Hub"], answer: 1, remediation: "Build a deterministic Security Hub triage checklist with context validation." },
+      { prompt: "GuardDuty + CloudTrail correlation primarily helps:", options: ["Theme selection", "Root-cause and scope analysis", "Cost forecasting only", "DNS formatting"], answer: 1, remediation: "Practice linking threat findings to identity and API activity evidence." },
+      { prompt: "Strong finding closure evidence includes:", options: ["Status changed only", "Control retest and artifacted remediation proof", "Verbal update", "Ticket reassignment"], answer: 1, remediation: "Require closure artifacts with control validation and timestamped ownership." },
+      { prompt: "Best escalation basis for cloud findings:", options: ["Raw severity only", "Severity + exploitability + asset criticality + exposure", "Queue age only", "Analyst preference"], answer: 1, remediation: "Adopt risk-context prioritization over severity labels alone." }
+    ]
+  },
+  "aws-cloud-security-engineering": {
+    questions: [
+      { prompt: "Most important AWS design primitive for blast-radius reduction:", options: ["Single account", "Multi-account segmentation with guardrails", "No IAM boundaries", "Open egress"], answer: 1, remediation: "Review account segmentation and SCP guardrail patterns." },
+      { prompt: "Least-privilege IAM maturity requires:", options: ["* permissions", "Scoped roles + review + denied-action feedback loop", "Permanent admin", "No logging"], answer: 1, remediation: "Implement role refinement and periodic privilege recertification." },
+      { prompt: "Cloud logging quality depends on:", options: ["Storage class only", "Coverage, integrity, retention, and access controls", "UI color", "Region name"], answer: 1, remediation: "Strengthen log coverage and integrity controls across accounts." },
+      { prompt: "Best cloud response pattern:", options: ["Manual-only", "Automated enrich + governed containment + evidence capture", "Delete resources", "Silence alerts"], answer: 1, remediation: "Design automated response stages with approval and audit artifacts." }
+    ]
+  },
+  "siem-tooling-platform-depth": {
+    questions: [
+      { prompt: "Cross-SIEM detection portability starts with:", options: ["UI export", "Normalized field logic and detection intent mapping", "Dashboard screenshot", "Licensing model"], answer: 1, remediation: "Map detection logic to normalized schemas before platform syntax." },
+      { prompt: "Best tuning KPI for SIEM operations:", options: ["Rule count", "Precision, MTTR, and queue health", "Color themes", "Ingest size only"], answer: 1, remediation: "Track triage-centric operational metrics for tuning effectiveness." },
+      { prompt: "When migrating SIEM tools, highest risk is:", options: ["New logo", "Detection gaps from schema/query mismatch", "Faster searches", "Case IDs"], answer: 1, remediation: "Run parity validation for high-risk detections during migration." },
+      { prompt: "Security Onion/Kibana value is strongest when:", options: ["No enrichment", "Combined with disciplined detection lifecycle and triage workflow", "Only packet capture", "No ownership"], answer: 1, remediation: "Pair telemetry visibility with owned detection and triage process." }
+    ]
+  },
+  "edr-and-edrm-operations": {
+    questions: [
+      { prompt: "Best first step in high-fidelity EDR alert handling:", options: ["Immediate wipe", "Scope validation using process, host, and identity context", "Ignore", "Disable agent"], answer: 1, remediation: "Use structured EDR triage before containment actions." },
+      { prompt: "Containment decisions should consider:", options: ["Only severity tag", "Business criticality, blast radius, and recovery path", "Analyst mood", "Ticket age"], answer: 1, remediation: "Practice risk-balanced containment with rollback awareness." },
+      { prompt: "Post-remediation verification requires:", options: ["Ticket close", "Objective evidence host is no longer compromised", "One reboot", "Email confirmation"], answer: 1, remediation: "Collect concrete eradication evidence before closure." },
+      { prompt: "EDRM maturity is shown by:", options: ["More alerts", "Consistent evidence, repeatable workflow, and lower recurrence", "Long notes", "Manual-only response"], answer: 1, remediation: "Standardize endpoint response workflows and recurrence tracking." }
+    ]
+  },
+  "palo-alto-firewall-operations": {
+    questions: [
+      { prompt: "Strong Palo Alto policy model is:", options: ["Allow-all", "Deny-by-default with explicit governed exceptions", "Static forever", "No ownership"], answer: 1, remediation: "Implement deny-by-default policy and exception lifecycle controls." },
+      { prompt: "Most useful incident triage artifact from NGFW:", options: ["License SKU", "Traffic/threat logs correlated with identity and app context", "Theme config", "Hostname only"], answer: 1, remediation: "Correlate firewall telemetry with SIEM/identity context for investigations." },
+      { prompt: "Threat profile tuning should prioritize:", options: ["Max noise", "Risk-relevant detections with controlled false positives", "No alerts", "Random blocks"], answer: 1, remediation: "Tune profiles with measured precision and coverage impact." },
+      { prompt: "Best exception governance for firewall rules:", options: ["No expiry", "Owner + reason + review date + validation", "Chat approval", "Permanent bypass"], answer: 1, remediation: "Apply full exception metadata and periodic recertification." }
+    ]
+  },
+  "xsoar-and-security-automation-platforms": {
+    questions: [
+      { prompt: "Safest first SOAR automation target:", options: ["Auto-isolate all hosts", "Context enrichment and low-risk evidence gathering", "Delete accounts", "Block internet"], answer: 1, remediation: "Start with enrichment and non-disruptive automation steps." },
+      { prompt: "High-impact automated actions should require:", options: ["No controls", "Approval gates and rollback path", "Single click only", "No logs"], answer: 1, remediation: "Add controlled approval and rollback design to playbooks." },
+      { prompt: "Playbook reliability depends on:", options: ["Longer scripts", "Error handling, retries, and deterministic branching", "More APIs", "UI color"], answer: 1, remediation: "Harden playbooks with robust failure-path engineering." },
+      { prompt: "Best automation success metric:", options: ["Step count", "Cycle-time reduction with stable quality", "Lines of YAML", "Number of integrations"], answer: 1, remediation: "Track operational outcomes, not implementation size." }
+    ]
+  }
+});
+
 const mockInterviewBank = {
   "endpoint-security": [
     {
@@ -624,9 +1581,40 @@ const mockInterviewBank = {
   ]
 };
 
+Object.assign(mockInterviewBank, {
+  "aws-security-hub-and-detection": [
+    {
+      question: "A critical Security Hub finding indicates public exposure of sensitive resources. Walk through your triage and response strategy.",
+      include: ["Validate finding confidence and resource exposure", "Determine blast radius and affected data", "Assign owner + containment path", "Capture closure evidence and retest"],
+      misses: ["Severity-only escalation without context", "No verification of remediation effectiveness"]
+    }
+  ],
+  "siem-tooling-platform-depth": [
+    {
+      question: "How would you migrate a high-value detection from Splunk to another SIEM while preserving quality and analyst workflow?",
+      include: ["Normalize fields and detection intent", "Map syntax + platform constraints", "Replay validation dataset", "Measure precision/recall delta"],
+      misses: ["Syntax-only migration", "No validation plan"]
+    }
+  ],
+  "edr-and-edrm-operations": [
+    {
+      question: "You receive an EDR alert for suspicious PowerShell behavior on a finance endpoint. Describe your full response process.",
+      include: ["Scope and confidence validation", "Containment decision with business impact", "Forensic evidence collection", "Recovery and recurrence prevention"],
+      misses: ["Immediate destructive action", "No evidence capture strategy"]
+    }
+  ],
+  "xsoar-and-security-automation-platforms": [
+    {
+      question: "Design a safe XSOAR playbook for phishing triage with optional containment actions.",
+      include: ["Automated enrichment steps", "Confidence-based branching", "Approval gate before high-impact actions", "Metrics and failure-path logging"],
+      misses: ["Over-automation of disruptive actions", "No rollback/failure handling"]
+    }
+  ]
+});
+
 function getInterviewQuestions(topic) {
   if (topic === "all") {
-    return Object.keys(studyGuides)
+    return getAllStudyTopicIds()
       .map((key) => (mockInterviewBank[key] || mockInterviewBank.default)[0])
       .filter(Boolean)
       .slice(0, 8);
@@ -639,7 +1627,7 @@ function getExamQuestions(mode, topic) {
     return getTopicQuiz(topic).questions.map((q) => ({ ...q, topic }));
   }
 
-  const all = Object.keys(studyGuides).flatMap((key) =>
+  const all = getAllStudyTopicIds().flatMap((key) =>
     getTopicQuiz(key).questions.map((q) => ({ ...q, topic: key }))
   );
   return all.sort(() => Math.random() - 0.5).slice(0, 25);
@@ -741,11 +1729,216 @@ function getLevelTracks(sectionId) {
   return custom[sectionId] || defaultLevelTracks;
 }
 
+function createExtendedStudySection(moduleId, module, indexOffset) {
+  const section = document.createElement("section");
+  section.id = moduleId;
+  section.className = "study-section reveal";
+  section.classList.add("is-visible");
+  section.innerHTML = `
+    <h2>${indexOffset}. ${module.title}</h2>
+    <div class="study-content">
+      <div class="reading-time">Reading time: ${module.readingTime} | Job-aligned hands-on topic module</div>
+      <h3>Section Overview</h3>
+      <p>${module.overview}</p>
+      <h3>Operational Architecture</h3>
+      <p>${module.architecture}</p>
+      <h3>Hands-On Focus Areas</h3>
+      <ul>${module.handsOn.map((item) => `<li>${item}</li>`).join("")}</ul>
+      <h3>Key Tools and Platforms</h3>
+      <ul>${module.tools.map((item) => `<li>${item}</li>`).join("")}</ul>
+      <h3>Expected Outcomes</h3>
+      <ul>${module.outcomes.map((item) => `<li>${item}</li>`).join("")}</ul>
+    </div>
+  `;
+  return section;
+}
+
+function ensureExtendedStudySections() {
+  if (document.getElementById("aws-security-hub-and-detection")) {
+    return;
+  }
+
+  const nav = document.querySelector(".study-nav");
+  const firstAnchor = document.getElementById("capstone-track");
+  const main = document.querySelector("main");
+  let insertAfter = firstAnchor;
+  let order = 13;
+
+  Object.entries(extendedStudyModules).forEach(([moduleId, module]) => {
+    if (document.getElementById(moduleId)) {
+      return;
+    }
+
+    const section = createExtendedStudySection(moduleId, module, order);
+    order += 1;
+
+    if (insertAfter) {
+      insertAfter.insertAdjacentElement("afterend", section);
+      insertAfter = section;
+    } else if (main) {
+      main.appendChild(section);
+      insertAfter = section;
+    }
+
+    if (nav) {
+      const link = document.createElement("a");
+      link.href = `#${moduleId}`;
+      link.textContent = module.navLabel;
+      nav.appendChild(link);
+    }
+  });
+}
+
+function organizeStudyNav() {
+  const nav = document.querySelector(".study-nav");
+  if (!nav) {
+    return;
+  }
+
+  const links = [...nav.querySelectorAll("a")];
+  if (!links.length) {
+    return;
+  }
+
+  const byId = Object.fromEntries(
+    links.map((link) => [link.getAttribute("href")?.replace("#", ""), link])
+  );
+
+  const groups = [
+    {
+      title: "Core Security Foundations",
+      ids: [
+        "endpoint-security",
+        "network-security",
+        "penetration-testing",
+        "architecture-design",
+        "security-operations",
+        "threat-modeling",
+        "vulnerability-management",
+        "capstone-track"
+      ]
+    },
+    {
+      title: "Cloud Security",
+      ids: ["aws-security-hub-and-detection", "aws-cloud-security-engineering", "cloud-security-gcp-and-azure"]
+    },
+    {
+      title: "Detection and SOC Tooling",
+      ids: ["security-information", "siem", "siem-tooling-platform-depth", "edr-and-edrm-operations", "threat-intelligence-and-ioc-engineering", "soc-ops-analyst-track"]
+    },
+    {
+      title: "Firewalls and Network Controls",
+      ids: ["palo-alto-firewall-operations", "checkpoint-and-firewall-technologies"]
+    },
+    {
+      title: "Automation, Workflow, and Career Track",
+      ids: ["security-automation", "xsoar-and-security-automation-platforms", "atlassian-jira-confluence-security-workflows", "security-scripting-programming-practice", "certification-and-standards-roadmap"]
+    }
+  ];
+
+  const rendered = groups
+    .map((group) => {
+      const items = group.ids
+        .map((id) => byId[id])
+        .filter(Boolean)
+        .map((link) => `<a href="${link.getAttribute("href")}">${link.textContent}</a>`)
+        .join("");
+
+      if (!items) {
+        return "";
+      }
+
+      return `
+        <section class="study-nav-group">
+          <h3>${group.title}</h3>
+          <div class="study-nav-links">${items}</div>
+        </section>
+      `;
+    })
+    .join("");
+
+  nav.classList.add("grouped-nav");
+  nav.innerHTML = rendered;
+}
+
+function syncPrepTopicSelectors(sections) {
+  const topics = sections
+    .map((section) => {
+      const heading = section.querySelector("h2")?.textContent || section.id;
+      const label = heading.replace(/^\d+\.\s*/, "").trim();
+      return { id: section.id, label };
+    })
+    .filter((item) => item.id);
+
+  const interviewSelect = document.getElementById("interviewTopicSelect");
+  if (interviewSelect) {
+    interviewSelect.innerHTML = `<option value="all">All topics (mixed)</option>${topics
+      .map((topic) => `<option value="${topic.id}">${topic.label}</option>`)
+      .join("")}`;
+  }
+
+  const examSelect = document.getElementById("examTopicSelect");
+  if (examSelect) {
+    examSelect.innerHTML = topics
+      .map((topic) => `<option value="${topic.id}">${topic.label}</option>`)
+      .join("");
+  }
+}
+
+function collapseStudySubchapters(sections) {
+  sections.forEach((section) => {
+    const content = section.querySelector(".study-content");
+    if (!content || content.dataset.collapsedReady === "true") {
+      return;
+    }
+
+    const nodes = [...content.childNodes];
+    let currentDetails = null;
+    let currentBody = null;
+    let chapterIndex = 0;
+
+    nodes.forEach((node) => {
+      if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "H3") {
+        chapterIndex += 1;
+        const details = document.createElement("details");
+        details.className = "study-subchapter";
+        if (chapterIndex === 1) {
+          details.open = true;
+        }
+
+        const summary = document.createElement("summary");
+        summary.textContent = node.textContent || `Section ${chapterIndex}`;
+
+        const body = document.createElement("div");
+        body.className = "study-subchapter-body";
+
+        details.append(summary, body);
+        content.insertBefore(details, node);
+        node.remove();
+        currentDetails = details;
+        currentBody = body;
+        return;
+      }
+
+      if (currentBody) {
+        currentBody.appendChild(node);
+      }
+    });
+
+    content.dataset.collapsedReady = "true";
+  });
+}
+
 function enhanceStudiesPage() {
+  ensureExtendedStudySections();
+  organizeStudyNav();
   const sections = [...document.querySelectorAll(".study-section")];
   if (!sections.length) {
     return;
   }
+
+  syncPrepTopicSelectors(sections);
+  collapseStudySubchapters(sections);
 
   const studyStorageKey = "cyberskillforge-study-progress";
   const rawStudyState = localStorage.getItem(studyStorageKey);
@@ -769,7 +1962,7 @@ function enhanceStudiesPage() {
       return;
     }
 
-    const guide = studyGuides[section.id];
+    const guide = getStudyGuide(section.id);
     if (!guide) {
       return;
     }
@@ -780,6 +1973,7 @@ function enhanceStudiesPage() {
     block.innerHTML = `
       <h4>Guided Learning Path for This Topic</h4>
       ${buildStudyExplainer(section.id)}
+      ${buildAppliedFieldGuide(section.id)}
       <div class="study-guide-grid">
         <div class="study-guide-card">
           <h5>Prerequisites</h5>
@@ -976,7 +2170,7 @@ function enhanceStudiesPage() {
       return;
     }
 
-    const topicScores = Object.keys(studyGuides).map((topic) => {
+    const topicScores = getAllStudyTopicIds().map((topic) => {
       const quizPct = studyState.quiz[topic]?.pct ?? 0;
       const mastered = Boolean(studyState.mastered[topic]);
       const examMissMap = studyState.exam.misses[topic] || {};
@@ -996,7 +2190,7 @@ function enhanceStudiesPage() {
       .sort((a, b) => b.riskScore - a.riskScore)
       .slice(0, 5)
       .map((entry) => {
-        const guide = studyGuides[entry.topic];
+        const guide = getStudyGuide(entry.topic);
         const remediations = Object.entries(studyState.remediation[entry.topic] || {})
           .sort((a, b) => b[1] - a[1])
           .slice(0, 3)

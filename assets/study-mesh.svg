@@ -1,39 +1,53 @@
-<svg width="980" height="620" viewBox="0 0 980 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cybersecurity learning architecture map">
+<svg width="980" height="620" viewBox="0 0 980 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cybersecurity learning blueprint">
   <defs>
-    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0d1e30"/>
-      <stop offset="100%" stop-color="#163348"/>
+    <linearGradient id="bg" x1="40" y1="38" x2="932" y2="586" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A1B29"/>
+      <stop offset="1" stop-color="#14394C"/>
     </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(220 140) rotate(63) scale(320 360)">
+      <stop stop-color="#49C8F0" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#49C8F0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(760 448) rotate(122) scale(280 320)">
+      <stop stop-color="#78E7BD" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#78E7BD" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect x="18" y="18" width="944" height="584" rx="26" fill="url(#bg2)" stroke="#355d76"/>
-  <g stroke="#2f556c" stroke-width="1" opacity="0.6">
-    <path d="M70 100H910"/><path d="M70 180H910"/><path d="M70 260H910"/><path d="M70 340H910"/><path d="M70 420H910"/><path d="M70 500H910"/>
-    <path d="M150 70V550"/><path d="M290 70V550"/><path d="M430 70V550"/><path d="M570 70V550"/><path d="M710 70V550"/><path d="M850 70V550"/>
+  <rect x="18" y="18" width="944" height="584" rx="30" fill="url(#bg)" stroke="#30576D"/>
+  <rect x="18" y="18" width="944" height="584" rx="30" fill="url(#glowA)"/>
+  <rect x="18" y="18" width="944" height="584" rx="30" fill="url(#glowB)"/>
+  <g opacity="0.28" stroke="#30566C">
+    <path d="M78 112H902"/><path d="M78 196H902"/><path d="M78 280H902"/><path d="M78 364H902"/><path d="M78 448H902"/><path d="M78 532H902"/>
+    <path d="M144 78V550"/><path d="M290 78V550"/><path d="M436 78V550"/><path d="M582 78V550"/><path d="M728 78V550"/><path d="M874 78V550"/>
   </g>
-
-  <text x="490" y="84" text-anchor="middle" font-family="Sora, sans-serif" font-size="24" fill="#e0f3ff">Learning Architecture Blueprint</text>
-
-  <g stroke="#4e7b96" stroke-width="2" fill="#123249">
-    <rect x="120" y="150" width="180" height="68" rx="12"/>
-    <rect x="400" y="120" width="180" height="68" rx="12"/>
-    <rect x="680" y="155" width="180" height="68" rx="12"/>
-    <rect x="180" y="360" width="200" height="68" rx="12"/>
-    <rect x="580" y="380" width="220" height="68" rx="12"/>
+  <text x="490" y="92" text-anchor="middle" fill="#E3F5FF" font-family="Sora, sans-serif" font-size="27" font-weight="700">Cybersecurity Learning Blueprint</text>
+  <text x="490" y="124" text-anchor="middle" fill="#A8CFDF" font-family="Sora, sans-serif" font-size="15">Connected study paths from controls and design to detection, operations, and measurable outcomes</text>
+  <g>
+    <rect x="104" y="172" width="190" height="88" rx="18" fill="#0E2C3E" stroke="#49C8F0"/>
+    <rect x="394" y="146" width="192" height="88" rx="18" fill="#0F2C3E" stroke="#78E7BD"/>
+    <rect x="688" y="182" width="190" height="88" rx="18" fill="#0E2C3E" stroke="#49C8F0"/>
+    <rect x="168" y="380" width="214" height="88" rx="18" fill="#112D3E" stroke="#78E7BD"/>
+    <rect x="580" y="398" width="224" height="88" rx="18" fill="#112D3E" stroke="#49C8F0"/>
   </g>
-
-  <g font-family="Sora, sans-serif" font-size="16" fill="#def3ff" text-anchor="middle">
-    <text x="210" y="192">Endpoint Defense</text>
-    <text x="490" y="162">Architecture Design</text>
-    <text x="770" y="197">Detection Engineering</text>
-    <text x="280" y="402">Automation and Ops</text>
-    <text x="690" y="422">Vulnerability Governance</text>
+  <g fill="#E3F5FF" font-family="Sora, sans-serif" font-weight="700" text-anchor="middle">
+    <text x="199" y="210" font-size="18">Endpoint Defense</text>
+    <text x="490" y="184" font-size="18">Architecture Design</text>
+    <text x="783" y="220" font-size="18">Detection Engineering</text>
+    <text x="275" y="418" font-size="18">Automation and Ops</text>
+    <text x="692" y="436" font-size="18">Governance and Risk</text>
   </g>
-
-  <g stroke-width="3" fill="none">
-    <path d="M300 184L400 154" stroke="#49c8f0"/>
-    <path d="M580 154L680 184" stroke="#78e7bd"/>
-    <path d="M230 219L250 360" stroke="#78e7bd"/>
-    <path d="M500 188L630 380" stroke="#49c8f0"/>
-    <path d="M380 394L580 414" stroke="#78e7bd"/>
+  <g fill="#A8CFDF" font-family="Sora, sans-serif" font-size="12" text-anchor="middle">
+    <text x="199" y="236">hardening, EDR, response</text>
+    <text x="490" y="210">trust, identity, resilience</text>
+    <text x="783" y="246">telemetry, SIEM, intel</text>
+    <text x="275" y="444">playbooks, scripting, scale</text>
+    <text x="692" y="462">vulns, standards, ownership</text>
+  </g>
+  <g fill="none" stroke-width="3.5" stroke-linecap="round">
+    <path d="M294 214L394 190" stroke="#49C8F0"/>
+    <path d="M586 190L688 214" stroke="#78E7BD"/>
+    <path d="M216 260L256 380" stroke="#78E7BD" stroke-dasharray="8 8"/>
+    <path d="M512 234L620 398" stroke="#49C8F0" stroke-dasharray="8 8"/>
+    <path d="M382 424L580 440" stroke="#78E7BD"/>
   </g>
 </svg>

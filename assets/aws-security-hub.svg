@@ -1,0 +1,21 @@
+<svg width="720" height="420" viewBox="0 0 720 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="44" y1="34" x2="674" y2="384" gradientUnits="userSpaceOnUse"><stop stop-color="#091A28"/><stop offset="1" stop-color="#14384B"/></linearGradient>
+  </defs>
+  <rect width="720" height="420" rx="28" fill="url(#bg)"/>
+  <text x="56" y="62" fill="#E3F5FF" font-family="Sora" font-size="24" font-weight="700">AWS Security Hub</text>
+  <text x="56" y="90" fill="#A8CFDF" font-family="Sora" font-size="14">Normalize findings, enrich context, assign ownership, and prove closure</text>
+  <rect x="52" y="126" width="194" height="104" rx="18" fill="#0E2B3D" stroke="#49C8F0"/>
+  <text x="78" y="164" fill="#E3F5FF" font-family="Sora" font-size="21" font-weight="700">Security Hub</text>
+  <text x="78" y="194" fill="#A8CFDF" font-family="Sora" font-size="13">centralized cloud findings</text>
+  <rect x="296" y="116" width="132" height="54" rx="14" fill="#102B3C" stroke="#78E7BD"/><text x="329" y="149" fill="#D4FAE8" font-family="Sora" font-size="17" font-weight="600">GuardDuty</text>
+  <rect x="296" y="188" width="132" height="54" rx="14" fill="#102B3C" stroke="#49C8F0"/><text x="332" y="221" fill="#E3F5FF" font-family="Sora" font-size="17" font-weight="600">CloudTrail</text>
+  <rect x="296" y="260" width="132" height="54" rx="14" fill="#102B3C" stroke="#78E7BD"/><text x="350" y="293" fill="#D4FAE8" font-family="Sora" font-size="17" font-weight="600">Config</text>
+  <path d="M246 178H296" stroke="#6999B2" stroke-width="3" stroke-dasharray="8 7"/>
+  <rect x="488" y="124" width="176" height="190" rx="20" fill="#0E2B3D" stroke="#49C8F0"/>
+  <text x="522" y="160" fill="#E3F5FF" font-family="Sora" font-size="20" font-weight="700">Triage Frame</text>
+  <text x="522" y="192" fill="#A8CFDF" font-family="Sora" font-size="13">severity + exposure</text>
+  <text x="522" y="218" fill="#A8CFDF" font-family="Sora" font-size="13">identity + resource</text>
+  <text x="522" y="244" fill="#A8CFDF" font-family="Sora" font-size="13">owner + evidence</text>
+  <text x="522" y="270" fill="#A8CFDF" font-family="Sora" font-size="13">retest + closure</text>
+</svg>
