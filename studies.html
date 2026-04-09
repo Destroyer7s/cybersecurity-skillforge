@@ -297,13 +297,13 @@
         <div class="reading-time">Reading time: 75 minutes | Deep dive into device hardening, defense-in-depth, and secure lifecycle</div>
         
         <h3>Foundational Concepts: The Endpoint as Attack Surface</h3>
-        <p>Endpoints—laptops, desktops, mobile devices, and IoT systems—represent the broadest attack surface in modern enterprises. Unlike static infrastructure, endpoints are mobile, user-controlled, and frequently connected to untrusted networks. An endpoint security engineer must design controls that:</p>
+        <p>In real incidents, endpoints are where attacker intent becomes visible: suspicious child processes, abnormal auth prompts, token theft activity, and outbound beaconing. Endpoint security engineering is not just "hardening checklists". It is building a system that lets analysts answer quickly: what ran, who ran it, where it spread, and whether containment worked.</p>
         <ul>
           <li><strong>Prevent</strong> attacks from executing (hardening, policy enforcement)</li>
           <li><strong>Detect</strong> when attacks succeed despite prevention (telemetry, anomaly detection)</li>
           <li><strong>Respond</strong> rapidly to minimize blast radius (isolation, containment, remediation)</li>
         </ul>
-        <p>The goal is not perfection (impossible), but <strong>defense-in-depth</strong>: layered controls that force attackers through multiple barriers, each monitored for failure.</p>
+        <p>The practical objective is controlled failure: assume one layer will fail, then design the next layer to detect and limit blast radius with evidence you can act on in minutes, not hours.</p>
         
         <h3>The Six Layers of Endpoint Security</h3>
         <svg viewBox="0 0 900 550" xmlns="http://www.w3.org/2000/svg">
@@ -821,8 +821,8 @@ Review quarterly for drift and effectiveness
         <div class="reading-time">Reading time: 85 minutes | Assessment frameworks, exploit validation, risk communication</div>
 
         <h3>Purpose & Scope of Penetration Testing</h3>
-        <p>Penetration testing is a controlled, legitimate attack against defined targets to validate that security controls function as intended. Unlike vulnerability scanning (which identifies weaknesses), pentesting demonstrates actual exploitation and business impact.</p>
-        <p><strong>Critical Principle:</strong> Testing should validate controls work, not just find vulnerabilities. Ask "Can this control actually prevent/detect this attack?" rather than "Does this vulnerability exist?" A vulnerability with a working compensating control is not a finding.</p>
+        <p>Penetration testing should mirror how attackers chain weaknesses in production: initial access, privilege expansion, lateral movement, and objective completion. The value is not the screenshot of a vulnerable service. The value is proving whether your preventive and detective controls hold under realistic attack paths.</p>
+        <p><strong>Critical Principle:</strong> Report control failure with business consequence, not just vulnerability presence. If exploitation is blocked by compensating controls and validated evidence supports that, document it as control effectiveness, not noise.</p>
 
         <h3>Assessment Methodologies</h3>
         <ul>
@@ -1094,10 +1094,10 @@ VERIFICATION:
         <div class="reading-time">Reading time: 75 minutes | ADRs, threat modeling, control mapping</div>
 
         <h3>Architecture as Security Control</h3>
-        <p>Good security architecture makes attacks expensive and detection obvious. Poor architecture makes breaches cheap and undetectable. Architecture decisions made early are the hardest and most expensive to change later. Security must be designed in, not bolted on.</p>
+        <p>Architecture decisions determine whether incidents become isolated events or enterprise outages. In practice, most expensive security failures are design failures: over-trusted networks, weak identity boundaries, and missing ownership of critical data paths. This section focuses on decisions that survive real operational pressure.</p>
 
         <h3>Architecture Decision Records (ADRs)</h3>
-        <p>Capture the "why" behind security choices so teams understand context, constraints, tradeoffs, and alternatives considered. ADRs form the institutional memory of security decisions.</p>
+        <p>Capture the "why" because teams rotate, systems evolve, and incident response depends on historical decisions. A useful ADR explains constraints, rejected alternatives, and rollback criteria so responders can reason quickly when assumptions fail.</p>
         
         <div class="code-block">
 # ADR-001: Mandatory Full-Disk Encryption for All Endpoints
@@ -1159,7 +1159,7 @@ If Phase 1 shows &gt;5% failure rate or &gt;30% performance degradation:
         </div>
 
         <h3>Threat Modeling & Attack Trees</h3>
-        <p>Threat modeling identifies risks early in design, when fixes are cheapest. Use STRIDE (Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) to systematically identify threats.</p>
+        <p>Threat modeling is most useful when it changes implementation before release. Use STRIDE to force complete coverage, then prioritize by operational impact: what could break revenue, expose regulated data, or block response capability if abused.</p>
 
         <h4>Example: Threat Model for Device Enrollment</h4>
         <div class="key-point">
@@ -1172,7 +1172,7 @@ If Phase 1 shows &gt;5% failure rate or &gt;30% performance degradation:
         </div>
 
         <h3>Trust Boundaries & Data Flow Diagrams</h3>
-        <p>Map trust boundaries to understand where authentication, encryption, and monitoring must occur:</p>
+        <p>Map trust boundaries like incident responders do: where identity context changes, where data crosses ownership domains, and where logging must be authoritative during investigations.</p>
         <ul>
           <li><strong>Boundary Between User Device and Corporate Network:</strong> All traffic must be authenticated, encrypted, monitored</li>
           <li><strong>Boundary Between Application and Database:</strong> Application authenticate to database, encrypt data in transit, log all queries</li>
@@ -1293,8 +1293,8 @@ If Phase 1 shows &gt;5% failure rate or &gt;30% performance degradation:
         <div class="reading-time">Reading time: 90 minutes | CI/CD security gates, IaC scanning, automated compliance</div>
 
         <h3>Shifting Security Left in Software Development</h3>
-        <p><strong>Traditional Model:</strong> Security testing at the end (expensive fixes, delayed releases)</p>
-        <p><strong>DevSecOps Model:</strong> Security integrated throughout development—automated scanning in CI/CD, infrastructure security hardcoded in templates, compliance checked at deployment time. Security becomes a shared responsibility, not a gated review at the end.</p>
+        <p><strong>Traditional Model:</strong> Teams discover critical issues late in release cycles, creating emergency fixes, deployment delays, and rollback risk.</p>
+        <p><strong>DevSecOps Model:</strong> Security decisions are enforced where code and infrastructure change: pre-commit checks, PR gates, build-time scanning, and post-deploy drift detection. The goal is predictable risk control with minimal delivery friction.</p>
 
         <h3>Automated Security in the Build Pipeline</h3>
         <div class="code-block">
@@ -1382,7 +1382,7 @@ jobs:
         </div>
 
         <h3>Infrastructure-as-Code (IaC) Security</h3>
-        <p>Treat infrastructure configurations like application code: version control, code review, automated scanning, and change tracking. Security misconfigurations are the #2 cause of cloud breaches after credential compromise.</p>
+        <p>IaC security maturity is measured by change safety, not tool count. Every high-risk config change should have review evidence, expected blast radius, rollback path, and post-change validation. Without that, automation just makes bad changes happen faster.</p>
         
         <div class="best-practice">
           <strong>IaC Security Best Practices:</strong><br/>
@@ -1644,10 +1644,10 @@ subjects:
         <div class="reading-time">Reading time: 70 minutes | Log normalization, data quality, enrichment pipelines</div>
         
         <h3>Security Data as a Product</h3>
-        <p>Security data is only useful if it's high-quality, trusted, and accessible. Poor data quality leads to false positives, alert fatigue, and missed attacks. Design security telemetry the same way you'd design a customer-facing product: with clear requirements, quality metrics, and continuous improvement.</p>
+        <p>Security data engineering is an operations function: detections fail when fields drift, timestamps skew, or enrichment confidence is unknown. Treat telemetry pipelines like production systems with SLOs, ownership, and incident response for parser failures.</p>
 
         <h3>Log Normalization & Schema Design</h3>
-        <p>Raw logs from thousands of sources (endpoints, firewalls, applications, cloud services) must be normalized into a common schema for correlation and investigation:</p>
+        <p>Correlation only works when critical fields are consistently mapped. Normalization should prioritize analyst-useful fields first: identity, asset, process, network destination, event outcome, and source-of-truth timestamp.</p>
 
         <div class="code-block">
 # Normalized Security Event (Common Schema)
@@ -1724,7 +1724,7 @@ subjects:
         </div>
 
         <h3>Data Enrichment Pipelines</h3>
-        <p>Enrich raw logs with contextual data for faster investigation:</p>
+        <p>Enrichment should reduce analyst decision time, not just add columns. If enrichment cannot influence triage outcome, remove it and preserve query performance.</p>
         <ul>
           <li><strong>Asset Management:</strong> Device ownership, location, criticality level</li>
           <li><strong>User Context:</strong> Department, role, manager, when hired</li>
@@ -1845,10 +1845,10 @@ subjects:
         <div class="reading-time">Reading time: 80 minutes | Detection rules, ATT&CK mapping, tuning for precision</div>
         
         <h3>SIEM is a Practice, Not a Product</h3>
-        <p>Effective SIEM correlates data to detect sophisticated attacks, but requires careful rule engineering and continuous tuning. A SIEM with poor detection logic generates alert fatigue; analysts stop reading alerts; real attacks are missed.</p>
+        <p>SIEM performance is an operational outcome: can analysts identify true threats quickly with low rework? Detection quality depends on hypothesis clarity, telemetry reliability, and disciplined tuning governance with explicit ownership.</p>
 
         <h3>Detection Logic Design: Hypothesis-Driven</h3>
-        <p>Frame detection as hypothesis testing against adversary behavior from MITRE ATT&CK:</p>
+        <p>Frame each detection as a falsifiable hypothesis: what attacker behavior should exist, what fields should prove it, and what benign patterns should be excluded without hiding real risk.</p>
 
         <div class="key-point">
           <strong>Example: Detect Credential Dumping (ATT&CK T1003)</strong><br/>
@@ -1860,7 +1860,7 @@ subjects:
         </div>
 
         <h3>MITRE ATT&CK Mapping</h3>
-        <p>Map each detection to the adversary tactic/technique it detects. This helps teams understand coverage and attackers understand defenses.</p>
+        <p>Map detections to ATT&CK so coverage gaps are visible and testable. This prevents rule sprawl by linking detections to specific attacker goals and expected analyst actions.</p>
         <ul>
           <li>**Reconnaissance:** Network scanning, OSINT gathering, account discovery</li>
           <li>**Initial Access:** Phishing, exploit kits, default credentials</li>
@@ -1998,7 +1998,7 @@ AND risk_score >= 7.0
         <div class="reading-time">Reading time: 85 minutes | IR playbooks, escalation, post-mortems</div>
         
         <h3>Incident Response as a Discipline</h3>
-        <p>Incident response transforms from chaotic to predictable through well-designed playbooks, clear escalation paths, and rigorous post-incident reviews that improve controls.</p>
+        <p>Incident response quality comes from repeatable execution under uncertainty: accurate severity calls, fast containment, clean handoffs, and evidence-rich communication to technical and business stakeholders.</p>
 
         <h3>The IR Lifecycle</h3>
         <div class="code-block">
@@ -2173,7 +2173,7 @@ Phase 7: LESSONS LEARNED & IMPROVEMENT
         <div class="reading-time">Reading time: 75 minutes | STRIDE framework, attack trees, control validation</div>
 
         <h3>Why Threat Modeling Matters</h3>
-        <p>Threat modeling identifies risks early in design, making fixes cheap. A design flaw caught in architecture review costs $100 to fix; the same flaw caught in production costs $100,000 to remediate.</p>
+        <p>Threat modeling is a release safety control. It forces teams to surface abuse paths before code reaches production, when mitigations are cheaper and less disruptive than post-incident redesign.</p>
 
         <h3>STRIDE Threat Categories</h3>
         <ul>
@@ -2381,7 +2381,7 @@ MITIGATIONS SUMMARY:
         <div class="reading-time">Reading time: 80 minutes | CVSS scoring, remediation tracking, SLA enforcement</div>
 
         <h3>Vulnerability Management is Risk Management</h3>
-        <p>Effective vulnerability programs prioritize by real business impact, measure remediation velocity, and close the feedback loop through validation and continuous improvement.</p>
+        <p>Vulnerability management is triage economics: limited patch windows, competing outages, and uneven exploitability. Mature programs prioritize by exploit reality and business impact, then verify closure with evidence instead of ticket status alone.</p>
 
         <h3>Vulnerability Prioritization Model</h3>
         <div class="code-block">
@@ -2585,7 +2585,7 @@ Vulnerability Tracking Process:
         <div class="reading-time">Reading time: 110 minutes | End-to-end SOC operations program mapped to the role responsibilities and requirements</div>
 
         <h3>Role Mission Mapping</h3>
-        <p>This track covers the full operational responsibilities of a security analyst working in a regulated enterprise: shift monitoring, incident response, phishing analysis, threat intelligence integration, IAM governance, audit readiness, and awareness program support. Each phase builds practical capability through hands-on exercises, lab outputs, and written documentation.</p>
+        <p>This track is built around real shift conditions: overlapping alerts, incomplete context, and stakeholder pressure. You will practice prioritization, evidence capture, escalation discipline, and audit-quality documentation across SIEM, EDR, IAM, and vulnerability workflows.</p>
 
         <table class="comparison-table">
           <tr>
@@ -2805,6 +2805,9 @@ Vulnerability Tracking Process:
       <h2>12. Capstone Integration Track (Real-World Portfolio Projects)</h2>
       <div class="study-content">
         <div class="reading-time">Reading time: 60 minutes | Multi-skill projects that combine architecture, detection, operations, and governance</div>
+
+        <h3>Capstone Execution Mindset</h3>
+        <p>Build capstones like production change initiatives: clear scope, baseline metrics, decision log, evidence artifacts, and measurable outcome. A strong capstone proves you can run secure delivery end-to-end, not just assemble screenshots.</p>
 
         <h3>Capstone Project Sequence</h3>
         <table class="comparison-table">
