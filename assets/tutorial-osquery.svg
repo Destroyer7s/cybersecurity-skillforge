@@ -1,0 +1,125 @@
+<svg viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', 'Courier New', monospace">
+  <defs>
+    <style>
+      .term-bg { fill: #0d1117; }
+      .titlebar { fill: #1c2128; }
+      .prompt { fill: #5effb5; }
+      .cmd { fill: #e6edf3; }
+      .hdr { fill: #58a6ff; font-weight: bold; }
+      .val-ok { fill: #3fb950; }
+      .val-warn { fill: #d29922; }
+      .val-err { fill: #f85149; }
+      .val-dim { fill: #8b949e; }
+      .label { fill: #c9d1d9; }
+      .section { fill: #45d3ff; font-weight: bold; }
+    </style>
+  </defs>
+
+  <!-- Window frame -->
+  <rect width="860" height="520" rx="10" class="term-bg" />
+  <rect width="860" height="38" rx="10" class="titlebar" />
+  <rect y="28" width="860" height="10" class="titlebar" />
+
+  <!-- Traffic lights -->
+  <circle cx="22" cy="19" r="6" fill="#ff5f57" />
+  <circle cx="42" cy="19" r="6" fill="#febc2e" />
+  <circle cx="62" cy="19" r="6" fill="#28c840" />
+
+  <!-- Title -->
+  <text x="430" y="24" text-anchor="middle" fill="#8b949e" font-size="12">osqueryi — Interactive Query Shell</text>
+
+  <!-- Line 1: info banner -->
+  <text x="20" y="65" class="val-dim" font-size="12">Using a virtual database. Need help, type '.help'</text>
+  <text x="20" y="83" class="val-dim" font-size="12">osquery&gt; </text>
+
+  <!-- Query 1: Processes listening on ports -->
+  <text x="20" y="101" class="val-dim" font-size="12">osquery&gt; </text>
+  <text x="88" y="101" class="cmd" font-size="12">SELECT pid, name, port, protocol FROM listening_ports WHERE port &lt; 1024 LIMIT 12;</text>
+
+  <!-- Table header -->
+  <line x1="20" y1="115" x2="840" y2="115" stroke="#30363d" stroke-width="1"/>
+  <text x="25" y="128" class="hdr" font-size="11">pid</text>
+  <text x="80" y="128" class="hdr" font-size="11">name</text>
+  <text x="220" y="128" class="hdr" font-size="11">port</text>
+  <text x="290" y="128" class="hdr" font-size="11">protocol</text>
+  <line x1="20" y1="133" x2="840" y2="133" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Rows -->
+  <text x="25" y="148" class="val-dim" font-size="11">1</text>
+  <text x="80" y="148" class="val-ok" font-size="11">launchd</text>
+  <text x="220" y="148" class="label" font-size="11">80</text>
+  <text x="290" y="148" class="label" font-size="11">6 (TCP)</text>
+
+  <text x="25" y="163" class="val-dim" font-size="11">312</text>
+  <text x="80" y="163" class="val-ok" font-size="11">sshd</text>
+  <text x="220" y="163" class="label" font-size="11">22</text>
+  <text x="290" y="163" class="label" font-size="11">6 (TCP)</text>
+
+  <text x="25" y="178" class="val-dim" font-size="11">891</text>
+  <text x="80" y="178" class="val-warn" font-size="11">python3 ← investigate</text>
+  <text x="220" y="178" class="label" font-size="11">8443</text>
+  <text x="290" y="178" class="label" font-size="11">6 (TCP)</text>
+
+  <text x="25" y="193" class="val-dim" font-size="11">22</text>
+  <text x="80" y="193" class="val-ok" font-size="11">mDNSResponder</text>
+  <text x="220" y="193" class="label" font-size="11">5353</text>
+  <text x="290" y="193" class="label" font-size="11">17 (UDP)</text>
+
+  <text x="20" y="210" class="val-dim" font-size="12">12 rows.</text>
+
+  <!-- Query 2: Auto-start items -->
+  <text x="20" y="233" class="val-dim" font-size="12">osquery&gt; </text>
+  <text x="88" y="233" class="cmd" font-size="12">SELECT name, path, source FROM startup_items ORDER BY source;</text>
+
+  <line x1="20" y1="247" x2="840" y2="247" stroke="#30363d" stroke-width="1"/>
+  <text x="25" y="260" class="hdr" font-size="11">name</text>
+  <text x="200" y="260" class="hdr" font-size="11">path</text>
+  <text x="540" y="260" class="hdr" font-size="11">source</text>
+  <line x1="20" y1="265" x2="840" y2="265" stroke="#30363d" stroke-width="1"/>
+
+  <text x="25" y="280" class="val-ok" font-size="11">CrowdStrikeFalcon</text>
+  <text x="200" y="280" class="label" font-size="11">/Library/CS/falcon-sensor</text>
+  <text x="540" y="280" class="label" font-size="11">LaunchDaemon</text>
+
+  <text x="25" y="295" class="val-ok" font-size="11">com.apple.mdmclient</text>
+  <text x="200" y="295" class="label" font-size="11">/usr/libexec/mdmclient</text>
+  <text x="540" y="295" class="label" font-size="11">LaunchDaemon</text>
+
+  <text x="25" y="310" class="val-err" font-size="11">updater_v2 ← UNKNOWN</text>
+  <text x="200" y="310" class="label" font-size="11">/tmp/.hidden/updater_v2</text>
+  <text x="540" y="310" class="val-err" font-size="11">LaunchAgent ← check!</text>
+
+  <text x="20" y="327" class="val-dim" font-size="12">3 rows.</text>
+
+  <!-- Query 3: user accounts with shell -->
+  <text x="20" y="350" class="val-dim" font-size="12">osquery&gt; </text>
+  <text x="88" y="350" class="cmd" font-size="12">SELECT uid, username, shell, directory FROM users WHERE shell != '/usr/bin/false';</text>
+
+  <line x1="20" y1="365" x2="840" y2="365" stroke="#30363d" stroke-width="1"/>
+  <text x="25" y="378" class="hdr" font-size="11">uid</text>
+  <text x="75" y="378" class="hdr" font-size="11">username</text>
+  <text x="230" y="378" class="hdr" font-size="11">shell</text>
+  <text x="410" y="378" class="hdr" font-size="11">directory</text>
+  <line x1="20" y1="383" x2="840" y2="383" stroke="#30363d" stroke-width="1"/>
+
+  <text x="25" y="398" class="label" font-size="11">0</text>
+  <text x="75" y="398" class="val-warn" font-size="11">root</text>
+  <text x="230" y="398" class="label" font-size="11">/bin/zsh</text>
+  <text x="410" y="398" class="label" font-size="11">/var/root</text>
+
+  <text x="25" y="413" class="label" font-size="11">501</text>
+  <text x="75" y="413" class="val-ok" font-size="11">analyst</text>
+  <text x="230" y="413" class="label" font-size="11">/bin/zsh</text>
+  <text x="410" y="413" class="label" font-size="11">/Users/analyst</text>
+
+  <text x="25" y="428" class="label" font-size="11">502</text>
+  <text x="75" y="428" class="val-err" font-size="11">svc_deploy ← review</text>
+  <text x="230" y="428" class="label" font-size="11">/bin/bash</text>
+  <text x="410" y="428" class="label" font-size="11">/Users/svc_deploy</text>
+
+  <!-- Divider + findings callout -->
+  <rect x="20" y="450" width="820" height="55" rx="6" fill="rgba(248,81,73,0.10)" stroke="#f85149" stroke-width="1"/>
+  <text x="35" y="468" class="val-err" font-size="12" font-weight="bold">⚠  FINDINGS TO INVESTIGATE:</text>
+  <text x="35" y="484" class="label" font-size="11">1. python3 (PID 891) listening on 8443 — not a known service. Check parent process and network connections.</text>
+  <text x="35" y="498" class="label" font-size="11">2. updater_v2 LaunchAgent from /tmp/.hidden/ — persistence artifact. Collect hash and review scheduled triggers.</text>
+</svg>

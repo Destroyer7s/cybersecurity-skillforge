@@ -1,0 +1,108 @@
+<svg viewBox="0 0 860 560" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', 'Courier New', monospace">
+  <defs>
+    <style>
+      .term-bg { fill: #0d1117; }
+      .titlebar { fill: #1c2128; }
+      .prompt { fill: #5effb5; }
+      .cmd { fill: #e6edf3; }
+      .hdr { fill: #58a6ff; font-weight: bold; }
+      .val-ok { fill: #3fb950; }
+      .val-warn { fill: #d29922; }
+      .val-err { fill: #f85149; }
+      .val-dim { fill: #8b949e; }
+      .label { fill: #c9d1d9; }
+      .port-open { fill: #3fb950; }
+      .port-filter { fill: #d29922; }
+    </style>
+  </defs>
+
+  <!-- Window frame -->
+  <rect width="860" height="560" rx="10" class="term-bg" />
+  <rect width="860" height="38" rx="10" class="titlebar" />
+  <rect y="28" width="860" height="10" class="titlebar" />
+
+  <!-- Traffic lights -->
+  <circle cx="22" cy="19" r="6" fill="#ff5f57" />
+  <circle cx="42" cy="19" r="6" fill="#febc2e" />
+  <circle cx="62" cy="19" r="6" fill="#28c840" />
+
+  <!-- Title -->
+  <text x="430" y="24" text-anchor="middle" fill="#8b949e" font-size="12">Terminal — nmap reconnaissance scan</text>
+
+  <!-- Command 1 -->
+  <text x="20" y="65" class="val-ok" font-size="12">analyst@kali:~/pentest$</text>
+  <text x="207" y="65" class="cmd" font-size="12"> nmap -sV -sC -p 21,22,80,443,3306,3389,8080 --open 10.10.10.45</text>
+
+  <!-- Nmap startup lines -->
+  <text x="20" y="84" class="val-dim" font-size="12">Starting Nmap 7.94 ( https://nmap.org )</text>
+  <text x="20" y="100" class="val-dim" font-size="12">Nmap scan report for target.internal (10.10.10.45)</text>
+  <text x="20" y="116" class="val-dim" font-size="12">Host is up (0.0052s latency).</text>
+
+  <!-- Port table header -->
+  <line x1="20" y1="128" x2="840" y2="128" stroke="#30363d" stroke-width="1"/>
+  <text x="25" y="142" class="hdr" font-size="11">PORT</text>
+  <text x="110" y="142" class="hdr" font-size="11">STATE</text>
+  <text x="200" y="142" class="hdr" font-size="11">SERVICE</text>
+  <text x="330" y="142" class="hdr" font-size="11">VERSION</text>
+  <line x1="20" y1="147" x2="840" y2="147" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Port rows -->
+  <text x="25" y="162" class="label" font-size="11">22/tcp</text>
+  <text x="110" y="162" class="port-open" font-size="11">open</text>
+  <text x="200" y="162" class="label" font-size="11">ssh</text>
+  <text x="330" y="162" class="label" font-size="11">OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0)</text>
+
+  <text x="25" y="178" class="label" font-size="11">80/tcp</text>
+  <text x="110" y="178" class="port-open" font-size="11">open</text>
+  <text x="200" y="178" class="label" font-size="11">http</text>
+  <text x="330" y="178" class="label" font-size="11">Apache httpd 2.4.29 ((Ubuntu))</text>
+
+  <text x="25" y="194" class="label" font-size="11">443/tcp</text>
+  <text x="110" y="194" class="port-open" font-size="11">open</text>
+  <text x="200" y="194" class="label" font-size="11">https</text>
+  <text x="330" y="194" class="val-warn" font-size="11">Apache httpd 2.4.29 / TLSv1.0 ← deprecated!</text>
+
+  <text x="25" y="210" class="label" font-size="11">3306/tcp</text>
+  <text x="110" y="210" class="port-open" font-size="11">open</text>
+  <text x="200" y="210" class="label" font-size="11">mysql</text>
+  <text x="330" y="210" class="val-err" font-size="11">MySQL 5.7.39-0ubuntu0 ← internet-exposed DB!</text>
+
+  <text x="25" y="226" class="label" font-size="11">8080/tcp</text>
+  <text x="110" y="226" class="port-open" font-size="11">open</text>
+  <text x="200" y="226" class="label" font-size="11">http-proxy</text>
+  <text x="330" y="226" class="val-warn" font-size="11">Werkzeug/2.2.3 Python/3.10.6 (debug mode)</text>
+
+  <!-- Script output -->
+  <line x1="20" y1="238" x2="840" y2="238" stroke="#30363d" stroke-width="1"/>
+  <text x="20" y="253" class="val-dim" font-size="11">| http-title: Login — CorpIntranet v2.1</text>
+  <text x="20" y="268" class="val-dim" font-size="11">| ssl-cert: Subject: commonName=target.internal/organizationName=Corp Ltd</text>
+  <text x="20" y="283" class="val-dim" font-size="11">|_  ssl-date: TLS randomness does not represent time</text>
+  <text x="20" y="298" class="val-err" font-size="11">| http-methods: GET POST PUT DELETE OPTIONS — OPTIONS returns sensitive methods</text>
+  <text x="20" y="313" class="val-dim" font-size="11">|_  mysql-info: MySQL 5.7.39-0ubuntu0.18.04.1 Protocol: 10</text>
+
+  <!-- Command 2: vuln script -->
+  <text x="20" y="336" class="val-ok" font-size="12">analyst@kali:~/pentest$</text>
+  <text x="207" y="336" class="cmd" font-size="12"> nmap --script vuln -p 80,443,3306 10.10.10.45 2&gt;/dev/null | grep -E "VULNERABLE|CVE"</text>
+
+  <text x="20" y="356" class="val-err" font-size="12">| VULNERABLE:</text>
+  <text x="20" y="372" class="val-err" font-size="12">|   CVE-2021-41773: Apache path traversal and RCE (CVSS 9.8) — /cgi-bin/%2e%2e/bin/sh</text>
+  <text x="20" y="388" class="val-warn" font-size="12">|   CVE-2021-27928: MySQL 5.7 — arbitrary file read via LOAD DATA LOCAL</text>
+
+  <!-- Command 3: directory enumeration -->
+  <text x="20" y="410" class="val-ok" font-size="12">analyst@kali:~/pentest$</text>
+  <text x="207" y="410" class="cmd" font-size="12"> gobuster dir -u http://10.10.10.45 -w /usr/share/seclists/Discovery/Web-Content/common.txt -q</text>
+
+  <text x="20" y="430" class="val-ok" font-size="12">/admin</text>
+  <text x="130" y="430" class="label" font-size="12">(Status: 200) [Size: 3847]</text>
+  <text x="20" y="446" class="val-ok" font-size="12">/backup</text>
+  <text x="130" y="446" class="label" font-size="12">(Status: 200) [Size: 12304]  ← backup files exposed!</text>
+  <text x="20" y="462" class="val-ok" font-size="12">/phpinfo.php</text>
+  <text x="130" y="462" class="label" font-size="12">(Status: 200) [Size: 69453]  ← server info disclosure</text>
+  <text x="20" y="478" class="val-warn" font-size="12">/api/v1</text>
+  <text x="130" y="478" class="label" font-size="12">(Status: 401) [Size: 112]</text>
+
+  <!-- Findings box -->
+  <rect x="20" y="496" width="820" height="50" rx="6" fill="rgba(248,81,73,0.10)" stroke="#f85149" stroke-width="1"/>
+  <text x="35" y="513" class="val-err" font-size="11" font-weight="bold">Critical Findings: MySQL on 3306 exposed to internet · Apache CVE-2021-41773 RCE · /backup directory public · Debug mode on :8080</text>
+  <text x="35" y="530" class="label" font-size="11">Next: Confirm RCE with curl POC · Capture /backup contents · Test API auth bypass · Document in engagement report</text>
+</svg>

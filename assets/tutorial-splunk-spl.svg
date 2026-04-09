@@ -1,0 +1,154 @@
+<svg viewBox="0 0 860 600" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', 'Courier New', monospace">
+  <defs>
+    <style>
+      .win-bg { fill: #0d1117; }
+      .titlebar { fill: #1c2128; }
+      .panel-bg { fill: #161b22; }
+      .search-bar { fill: #21262d; }
+      .hdr { fill: #58a6ff; font-weight: bold; }
+      .val-ok { fill: #3fb950; }
+      .val-warn { fill: #d29922; }
+      .val-err { fill: #f85149; }
+      .val-dim { fill: #8b949e; }
+      .label { fill: #c9d1d9; }
+      .splunk-green { fill: #65d867; }
+      .spl-keyword { fill: #f97583; }
+      .spl-function { fill: #79b8ff; }
+      .spl-string { fill: #9ecbff; }
+      .spl-pipe { fill: #ffab70; }
+    </style>
+  </defs>
+
+  <!-- Window frame -->
+  <rect width="860" height="600" rx="10" class="win-bg" />
+  <rect width="860" height="38" rx="10" class="titlebar" />
+  <rect y="28" width="860" height="10" class="titlebar" />
+
+  <!-- Traffic lights -->
+  <circle cx="22" cy="19" r="6" fill="#ff5f57" />
+  <circle cx="42" cy="19" r="6" fill="#febc2e" />
+  <circle cx="62" cy="19" r="6" fill="#28c840" />
+
+  <!-- Splunk header -->
+  <text x="430" y="24" text-anchor="middle" fill="#65d867" font-size="13" font-weight="bold">Splunk Enterprise — Search &amp; Reporting</text>
+
+  <!-- Search bar region -->
+  <rect x="0" y="38" width="860" height="60" fill="#1c2128"/>
+  <rect x="10" y="47" width="720" height="34" rx="4" class="search-bar"/>
+
+  <!-- SPL Query with syntax coloring -->
+  <text x="18" y="55" class="spl-keyword" font-size="11">index</text>
+  <text x="55" y="55" class="label" font-size="11">=windows_security</text>
+  <text x="205" y="55" class="spl-keyword" font-size="11">EventCode</text>
+  <text x="275" y="55" class="label" font-size="11">=4625</text>
+
+  <text x="18" y="71" class="spl-pipe" font-size="11">|</text>
+  <text x="28" y="71" class="spl-function" font-size="11">stats</text>
+  <text x="63" y="71" class="label" font-size="11">count as</text>
+  <text x="115" y="71" class="spl-string" font-size="11">failures</text>
+  <text x="165" y="71" class="label" font-size="11">by</text>
+  <text x="182" y="71" class="spl-string" font-size="11">src_ip, TargetUserName, WorkstationName</text>
+  <text x="18" y="83" class="spl-pipe" font-size="11">|</text>
+  <text x="28" y="83" class="spl-function" font-size="11">where</text>
+  <text x="67" y="83" class="label" font-size="11">failures &gt; 10</text>
+  <text x="157" y="83" class="spl-pipe" font-size="11">|</text>
+  <text x="167" y="83" class="spl-function" font-size="11">sort</text>
+  <text x="197" y="83" class="label" font-size="11">-failures</text>
+  <text x="257" y="83" class="spl-pipe" font-size="11">|</text>
+  <text x="267" y="83" class="spl-function" font-size="11">eval</text>
+  <text x="297" y="83" class="spl-string" font-size="11">severity</text>
+  <text x="350" y="83" class="label" font-size="11">=if(failures&gt;50,</text>
+  <text x="445" y="83" class="spl-string" font-size="11">"CRITICAL"</text>
+  <text x="510" y="83" class="label" font-size="11">,</text>
+  <text x="517" y="83" class="spl-string" font-size="11">"HIGH"</text>
+  <text x="558" y="83" class="label" font-size="11">)</text>
+
+  <!-- Time range + search button -->
+  <rect x="740" y="47" width="110" height="34" rx="4" fill="#65d867"/>
+  <text x="795" y="68" text-anchor="middle" fill="#0d1117" font-size="12" font-weight="bold">▶ Search</text>
+
+  <!-- Stats summary bar -->
+  <rect x="0" y="98" width="860" height="30" fill="#1c2128"/>
+  <text x="15" y="118" class="val-dim" font-size="11">Time range: Last 24 hours</text>
+  <text x="200" y="118" class="val-ok" font-size="11">✓ 47,312 events scanned</text>
+  <text x="380" y="118" class="val-warn" font-size="11">⚠ 6 IPs flagged (&gt;10 failures)</text>
+  <text x="570" y="118" class="val-err" font-size="11">🔴 2 CRITICAL (≥50 failures)</text>
+
+  <!-- Results table header -->
+  <rect x="0" y="128" width="860" height="24" fill="#21262d"/>
+  <text x="15" y="144" class="hdr" font-size="11">src_ip</text>
+  <text x="175" y="144" class="hdr" font-size="11">TargetUserName</text>
+  <text x="380" y="144" class="hdr" font-size="11">WorkstationName</text>
+  <text x="570" y="144" class="hdr" font-size="11">failures</text>
+  <text x="660" y="144" class="hdr" font-size="11">severity</text>
+
+  <!-- Result rows -->
+  <rect x="0" y="152" width="860" height="22" fill="rgba(248,81,73,0.12)"/>
+  <text x="15" y="167" class="val-err" font-size="11">185.220.101.47</text>
+  <text x="175" y="167" class="label" font-size="11">administrator</text>
+  <text x="380" y="167" class="val-dim" font-size="11">WKSTN-114 / external</text>
+  <text x="570" y="167" class="val-err" font-size="11">247</text>
+  <text x="660" y="167" class="val-err" font-size="11">CRITICAL</text>
+
+  <rect x="0" y="174" width="860" height="22" fill="rgba(248,81,73,0.08)"/>
+  <text x="15" y="189" class="val-err" font-size="11">91.109.190.33</text>
+  <text x="175" y="189" class="label" font-size="11">svc_backup</text>
+  <text x="380" y="189" class="val-dim" font-size="11">external / TOR exit</text>
+  <text x="570" y="189" class="val-err" font-size="11">83</text>
+  <text x="660" y="189" class="val-err" font-size="11">CRITICAL</text>
+
+  <rect x="0" y="196" width="860" height="22" fill="rgba(210,153,34,0.08)"/>
+  <text x="15" y="211" class="val-warn" font-size="11">192.168.5.22</text>
+  <text x="175" y="211" class="label" font-size="11">jsmith</text>
+  <text x="380" y="211" class="val-dim" font-size="11">LAPTOP-JSMITH</text>
+  <text x="570" y="211" class="val-warn" font-size="11">31</text>
+  <text x="660" y="211" class="val-warn" font-size="11">HIGH</text>
+
+  <rect x="0" y="218" width="860" height="22" fill="rgba(210,153,34,0.05)"/>
+  <text x="15" y="233" class="val-warn" font-size="11">10.0.2.45</text>
+  <text x="175" y="233" class="label" font-size="11">administrator</text>
+  <text x="380" y="233" class="val-dim" font-size="11">SRV-PROD-01</text>
+  <text x="570" y="233" class="val-warn" font-size="11">18</text>
+  <text x="660" y="233" class="val-warn" font-size="11">HIGH</text>
+
+  <!-- Bar chart mini visualization -->
+  <rect x="0" y="256" width="860" height="160" fill="#161b22"/>
+  <text x="15" y="275" class="hdr" font-size="11">Failure count over time (last 24h — 1h buckets)</text>
+
+  <!-- Chart bars -->
+  <rect x="30" y="390" width="20" height="10" fill="#3fb950"/>
+  <rect x="55" y="383" width="20" height="17" fill="#3fb950"/>
+  <rect x="80" y="378" width="20" height="22" fill="#3fb950"/>
+  <rect x="105" y="370" width="20" height="30" fill="#d29922"/>
+  <rect x="130" y="350" width="20" height="50" fill="#d29922"/>
+  <rect x="155" y="316" width="20" height="84" fill="#f85149"/>
+  <rect x="180" y="287" width="20" height="113" fill="#f85149"/>
+  <rect x="205" y="268" width="20" height="132" fill="#f85149"/>
+  <rect x="230" y="275" width="20" height="125" fill="#f85149"/>
+  <rect x="255" y="293" width="20" height="107" fill="#d29922"/>
+  <rect x="280" y="335" width="20" height="65" fill="#d29922"/>
+  <rect x="305" y="372" width="20" height="28" fill="#3fb950"/>
+  <rect x="330" y="388" width="20" height="12" fill="#3fb950"/>
+
+  <!-- X-axis labels -->
+  <text x="30" y="408" class="val-dim" font-size="9">00:00</text>
+  <text x="155" y="408" class="val-err" font-size="9">06:00 ← spike</text>
+  <text x="280" y="408" class="val-dim" font-size="9">12:00</text>
+  <text x="380" y="408" class="val-dim" font-size="9">18:00</text>
+
+  <!-- Legend -->
+  <rect x="550" y="280" width="12" height="12" fill="#3fb950"/>
+  <text x="568" y="290" class="label" font-size="10">&lt;20 failures (normal)</text>
+  <rect x="550" y="300" width="12" height="12" fill="#d29922"/>
+  <text x="568" y="310" class="label" font-size="10">20–50 failures (high)</text>
+  <rect x="550" y="320" width="12" height="12" fill="#f85149"/>
+  <text x="568" y="330" class="label" font-size="10">&gt;50 failures (critical)</text>
+
+  <!-- Investigation notes -->
+  <rect x="10" y="430" width="840" height="80" rx="6" fill="rgba(88,166,255,0.07)" stroke="#58a6ff" stroke-width="1"/>
+  <text x="25" y="448" fill="#58a6ff" font-size="11" font-weight="bold">ANALYST ACTION ITEMS</text>
+  <text x="25" y="464" class="label" font-size="11">1. 185.220.101.47 (247 failures against 'administrator') — check threat intel: known TOR/Tor exit. Block at perimeter, create firewall rule.</text>
+  <text x="25" y="479" class="label" font-size="11">2. 192.168.5.22 LAPTOP-JSMITH hitting 31 wrong passwords for jsmith — locked out? Credential stuffing from internal? Interview user.</text>
+  <text x="25" y="494" class="label" font-size="11">3. 10.0.2.45 → SRV-PROD-01 — lateral movement attempt? Pivot to SIEM: check if 4624 (logon success) follows any failure burst.</text>
+  <text x="25" y="509" class="label" font-size="11">4. Open IR ticket. Classify as credential brute force (MITRE T1110). Assign to SOC Tier 2 for full investigation.</text>
+</svg>

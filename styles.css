@@ -1974,3 +1974,170 @@ footer {
     padding: 1.3rem;
   }
 }
+
+/* ── Deep Tutorial Blocks ─────────────────────────────────────── */
+.deep-tutorial {
+  background: radial-gradient(ellipse at top left, rgba(0, 45, 80, 0.4) 0%, rgba(5, 15, 28, 0.6) 70%);
+  border: 1px solid rgba(78, 195, 255, 0.25);
+  border-left: 3px solid #45d3ff;
+  border-radius: 12px;
+  padding: 1.8rem 2rem;
+  margin: 2rem 0;
+}
+
+.deep-tutorial-header {
+  margin-bottom: 1.6rem;
+}
+
+.tutorial-badge {
+  display: inline-block;
+  background: rgba(94, 255, 181, 0.12);
+  border: 1px solid rgba(94, 255, 181, 0.4);
+  color: #5effb5;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  margin-bottom: 0.7rem;
+}
+
+.deep-tutorial-header h3 {
+  margin: 0.5rem 0 0.8rem;
+  color: #dff2ff;
+  font-size: 1.22rem;
+  line-height: 1.35;
+}
+
+.tutorial-scenario {
+  background: rgba(69, 211, 255, 0.06);
+  border-left: 2px solid #45d3ff;
+  padding: 0.7rem 1rem;
+  border-radius: 4px;
+  color: var(--text-1);
+  font-size: 0.93rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.tutorial-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.tutorial-step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.tutorial-step-num {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  background: linear-gradient(135deg, #45d3ff 0%, #5effb5 100%);
+  color: #020e16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
+.tutorial-step-body {
+  padding-top: 0;
+}
+
+.tutorial-step-body > strong {
+  display: block;
+  color: #dff2ff;
+  font-size: 0.98rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.tutorial-step-body > p {
+  margin: 0.4rem 0;
+  font-size: 0.91rem;
+  color: var(--text-1);
+  line-height: 1.6;
+}
+
+.tutorial-step-body .code-block {
+  margin: 0.6rem 0;
+  font-size: 0.8rem;
+}
+
+.tutorial-step-body code {
+  background: rgba(69, 211, 255, 0.1);
+  border: 1px solid rgba(69, 211, 255, 0.2);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  color: #45d3ff;
+}
+
+.tutorial-screenshot {
+  margin: 1.4rem 0 0.4rem;
+  border: 0;
+  padding: 0;
+}
+
+.tutorial-screenshot img,
+.tutorial-screenshot svg {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(78, 195, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  background: #0d1117;
+  max-height: none;
+  height: auto;
+}
+
+.tutorial-screenshot figcaption {
+  margin-top: 0.55rem;
+  font-size: 0.8rem;
+  color: #8b949e;
+  line-height: 1.55;
+  font-style: italic;
+  padding: 0 0.2rem;
+}
+
+.tutorial-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-top: 1.4rem;
+}
+
+.tutorial-split .tutorial-screenshot {
+  margin: 0;
+}
+
+@media (max-width: 820px) {
+  .deep-tutorial {
+    padding: 1.2rem 1rem;
+  }
+  .tutorial-step {
+    grid-template-columns: 36px 1fr;
+    gap: 0.75rem;
+  }
+  .tutorial-step-num {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    font-size: 0.88rem;
+  }
+  .tutorial-split {
+    grid-template-columns: 1fr;
+  }
+}

