@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive cybersecurity terminal simulator covering all 20 domains — type real commands, see realistic output, track your progress." />
+  <title>Simulator | CyberSkillForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Simulator Layout ─────────────────────────────────────────────── */
+    .sim-page { display: flex; flex-direction: column; min-height: 100vh; }
+
+    .sim-body {
+      display: grid;
+      grid-template-columns: 260px 1fr 300px;
+      grid-template-rows: 1fr;
+      flex: 1;
+      min-height: 0;
+      height: calc(100vh - 58px);
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ──────────────────────────────────────────────────────── */
+    .sim-sidebar {
+      border-right: 1px solid var(--line);
+      background: rgba(4,12,20,0.8);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .sim-sidebar-head {
+      padding: 1rem;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+    .sim-sidebar-head h2 {
+      margin: 0 0 0.5rem;
+      font-size: 0.88rem;
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .sim-search {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.45rem 0.7rem;
+      color: var(--text-0);
+      font-size: 0.84rem;
+      font-family: inherit;
+    }
+    .sim-search::placeholder { color: var(--text-2); }
+    .sim-search:focus { outline: none; border-color: var(--accent); }
+
+    .sim-topic-list {
+      overflow-y: auto;
+      flex: 1;
+      padding: 0.5rem;
+    }
+    .sim-topic-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      color: var(--text-1);
+      font-family: inherit;
+      font-size: 0.84rem;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      margin-bottom: 2px;
+    }
+    .sim-topic-btn:hover { background: rgba(255,255,255,0.05); color: var(--text-0); }
+    .sim-topic-btn.active {
+      background: rgba(80,212,255,0.1);
+      border-color: rgba(80,212,255,0.4);
+      color: var(--accent);
+    }
+    .sim-topic-icon { font-size: 1rem; width: 22px; text-align: center; flex-shrink: 0; }
+    .sim-topic-label { flex: 1; }
+    .sim-topic-prog {
+      font-size: 0.7rem;
+      color: var(--text-2);
+      font-family: "JetBrains Mono", monospace;
+      white-space: nowrap;
+    }
+    .sim-topic-prog.done { color: var(--accent-2); }
+
+    /* ── Center — Terminal ────────────────────────────────────────────── */
+    .sim-center {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #020e16;
+    }
+
+    .sim-scenario-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.65rem 1rem;
+      background: rgba(4,12,20,0.9);
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .sim-scenario-title {
+      flex: 1;
+      font-size: 0.88rem;
+      color: var(--text-0);
+      font-weight: 600;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #scenarioSelect {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--text-1);
+      font-family: inherit;
+      font-size: 0.82rem;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
+    }
+    #scenarioSelect:focus { outline: none; border-color: var(--accent); }
+
+    .stage-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .stage-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: background 0.2s;
+    }
+    .stage-dot.active { background: var(--accent); border-color: var(--accent); }
+    .stage-dot.done { background: var(--accent-2); border-color: var(--accent-2); }
+
+    /* Score chip */
+    .sim-score-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.28rem 0.7rem;
+      background: rgba(106,255,188,0.1);
+      border: 1px solid rgba(106,255,188,0.35);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-family: "JetBrains Mono", monospace;
+      color: var(--accent-2);
+    }
+
+    /* ── Terminal ─────────────────────────────────────────────────────── */
+    .sim-terminal {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #020e16;
+      overflow: hidden;
+      font-family: "JetBrains Mono", monospace;
+    }
+    .terminal-chrome {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 0.9rem;
+      background: #03111e;
+      border-bottom: 1px solid rgba(110,168,213,0.15);
+      flex-shrink: 0;
+    }
+    .tbar-dot { width: 11px; height: 11px; border-radius: 50%; }
+    .tbar-dot.red    { background: #ff5f56; }
+    .tbar-dot.yellow { background: #ffbd2e; }
+    .tbar-dot.green  { background: #27c93f; }
+    .tbar-title {
+      flex: 1;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-2);
+    }
+    .tbar-actions { display: flex; gap: 0.5rem; }
+    .tbar-btn {
+      background: none;
+      border: 1px solid rgba(110,168,213,0.2);
+      border-radius: 5px;
+      color: var(--text-2);
+      font-size: 0.72rem;
+      font-family: "JetBrains Mono", monospace;
+      padding: 0.2rem 0.55rem;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .tbar-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .terminal-output {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.8rem 1rem;
+      scroll-behavior: smooth;
+    }
+    .term-line {
+      font-size: 0.84rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin: 0;
+    }
+    .term-line.cmd { color: #d9eefb; }
+    .term-line.prompt-text { color: #4af; }
+    .term-line.output { color: #9fc3d8; }
+    .term-line.success { color: var(--accent-2); }
+    .term-line.warn { color: #ffbd2e; }
+    .term-line.error { color: var(--danger); }
+    .term-line.system { color: var(--text-2); font-style: italic; }
+    .term-line.divider { color: rgba(110,168,213,0.25); }
+    .term-line.hint-shown { color: #c084fc; }
+
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      border-top: 1px solid rgba(110,168,213,0.12);
+      background: #010c14;
+      flex-shrink: 0;
+      gap: 0.5rem;
+    }
+    #termPrompt {
+      color: #4af;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.84rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    #termInput {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #d9eefb;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.84rem;
+      caret-color: var(--accent);
+    }
+
+    /* ── Right Panel — Objective ──────────────────────────────────────── */
+    .sim-panel {
+      border-left: 1px solid var(--line);
+      background: rgba(6,16,28,0.9);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .sim-panel-section {
+      padding: 1rem;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+    .sim-panel-section h3 {
+      margin: 0 0 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+    .sim-objective {
+      font-size: 0.85rem;
+      color: var(--text-1);
+      line-height: 1.55;
+    }
+    .sim-stage-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.7rem;
+      background: rgba(80,212,255,0.1);
+      border: 1px solid rgba(80,212,255,0.3);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-family: "JetBrains Mono", monospace;
+      margin-bottom: 0.7rem;
+    }
+    .sim-instruction {
+      font-size: 0.87rem;
+      color: var(--text-0);
+      line-height: 1.6;
+    }
+    .sim-hint-box {
+      background: rgba(192, 132, 252, 0.08);
+      border: 1px solid rgba(192,132,252,0.3);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      font-size: 0.8rem;
+      color: #c084fc;
+      font-family: "JetBrains Mono", monospace;
+      line-height: 1.5;
+      display: none;
+      margin-top: 0.6rem;
+      word-break: break-all;
+    }
+    .sim-hint-box.visible { display: block; }
+
+    .sim-actions-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.85rem 1rem;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .sim-btn {
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      border: none;
+    }
+    .sim-btn:active { transform: scale(0.97); }
+    .sim-btn.primary {
+      background: linear-gradient(135deg, var(--accent), #38b2f0);
+      color: #020e16;
+    }
+    .sim-btn.ghost {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--text-1);
+    }
+    .sim-btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .sim-btn.success-btn {
+      background: rgba(106,255,188,0.15);
+      border: 1px solid rgba(106,255,188,0.4);
+      color: var(--accent-2);
+    }
+    .sim-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    /* Commands reference */
+    .sim-cmd-ref {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.85rem 1rem;
+    }
+    .sim-cmd-ref h3 {
+      margin: 0 0 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+    .cmd-ref-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.25rem 0.5rem;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(110,168,213,0.1);
+    }
+    .cmd-ref-cmd {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.77rem;
+      color: var(--accent);
+      grid-column: 1 / -1;
+    }
+    .cmd-ref-desc {
+      font-size: 0.78rem;
+      color: var(--text-2);
+      grid-column: 1 / -1;
+    }
+
+    /* Difficulty badge */
+    .difficulty-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.22rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+      letter-spacing: 0.03em;
+      margin-left: 0.5rem;
+    }
+    .diff-beginner    { background: rgba(106,255,188,0.15); color: var(--accent-2); }
+    .diff-intermediate{ background: rgba(80,212,255,0.15);  color: var(--accent); }
+    .diff-advanced    { background: rgba(255,129,129,0.15); color: var(--danger); }
+
+    /* Welcome screen */
+    .sim-welcome {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 2rem;
+      gap: 1rem;
+      color: var(--text-2);
+    }
+    .sim-welcome-icon { font-size: 3rem; }
+    .sim-welcome h2 { margin: 0; color: var(--text-0); font-size: 1.3rem; }
+    .sim-welcome p { margin: 0; font-size: 0.9rem; max-width: 380px; }
+    .sim-welcome .kbd {
+      display: inline-block;
+      padding: 0.1rem 0.45rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.82rem;
+      color: var(--text-1);
+    }
+
+    /* Completion modal */
+    .sim-modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(2,14,22,0.85);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200;
+    }
+    .sim-modal-backdrop.hidden { display: none; }
+    .sim-modal {
+      background: var(--surface-solid);
+      border: 1px solid var(--line-strong);
+      border-radius: 18px;
+      padding: 2rem 2.5rem;
+      text-align: center;
+      max-width: 420px;
+      width: 90%;
+    }
+    .sim-modal h2 { margin: 0 0 0.5rem; color: var(--accent-2); font-size: 1.6rem; }
+    .sim-modal .modal-score {
+      font-size: 2rem;
+      font-family: "JetBrains Mono", monospace;
+      color: var(--accent);
+      margin: 0.5rem 0;
+    }
+    .sim-modal p { color: var(--text-1); margin: 0 0 1.5rem; font-size: 0.92rem; }
+    .sim-modal-actions { display: flex; gap: 0.75rem; justify-content: center; }
+
+    /* Progress bar */
+    .sim-overall-progress {
+      padding: 0.5rem 1rem;
+      border-top: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+    .sim-prog-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 0.3rem;
+    }
+    .sim-prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+    .sim-prog-label {
+      font-size: 0.72rem;
+      color: var(--text-2);
+      font-family: "JetBrains Mono", monospace;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      .sim-body { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; height: auto; }
+      .sim-sidebar { display: none; }
+      .sim-panel { border-left: none; border-top: 1px solid var(--line); max-height: 280px; }
+      .sim-center { height: 55vh; }
+    }
+  </style>
+</head>
+<body class="sim-page">
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="index.html">CyberSkillForge</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">Menu</button>
+    <nav id="mainNav" class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="studies.html">Studies</a>
+      <a href="labs.html">Labs</a>
+      <a href="simulator.html" class="active">Simulator</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="sim-score-chip" id="globalScore" style="display:none;">
+      <span>⭐</span>
+      <span id="scoreDisplay">0 pts</span>
+    </div>
+  </header>
+
+  <div class="sim-body">
+
+    <!-- ─── Left Sidebar: Topic List ─────────────────────────────────── -->
+    <aside class="sim-sidebar">
+      <div class="sim-sidebar-head">
+        <h2>Topics</h2>
+        <input type="text" id="topicSearch" class="sim-search" placeholder="Search topics…" autocomplete="off" />
+      </div>
+      <div class="sim-topic-list" id="topicList">
+        <!-- Populated by JS -->
+      </div>
+      <div class="sim-overall-progress" id="overallProgress">
+        <div class="sim-prog-bar"><div class="sim-prog-fill" id="overallFill" style="width:0%"></div></div>
+        <div class="sim-prog-label">
+          <span id="overallLabel">0 / 40 scenarios</span>
+          <span id="overallPct">0%</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ─── Center: Terminal ──────────────────────────────────────────── -->
+    <div class="sim-center">
+      <div class="sim-scenario-bar" id="simScenarioBar">
+        <div class="sim-scenario-title" id="simScenarioTitle">Interactive Terminal Simulator</div>
+        <div class="stage-dots" id="stageDots"></div>
+        <select id="scenarioSelect" style="display:none;">
+          <option value="0">Scenario A</option>
+          <option value="1">Scenario B</option>
+        </select>
+      </div>
+
+      <div class="sim-terminal" id="simTerminal">
+        <div class="terminal-chrome">
+          <span class="tbar-dot red"></span>
+          <span class="tbar-dot yellow"></span>
+          <span class="tbar-dot green"></span>
+          <span class="tbar-title" id="termTitle">analyst@cyberforge:~$</span>
+          <div class="tbar-actions">
+            <button class="tbar-btn" id="clearBtn" type="button">clear</button>
+            <button class="tbar-btn" id="hintBtn" type="button">hint</button>
+          </div>
+        </div>
+
+        <div class="terminal-output" id="termOutput">
+          <!-- Welcome state shown by JS -->
+          <div class="sim-welcome" id="simWelcome">
+            <div class="sim-welcome-icon">🖥</div>
+            <h2>Choose a Topic</h2>
+            <p>Select any of the 20 cybersecurity domains from the left sidebar to begin a guided, scenario-based simulation.</p>
+            <p>
+              Type commands at the prompt and press <span class="kbd">Enter</span>.<br>
+              Use <span class="kbd">↑</span> <span class="kbd">↓</span> to navigate history.<br>
+              Type <span class="kbd">help</span> for available commands.
+            </p>
+          </div>
+        </div>
+
+        <div class="terminal-input-row">
+          <span id="termPrompt">analyst@cyberforge:~$&nbsp;</span>
+          <input type="text" id="termInput" spellcheck="false" autocomplete="off"
+            aria-label="Terminal input" placeholder="Type a command and press Enter…" disabled />
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Right Panel: Objective + Actions ─────────────────────────── -->
+    <aside class="sim-panel">
+      <div class="sim-panel-section">
+        <h3>Objective</h3>
+        <p class="sim-objective" id="simObjective">Select a topic from the sidebar to load a scenario.</p>
+      </div>
+
+      <div class="sim-panel-section" id="stageSection" style="display:none;">
+        <div class="sim-stage-label" id="stageLabel">Stage 1 / 4</div>
+        <p class="sim-instruction" id="stageInstruction">Loading…</p>
+        <div class="sim-hint-box" id="hintBox"></div>
+      </div>
+
+      <div class="sim-actions-row" id="simActionsRow" style="display:none;">
+        <button class="sim-btn primary" id="revealHintBtn" type="button">💡 Reveal Command</button>
+        <button class="sim-btn ghost"   id="skipStageBtn"  type="button">Skip Stage →</button>
+        <button class="sim-btn ghost"   id="resetScenBtn"  type="button">↺ Reset Scenario</button>
+      </div>
+
+      <div class="sim-cmd-ref" id="cmdRef">
+        <h3>Command Reference</h3>
+        <div id="cmdRefContent">
+          <p style="font-size:0.82rem;color:var(--text-2)">Commands will appear here when a topic is selected.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Completion Modal -->
+  <div class="sim-modal-backdrop hidden" id="completionModal" role="dialog" aria-modal="true">
+    <div class="sim-modal">
+      <div style="font-size:2.5rem;">🎉</div>
+      <h2>Scenario Complete!</h2>
+      <div class="modal-score" id="modalScore">+25 pts</div>
+      <p id="modalMessage">You completed all stages in this scenario. Strong work.</p>
+      <div class="sim-modal-actions">
+        <button class="sim-btn primary" id="nextScenBtn" type="button">Next Scenario →</button>
+        <button class="sim-btn ghost"   id="closeModalBtn" type="button">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="simulator.js"></script>
+</body>
+</html>
