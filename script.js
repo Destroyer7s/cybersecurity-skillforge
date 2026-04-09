@@ -145,73 +145,121 @@ const studyGuides = {
   "endpoint-security": {
     prerequisites: ["Basic OS administration", "User/privilege model concepts", "Patch management fundamentals"],
     coreConcepts: ["Defense-in-depth layering", "Hardening baselines and drift", "Endpoint telemetry quality"],
-    practiceDrills: ["Build one hardened baseline profile", "Map 5 controls to real attack techniques", "Measure compliance before/after"],
+    practiceDrills: [
+      "Apply CIS Level 1 baseline to 5 test endpoints and capture before/after drift evidence.",
+      "Simulate suspicious PowerShell execution and collect process-tree + command-line artifacts from EDR.",
+      "Run a 48-hour compliance check and produce a remediation backlog with owner and SLA."
+    ],
     selfCheck: ["Can you explain why each endpoint control exists?", "Can you identify which control failed in a sample incident?"]
   },
   "network-security": {
     prerequisites: ["TCP/IP and routing basics", "Firewall rule evaluation", "Identity-aware access basics"],
     coreConcepts: ["Zero trust verification", "Microsegmentation strategy", "Egress control and monitoring"],
-    practiceDrills: ["Create trust-zone matrix", "Test allow/deny flows", "Trace suspicious DNS/egress path"],
+    practiceDrills: [
+      "Build a zone-to-zone allow matrix for corp, DMZ, prod, and management segments.",
+      "Validate deny-by-default policy using 10 approved and 10 unapproved traffic tests.",
+      "Investigate a DNS tunneling scenario and write an egress containment recommendation."
+    ],
     selfCheck: ["Can you justify every allow rule with business need?", "Can you explain east-west containment strategy?"]
   },
   "penetration-testing": {
     prerequisites: ["Legal scope and ethics", "Vulnerability fundamentals", "Basic scripting/CLI fluency"],
     coreConcepts: ["Assessment methodology", "Exploitability vs business impact", "Remediation verification"],
-    practiceDrills: ["Run scoped recon-to-validation exercise", "Write one full finding report", "Retest after fix"],
+    practiceDrills: [
+      "Execute a scoped web assessment from recon to validated exploit path in a lab target.",
+      "Produce a finding report with CVSS vector, business impact, and reproduction steps.",
+      "Retest remediated target and document proof that original attack path is closed."
+    ],
     selfCheck: ["Can you separate risk signal from scanner noise?", "Can you tie technical exploit to business consequence?"]
   },
   "architecture-design": {
     prerequisites: ["System design basics", "Identity/access control models", "Threat modeling basics"],
     coreConcepts: ["Trust boundaries", "Architecture decision records", "Security-reliability tradeoffs"],
-    practiceDrills: ["Draw one secure reference architecture", "Write ADR for a control decision", "Map design to threats"],
+    practiceDrills: [
+      "Design a secure reference architecture for a public API + internal data service.",
+      "Write one ADR comparing two authentication patterns with measurable tradeoffs.",
+      "Map top 10 threats (STRIDE) to controls, owners, and validation tests."
+    ],
     selfCheck: ["Can you explain why this design is secure and operable?", "Can you defend tradeoffs under constraints?"]
   },
   "security-automation": {
     prerequisites: ["Scripting foundations", "CI/CD workflow concepts", "Basic API usage"],
     coreConcepts: ["Idempotent automation", "Policy-as-code", "Safe rollback and auditability"],
-    practiceDrills: ["Automate one recurring security task", "Add validation tests", "Track time saved"],
+    practiceDrills: [
+      "Automate phishing enrichment (hash/IP/domain intel checks) with explicit failure handling.",
+      "Add unit tests and a dry-run mode before enabling production actions.",
+      "Measure triage cycle-time change over one week and report false-action rate."
+    ],
     selfCheck: ["Can your automation run safely multiple times?", "Can you prove change traceability?"]
   },
   "security-information": {
     prerequisites: ["Log formats", "JSON/CSV parsing", "Data quality basics"],
     coreConcepts: ["Normalization and schema", "Enrichment confidence", "Signal-to-noise management"],
-    practiceDrills: ["Normalize mixed telemetry set", "Add enrichment fields", "Benchmark query performance"],
+    practiceDrills: [
+      "Normalize Windows, firewall, and cloud logs into one schema with required field checks.",
+      "Add CMDB and threat-intel enrichment and track confidence/lineage per field.",
+      "Benchmark detection query latency before and after normalization improvements."
+    ],
     selfCheck: ["Can you trust the data powering detections?", "Can you trace data lineage for key fields?"]
   },
   siem: {
     prerequisites: ["Query language basics", "Alert triage fundamentals", "MITRE ATT&CK familiarity"],
     coreConcepts: ["Hypothesis-driven detection", "Precision vs recall", "Tuning lifecycle"],
-    practiceDrills: ["Author one detection rule", "Replay test data", "Tune with change log"],
+    practiceDrills: [
+      "Author a T1059.001 detection in your SIEM and map required telemetry fields.",
+      "Replay attack and benign datasets to measure precision and missed detections.",
+      "Tune with documented suppression rationale, owner, and expiry date."
+    ],
     selfCheck: ["Can you explain why this alert matters?", "Can you reduce false positives without losing coverage?"]
   },
   "security-operations": {
     prerequisites: ["Incident severity model", "Escalation protocols", "Documentation discipline"],
     coreConcepts: ["IR lifecycle execution", "Coordination under pressure", "Post-incident learning loops"],
-    practiceDrills: ["Run tabletop simulation", "Create timeline artifact", "Write post-incident review"],
+    practiceDrills: [
+      "Run a 60-minute ransomware tabletop with SOC, IT ops, legal, and communications roles.",
+      "Produce a timestamped incident timeline with owner/action/evidence fields.",
+      "Write a blameless post-incident report with 3 corrective actions and due dates."
+    ],
     selfCheck: ["Can you lead triage with clear ownership?", "Can you communicate impact to non-technical stakeholders?"]
   },
   "threat-modeling": {
     prerequisites: ["System decomposition", "Attack surface basics", "Risk ranking models"],
     coreConcepts: ["STRIDE and abuse cases", "Control mapping", "Residual risk tracking"],
-    practiceDrills: ["Build one threat model", "Prioritize top risks", "Define validation plan"],
+    practiceDrills: [
+      "Create a threat model for an API auth flow with STRIDE and misuse cases.",
+      "Prioritize risks using likelihood x impact with owner assignment per risk.",
+      "Define and run validation tests for top three control assumptions."
+    ],
     selfCheck: ["Can you identify attacker goals and paths?", "Can you map each risk to a control and owner?"]
   },
   "vulnerability-management": {
     prerequisites: ["CVSS basics", "Patch deployment flow", "Asset criticality mapping"],
     coreConcepts: ["Risk-based prioritization", "SLA governance", "Verification and recurrence reduction"],
-    practiceDrills: ["Prioritize a sample backlog", "Patch in staged waves", "Measure MTTR trend"],
+    practiceDrills: [
+      "Prioritize a mixed backlog using CVSS + KEV + internet exposure + asset criticality.",
+      "Run pilot -> wave -> full patch rollout with rollback criteria documented.",
+      "Track MTTR and recurrence rate for 30 days post-remediation."
+    ],
     selfCheck: ["Can you justify why a vuln is truly urgent?", "Can you prove remediation quality over time?"]
   },
   "soc-ops-analyst-track": {
     prerequisites: ["SOC workflow fundamentals", "SIEM/EDR familiarity", "Audit/compliance context"],
     coreConcepts: ["Operational triage system", "On-call incident discipline", "IAM and audit evidence readiness"],
-    practiceDrills: ["Run a mock analyst shift", "Write one executive-ready incident update", "Assemble mini audit packet"],
+    practiceDrills: [
+      "Run a mock 4-hour shift with overlapping phishing, IAM, and vulnerability escalations.",
+      "Draft executive and technical incident updates with different depth and audience tone.",
+      "Assemble an audit packet: ticket evidence, control mapping, and sign-off trail."
+    ],
     selfCheck: ["Can you operate effectively under changing priorities?", "Can you connect technical events to business risk quickly?"]
   },
   "capstone-track": {
     prerequisites: ["Comfort across multiple security domains", "Project scoping and planning", "Basic metrics definition"],
     coreConcepts: ["Integrated security delivery", "Evidence-based storytelling", "Outcome measurement"],
-    practiceDrills: ["Build one end-to-end security project", "Track baseline and post-change metrics", "Create interview-ready presentation"],
+    practiceDrills: [
+      "Build one end-to-end project combining detection, response, and governance controls.",
+      "Capture baseline, intervention, and post-change metrics with reproducible evidence.",
+      "Publish a case-study narrative with tradeoffs, failures, and final outcomes."
+    ],
     selfCheck: ["Can you explain your decisions and tradeoffs clearly?", "Can you prove impact with measurable outcomes?"]
   }
 };
@@ -279,13 +327,13 @@ const studySectionExplainers = {
   },
   "soc-ops-analyst-track": {
     what: "This track focuses on day-to-day SOC execution: alert triage, incident communications, evidence collection, IAM governance, and audit readiness under shifting priorities.",
-    why: "It matters because SOC roles are judged on consistent, high-quality decisions during real operational pressure. You need both technical depth and disciplined process execution.",
+    why: "It matters because strong SOC operations depend on consistent, high-quality decisions during real operational pressure. You need both technical depth and disciplined process execution.",
     how: ["Practice shift workflows from first alert to closure with clear handoffs.", "Translate technical findings into business risk language for stakeholders.", "Build evidence artifacts as you work so audits and postmortems are always ready."],
     success: "You are ready when you can run a shift confidently, prioritize by risk under load, and produce clean artifacts that stand up to leadership and compliance review."
   },
   "capstone-track": {
     what: "The capstone track is where you integrate multiple skills into one end-to-end security project. It should reflect real role expectations: design, implementation, validation, and measurable impact.",
-    why: "This section matters because employers evaluate applied capability, not isolated theory. A strong capstone proves you can execute across domains and communicate outcomes professionally.",
+    why: "This section matters because applied capability builds genuine operational depth. A strong capstone proves you can execute across domains and communicate outcomes clearly.",
     how: ["Choose one meaningful security problem with clear baseline metrics.", "Implement controls and workflow improvements with evidence at each stage.", "Publish a concise case study covering decisions, tradeoffs, results, and next improvements."],
     success: "You have succeeded when you can present your project as a business-relevant security story with measurable before/after outcomes and defensible technical choices."
   }
@@ -345,12 +393,12 @@ const studyPlainEnglishMap = {
   "soc-ops-analyst-track": [
     "This track is day-to-day SOC execution: triage, communication, and evidence.",
     "You are learning to make strong decisions with limited time and noisy signals.",
-    "If you can run a shift and produce audit-ready artifacts, you are job-ready."
+    "If you can run a shift and produce audit-ready artifacts, you have strong operational foundations."
   ],
   "capstone-track": [
     "This is your proof project showing you can apply multiple skills together.",
     "You are learning to tell a clear security story with measurable outcomes.",
-    "If your project explains problem, tradeoffs, and impact, it is interview-ready."
+    "If your project explains problem, tradeoffs, and impact, it demonstrates real technical depth."
   ]
 };
 
@@ -391,7 +439,161 @@ const extendedStudyModules = {
       "Security Hub is the cloud security inbox; learn what to act on first.",
       "Connect alerts to real risk, not just severity labels.",
       "Close tickets with proof, not assumptions."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>AWS Finding Format (ASFF): The Common Data Model</h3>
+  <p>Security Hub normalizes all findings into the AWS Security Finding Format (ASFF). Every GuardDuty, Config, Inspector, Macie, and third-party finding is translated into this schema. Understanding ASFF fields is critical for building automation and consistent triage workflows.</p>
+  <h4>Key ASFF Fields</h4>
+  <table class="deep-table">
+    <thead><tr><th>Field</th><th>Description</th><th>Operational Use</th></tr></thead>
+    <tbody>
+      <tr><td>Severity.Label</td><td>CRITICAL / HIGH / MEDIUM / LOW / INFORMATIONAL</td><td>Primary triage filter — start with CRITICAL and HIGH</td></tr>
+      <tr><td>Severity.Normalized</td><td>0–100 numeric score</td><td>Useful for sorting and SLA thresholds in automation</td></tr>
+      <tr><td>WorkflowStatus</td><td>NEW / NOTIFIED / RESOLVED / SUPPRESSED</td><td>Track investigation lifecycle; RESOLVED requires closure evidence</td></tr>
+      <tr><td>RecordState</td><td>ACTIVE / ARCHIVED</td><td>ARCHIVED = resource no longer violates the condition</td></tr>
+      <tr><td>Resources</td><td>Array of affected AWS resources (Type, Id, Region)</td><td>Identify affected account, region, and resource type for scoping</td></tr>
+      <tr><td>Types</td><td>Namespace/Category/Classifier taxonomy</td><td>Distinguishes misconfiguration from active threat finding</td></tr>
+      <tr><td>CreatedAt / UpdatedAt / FirstObservedAt</td><td>ISO 8601 timestamps</td><td>Calculate MTTD (mean time to detect) and SLA age</td></tr>
+      <tr><td>AwsAccountId</td><td>AWS account ID of the affected resource</td><td>Essential for multi-account environments</td></tr>
+      <tr><td>ProductArn</td><td>ARN of the originating product (GuardDuty, Inspector, etc.)</td><td>Know the source to understand finding quality and type</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Security Standards in Detail</h3>
+  <p>Security Hub aggregates continuous compliance checks against multiple standards. Each control maps to an AWS service configuration check.</p>
+  <h4>AWS Foundational Security Best Practices (FSBP)</h4>
+  <p>FSBP is Palo Alto's recommended baseline. It covers ~400 controls across services including IAM, EC2, S3, RDS, Lambda, KMS, CloudTrail, and more. Controls that fail produce Security Hub findings automatically. Key controls to baseline on day one:</p>
+  <ul>
+    <li>IAM.1 — MFA for root account</li>
+    <li>IAM.3 — Access keys rotated within 90 days</li>
+    <li>S3.2 — S3 buckets should prohibit public read access</li>
+    <li>CloudTrail.2 — CloudTrail should have encryption at rest enabled</li>
+    <li>GuardDuty.1 — GuardDuty should be enabled</li>
+    <li>Config.1 — AWS Config should be enabled</li>
+    <li>EC2.6 — VPC flow logging should be enabled for all VPCs</li>
+  </ul>
+  <h4>CIS AWS Foundations Benchmark v1.4</h4>
+  <p>58 recommendations across IAM, logging, monitoring, and networking. Notable CIS controls:</p>
+  <ul>
+    <li>1.1 — Maintain current contact configuration for root account</li>
+    <li>1.4 — Ensure no root account access key exists</li>
+    <li>3.1 through 3.14 — CloudTrail enabled, multi-region, log file validation, integration with CloudWatch Logs</li>
+    <li>4.1 through 4.16 — CloudWatch metric filters and alarms for unauthorized API calls, root login, IAM policy changes, CloudTrail config changes, S3 bucket policy changes, etc.</li>
+  </ul>
+  <h4>PCI DSS v3.2.1 and NIST SP 800-53</h4>
+  <p>PCI DSS focuses on cardholder data environment controls. NIST 800-53 provides the broadest control coverage for federal-aligned or enterprise environments. Both can be enabled simultaneously with FSBP.</p>
+
+  <h3>GuardDuty Threat Categories and Finding Codes</h3>
+  <p>GuardDuty uses ML and threat intelligence to detect active threats. Findings are organized by threat category and resource type. Understanding the finding codes helps you triage faster and correlate with log evidence.</p>
+  <h4>Reconnaissance Findings</h4>
+  <ul>
+    <li><strong>Recon:EC2/Portscan</strong> — EC2 instance scanning ports on another host; check if instance was compromised or misused</li>
+    <li><strong>Recon:EC2/PortProbeUnprotectedPort</strong> — External source probing open port; validate whether the open port is intentional</li>
+    <li><strong>Recon:IAMUser/MaliciousIPCaller</strong> — IAM API calls originating from known malicious IP</li>
+  </ul>
+  <h4>Instance Compromise</h4>
+  <ul>
+    <li><strong>UnauthorizedAccess:EC2/SSHBruteForce</strong> — SSH brute force attempts to an EC2 instance; check VPC Flow Logs for volume and source</li>
+    <li><strong>CryptoCurrency:EC2/BitcoinTool.B!DNS</strong> — Instance resolving known cryptomining domains; isolate and investigate process tree</li>
+    <li><strong>Backdoor:EC2/C&amp;CActivity.B!DNS</strong> — Instance communicating with known C2 infrastructure via DNS; immediate isolation required</li>
+    <li><strong>Trojan:EC2/DNSDataExfiltration</strong> — DNS tunneling patterns detected; indicates data exfiltration or C2 beaconing</li>
+  </ul>
+  <h4>Account Compromise</h4>
+  <ul>
+    <li><strong>UnauthorizedAccess:IAMUser/ConsoleLoginSuccess.B</strong> — Console login from unusual geography or TOR exit node</li>
+    <li><strong>Stealth:IAMUser/CloudTrailLoggingDisabled</strong> — CloudTrail was disabled; assume active attacker covering tracks</li>
+    <li><strong>PrivilegeEscalation:IAMUser/AdministrativePermissions</strong> — User attached AdministratorAccess or created new admin role to themselves</li>
+    <li><strong>PersistenceIAMUser/UserPermissions</strong> — Attacker creating new IAM user, access keys, or role for persistence</li>
+  </ul>
+  <h4>S3 Threat Findings</h4>
+  <ul>
+    <li><strong>Policy:S3/BucketBlockPublicAccessDisabled</strong> — Block Public Access removed from a bucket; correlate with CloudTrail for who and when</li>
+    <li><strong>Exfiltration:S3/MaliciousIPCaller</strong> — GetObject calls from known malicious IP to your bucket</li>
+    <li><strong>UnauthorizedAccess:S3/TorIPCaller</strong> — S3 API calls originating from TOR exit nodes</li>
+  </ul>
+
+  <h3>CloudTrail Investigation Queries in Athena</h3>
+  <p>Security Hub findings often require correlating with raw CloudTrail events. Athena on top of an S3-backed CloudTrail log archive enables powerful ad-hoc investigation.</p>
+  <pre><code>-- Detect AssumeRole calls to look for lateral movement
+SELECT eventTime, sourceIPAddress, userAgent,
+       json_extract_scalar(requestParameters, '$.roleArn') AS assumed_role,
+       errorCode
+FROM cloudtrail_logs
+WHERE eventName = 'AssumeRole'
+  AND eventTime > '2024-01-01T00:00:00Z'
+ORDER BY eventTime DESC LIMIT 100;
+
+-- Find S3 GetObject calls from external IPs (potential exfiltration)
+SELECT eventTime, sourceIPAddress, userIdentity.arn,
+       json_extract_scalar(requestParameters, '$.bucketName') AS bucket,
+       json_extract_scalar(requestParameters, '$.key') AS object_key
+FROM cloudtrail_logs
+WHERE eventName = 'GetObject'
+  AND NOT starts_with(sourceIPAddress, '10.')
+  AND NOT starts_with(sourceIPAddress, '172.')
+ORDER BY eventTime DESC LIMIT 200;
+
+-- Find root account usage
+SELECT eventTime, sourceIPAddress, userAgent, eventName, errorCode
+FROM cloudtrail_logs
+WHERE userIdentity.type = 'Root'
+ORDER BY eventTime DESC LIMIT 50;
+
+-- Find CloudTrail disable/stop events
+SELECT eventTime, sourceIPAddress, userIdentity.arn, eventName
+FROM cloudtrail_logs
+WHERE eventName IN ('StopLogging', 'DeleteTrail', 'UpdateTrail', 'PutEventSelectors')
+ORDER BY eventTime DESC;</code></pre>
+
+  <h3>AWS Config: Continuous Compliance Rules</h3>
+  <p>AWS Config evaluates resource configurations against managed or custom rules continuously. Findings flow into Security Hub as FAILED evaluations.</p>
+  <h4>High-Value Managed Config Rules</h4>
+  <table class="deep-table">
+    <thead><tr><th>Rule Name</th><th>What It Checks</th></tr></thead>
+    <tbody>
+      <tr><td>access-keys-rotated</td><td>IAM access keys older than N days (default 90)</td></tr>
+      <tr><td>iam-password-policy</td><td>Account password policy meets minimum requirements</td></tr>
+      <tr><td>restricted-ssh</td><td>Security groups not allowing unrestricted SSH from 0.0.0.0/0</td></tr>
+      <tr><td>s3-bucket-public-read-prohibited</td><td>No S3 bucket grants public read via ACL or policy</td></tr>
+      <tr><td>cloudtrail-enabled</td><td>CloudTrail is active in each region</td></tr>
+      <tr><td>cloud-trail-log-file-validation-enabled</td><td>Log file integrity validation is on</td></tr>
+      <tr><td>ec2-instance-no-public-ip</td><td>EC2 instances in flagged subnets don't have public IPs</td></tr>
+      <tr><td>rds-instance-public-access-check</td><td>RDS instances are not publicly accessible</td></tr>
+      <tr><td>kms-cmk-not-scheduled-for-deletion</td><td>Customer-managed KMS keys are not pending deletion</td></tr>
+      <tr><td>guardduty-enabled-centralized</td><td>GuardDuty is enabled and delegated to the security account</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Conformance Packs</strong> bundle multiple Config rules into a single deployable unit. AWS provides pre-built Conformance Packs for CIS, NIST, and PCI DSS. Deploy via Organizations for account-wide coverage.</p>
+
+  <h3>EventBridge: Automated Response Integration</h3>
+  <p>EventBridge rules can trigger Lambda functions, SNS topics, SQS queues, and Step Functions in response to Security Hub finding events. This enables automated notification, enrichment, and remediation.</p>
+  <pre><code>// EventBridge rule pattern: trigger on Security Hub HIGH/CRITICAL findings
+{
+  "source": ["aws.securityhub"],
+  "detail-type": ["Security Hub Findings - Imported"],
+  "detail": {
+    "findings": {
+      "Severity": {
+        "Label": ["CRITICAL", "HIGH"]
+      },
+      "WorkflowStatus": ["NEW"],
+      "RecordState": ["ACTIVE"]
+    }
+  }
+}</code></pre>
+  <p>The Lambda target can: enrich the finding with CloudTrail context, create a Jira ticket, send a PagerDuty alert, add resource tags for investigation, or invoke an isolation Step Function. Always update WorkflowStatus to NOTIFIED in Security Hub once a ticket is created to prevent duplicate alerts.</p>
+
+  <h3>Multi-Account Aggregation and Organizations Integration</h3>
+  <p>In Organizations-based environments, Security Hub should be centrally managed from a dedicated Security account.</p>
+  <ul>
+    <li><strong>Delegated Administrator:</strong> Designate your Security account as the Security Hub delegated admin via Organizations. This lets you see findings from all member accounts in a single Security Hub instance without manual invitations.</li>
+    <li><strong>Aggregation Region:</strong> Select one primary region as the Aggregation Region. Findings from all other regions in all member accounts roll up here. This consolidates global investigation without switching regions.</li>
+    <li><strong>Auto-enable:</strong> Configure Security Hub to automatically enable in new accounts as they join the organization and auto-enable standards (FSBP) on join.</li>
+    <li><strong>Cross-account findings:</strong> AwsAccountId in the ASFF finding tells you which member account owns the affected resource — critical for triaging at scale.</li>
+    <li><strong>Suppression at scale:</strong> Use automation rules (introduced in 2023) to auto-suppress specific finding types or update workflow status based on resource tags — reduces noise from known-exception resources across all member accounts.</li>
+  </ul>
+</div>`
   },
   "aws-cloud-security-engineering": {
     navLabel: "AWS Cloud Security",
@@ -429,7 +631,221 @@ const extendedStudyModules = {
       "Set up AWS so teams move fast without breaking security.",
       "Good identity and logging design prevents most cloud chaos.",
       "If you can explain and prove your guardrails, you are ready."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>IAM Policy Evaluation Logic: The 6-Step Decision Order</h3>
+  <p>When any AWS principal makes a request, IAM evaluates a specific sequence of policy layers. Understanding this order is essential for debugging access denials and designing least-privilege correctly.</p>
+  <ol>
+    <li><strong>Explicit Deny</strong> — Any policy with an explicit Deny on the action wins immediately. No Allow can override an explicit Deny (except for permission boundaries, which can only restrict, never allow beyond identity policies).</li>
+    <li><strong>Service Control Policy (SCP)</strong> — If the account is in an AWS Organization, the SCP must allow the action. An SCP is not a grant — it only constrains what identity policies can permit. If an SCP doesn't include the action, it's implicitly denied regardless of identity policy.</li>
+    <li><strong>Resource-Based Policy</strong> — For cross-account access, a resource-based policy (e.g., S3 bucket policy) can grant access independently. For same-account, both identity and resource policy must allow or only resource policy with explicit principal match.</li>
+    <li><strong>Identity-Based Policy</strong> — The IAM policies (inline or managed) attached to the user, group, or role must allow the action.</li>
+    <li><strong>Permission Boundary</strong> — If a permission boundary is attached to the role or user, it must also allow the action. A boundary limits the maximum permissions — it cannot grant permissions that aren't also in the identity policy.</li>
+    <li><strong>Session Policy</strong> — For roles assumed via AssumeRole with a session policy, the session policy further intersects (restricts) what the identity policy allows. Useful for delegating scoped access without changing the role's base policy.</li>
+  </ol>
+  <h4>Debugging Denied Actions</h4>
+  <pre><code># Simulate an action to see which policy layer denies it
+aws iam simulate-principal-policy \\
+  --policy-source-arn arn:aws:iam::123456789012:role/MyRole \\
+  --action-names s3:GetObject \\
+  --resource-arns arn:aws:s3:::my-bucket/key
+
+# Check effective permissions for a role
+aws iam get-role --role-name MyRole
+aws iam list-attached-role-policies --role-name MyRole
+aws iam list-role-policies --role-name MyRole  # inline policies</code></pre>
+
+  <h3>Service Control Policies: Organizational Guardrails</h3>
+  <p>SCPs are preventive guardrails applied at the OU or account level in AWS Organizations. They are the highest-level enforcement mechanism — even the account's root user cannot exceed SCP boundaries.</p>
+  <h4>Key SCP Patterns</h4>
+  <pre><code>// Deny disabling CloudTrail (detective control protection)
+{
+  "Sid": "DenyCloudTrailDisable",
+  "Effect": "Deny",
+  "Action": [
+    "cloudtrail:StopLogging",
+    "cloudtrail:DeleteTrail",
+    "cloudtrail:UpdateTrail"
+  ],
+  "Resource": "*"
+}
+
+// Deny public S3 bucket ACLs
+{
+  "Sid": "DenyPublicS3ACL",
+  "Effect": "Deny",
+  "Action": "s3:PutBucketAcl",
+  "Resource": "*",
+  "Condition": {
+    "StringEquals": {
+      "s3:x-amz-acl": ["public-read", "public-read-write", "authenticated-read"]
+    }
+  }
+}
+
+// Restrict operations to approved regions only
+{
+  "Sid": "DenyNonApprovedRegions",
+  "Effect": "Deny",
+  "NotAction": [
+    "iam:*", "sts:*", "organizations:*",
+    "support:*", "cloudfront:*", "route53:*"
+  ],
+  "Resource": "*",
+  "Condition": {
+    "StringNotEquals": {
+      "aws:RequestedRegion": ["us-east-1", "us-west-2"]
+    }
+  }
+}
+
+// Require MFA for sensitive IAM actions
+{
+  "Sid": "RequireMFAForIAMChanges",
+  "Effect": "Deny",
+  "Action": ["iam:DeleteUserPolicy", "iam:AttachUserPolicy", "iam:CreateLoginProfile"],
+  "Resource": "*",
+  "Condition": {
+    "BoolIfExists": { "aws:MultiFactorAuthPresent": "false" }
+  }
+}</code></pre>
+  <p><strong>SCP gotchas:</strong> SCPs do not apply to the management (root) account of the Organization. Service-linked roles are not restricted by SCPs. Test SCPs in non-production OUs before applying to workload accounts.</p>
+
+  <h3>Security Groups vs Network ACLs</h3>
+  <table class="deep-table">
+    <thead><tr><th>Property</th><th>Security Groups</th><th>Network ACLs</th></tr></thead>
+    <tbody>
+      <tr><td>Scope</td><td>Applied to ENI (instance level)</td><td>Applied to subnet boundaries</td></tr>
+      <tr><td>Statefulness</td><td>Stateful — return traffic automatically allowed</td><td>Stateless — must explicitly allow inbound AND outbound for each flow</td></tr>
+      <tr><td>Rule types</td><td>Allow rules only (implicit deny of all else)</td><td>Allow and Deny rules with numbered priority</td></tr>
+      <tr><td>Rule evaluation</td><td>All rules evaluated together</td><td>Processed in ascending rule number order — first match wins</td></tr>
+      <tr><td>Scope of effect</td><td>Only affects attached instances</td><td>Affects all resources in the subnet</td></tr>
+      <tr><td>Best use</td><td>Service-to-service allow rules, least-privilege instance access</td><td>Blocking specific IP ranges, broad subnet-level restrictions</td></tr>
+      <tr><td>Default behavior</td><td>Default SG: allow all outbound, deny all inbound</td><td>Default NACL: allow all inbound and outbound</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Operational pattern:</strong> Use Security Groups as primary controls (they are stateful and easier to manage). Use NACLs for explicit IP blocklist enforcement at subnet level — particularly useful for blocking known-malicious CIDRs identified during incidents.</p>
+
+  <h3>VPC Flow Logs: Capture and Investigation</h3>
+  <p>VPC Flow Logs capture metadata about IP traffic through ENIs. They do not capture payload content — but are invaluable for network investigation.</p>
+  <h4>Key Flow Log Fields</h4>
+  <p>Default fields include: version, account-id, interface-id, srcaddr, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action (ACCEPT/REJECT), log-status.</p>
+  <h4>Athena Query: SSH Brute Force Investigation</h4>
+  <pre><code>-- Find external sources making high-volume SSH connection attempts (REJECT)
+SELECT srcaddr, COUNT(*) AS attempt_count, SUM(packets) AS total_packets
+FROM vpc_flow_logs
+WHERE dstport = 22
+  AND action = 'REJECT'
+  AND start > to_unixtime(current_timestamp - interval '1' hour)
+GROUP BY srcaddr
+ORDER BY attempt_count DESC
+LIMIT 20;
+
+-- Correlate accepted SSH connections with the same source IPs
+SELECT srcaddr, dstaddr, dstport, start, end, bytes, action
+FROM vpc_flow_logs
+WHERE srcaddr IN ('203.0.113.50', '198.51.100.22')
+  AND dstport = 22
+  AND action = 'ACCEPT'
+ORDER BY start DESC;</code></pre>
+
+  <h3>KMS: Key Types, Envelope Encryption, and Key Policy</h3>
+  <h4>Key Types Comparison</h4>
+  <table class="deep-table">
+    <thead><tr><th>Key Type</th><th>Management</th><th>Rotation</th><th>Cost</th><th>Use Case</th></tr></thead>
+    <tbody>
+      <tr><td>AWS Managed Key</td><td>AWS creates and manages automatically per service</td><td>Annual automatic</td><td>Free</td><td>Default encryption for S3, RDS, EBS without custom policy needs</td></tr>
+      <tr><td>Customer Managed Key (CMK)</td><td>You create, rotate, and set key policy</td><td>Manual or annual auto-rotate</td><td>$1/month per key</td><td>Regulatory requirements, cross-account sharing, custom grant controls</td></tr>
+      <tr><td>AWS CloudHSM</td><td>Your dedicated HSM hardware in your VPC</td><td>You manage</td><td>High</td><td>FIPS 140-2 Level 3, bespoke cryptographic operations</td></tr>
+    </tbody>
+  </table>
+  <h4>Envelope Encryption</h4>
+  <p>AWS services use envelope encryption: a <strong>data key</strong> encrypts the actual data, and the <strong>KMS CMK</strong> encrypts (wraps) the data key. The encrypted data key is stored alongside the ciphertext. On decrypt: KMS decrypts the data key, the service uses the data key to decrypt the object, then the data key is discarded from memory. The CMK never leaves KMS.</p>
+  <h4>Key Policy Best Practice</h4>
+  <pre><code>// Ensure the key admin cannot use the key for cryptographic operations
+// and ensure key usage is restricted to specific roles
+{
+  "Sid": "AllowKeyUsageBySpecificRole",
+  "Effect": "Allow",
+  "Principal": {
+    "AWS": "arn:aws:iam::123456789012:role/AppEncryptionRole"
+  },
+  "Action": ["kms:Decrypt", "kms:GenerateDataKey"],
+  "Resource": "*"
+}</code></pre>
+  <p><strong>Key deletion protection:</strong> Schedule deletion has a 7–30 day waiting period. Use kms-cmk-not-scheduled-for-deletion Config rule to alert on pending deletion. If an attacker schedules key deletion, you have a window to cancel it.</p>
+
+  <h3>WAF and Shield: Web Application and DDoS Protection</h3>
+  <h4>AWS WAF Rule Types</h4>
+  <ul>
+    <li><strong>AWS Managed Rule Groups</strong> — Pre-built rule sets maintained by AWS: AWSManagedRulesCommonRuleSet (OWASP Top 10 equivalent), AWSManagedRulesKnownBadInputsRuleSet (log4j, SSRF, Local File Inclusion), AWSManagedRulesSQLiRuleSet, AWSManagedRulesBotControlRuleSet</li>
+    <li><strong>Rate-Based Rules</strong> — Block source IPs exceeding a request threshold within 5 minutes. Use for brute force and scraping protection. Minimum threshold: 100 requests.</li>
+    <li><strong>Geo-restriction</strong> — Block or allow based on country of origin. Useful for services with known geographic usage scope.</li>
+    <li><strong>Custom Rules</strong> — Header inspection, URI path matching, query string conditions, IP set references (for allowlisting known CIDRs).</li>
+  </ul>
+  <h4>Shield Standard vs Advanced</h4>
+  <table class="deep-table">
+    <thead><tr><th>Feature</th><th>Shield Standard</th><th>Shield Advanced</th></tr></thead>
+    <tbody>
+      <tr><td>Cost</td><td>Free, included in AWS</td><td>~$3,000/month per org</td></tr>
+      <tr><td>DDoS protection</td><td>Layer 3/4 volumetric protection automatically</td><td>Layer 7 + intelligent mitigation with DRT support</td></tr>
+      <tr><td>DDoS Response Team (DRT)</td><td>Not included</td><td>24/7 AWS DRT engagement during attacks</td></tr>
+      <tr><td>Cost protection</td><td>None</td><td>AWS credits for scaling costs during DDoS events</td></tr>
+      <tr><td>Visibility</td><td>Basic CloudWatch metrics</td><td>Real-time attack visibility and historical reporting</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Amazon Inspector: Vulnerability Assessment</h3>
+  <p>Amazon Inspector v2 continuously scans for software vulnerabilities and misconfigurations. Unlike the original Inspector, v2 requires no agents on EC2 (uses SSM) and integrates natively with Security Hub.</p>
+  <ul>
+    <li><strong>EC2 scanning:</strong> OS package vulnerabilities and network reachability findings (e.g., which ports are reachable from internet)</li>
+    <li><strong>ECR container image scanning:</strong> Scans images on push and continuously for new CVEs without re-pushing</li>
+    <li><strong>Lambda function scanning:</strong> Code and dependency vulnerability assessment for Lambda layers and function packages</li>
+    <li><strong>SBOM generation:</strong> Inspector can export a Software Bill of Materials (SBOM) for all scanned resources in CycloneDX or SPDX format</li>
+    <li><strong>Security Hub integration:</strong> All Inspector findings appear in Security Hub with ASFF format — enabling unified triage and suppression</li>
+  </ul>
+
+  <h3>EC2 Compromise: Incident Response Procedure</h3>
+  <p>When GuardDuty or Security Hub signals a compromised EC2 instance, follow a structured isolation and forensic procedure. Speed matters — but so does evidence preservation.</p>
+  <pre><code># Step 1: Capture instance metadata for triage
+aws ec2 describe-instances --instance-ids i-0abc12345def67890 \\
+  --query 'Reservations[].Instances[].[InstanceId,VpcId,SubnetId,SecurityGroups,IamInstanceProfile]'
+
+# Step 2: Take EBS snapshot before isolation (preserve forensic evidence)
+aws ec2 create-snapshot \\
+  --volume-id vol-0abc12345def67890 \\
+  --description "Incident-$(date +%Y%m%d-%H%M%S)-forensic-snapshot"
+
+# Step 3: Isolate using a quarantine Security Group (deny all inbound + outbound)
+aws ec2 modify-instance-attribute \\
+  --instance-id i-0abc12345def67890 \\
+  --groups sg-quarantine-0abc12345def67890
+
+# Step 4: Revoke IAM role credentials if role was potentially exfiltrated
+# - Get session tokens issued to the role
+aws iam put-role-policy --role-name CompromisedRole \\
+  --policy-name DenyAllPolicy \\
+  --policy-document '{"Version":"2012-10-17","Statement":[{"Effect":"Deny","Action":"*","Resource":"*"}]}'
+
+# Step 5: Enable termination protection to prevent evidence destruction
+aws ec2 modify-instance-attribute \\
+  --instance-id i-0abc12345def67890 \\
+  --disable-api-termination
+
+# Step 6: Verify CloudTrail is intact (attacker may have tried to disable)
+aws cloudtrail get-trail-status --name my-trail --query '[IsLogging,LatestDeliveryTime]'</code></pre>
+
+  <h3>IAM Identity Center: Centralized Access for Multi-Account</h3>
+  <p>IAM Identity Center (formerly AWS SSO) centralizes human access to multiple AWS accounts from a single identity source. It replaces per-account IAM user management in Organizations environments.</p>
+  <ul>
+    <li><strong>Permission Sets:</strong> Define what a user can do in an account. Equivalent to an IAM role. Pre-built sets include AdministratorAccess, PowerUserAccess, ReadOnlyAccess. Create custom Permission Sets for least-privilege.</li>
+    <li><strong>Account Assignments:</strong> Bind users or groups from your identity source to a Permission Set in a specific account. Assignment creates a temporary role in the target account automatically.</li>
+    <li><strong>ABAC (Attribute-Based Access Control):</strong> Use identity source attributes (department, team, cost-center) as session tags to make Permission Sets dynamic — one Permission Set that restricts to resources tagged with the user's team.</li>
+    <li><strong>SCIM Provisioning:</strong> Sync users and groups from Okta, Azure AD, or other external IdPs automatically via SCIM. No manual user management in Identity Center during offboarding — deprovisioning in IdP removes AWS access.</li>
+    <li><strong>Session duration:</strong> Set maximum session duration per Permission Set. Privileged access should use short sessions (1–4 hours). Non-interactive automation should use service accounts with role assumption, not Identity Center.</li>
+  </ul>
+</div>`
   },
   "siem-tooling-platform-depth": {
     navLabel: "SIEM Tooling",
@@ -467,7 +883,115 @@ const extendedStudyModules = {
       "Different SIEM tools speak different query languages but solve similar SOC problems.",
       "Learn how to move your detection thinking between platforms.",
       "Track outcomes, not just query syntax."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>SIEM Platform Query Language Comparison</h3>
+  <table class="deep-table">
+    <thead><tr><th>Platform</th><th>Language</th><th>Basic Search Example</th><th>Aggregation Pattern</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Splunk</strong></td><td>SPL</td><td>index=windows EventCode=4625 | head 100</td><td>| stats count by Account, src_ip</td></tr>
+      <tr><td><strong>Elastic/Kibana</strong></td><td>KQL/ESQL</td><td>event.code: "4625" AND host.os.type: "windows"</td><td>FROM logs-* | STATS count(*) BY user.name</td></tr>
+      <tr><td><strong>Microsoft Sentinel</strong></td><td>KQL</td><td>SecurityEvent | where EventID == 4625</td><td>| summarize count() by Account, IpAddress</td></tr>
+      <tr><td><strong>IBM QRadar</strong></td><td>AQL</td><td>SELECT * FROM events WHERE eventid=4625 LAST 1 HOURS</td><td>SELECT username, COUNT(*) AS cnt FROM events GROUP BY username</td></tr>
+      <tr><td><strong>Sumo Logic</strong></td><td>Sumo QL</td><td>_sourceCategory=windows | where eventid=4625</td><td>| count by src_user, src_ip | sort by _count</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Detection Engineering Workflow (Platform-Agnostic)</h3>
+  <div class="flow-steps">
+    <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Hypothesis First:</strong> Define the behavior you want to detect using ATT&CK technique description, before writing any query.</div></div>
+    <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Map to Log Fields:</strong> Identify which SIEM source type contains the relevant telemetry. Confirm the fields are normalized in your data model (ECS, CIM, etc.).</div></div>
+    <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Write Platform-Native Query:</strong> Translate the hypothesis into the native query language of your current SIEM. Keep it simple first — no premature optimization.</div></div>
+    <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Test Against Historical Data:</strong> Run query against 30-90 days of historical data. Assess: How many hits? Are they all TP or mostly FP?</div></div>
+    <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Add Exclusions:</strong> Tune out known-safe patterns (admin scripts, monitoring tools, approved automation). Document each exclusion reason.</div></div>
+    <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Publish with Metadata:</strong> Tag the rule with ATT&CK technique, owner, creation date, review date, expected false-positive rate.</div></div>
+  </div>
+
+  <h3>SIEM Tuning Cheat Sheet</h3>
+  <div class="cheat-sheet">
+    <h5>Alert Quality Improvement Commands</h5>
+    <div class="cmd-row"><span class="cmd">Step 1: Measure FP rate</span><span class="cmd-desc">Count investigations last 30 days → % closed as FP. >30% FP = needs tuning</span></div>
+    <div class="cmd-row"><span class="cmd">Step 2: Find top FP patterns</span><span class="cmd-desc">Group FP dispositions by field value (user, hostname, process) — find most common FP clusters</span></div>
+    <div class="cmd-row"><span class="cmd">Step 3: Add targeted exclusion</span><span class="cmd-desc">NOT for known-safe: NOT (user="svc_monitoring" AND process="check_mk")</span></div>
+    <div class="cmd-row"><span class="cmd">Step 4: Increase specificity</span><span class="cmd-desc">Add additional conditions to narrow scope: require 2+ signals instead of 1</span></div>
+    <div class="cmd-row"><span class="cmd">Step 5: Retest after 7 days</span><span class="cmd-desc">Confirm FP rate dropped without missing real detections (validate against test data)</span></div>
+    <div class="cmd-row"><span class="cmd">Step 6: Document change</span><span class="cmd-desc">Changelog: what changed, why, who approved, expected impact on TP/FP rate</span></div>
+  </div>
+
+  <h3>Cross-Platform SIEM Query Translation Example</h3>
+  <div class="code-block">
+Query Goal: Detect PowerShell with -EncodedCommand flag (T1059.001)
+
+SPLUNK SPL:
+index=sysmon EventCode=1 
+| where like(CommandLine, "%-enc%") OR like(CommandLine, "%-EncodedCommand%")
+| where Image like "%powershell%"
+| stats count by Computer, User, CommandLine
+| where count >= 1
+
+ELASTIC KQL:
+process.name: "powershell.exe" AND 
+process.args: ("-enc" OR "-EncodedCommand" OR "-e" OR "-Encoded")
+
+MICROSOFT SENTINEL KQL:
+DeviceProcessEvents
+| where FileName =~ "powershell.exe"
+| where ProcessCommandLine contains "-EncodedCommand" or ProcessCommandLine contains " -enc "
+| project TimeGenerated, DeviceName, AccountName, ProcessCommandLine
+
+QRADAR AQL:
+SELECT "sourceip", "username", "UTF8(payload)" 
+FROM events
+WHERE process_name ILIKE '%powershell%' 
+AND "UTF8(payload)" ILIKE '%-enc%'
+LAST 24 HOURS
+
+Key Field Differences Across Platforms:
+  Splunk:    Image, CommandLine, Computer, User
+  Elastic:   process.name, process.args, host.name, user.name
+  Sentinel:  FileName, ProcessCommandLine, DeviceName, AccountName
+  QRadar:    process_name, username, payload (raw)
+  </div>
+
+  <h3>Platform Selection Reference</h3>
+  <div class="visual-card-grid">
+    <div class="visual-card">
+      <h5>Choose Splunk When</h5>
+      <ul>
+        <li>High data volume with custom parsing needs</li>
+        <li>Large team with SPL expertise investments</li>
+        <li>Need mature enterprise correlation rules</li>
+        <li>Enterprise Security premium app feasible</li>
+      </ul>
+    </div>
+    <div class="visual-card">
+      <h5>Choose Elastic When</h5>
+      <ul>
+        <li>Cost-sensitive; open source core preferred</li>
+        <li>Engineering team comfortable managing clusters</li>
+        <li>Need integrated EDR (Elastic Agent)</li>
+        <li>ECS-normalized data pipeline already exists</li>
+      </ul>
+    </div>
+    <div class="visual-card">
+      <h5>Choose Sentinel When</h5>
+      <ul>
+        <li>Microsoft-heavy environment (Azure/M365/Defender)</li>
+        <li>Cloud-native scaling requirements</li>
+        <li>Need built-in SOAR (Logic Apps)</li>
+        <li>KQL skills exist in the team</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="resource-links">
+    <a class="resource-link" href="https://sigmahq.io/" target="_blank">SigmaHQ — Cross-Platform Detection Rules</a>
+    <a class="resource-link" href="https://docs.splunk.com/Documentation/ES" target="_blank">Splunk Enterprise Security Docs</a>
+    <a class="resource-link" href="https://learn.microsoft.com/en-us/azure/sentinel/" target="_blank">Microsoft Sentinel Documentation</a>
+    <a class="resource-link" href="https://www.elastic.co/guide/en/security/current/" target="_blank">Elastic Security Guide</a>
+  </div>
+</div>`
   },
   "edr-and-edrm-operations": {
     navLabel: "EDR Operations",
@@ -501,7 +1025,87 @@ const extendedStudyModules = {
       "EDR helps you see what ran on a machine and how risky it is.",
       "Contain first, investigate deeply, then prove cleanup.",
       "Always leave a clear evidence trail."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>EDR Platform Telemetry Comparison</h3>
+  <table class="deep-table">
+    <thead><tr><th>Telemetry Type</th><th>CrowdStrike Falcon</th><th>SentinelOne</th><th>Microsoft Defender</th><th>Investigation Value</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Process Execution</strong></td><td>Full process tree with parent lineage</td><td>Storyline™ — complete behavioral context</td><td>ProcessCreated event in Device events</td><td>Critical — shows attack chain</td></tr>
+      <tr><td><strong>Network Activity</strong></td><td>Network connections with process context</td><td>Network events linked to process Storyline</td><td>DeviceNetworkEvents with process link</td><td>High — identifies C2 and exfil</td></tr>
+      <tr><td><strong>File Operations</strong></td><td>File create/modify/delete events</td><td>File events with hash + reputation</td><td>DeviceFileEvents with hash</td><td>High — tracks payload drops</td></tr>
+      <tr><td><strong>Registry Changes</strong></td><td>Registry modification events</td><td>Registry events linked to process</td><td>DeviceRegistryEvents</td><td>Medium — identifies persistence</td></tr>
+      <tr><td><strong>Memory Analysis</strong></td><td>In-memory threat detection</td><td>Behavioral AI + NGAV</td><td>Advanced hunting memory snapshots</td><td>High — fileless malware detection</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Endpoint Triage Investigation Flow</h3>
+  <div class="flow-steps">
+    <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Alert Review:</strong> Read the detection name and mapped technique. What behavior does this alert detect? Is this a high-confidence behavioral rule or a simple signature?</div></div>
+    <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Process Tree Analysis:</strong> Follow the process tree: what was the parent process? Was it expected? (explorer.exe starting cmd.exe is normal; Word.exe starting PowerShell is suspicious.)</div></div>
+    <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Command Line Review:</strong> Read the exact command line arguments. Encoded strings (-enc), script execution (-exec bypass), or download cradles are red flags. VirusTotal the hash.</div></div>
+    <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Network Connections:</strong> Did the suspicious process make outbound connections? To where? Is the destination IP/domain known malicious? Check timing (beacon interval?)</div></div>
+    <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Scope Assessment:</strong> Has this process run on other devices? Same user? Same time window? Lateral movement check: any admin share connections or RDP from this host?</div></div>
+    <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Containment Decision:</strong> Based on confidence level: High = isolate immediately. Medium = isolate + notify user. Low = monitor + enrich. Document your reasoning.</div></div>
+  </div>
+
+  <h3>EDR Console Investigation Cheat Sheet</h3>
+  <div class="cheat-sheet">
+    <h5>CrowdStrike Falcon Event Search Examples</h5>
+    <div class="cmd-row"><span class="cmd">event_platform=Win event_simpleName=ProcessRollup2 ImageFileName=*powershell* CommandLine=*enc*</span><span class="cmd-desc">Find encoded PowerShell executions</span></div>
+    <div class="cmd-row"><span class="cmd">event_platform=Win event_simpleName=DnsRequest DomainName!="*microsoft.com"</span><span class="cmd-desc">Find DNS queries to non-Microsoft domains (filter based on expected)</span></div>
+    <div class="cmd-row"><span class="cmd">event_platform=Win event_simpleName=NetworkConnect RemotePort=4444</span><span class="cmd-desc">Potential Metasploit C2 ports — investigate immediately</span></div>
+    <div class="cmd-row"><span class="cmd">event_simpleName=PeFileWritten FilePath=*\\AppData\\* FileExtension=exe</span><span class="cmd-desc">Executables dropped to user AppData — common malware staging</span></div>
+    <div class="cmd-row"><span class="cmd">ComputerName="LAPTOP-ABC" | groupby ImageFileName, CommandLine | sort count desc</span><span class="cmd-desc">Top processes on a suspect host for baselining</span></div>
+  </div>
+
+  <h3>Forensic Evidence Collection Checklist</h3>
+  <div class="visual-card-grid">
+    <div class="visual-card">
+      <h5>Volatile Evidence (Collect First)</h5>
+      <ul>
+        <li>Memory dump (full RAM image if feasible)</li>
+        <li>Running processes list with PIDs and hashes</li>
+        <li>Active network connections (netstat -anpb)</li>
+        <li>Logged-in users and recent sessions</li>
+      </ul>
+    </div>
+    <div class="visual-card">
+      <h5>Persistent Evidence (Collect Second)</h5>
+      <ul>
+        <li>Windows Event Logs (Security, System, Application, PowerShell)</li>
+        <li>Registry export (Run/RunOnce keys, services)</li>
+        <li>Prefetch files (evidence of execution)</li>
+        <li>Browser history and downloads</li>
+      </ul>
+    </div>
+    <div class="visual-card">
+      <h5>Evidence Handling Rules</h5>
+      <ul>
+        <li>Hash all collected files (SHA256) before analysis</li>
+        <li>Document collection time, tool used, analyst name</li>
+        <li>Never modify the original evidence — work on copies</li>
+        <li>Store evidence in encrypted, access-controlled location</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="visual-warning">
+    <strong>Containment Mistakes to Avoid:</strong><br/>
+    ✗ Isolating before capturing evidence — isolation may destroy volatile data<br/>
+    ✗ Rebooting an infected device — clears volatile memory and may destroy forensic artifacts<br/>
+    ✗ Containing without notifying the user — causes panic and helpdesk overload<br/>
+    ✓ Always document: why you contained, when, evidence collected, rollback criteria
+  </div>
+
+  <div class="resource-links">
+    <a class="resource-link" href="https://attack.mitre.org/tactics/TA0040/" target="_blank">MITRE ATT&CK — Impact Tactics (Ransomware, Wipers)</a>
+    <a class="resource-link" href="https://github.com/redcanaryco/atomic-red-team" target="_blank">Atomic Red Team — Endpoint Technique Testing</a>
+    <a class="resource-link" href="https://www.crowdstrike.com/blog/" target="_blank">CrowdStrike Blog — Threat Intelligence</a>
+    <a class="resource-link" href="https://docs.microsoft.com/en-us/microsoft-365/security/defender-endpoint/" target="_blank">Microsoft Defender for Endpoint Docs</a>
+  </div>
+</div>`
   },
   "threat-intelligence-and-ioc-engineering": {
     navLabel: "Threat Intel & IOCs",
@@ -569,7 +1173,163 @@ const extendedStudyModules = {
       "Use Palo Alto rules to tightly control who can talk to what.",
       "Profiles catch known bad behavior while logs tell the story.",
       "Every exception should have an owner and end date."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>App-ID: Application-Layer Traffic Classification</h3>
+  <p>Palo Alto's App-ID engine identifies applications before applying security policy. Classification happens in a multi-phase pipeline — not purely by port. This is why App-ID policies are significantly more precise than traditional port-based ACLs.</p>
+  <h4>App-ID Classification Pipeline</h4>
+  <ol>
+    <li><strong>Session setup and port check</strong> — Packet headers are evaluated. Well-known ports trigger an initial application guess but this is not final.</li>
+    <li><strong>Signature matching</strong> — The decoder matches packet payload against known application signatures. This catches most standard apps immediately.</li>
+    <li><strong>Protocol decoding</strong> — For complex or tunneled protocols, the decoder parses protocol structure to identify the real application (e.g., HTTP carrying something else).</li>
+    <li><strong>Heuristic and behavioral analysis</strong> — Traffic that evades signature and decoding is evaluated against behavioral patterns. Remaining unknowns are classified as unknown-tcp or unknown-udp until additional packets arrive.</li>
+  </ol>
+  <p><strong>App-ID content updates</strong> ship from Palo Alto Networks and add new application signatures. Updates should be applied on a tested schedule — validate against existing policy before auto-enabling in production.</p>
+  <p><strong>Application Override</strong> lets you bypass App-ID for specific traffic and assign a custom app label. Use this sparingly (usually for in-house or encrypted applications that App-ID cannot decode). Overriding disables threat inspection on that flow.</p>
+
+  <h3>User-ID: Mapping Traffic to Identities</h3>
+  <p>User-ID associates IP addresses with Active Directory (or LDAP) usernames so policies can be written against groups and individuals rather than subnets alone. Without User-ID, you are writing IP-based policy that breaks whenever DHCP reassigns addresses.</p>
+  <h4>User Mapping Methods</h4>
+  <table class="deep-table">
+    <thead><tr><th>Method</th><th>How it Works</th><th>Best Use</th></tr></thead>
+    <tbody>
+      <tr><td>Windows Security Log (WinRM)</td><td>Firewall polls DCs for login events (4768, 4769, 4770)</td><td>Standard AD environments</td></tr>
+      <tr><td>Syslog from DC</td><td>DC pushes login events to firewall syslog listener</td><td>High-volume or large DC fleets</td></tr>
+      <tr><td>GlobalProtect agent</td><td>GP client reports user on connect — most accurate</td><td>Remote/endpoint-centric environments</td></tr>
+      <tr><td>XML API</td><td>External system pushes user-to-IP mappings via REST</td><td>Custom identity sources (NAC, VDI, MDM)</td></tr>
+      <tr><td>Captive Portal</td><td>Unauthenticated browser session prompt</td><td>Guest networks, BYOD zones</td></tr>
+      <tr><td>Terminal Services Agent</td><td>Runs on Citrix/RDS server to map per-user sessions on shared IP</td><td>VDI environments where many users share one server IP</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Shared IP problem:</strong> NAT environments, VDI farms, and proxy servers cause multiple users to map to one IP. The Terminal Services Agent solves this for Citrix/RDS. For NAT scenarios, ensure subnet-level rules handle the aggregate correctly, or deploy GP to authenticated endpoints.</p>
+
+  <h3>Zone Architecture and Trust Levels</h3>
+  <p>Security zones are the foundational building block of Palo Alto policy. Every interface is assigned to a zone and all policy is zone-pair based. Zones should map to trust levels — not just network segments.</p>
+  <table class="deep-table">
+    <thead><tr><th>Zone</th><th>Trust Level</th><th>Typical Members</th><th>Default Policy</th></tr></thead>
+    <tbody>
+      <tr><td>Untrust</td><td>Zero</td><td>Internet-facing interfaces</td><td>Deny all inbound</td></tr>
+      <tr><td>DMZ</td><td>Low</td><td>Web servers, jump hosts, reverse proxies</td><td>Allow specific inbound, no lateral</td></tr>
+      <tr><td>Trust</td><td>Medium</td><td>Corporate desktops, general workstations</td><td>Allow selected outbound, deny server reach</td></tr>
+      <tr><td>Server</td><td>High sensitivity</td><td>DB servers, AD controllers, internal APIs</td><td>Allow only from known service IPs</td></tr>
+      <tr><td>Management</td><td>Restricted</td><td>Firewall management interfaces</td><td>Allow only from admin VLAN</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Zone Protection Profiles</strong> are applied per-zone and defend against reconnaissance and flood attacks at the zone boundary: SYN flood protection (cookies/random early drop), UDP/ICMP flood limits, port scan and host sweep detection, and protocol anomaly enforcement.</p>
+
+  <h3>Security Policy Processing Order</h3>
+  <p>Policy rules are evaluated top-to-bottom on first match. This has significant operational implications:</p>
+  <ul>
+    <li><strong>First match wins:</strong> More specific rules must appear above broader rules or they are shadowed.</li>
+    <li><strong>Shadow rules:</strong> A broad allow-all above a specific deny means the deny is never reached. Palo Alto's Security Policy Optimizer flags these.</li>
+    <li><strong>Cleanup rule:</strong> Define an explicit deny-all at the bottom of each zone-pair with logging enabled. This captures all unmatched flows and gives you visibility into unexpected traffic rather than relying on implicit deny.</li>
+    <li><strong>Hit count analysis:</strong> Rules with zero hits over 90+ days are candidates for removal, not retention. Unused rules expand attack surface without operational value.</li>
+    <li><strong>Intrazone vs interzone defaults:</strong> Intrazone traffic (within same zone) is allowed by default. Interzone traffic (between zones) is denied by default. Override both explicitly in production.</li>
+  </ul>
+
+  <h3>Threat Prevention Profiles Deep Dive</h3>
+  <p>Profiles are attached to security rules and define what inspection runs on matching traffic. You must attach profiles to rules — they do not apply globally by default.</p>
+  <h4>Antivirus Profile</h4>
+  <ul>
+    <li>Scans file transfers across HTTP, FTP, SMTP, SMB, and other protocols</li>
+    <li><strong>WildFire inline ML</strong> performs real-time analysis on unknown PE files and documents without requiring a WildFire cloud submission — critical for air-gapped or latency-sensitive environments</li>
+    <li>File type control lets you block specific MIME types and file extensions entirely (e.g., block .exe downloads from Untrust to Trust)</li>
+    <li>Decoder actions: alert, block, drop, reset-both — set malware action to block/reset-both in production</li>
+  </ul>
+  <h4>Anti-Spyware Profile (C2 and Exfiltration)</h4>
+  <ul>
+    <li>Detects command-and-control (C2) communication patterns, DNS tunneling, and data exfiltration signatures</li>
+    <li><strong>DNS Sinkhole:</strong> When a client resolves a known-malicious domain, the firewall returns a sinkhole IP you control. The infected client's subsequent connection to the sinkhole IP is logged and triggers an alert — providing a reliable C2 identification mechanism without blocking DNS lookup visibility</li>
+    <li>Severity-based actions: critical/high should be block or reset-client; informational/low can alert for tuning</li>
+    <li>Exceptions allow you to tune noisy signatures without disabling the profile entirely</li>
+  </ul>
+  <h4>Vulnerability Protection Profile</h4>
+  <ul>
+    <li>Inspects for exploit attempts against known CVEs in services protected by the firewall</li>
+    <li>Critical severity: reset-both or drop-packet to immediately terminate exploit sessions</li>
+    <li><strong>Brute force protection:</strong> Signature categories include authentication brute force patterns — configure rate-based actions to block source IPs after threshold</li>
+    <li><strong>Packet capture:</strong> Enable pcap on critical signatures to capture the actual exploit payload for forensic evidence. Set to single-packet or extended-capture based on storage capacity</li>
+  </ul>
+
+  <h3>WildFire: Cloud Sandboxing Integration</h3>
+  <p>WildFire submits unknown files to Palo Alto's cloud sandbox (or an on-prem WF-500 appliance) for dynamic and static analysis. A verdict (benign, malware, grayware, phishing) is returned and converted to a signature update within minutes.</p>
+  <ul>
+    <li>Enable WildFire forwarding in the Antivirus profile and WildFire Analysis profile</li>
+    <li>File size limits and file types control what is submitted — focus on executables, PDFs, Office docs, and scripts</li>
+    <li>WildFire logs appear in the Monitor section and can be forwarded to SIEM for correlation</li>
+    <li>Verdict updates push globally — a file flagged malware by one customer becomes a signature for all subscribers within minutes</li>
+  </ul>
+
+  <h3>Panorama: Centralized Management</h3>
+  <p>Panorama provides a centralized management plane for multi-firewall environments. It introduces two key hierarchy constructs:</p>
+  <h4>Device Groups</h4>
+  <p>Device Groups organize firewalls that share policy. Policy within a Device Group has pre-rules (enforced before device-local rules) and post-rules (enforced after). Local firewall rules sit in between. This creates a hierarchy: Panorama pre-rule &gt; Device Group pre-rule &gt; Local rule &gt; Device Group post-rule &gt; Panorama post-rule.</p>
+  <h4>Templates</h4>
+  <p>Templates push network and device configuration (zone definitions, interface settings, routing, server profiles) to managed firewalls. Template Stacks allow you to layer multiple templates for shared + site-specific configurations.</p>
+  <h4>Commit Discipline</h4>
+  <ul>
+    <li><strong>Commit</strong> saves candidate config to Panorama's running config</li>
+    <li><strong>Commit and Push</strong> propagates changes to managed firewalls — always verify affected Device Groups before pushing</li>
+    <li>Use commit validation before push to catch policy errors</li>
+    <li>Panorama log forwarding aggregation: configure Log Collector groups to ensure centralized log retention for all managed firewalls</li>
+  </ul>
+
+  <h3>SSL/TLS Decryption</h3>
+  <p>Without decryption, HTTPS traffic is opaque to threat inspection. App-ID and threat profiles cannot inspect encrypted payloads. Decryption is essential for meaningful detection in modern environments.</p>
+  <h4>Forward Proxy (Outbound)</h4>
+  <p>The firewall acts as a man-in-the-middle for outbound user traffic. It presents a re-signed certificate (signed by your CA, trusted by endpoints). Requires deploying the firewall CA cert to all endpoints via GPO or MDM.</p>
+  <h4>Inbound Inspection</h4>
+  <p>Used to inspect traffic destined for internal servers (e.g., web servers in DMZ). The server's private key is installed on the firewall. No client certificate deployment required.</p>
+  <h4>Decryption Bypass</h4>
+  <p>Certain traffic should not be decrypted: banking sites, medical portals, certificate-pinning apps. Use a Decryption Profile with a URL-category-based bypass list. Bypassed flows still benefit from App-ID but not content inspection.</p>
+  <p><strong>Certificate validation:</strong> Enforce blocking of expired, untrusted, and self-signed certificates in the Decryption Profile — this prevents attackers from using invalid certs to avoid inspection.</p>
+
+  <h3>Log Investigation: Types and CLI Queries</h3>
+  <p>Palo Alto logs are organized by type. Each type serves a distinct investigation purpose:</p>
+  <table class="deep-table">
+    <thead><tr><th>Log Type</th><th>Purpose</th><th>Key Fields</th></tr></thead>
+    <tbody>
+      <tr><td>Traffic</td><td>All allowed and denied sessions</td><td>src/dst IP, app, rule, bytes, action, session ID</td></tr>
+      <tr><td>Threat</td><td>Threat prevention hits (AV, vuln, spyware, URL)</td><td>threat-id, signature name, action, pcap-id</td></tr>
+      <tr><td>URL Filtering</td><td>Web request visibility and category enforcement</td><td>URL, category, action, user</td></tr>
+      <tr><td>WildFire</td><td>File submission verdicts and analysis results</td><td>file-name, sha256, verdict, src user</td></tr>
+      <tr><td>Data</td><td>Data pattern matches (DLP patterns, file transfer)</td><td>data-pattern-name, direction, user</td></tr>
+      <tr><td>Authentication</td><td>Captive portal, GlobalProtect auth events</td><td>user, src-ip, status, factor</td></tr>
+    </tbody>
+  </table>
+  <h4>CLI Log Queries</h4>
+  <pre><code># Show last 20 threat log entries
+show log threat direction equal backward
+
+# Filter traffic logs for a specific source IP
+show log traffic source-address equal 10.1.2.50
+
+# Show WildFire logs for malware verdicts
+show log wildfire verdict equal malware
+
+# Filter URL logs by user and blocked category
+show log url srcuser equal DOMAIN\\username action equal block
+
+# Show denied sessions in traffic log
+show log traffic action equal deny</code></pre>
+
+  <h3>GlobalProtect and HIP Checks</h3>
+  <p>GlobalProtect extends firewall policy to remote and mobile endpoints by creating an always-on VPN tunnel back to an internal or cloud gateway.</p>
+  <h4>Host Information Profile (HIP) Checks</h4>
+  <p>HIP lets the firewall enforce endpoint posture as a condition for network access. The GP agent reports endpoint state and the gateway applies HIP-based rules:</p>
+  <ul>
+    <li><strong>Disk encryption:</strong> Require FileVault (macOS) or BitLocker (Windows) to be active before granting access to sensitive zones</li>
+    <li><strong>OS patch level:</strong> Block devices more than N days behind on patches from reaching restricted servers</li>
+    <li><strong>EDR agent presence:</strong> Verify a specific endpoint agent (CrowdStrike, SentinelOne, Cortex XDR) is running and active</li>
+    <li><strong>Domain membership:</strong> Restrict access to corp-managed devices for privileged network zones</li>
+    <li><strong>Antivirus definition age:</strong> Ensure AV definitions are current within a defined threshold</li>
+  </ul>
+  <h4>Split Tunneling</h4>
+  <p>Split tunneling allows some traffic to route through the VPN while other traffic (e.g., streaming, SaaS) goes direct-to-internet. Configure include/exclude routes carefully to avoid bypassing threat inspection for business-critical SaaS apps. App-based split tunnel lets you specify which apps route inside vs outside the tunnel.</p>
+  <h4>Multiple Gateways</h4>
+  <p>Deploy multiple GP gateways in different regions for latency optimization. Clients automatically select the closest gateway based on latency probing. Use internal gateways for on-prem users and external gateways for remote workers.</p>
+</div>`
   },
   "checkpoint-and-firewall-technologies": {
     navLabel: "Checkpoint & Firewall Tech",
@@ -603,7 +1363,71 @@ const extendedStudyModules = {
       "Firewall rules should be intentional, not historical leftovers.",
       "Every change needs review, test, and rollback planning.",
       "Good governance keeps policies secure and maintainable."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>Firewall Policy Lifecycle</h3>
+  <div class="flow-steps">
+    <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Request:</strong> Ticket submitted with business justification, source/destination, ports, protocol, and owner. Every rule needs a business reason.</div></div>
+    <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Risk Review:</strong> Security team assesses: Does this create attack surface? Are there compensating controls? Could it be narrowed further?</div></div>
+    <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Staged Deployment:</strong> Apply to lowest-risk environment first. Test for 48hrs. Monitor for unexpected traffic patterns before production deploy.</div></div>
+    <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Validation:</strong> Requester confirms traffic works as expected. Security confirms no unintended access created. Document test results in ticket.</div></div>
+    <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Quarterly Recertification:</strong> Rule owner reviews and re-approves or decommissions. Rules without active owner are flagged for removal.</div></div>
+    <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Retirement:</strong> Rule disabled (logged) → monitored 30 days for complaints → permanently removed → audit trail preserved.</div></div>
+  </div>
+
+  <h3>Checkpoint SmartConsole Key Concepts</h3>
+  <table class="deep-table">
+    <thead><tr><th>Concept</th><th>Description</th><th>Operational Use</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Security Policy</strong></td><td>Named collection of rulebase, threat prevention, and NAT rules</td><td>Separate policies per zone: corporate, DMZ, VPN</td></tr>
+      <tr><td><strong>Access Control Policy</strong></td><td>Traffic allow/deny decisions based on source, dest, service, app</td><td>Order matters — first match wins; cleanup rule last</td></tr>
+      <tr><td><strong>Threat Prevention</strong></td><td>IPS, anti-bot, anti-virus, sandboxing profiles applied per rule</td><td>Tune profiles — Prevent mode for Critical, Detect for Low</td></tr>
+      <tr><td><strong>SmartLog</strong></td><td>Centralized log aggregation and search for all Checkpoint firewalls</td><td>Query: action=Drop src=suspicious_ip — correlate with SIEM</td></tr>
+      <tr><td><strong>Policy Install</strong></td><td>Propagates policy from Management Server to gateway(s)</td><td>Track install history for change audit trail</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Firewall Rule Cleanup Cheat Sheet</h3>
+  <div class="cheat-sheet">
+    <h5>Stale Rule Identification Process</h5>
+    <div class="cmd-row"><span class="cmd">Step 1: Pull hit count data for all rules over 90 days</span><span class="cmd-desc">Identify rules with zero hits — candidates for removal</span></div>
+    <div class="cmd-row"><span class="cmd">Step 2: Contact rule owner (ticket ref or last modifier)</span><span class="cmd-desc">Confirm business need — rule may be used intermittently (e.g., DR only)</span></div>
+    <div class="cmd-row"><span class="cmd">Step 3: Disable (not delete) and monitor for 30 days</span><span class="cmd-desc">If no complaints → safe to remove; if complaints → re-enable and investigate</span></div>
+    <div class="cmd-row"><span class="cmd">Step 4: Remove duplicate rules</span><span class="cmd-desc">Shadowed rules (never reached due to earlier match) should be identified and eliminated</span></div>
+    <div class="cmd-row"><span class="cmd">Step 5: Tighten over-permissive rules</span><span class="cmd-desc">"any" source rules — narrow to specific IPs/ranges where possible</span></div>
+  </div>
+
+  <div class="visual-tip">
+    <strong>Audit Evidence Package:</strong> For each firewall rule set, maintain a document showing: rule intent (what business process it supports), approval history (ticket numbers, approver, date), last validation (test results), and recertification record (who reviewed, when). This is what auditors ask for under PCI DSS Requirement 1.
+  </div>
+
+  <div class="visual-warning">
+    <strong>Firewall Governance Risks:</strong><br/>
+    ✗ Permanent emergency rules with no expiry date<br/>
+    ✗ No ownership metadata for legacy rules in production<br/>
+    ✗ Rule recertification skipped due to operational pressure<br/>
+    ✓ Enforce ticket linkage and expiry controls for all exception rules
+  </div>
+
+  <div class="visual-card-grid">
+    <div class="visual-card">
+      <h5>Quarterly Firewall Governance Checklist</h5>
+      <ul>
+        <li>Rules with no owner: 0 target</li>
+        <li>Rules with no hits in 90 days: review/remove</li>
+        <li>Emergency rules without expiry: blocked</li>
+        <li>Recertification completion target: &gt;95%</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="resource-links">
+    <a class="resource-link" href="https://supportcenter.checkpoint.com/" target="_blank">Checkpoint Support Center</a>
+    <a class="resource-link" href="https://attack.mitre.org/datasources/DS0017/" target="_blank">MITRE ATT&CK — Firewall Data Source</a>
+    <a class="resource-link" href="https://www.pcisecuritystandards.org/" target="_blank">PCI DSS — Firewall Requirements (Requirement 1)</a>
+  </div>
+</div>`
   },
   "atlassian-jira-confluence-security-workflows": {
     navLabel: "Jira & Confluence",
@@ -637,7 +1461,74 @@ const extendedStudyModules = {
       "Jira tracks the work; Confluence explains how to do the work.",
       "Clear templates reduce on-call confusion.",
       "Good documentation is a security control, not busywork."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>Jira Incident Issue Type: Recommended Fields</h3>
+  <table class="deep-table">
+    <thead><tr><th>Field</th><th>Type</th><th>Purpose</th><th>Required?</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Severity</strong></td><td>Dropdown: Critical/High/Medium/Low</td><td>Drives SLA timer and escalation routing</td><td>Yes</td></tr>
+      <tr><td><strong>Incident Lead</strong></td><td>User picker</td><td>Single owner accountable for closure</td><td>Yes</td></tr>
+      <tr><td><strong>SLA Due Date</strong></td><td>Auto-calculated from Create date + Severity SLA</td><td>Visible countdown; breached = manager alert</td><td>Auto</td></tr>
+      <tr><td><strong>Affected Systems</strong></td><td>Multi-text</td><td>List of impacted devices/services/users</td><td>Yes</td></tr>
+      <tr><td><strong>Evidence Links</strong></td><td>URL array</td><td>Links to screenshots, SIEM queries, Confluence runbook page</td><td>Recommended</td></tr>
+      <tr><td><strong>Root Cause</strong></td><td>Long text</td><td>Filled at closure; required for postmortem trigger</td><td>On closure</td></tr>
+      <tr><td><strong>Regulatory Scope</strong></td><td>Checkbox: GDPR / HIPAA / PCI / None</td><td>Triggers legal notification workflow if checked</td><td>Yes</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Confluence Security Runbook Template Structure</h3>
+  <div class="cheat-sheet">
+    <h5>Standard Runbook Page Sections</h5>
+    <div class="cmd-row"><span class="cmd">Section 1: Objective</span><span class="cmd-desc">One sentence: what does this runbook handle? (e.g., "Phishing report triage and containment")</span></div>
+    <div class="cmd-row"><span class="cmd">Section 2: Triggering Conditions</span><span class="cmd-desc">What alert, ticket type, or event triggers this runbook?</span></div>
+    <div class="cmd-row"><span class="cmd">Section 3: Decision Tree</span><span class="cmd-desc">Flowchart or numbered steps with conditional branches (If X, do Y; if Z, do W)</span></div>
+    <div class="cmd-row"><span class="cmd">Section 4: Required Tools &amp; Access</span><span class="cmd-desc">List tools and permissions needed before starting (SIEM access, EDR console, firewall console)</span></div>
+    <div class="cmd-row"><span class="cmd">Section 5: Evidence Collection Checklist</span><span class="cmd-desc">What to capture and where to store it during the incident</span></div>
+    <div class="cmd-row"><span class="cmd">Section 6: Escalation Criteria</span><span class="cmd-desc">Exactly when to escalate and to whom (with contact info)</span></div>
+    <div class="cmd-row"><span class="cmd">Section 7: Closure Requirements</span><span class="cmd-desc">What must be documented before closing the ticket? What proof of resolution is needed?</span></div>
+  </div>
+
+  <h3>Vulnerability Management Ticket Lifecycle</h3>
+  <div class="flow-steps">
+    <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Auto-creation:</strong> Vuln scanner sends finding to Jira via webhook. Ticket pre-populated with CVE, CVSS, affected asset, SLA due date based on severity.</div></div>
+    <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Triage:</strong> Security analyst validates finding (FP/TP?), records compensating control notes if applicable, and assigns to remediation team.</div></div>
+    <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Remediation:</strong> Assigned team patches or mitigates. Comments document what was done, patch version, date, and any issues encountered.</div></div>
+    <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Validation:</strong> Security team re-scans and posts evidence of remediation (scan report, screenshot) as attachment to ticket.</div></div>
+    <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Sign-off &amp; Close:</strong> Security analyst marks Resolved. SLA compliance recorded automatically. Closed tickets feed into metrics dashboard.</div></div>
+  </div>
+
+  <div class="visual-tip">
+    <strong>Jira Automation Rules for Security Teams:</strong> Set up automation rules for: (1) SLA breach warning — notify owner 2 days before SLA expires; (2) Stale ticket escalation — if no update in 5 days, notify manager; (3) Regulatory trigger — if "GDPR" checkbox ticked, auto-add legal team to watchers.
+  </div>
+
+  <div class="visual-warning">
+    <strong>Workflow Hygiene Risks:</strong><br/>
+    ✗ Tickets closed without evidence links or closure rationale<br/>
+    ✗ Runbook pages updated without version/date/owner metadata<br/>
+    ✗ SLA fields left optional on critical incident types<br/>
+    ✓ Enforce required fields and review templates quarterly
+  </div>
+
+  <div class="visual-card-grid">
+    <div class="visual-card">
+      <h5>Operational Documentation KPI Targets</h5>
+      <ul>
+        <li>Critical incidents with full evidence links: 100%</li>
+        <li>Runbooks reviewed in last 90 days: &gt;90%</li>
+        <li>SLA breach trend: decreasing quarter-over-quarter</li>
+        <li>Postmortems completed within 5 business days: &gt;95%</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="resource-links">
+    <a class="resource-link" href="https://support.atlassian.com/jira-software-cloud/" target="_blank">Jira Software Documentation</a>
+    <a class="resource-link" href="https://support.atlassian.com/confluence-cloud/" target="_blank">Confluence Documentation</a>
+    <a class="resource-link" href="https://www.atlassian.com/software/jira/security" target="_blank">Atlassian Security Resources</a>
+  </div>
+</div>`
   },
   "xsoar-and-security-automation-platforms": {
     navLabel: "XSOAR Automation",
@@ -671,7 +1562,90 @@ const extendedStudyModules = {
       "Automate repetitive tasks, but keep risky actions gated.",
       "Every playbook needs clear success and failure paths.",
       "Measure whether automation truly helps analysts."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>SOAR Playbook Design Principles</h3>
+  <div class="visual-card-grid">
+    <div class="visual-card">
+      <h5>Enrichment-Only Playbooks (Safe to Automate)</h5>
+      <ul>
+        <li>VirusTotal hash/IP/URL reputation lookup</li>
+        <li>Threat intel feed IOC check</li>
+        <li>User context lookup (HR system, CMDB)</li>
+        <li>Geolocation of source IP</li>
+      </ul>
+    </div>
+    <div class="visual-card">
+      <h5>Notification Playbooks (Low Risk)</h5>
+      <ul>
+        <li>Slack/Teams/email alert to analyst team</li>
+        <li>Jira ticket creation with enriched context</li>
+        <li>User notification for suspicious activity</li>
+        <li>Manager escalation for policy violation</li>
+      </ul>
+    </div>
+    <div class="visual-card">
+      <h5>Gated Action Playbooks (Require Approval)</h5>
+      <ul>
+        <li>Host isolation from network</li>
+        <li>User account disable/password reset</li>
+        <li>Firewall rule block for IP/domain</li>
+        <li>Email quarantine or inbox wipe</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Playbook Failure Handling Template</h3>
+  <div class="code-block">
+SOAR Playbook: Phishing Response Automation
+
+TRIGGER: Email reported via phish button or SIEM alert
+
+Step 1: ENRICH (automated)
+  - Extract indicators: sender, reply-to, links, attachment hashes
+  - VT lookup: attachment hash, URLs  
+  - Domain age check: is sending domain <30 days old?
+  - SPF/DKIM/DMARC check
+
+Step 2: SCORE CONFIDENCE (automated)
+  - High confidence (>8/10): Sender known malicious + attachment flagged + domain new
+  - Medium (5-7): 2 of 3 factors
+  - Low (<5): One factor; may be FP (marketing email, etc.)
+
+Step 3: ACTION (conditional on score)
+  - High: AUTO-quarantine message, create High Sev ticket, queue for analyst
+  - Medium: Queue for analyst review with enrichment pre-filled
+  - Low: Close as FP with note; escalate if analyst disagrees
+
+Step 4: FAILURE HANDLING
+  - If VT API fails: Log error, continue with available data, flag for manual enrichment
+  - If quarantine fails: Alert analyst immediately; manual hold required
+  - If any step exceeds timeout: Escalate to human analyst with all data so far
+
+Step 5: METRICS CAPTURE
+  - Log: Playbook name, alert ID, enrichment time, action taken, outcome
+  - Weekly report: Automation rate, error rate, analyst time saved
+  </div>
+
+  <h3>SOAR Tool Comparison</h3>
+  <table class="deep-table">
+    <thead><tr><th>Platform</th><th>Strengths</th><th>Integration Ecosystem</th><th>Pricing Model</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Palo Alto XSOAR</strong></td><td>Mature, 1000+ integrations, built-in SIEM</td><td>Deepest marketplace; Python-based integrations</td><td>Commercial; per-license</td></tr>
+      <tr><td><strong>Splunk SOAR</strong></td><td>Native Splunk integration, visual playbook builder</td><td>Strong for Splunk-heavy environments</td><td>Commercial; bundled with Splunk</td></tr>
+      <tr><td><strong>Microsoft Sentinel + Logic Apps</strong></td><td>Cloud-native, Azure-integrated, low code</td><td>Best for Microsoft ecosystem</td><td>Pay-per-run (Logic Apps)</td></tr>
+      <tr><td><strong>IBM QRadar SOAR</strong></td><td>Good compliance workflow support, IBM ecosystem</td><td>Tight QRadar integration</td><td>Commercial</td></tr>
+      <tr><td><strong>Shuffle (Open Source)</strong></td><td>Free, self-hosted, 400+ apps</td><td>Docker-based, community maintained</td><td>Free / Community</td></tr>
+    </tbody>
+  </table>
+
+  <div class="resource-links">
+    <a class="resource-link" href="https://xsoar.pan.dev/" target="_blank">XSOAR Developer Hub</a>
+    <a class="resource-link" href="https://shuffler.io/" target="_blank">Shuffle — Open Source SOAR</a>
+    <a class="resource-link" href="https://learn.microsoft.com/en-us/azure/sentinel/automation/" target="_blank">Microsoft Sentinel Automation</a>
+  </div>
+</div>`
   },
   "cloud-security-gcp-and-azure": {
     navLabel: "GCP & Azure Security",
@@ -705,7 +1679,75 @@ const extendedStudyModules = {
       "Cloud providers differ, but core security concepts are similar.",
       "Learn what changes between AWS, GCP, and Azure during investigations.",
       "Use one consistent response mindset across all clouds."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>Cloud IAM Comparison: AWS vs GCP vs Azure</h3>
+  <table class="deep-table">
+    <thead><tr><th>Concept</th><th>AWS</th><th>GCP</th><th>Azure</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Identity Model</strong></td><td>IAM Users, Roles, Groups</td><td>Google Accounts, Service Accounts, Groups</td><td>Azure AD Users, Service Principals, Managed Identities</td></tr>
+      <tr><td><strong>Permission Assignment</strong></td><td>Policies attached to identities; resource-based policies on resources</td><td>IAM bindings on resource hierarchy (Org/Folder/Project)</td><td>Role Assignments at Scope (Management Group/Subscription/RG/Resource)</td></tr>
+      <tr><td><strong>Least Privilege</strong></td><td>IAM Access Analyzer + permission boundaries</td><td>Predefined + custom roles; IAM Recommender</td><td>Azure AD PIM (Privileged Identity Management)</td></tr>
+      <tr><td><strong>Cloud Audit Logs</strong></td><td>CloudTrail (API calls) + CloudWatch (metrics/logs)</td><td>Cloud Audit Logs (Admin Activity, Data Access, System Events)</td><td>Azure Activity Log + Azure Monitor + Defender for Cloud</td></tr>
+      <tr><td><strong>Security Posture</strong></td><td>AWS Security Hub + Config</td><td>GCP Security Command Center (SCC)</td><td>Microsoft Defender for Cloud + Azure Policy</td></tr>
+      <tr><td><strong>Network Security</strong></td><td>Security Groups, NACLs, VPC Flow Logs</td><td>VPC Firewall Rules, VPC Flow Logs</td><td>NSGs, Azure Firewall, Network Watcher</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Multi-Cloud Security Investigation Cheat Sheet</h3>
+  <div class="cheat-sheet">
+    <h5>First Questions for Any Cloud Incident</h5>
+    <div class="cmd-row"><span class="cmd">Which account/project/subscription is affected?</span><span class="cmd-desc">AWS: Account ID | GCP: Project ID | Azure: Subscription ID</span></div>
+    <div class="cmd-row"><span class="cmd">What principal (identity) made the suspicious action?</span><span class="cmd-desc">AWS: CloudTrail userIdentity.arn | GCP: principalEmail | Azure: caller in ActivityLog</span></div>
+    <div class="cmd-row"><span class="cmd">What was the source IP?</span><span class="cmd-desc">All three: Check for TOR, VPN, or unusual geolocation</span></div>
+    <div class="cmd-row"><span class="cmd">What API calls were made?</span><span class="cmd-desc">AWS: eventName | GCP: methodName | Azure: operationName</span></div>
+    <div class="cmd-row"><span class="cmd">Were any privilege escalation actions taken?</span><span class="cmd-desc">AWS: AttachRolePolicy/CreateUser | GCP: setIamPolicy | Azure: roleAssignments/write</span></div>
+    <div class="cmd-row"><span class="cmd">Were any resources created (C2 persistence)?</span><span class="cmd-desc">AWS: RunInstances | GCP: compute.instances.insert | Azure: virtualMachines/write</span></div>
+  </div>
+
+  <h3>GCP Security Command Center: Key Finding Types</h3>
+  <div class="visual-card-grid">
+    <div class="visual-card">
+      <h5>Identity &amp; Access Findings</h5>
+      <ul>
+        <li>SERVICE_ACCOUNT_KEY_CREATED — new key outside automated process</li>
+        <li>EXTERNAL_MEMBER — external identity added to project IAM</li>
+        <li>KMS_KEY_ALL_USERS — encryption key accessible to all users</li>
+        <li>PRIMITIVE_ROLES_USED — avoid owner/editor/viewer at project level</li>
+      </ul>
+    </div>
+    <div class="visual-card">
+      <h5>Network &amp; Data Findings</h5>
+      <ul>
+        <li>OPEN_FIREWALL_RULE — firewall allows 0.0.0.0/0 inbound</li>
+        <li>PUBLIC_BUCKET_ACL — GCS bucket publicly accessible</li>
+        <li>PUBLIC_SQL_INSTANCE — Cloud SQL accessible from internet</li>
+        <li>FLOW_LOGS_DISABLED — VPC flow logs not enabled</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Azure Defender for Cloud: Priority Actions</h3>
+  <div class="code-block">
+Azure Defender Recommendations (High Priority):
+1. Enable MFA for accounts with owner permissions (reduces 99% of identity breach risk)
+2. Remediate vulnerabilities in VMs (auto-assessment via Qualys/Defender built-in)
+3. Restrict access to storage accounts from all networks (default deny + approved VNets)
+4. Enable Azure Defender for SQL servers (detects SQL injection, unusual access patterns)
+5. Enable diagnostic logging for Azure Key Vault
+6. Ensure all VMs have endpoint protection (Defender for Endpoint)
+7. Audit privileged access: Review service principals with Contributor/Owner roles
+8. Enable just-in-time VM access (replaces always-open RDP/SSH management ports)
+  </div>
+
+  <div class="resource-links">
+    <a class="resource-link" href="https://cloud.google.com/security/products/security-command-center" target="_blank">GCP Security Command Center</a>
+    <a class="resource-link" href="https://learn.microsoft.com/en-us/azure/defender-for-cloud/" target="_blank">Microsoft Defender for Cloud Docs</a>
+    <a class="resource-link" href="https://cloud.google.com/logging/docs/audit" target="_blank">GCP Cloud Audit Logs</a>
+    <a class="resource-link" href="https://learn.microsoft.com/en-us/azure/azure-monitor/" target="_blank">Azure Monitor Documentation</a>
+  </div>
+</div>`
   },
   "security-scripting-programming-practice": {
     navLabel: "Security Scripting",
@@ -722,7 +1764,7 @@ const extendedStudyModules = {
       "Package script with README, sample input/output, and failure behavior notes."
     ],
     tools: ["Python", "PowerShell", "Bash", "Java", "C", "Ruby", "APIs", "Version control"],
-    outcomes: ["Reduced manual toil", "Repeatable technical workflows", "Interview-ready automation portfolio"],
+    outcomes: ["Reduced manual toil", "Repeatable technical workflows", "Practical automation portfolio"],
     guide: {
       prerequisites: ["CLI fundamentals", "Basic loops/conditions/functions", "JSON parsing basics"],
       coreConcepts: ["Idempotency", "Input validation and error handling", "Operational logging"],
@@ -739,29 +1781,121 @@ const extendedStudyModules = {
       "Write small scripts that solve real SOC pain points.",
       "Reliable scripts are better than clever but fragile scripts.",
       "Document your code so teammates can trust and reuse it."
-    ]
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>Python SOC Parsing Script Example</h3>
+  <div class="code-block">
+#!/usr/bin/env python3
+import json
+from pathlib import Path
+
+INPUT_FILE = Path("events.jsonl")
+OUTPUT_FILE = Path("suspicious_events.json")
+
+SUSPICIOUS_PROCS = {"powershell.exe", "cmd.exe", "wscript.exe", "mshta.exe"}
+
+def parse_events(path: Path):
+    results = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        event = json.loads(line)
+        proc = event.get("process_name", "").lower()
+        cmd = event.get("command_line", "").lower()
+        if proc in SUSPICIOUS_PROCS and any(flag in cmd for flag in ["-enc", "-nop", "downloadstring", "iex"]):
+            results.append(
+                {
+                    "timestamp": event.get("timestamp"),
+                    "host": event.get("hostname"),
+                    "user": event.get("user"),
+                    "process_name": proc,
+                    "command_line": event.get("command_line"),
+                    "risk_reason": "Suspicious scripting flags"
+                }
+            )
+    return results
+
+if __name__ == "__main__":
+    matches = parse_events(INPUT_FILE)
+    OUTPUT_FILE.write_text(json.dumps(matches, indent=2), encoding="utf-8")
+    print(f"Found {len(matches)} suspicious events -> {OUTPUT_FILE}")
+  </div>
+
+  <h3>PowerShell Endpoint Check Script</h3>
+  <div class="code-block">
+# Endpoint baseline check: BitLocker + Defender + Firewall
+$result = [ordered]@{}
+
+$bitlocker = Get-BitLockerVolume -MountPoint "C:" -ErrorAction SilentlyContinue
+$result.BitLockerEnabled = if ($bitlocker -and $bitlocker.ProtectionStatus -eq "On") { "Yes" } else { "No" }
+
+$defender = Get-MpComputerStatus -ErrorAction SilentlyContinue
+$result.DefenderRealtimeProtection = if ($defender.RealTimeProtectionEnabled) { "Enabled" } else { "Disabled" }
+$result.DefenderSignatureAgeDays = if ($defender.AntispywareSignatureLastUpdated) {
+    (New-TimeSpan -Start $defender.AntispywareSignatureLastUpdated -End (Get-Date)).Days
+} else { "Unknown" }
+
+$firewall = Get-NetFirewallProfile | Select-Object Name, Enabled
+$result.FirewallProfiles = $firewall
+
+$result | ConvertTo-Json -Depth 4 | Out-File -FilePath ".\endpoint_security_status.json" -Encoding utf8
+Write-Host "Endpoint check complete -> endpoint_security_status.json"
+  </div>
+
+  <h3>Bash IOC Search Pipeline</h3>
+  <div class="cheat-sheet">
+    <h5>Fast IOC Hunt in Linux Logs</h5>
+    <div class="cmd-row"><span class="cmd">grep -Rin "powershell\|cmd.exe\|mshta" /var/log/*</span><span class="cmd-desc">Find suspicious process names in logs</span></div>
+    <div class="cmd-row"><span class="cmd">zgrep -Ein "(failed password|invalid user)" /var/log/auth.log*</span><span class="cmd-desc">Identify brute-force login attempts</span></div>
+    <div class="cmd-row"><span class="cmd">jq -r '.source_ip' firewall.json | sort | uniq -c | sort -nr | head</span><span class="cmd-desc">Top source IPs from JSON firewall logs</span></div>
+    <div class="cmd-row"><span class="cmd">awk '{print $1,$2,$3,$9}' /var/log/nginx/access.log | sort | uniq -c | sort -nr | head</span><span class="cmd-desc">Top HTTP request patterns</span></div>
+  </div>
+
+  <h3>Secure Scripting Principles</h3>
+  <table class="deep-table">
+    <thead><tr><th>Principle</th><th>Bad Pattern</th><th>Good Pattern</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Input Validation</strong></td><td>Trust user-provided file paths or hostnames</td><td>Validate against allowlist and strict regex</td></tr>
+      <tr><td><strong>Error Handling</strong></td><td>Silent failures or broad except blocks</td><td>Catch explicit exceptions and log actionable message</td></tr>
+      <tr><td><strong>Secrets Management</strong></td><td>Hardcoded API tokens in source code</td><td>Read from env vars or secret manager</td></tr>
+      <tr><td><strong>Idempotency</strong></td><td>Running script twice creates duplicate tickets</td><td>Check if object exists before create/update</td></tr>
+      <tr><td><strong>Observability</strong></td><td>No logs or timestamps</td><td>Structured logging with correlation IDs</td></tr>
+    </tbody>
+  </table>
+
+  <div class="visual-tip">
+    <strong>Production Script Rollout Rule:</strong> Promote scripts through dev -> test -> prod with sample data replay and failure-mode tests. Require rollback instructions in README before production use.
+  </div>
+
+  <div class="resource-links">
+    <a class="resource-link" href="https://docs.python.org/3/" target="_blank">Python Documentation</a>
+    <a class="resource-link" href="https://learn.microsoft.com/en-us/powershell/" target="_blank">PowerShell Documentation</a>
+    <a class="resource-link" href="https://owasp.org/www-project-secure-coding-practices-quick-reference-guide/" target="_blank">OWASP Secure Coding Practices</a>
+  </div>
+</div>`
   },
   "certification-and-standards-roadmap": {
     navLabel: "Certs & Standards",
     title: "Certification and Standards Roadmap: CC, SSCP, Security+, GSEC, and Governance Alignment",
     readingTime: "58 minutes",
     overview:
-      "This section helps you align certification study with actual job requirements and security standards. It prioritizes practical competency mapping rather than exam-only preparation.",
+      "This section helps you align certification study with practical security operations requirements and security standards. It prioritizes practical competency mapping rather than exam-only preparation.",
     architecture:
       "Map cert domains to operational evidence: incidents handled, detections written, cloud controls implemented, and governance artifacts produced.",
     handsOn: [
       "Create certification matrix: objective -> lab -> portfolio artifact.",
       "Map standards controls (NIST/ISO/CIS) to your current study sections.",
       "Build 12-week roadmap combining certifications with real hands-on deliverables.",
-      "Document evidence for resume and interview storytelling."
+      "Document evidence for operational validation and continuous improvement."
     ],
     tools: ["Certification objectives", "NIST/CIS/ISO references", "Portfolio templates"],
-    outcomes: ["Focused certification prep", "Reduced exam-study waste", "Stronger job-ready evidence"],
+    outcomes: ["Focused certification prep", "Reduced exam-study waste", "Stronger applied practical evidence"],
     guide: {
       prerequisites: ["Awareness of target role requirements", "Current skill baseline", "Time planning discipline"],
       coreConcepts: ["Exam-to-practice mapping", "Control-framework literacy", "Evidence-driven progression"],
       practiceDrills: ["Design 90-day cert + lab plan", "Link each domain to one artifact", "Run weekly competency retrospectives"],
-      selfCheck: ["Can you demonstrate each domain in practice?", "Are you building interview evidence while studying?"]
+      selfCheck: ["Can you demonstrate each domain in practice?", "Are you building applied evidence while studying?"]
     },
     explainer: {
       what: "This section aligns certifications and security standards to day-to-day operational capability.",
@@ -772,8 +1906,76 @@ const extendedStudyModules = {
     plainEnglish: [
       "Use certifications to structure learning, not replace hands-on practice.",
       "Every cert topic should produce a real artifact you can show.",
-      "Study smarter by tying exam prep to job-ready skills."
-    ]
+      "Study smarter by tying exam prep to practical security skills."
+    ],
+    deepContent: `
+<div class="deep-content">
+  <h3>Certification-to-Practice Mapping Matrix</h3>
+  <table class="deep-table">
+    <thead><tr><th>Certification</th><th>Core Domain</th><th>Hands-On Lab</th><th>Portfolio Artifact</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ISC2 CC</strong></td><td>Security Principles + Access Controls</td><td>Build IAM least-privilege matrix in lab</td><td>IAM role design document + screenshots</td></tr>
+      <tr><td><strong>CompTIA Security+</strong></td><td>Threats, architecture, operations</td><td>Incident response tabletop and report</td><td>IR playbook + postmortem template</td></tr>
+      <tr><td><strong>ISC2 SSCP</strong></td><td>Operational security administration</td><td>Vulnerability remediation cycle simulation</td><td>SLA tracking dashboard + closure evidence</td></tr>
+      <tr><td><strong>GIAC GSEC</strong></td><td>Technical controls + hardening</td><td>Endpoint baseline hardening validation</td><td>Baseline checklist + script output reports</td></tr>
+      <tr><td><strong>SC-200 (Microsoft)</strong></td><td>SIEM + SOAR operations</td><td>Build Sentinel detection + automation rule</td><td>KQL detections + playbook run logs</td></tr>
+    </tbody>
+  </table>
+
+  <h3>12-Week Certification + Artifact Plan</h3>
+  <div class="flow-steps">
+    <div class="flow-step"><div class="flow-step-num">1-2</div><div class="flow-step-body"><strong>Baseline + Gap Assessment:</strong> Review role requirements and self-assess. Choose primary cert track and define two backup options.</div></div>
+    <div class="flow-step"><div class="flow-step-num">3-4</div><div class="flow-step-body"><strong>Domain Study Block 1:</strong> Study two core domains. Build one practical lab aligned to each domain. Publish notes to portfolio repo.</div></div>
+    <div class="flow-step"><div class="flow-step-num">5-6</div><div class="flow-step-body"><strong>Domain Study Block 2:</strong> Continue study + lab mapping. Add evidence: screenshots, scripts, and concise summaries.</div></div>
+    <div class="flow-step"><div class="flow-step-num">7-8</div><div class="flow-step-body"><strong>Practice Test Cycle:</strong> Run timed practice exams. Analyze weak domains. Build targeted mini-labs to close gaps.</div></div>
+    <div class="flow-step"><div class="flow-step-num">9-10</div><div class="flow-step-body"><strong>Integration Phase:</strong> Build one capstone that combines cert domains (for example: IAM + incident response + vulnerability management).</div></div>
+    <div class="flow-step"><div class="flow-step-num">11-12</div><div class="flow-step-body"><strong>Exam + Portfolio Polish:</strong> Take exam. Clean up portfolio artifacts with concise executive summaries and standards mapping.</div></div>
+  </div>
+
+  <h3>Standards Alignment Cheat Sheet</h3>
+  <div class="cheat-sheet">
+    <h5>How to Map Study Topics to Framework Controls</h5>
+    <div class="cmd-row"><span class="cmd">NIST CSF Identify (ID)</span><span class="cmd-desc">Asset inventory, governance, risk assessments</span></div>
+    <div class="cmd-row"><span class="cmd">NIST CSF Protect (PR)</span><span class="cmd-desc">Identity management, endpoint hardening, awareness training</span></div>
+    <div class="cmd-row"><span class="cmd">NIST CSF Detect (DE)</span><span class="cmd-desc">SIEM detection rules, telemetry quality, ATT&CK mapping</span></div>
+    <div class="cmd-row"><span class="cmd">NIST CSF Respond (RS)</span><span class="cmd-desc">Incident response playbooks, communication plans, triage process</span></div>
+    <div class="cmd-row"><span class="cmd">NIST CSF Recover (RC)</span><span class="cmd-desc">Backup validation, post-incident improvements, restoration testing</span></div>
+    <div class="cmd-row"><span class="cmd">ISO 27001 Annex A</span><span class="cmd-desc">Control catalogue for policies, access, cryptography, operations, supplier security</span></div>
+    <div class="cmd-row"><span class="cmd">CIS Controls v8</span><span class="cmd-desc">Prioritized technical safeguards (asset mgmt, secure config, continuous vuln mgmt)</span></div>
+  </div>
+
+  <div class="visual-tip">
+    <strong>Certification ROI Strategy:</strong> For every 5 hours of exam study, spend at least 2 hours building evidence. Evidence-driven study improves interview performance because you can explain exactly how a concept works in an environment, not just recite definitions.
+  </div>
+
+  <div class="visual-warning">
+    <strong>Certification Planning Mistakes:</strong><br/>
+    ✗ Scheduling exam date before validating weak-domain readiness
+    <br/>✗ Studying domains without creating matching practical artifacts
+    <br/>✗ Ignoring standards mapping needed for enterprise role interviews
+    <br/>✓ Tie each study week to one measurable deliverable and review checkpoint
+  </div>
+
+  <div class="visual-card-grid">
+    <div class="visual-card">
+      <h5>Weekly Progress Scorecard</h5>
+      <ul>
+        <li>Practice exam score trend: +5% every two weeks</li>
+        <li>Artifacts produced per week: at least 1</li>
+        <li>Standards-mapped deliverables: at least 1 per domain block</li>
+        <li>Retrospective completion rate: 100%</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="resource-links">
+    <a class="resource-link" href="https://www.isc2.org/Certifications/CC" target="_blank">ISC2 CC Certification Overview</a>
+    <a class="resource-link" href="https://www.comptia.org/certifications/security" target="_blank">CompTIA Security+ Certification</a>
+    <a class="resource-link" href="https://www.giac.org/certifications/security-essentials-gsec/" target="_blank">GIAC GSEC Certification</a>
+    <a class="resource-link" href="https://csf.tools/" target="_blank">NIST CSF Mapping Tools</a>
+    <a class="resource-link" href="https://www.cisecurity.org/controls/cis-controls-list" target="_blank">CIS Controls v8</a>
+  </div>
+</div>`
   }
 };
 
@@ -964,7 +2166,7 @@ const studyAppliedPlaybooks = {
     artifacts: ["Architecture overview", "Before/after metrics", "Case study write-up", "Demo screenshots and logs"],
     toolchain: ["Selected lab tools", "Diagram asset", "Git repo", "Presentation notes"],
     workflow: ["Scope", "Build", "Measure", "Explain", "Iterate"],
-    metrics: ["Outcome vs baseline", "Number of integrated skills", "Interview readiness confidence"],
+    metrics: ["Outcome vs baseline", "Number of integrated skills", "Practical understanding confidence"],
     analystNotes: "Capstones stand out when they look like work a real team would care about, not like a classroom assignment."
   }
 };
@@ -1115,15 +2317,15 @@ Object.assign(studyAppliedPlaybooks, {
   },
   "certification-and-standards-roadmap": {
     category: "automation",
-    scenarioTitle: "Real-Life Scenario: Turning Certification Study Into Job Evidence",
-    scenarioSummary: "Instead of reading certification material in isolation, you build a roadmap where each cert domain produces one hands-on artifact, one lab output, and one interview story tied to real operational work.",
-    situation: ["Time is limited and the material is broad.", "It is easy to study for exams without becoming more capable in practice.", "You need a plan that improves both confidence and employability."],
-    responseSteps: ["Map cert domains to existing study sections", "Assign one lab and one portfolio artifact per domain", "Track weekly evidence instead of only chapter completion", "Review whether study outputs strengthen interviews and practical speed"],
+    scenarioTitle: "Real-Life Scenario: Turning Certification Study Into Applied Practice",
+    scenarioSummary: "Instead of reading certification material in isolation, you build a roadmap where each cert domain produces one hands-on artifact, one lab output, and one documented study output tied to real operational work.",
+    situation: ["Time is limited and the material is broad.", "It is easy to study for exams without becoming more capable in practice.", "You need a plan that improves both confidence and practical capability."],
+    responseSteps: ["Map cert domains to existing study sections", "Assign one lab and one portfolio artifact per domain", "Track weekly evidence instead of only chapter completion", "Review whether study outputs build operational depth and practical speed"],
     helpfulTips: ["A cert objective without a practical artifact fades quickly.", "Standards become easier when you connect them to systems and incidents you already understand.", "Track what you can now explain or do, not only what you finished reading.", "Your roadmap should support the role you want, not just the exam date."],
     artifacts: ["90-day roadmap", "Cert-to-lab mapping", "Portfolio artifact list", "Weekly progress review"],
     toolchain: ["Certification objectives", "Study plan", "Lab tracker", "Portfolio notes"],
     workflow: ["Map", "Practice", "Capture", "Review", "Refine"],
-    metrics: ["Domains with artifacts", "Weekly practical outputs", "Interview confidence trend"],
+    metrics: ["Domains with artifacts", "Weekly practical outputs", "Practical confidence trend"],
     analystNotes: "Certifications matter most when they create practical fluency and visible evidence, not just test familiarity."
   }
 });
@@ -1255,6 +2457,93 @@ function buildAppliedFieldGuide(sectionId) {
       ${buildStudyStoryboard(sectionId)}
       <div class="field-note-callout">
         <strong>Field Note:</strong> ${playbook.analystNotes}
+      </div>
+    </section>
+  `;
+}
+
+function buildRealisticTrainingPackage(sectionId) {
+  const playbook = getStudyPlaybook(sectionId);
+  const guide = getStudyGuide(sectionId);
+  if (!playbook || !guide) {
+    return "";
+  }
+
+  const labContextByCategory = {
+    endpoint: [
+      "Lab environment: 2 Windows hosts + 1 Linux host with EDR telemetry enabled.",
+      "Timebox: 90 minutes execution + 20 minutes debrief.",
+      "Data sources: endpoint events, process tree, network connections, and auth logs.",
+      "Constraint: maintain business continuity while containing risk."
+    ],
+    detection: [
+      "Lab environment: SIEM with at least 7 days of normalized logs.",
+      "Timebox: 60 minutes detection build + 30 minutes tuning cycle.",
+      "Data sources: attack replay dataset + benign baseline traffic.",
+      "Constraint: improve precision without losing high-risk coverage."
+    ],
+    incident: [
+      "Lab environment: incident ticketing + SIEM/EDR console + communication templates.",
+      "Timebox: 75 minutes scenario handling + 30 minutes postmortem.",
+      "Data sources: timeline events, identity logs, endpoint and network telemetry.",
+      "Constraint: prioritize containment and stakeholder clarity under pressure."
+    ],
+    cloud: [
+      "Lab environment: multi-account cloud sandbox with CloudTrail/Audit logs enabled.",
+      "Timebox: 80 minutes triage/remediation + 20 minutes evidence closure.",
+      "Data sources: security findings, audit events, IAM activity, config state.",
+      "Constraint: maintain least privilege and avoid service disruption."
+    ],
+    automation: [
+      "Lab environment: staging pipeline or SOAR sandbox with dry-run mode.",
+      "Timebox: 60 minutes build + 30 minutes failure-path testing.",
+      "Data sources: API responses, alert payloads, ticket outcomes.",
+      "Constraint: no destructive actions without approval gates and rollback path."
+    ]
+  };
+
+  const context = labContextByCategory[playbook.category] || labContextByCategory.endpoint;
+  const responseSteps = playbook.responseSteps || [];
+  const artifacts = playbook.artifacts || [];
+  const selfCheck = guide.selfCheck || [];
+  const metrics = playbook.metrics || [];
+
+  return `
+    <section class="training-pack">
+      <div class="training-pack-head">
+        <p class="eyebrow">Realistic Training Pack</p>
+        <h5>Mission: ${playbook.scenarioTitle}</h5>
+        <p>${playbook.scenarioSummary}</p>
+      </div>
+      <div class="training-pack-grid">
+        <article class="training-pack-card">
+          <h6>Lab Setup</h6>
+          <ul>${context.map((item) => `<li>${item}</li>`).join("")}</ul>
+        </article>
+        <article class="training-pack-card">
+          <h6>Execution Tasks</h6>
+          <ol>${responseSteps.map((item) => `<li>${item}</li>`).join("")}</ol>
+        </article>
+        <article class="training-pack-card">
+          <h6>Required Deliverables</h6>
+          <ul>${artifacts.map((item) => `<li>${item}</li>`).join("")}</ul>
+        </article>
+      </div>
+      <div class="training-rubric">
+        <h6>Assessment Rubric</h6>
+        <table>
+          <thead><tr><th>Criteria</th><th>Expected Evidence</th><th>Score</th></tr></thead>
+          <tbody>
+            <tr><td>Technical Accuracy</td><td>Actions align to scenario facts and controls</td><td>0-5</td></tr>
+            <tr><td>Evidence Quality</td><td>Artifacts are complete, timestamped, and reproducible</td><td>0-5</td></tr>
+            <tr><td>Operational Judgment</td><td>Risk, tradeoffs, and escalation decisions are justified</td><td>0-5</td></tr>
+            <tr><td>Outcome Measurement</td><td>${metrics.slice(0, 2).join(" + ") || "At least two measurable improvements documented"}</td><td>0-5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="training-debrief">
+        <h6>Debrief Questions</h6>
+        <ul>${selfCheck.map((item) => `<li>${item}</li>`).join("")}</ul>
       </div>
     </section>
   `;
@@ -1399,7 +2688,7 @@ const topicQuizBank = {
       { prompt: "What should drive architecture controls first?", options: ["Aesthetic preference", "Trust boundaries and threat model", "Vendor logo", "Default templates only"], answer: 1, remediation: "Start with trust boundaries and adversary paths." },
       { prompt: "ADR is most useful for:", options: ["Code formatting", "Decision rationale and tradeoffs", "Ticket title", "Run command history"], answer: 1, remediation: "Capture why a security design was chosen over alternatives." },
       { prompt: "Resilient architecture includes:", options: ["Only prevention", "Detection + recovery + rollback paths", "No monitoring", "No ownership"], answer: 1, remediation: "Design for recoverability as well as prevention." },
-      { prompt: "Best way to present architecture in interview:", options: ["Buzzwords", "Threats, controls, tradeoffs, measurable outcome", "No numbers", "Only diagram title"], answer: 1, remediation: "Use structured explanation with measurable impact." }
+      { prompt: "Best way to explain an architecture decision:", options: ["Buzzwords", "Threats, controls, tradeoffs, measurable outcome", "No numbers", "Only diagram title"], answer: 1, remediation: "Use structured explanation with measurable impact." }
     ]
   },
   "security-automation": {
@@ -1454,8 +2743,8 @@ const topicQuizBank = {
     questions: [
       { prompt: "Strong capstone success metric is:", options: ["Repo stars", "Measured security outcome over baseline", "Theme color", "Slide count"], answer: 1, remediation: "Define objective baseline and measurable post-change outcomes." },
       { prompt: "Best capstone evidence set includes:", options: ["One screenshot", "Architecture + implementation + metrics + lessons learned", "Only code", "Only summary"], answer: 1, remediation: "Package end-to-end evidence and narrative." },
-      { prompt: "Capstone should demonstrate:", options: ["Single isolated skill", "Integration of multiple job-relevant skills", "Only UI", "Only logs"], answer: 1, remediation: "Build integrated workflows that mirror real operations." },
-      { prompt: "Interview-ready capstone explanation should cover:", options: ["Tools list", "Problem, approach, tradeoffs, measurable impact", "Company gossip", "No challenges"], answer: 1, remediation: "Use STAR-style structured explanation with quantified outcomes." }
+      { prompt: "Capstone should demonstrate:", options: ["Single isolated skill", "Integration of multiple practical skills across domains", "Only UI", "Only logs"], answer: 1, remediation: "Build integrated workflows that mirror real operations." },
+      { prompt: "A strong capstone explanation should cover:", options: ["Tools list", "Problem, approach, tradeoffs, measurable impact", "Company gossip", "No challenges"], answer: 1, remediation: "Use structured explanation with quantified outcomes." }
     ]
   },
   "soc-ops-analyst-track": {
@@ -1474,7 +2763,11 @@ Object.assign(topicQuizBank, {
       { prompt: "Best first triage action for a critical Security Hub finding:", options: ["Close immediately", "Validate finding context, resource exposure, and ownership", "Ignore if no user complaint", "Disable Security Hub"], answer: 1, remediation: "Build a deterministic Security Hub triage checklist with context validation." },
       { prompt: "GuardDuty + CloudTrail correlation primarily helps:", options: ["Theme selection", "Root-cause and scope analysis", "Cost forecasting only", "DNS formatting"], answer: 1, remediation: "Practice linking threat findings to identity and API activity evidence." },
       { prompt: "Strong finding closure evidence includes:", options: ["Status changed only", "Control retest and artifacted remediation proof", "Verbal update", "Ticket reassignment"], answer: 1, remediation: "Require closure artifacts with control validation and timestamped ownership." },
-      { prompt: "Best escalation basis for cloud findings:", options: ["Raw severity only", "Severity + exploitability + asset criticality + exposure", "Queue age only", "Analyst preference"], answer: 1, remediation: "Adopt risk-context prioritization over severity labels alone." }
+      { prompt: "Best escalation basis for cloud findings:", options: ["Raw severity only", "Severity + exploitability + asset criticality + exposure", "Queue age only", "Analyst preference"], answer: 1, remediation: "Adopt risk-context prioritization over severity labels alone." },
+      { prompt: "ASFF WorkflowStatus should be set to NOTIFIED when:", options: ["Alert is auto-suppressed", "A ticket or owner notification has been sent for the finding", "The finding auto-archives", "Control passes"], answer: 1, remediation: "Use WorkflowStatus lifecycle to track investigation state: NEW > NOTIFIED > RESOLVED." },
+      { prompt: "GuardDuty finding Stealth:IAMUser/CloudTrailLoggingDisabled indicates:", options: ["Misconfigured region", "Possible attacker covering tracks by disabling CloudTrail", "Normal rotation", "Cost optimization"], answer: 1, remediation: "Treat CloudTrail disable events as active incident indicators — investigate IAM actor immediately." },
+      { prompt: "Multi-account Security Hub aggregation uses:", options: ["Manual CSV exports per account", "Aggregation Region + Delegated Administrator via Organizations", "CloudFormation stack sets only", "S3 cross-region replication"], answer: 1, remediation: "Configure a Security account as delegated admin and set an Aggregation Region for centralized findings." },
+      { prompt: "An EventBridge rule targeting Security Hub NEW CRITICAL findings should route to:", options: ["Only dashboards", "Lambda/SNS for enrichment, ticketing, or automated response", "CloudWatch only", "S3 archive only"], answer: 1, remediation: "Design EventBridge automations to trigger enrichment and notification workflows for high-severity findings." }
     ]
   },
   "aws-cloud-security-engineering": {
@@ -1482,7 +2775,12 @@ Object.assign(topicQuizBank, {
       { prompt: "Most important AWS design primitive for blast-radius reduction:", options: ["Single account", "Multi-account segmentation with guardrails", "No IAM boundaries", "Open egress"], answer: 1, remediation: "Review account segmentation and SCP guardrail patterns." },
       { prompt: "Least-privilege IAM maturity requires:", options: ["* permissions", "Scoped roles + review + denied-action feedback loop", "Permanent admin", "No logging"], answer: 1, remediation: "Implement role refinement and periodic privilege recertification." },
       { prompt: "Cloud logging quality depends on:", options: ["Storage class only", "Coverage, integrity, retention, and access controls", "UI color", "Region name"], answer: 1, remediation: "Strengthen log coverage and integrity controls across accounts." },
-      { prompt: "Best cloud response pattern:", options: ["Manual-only", "Automated enrich + governed containment + evidence capture", "Delete resources", "Silence alerts"], answer: 1, remediation: "Design automated response stages with approval and audit artifacts." }
+      { prompt: "Best cloud response pattern:", options: ["Manual-only", "Automated enrich + governed containment + evidence capture", "Delete resources", "Silence alerts"], answer: 1, remediation: "Design automated response stages with approval and audit artifacts." },
+      { prompt: "IAM policy evaluation order: which layer takes precedence above all others?", options: ["Identity-based policy", "Explicit Deny from any policy layer", "Session policy", "Resource-based policy"], answer: 1, remediation: "An explicit Deny in any policy always overrides any Allow — know the 6-step evaluation order." },
+      { prompt: "A Service Control Policy (SCP) that omits an action means:", options: ["Action is allowed by default", "Action is implicitly denied regardless of identity policy", "Action requires MFA", "Action is logged only"], answer: 1, remediation: "SCPs whitelist what is possible — omission is implicit denial, not a pass-through." },
+      { prompt: "AWS KMS envelope encryption stores:", options: ["Plaintext data key alongside data", "Encrypted data key alongside the ciphertext", "CMK private key in S3", "No key material"], answer: 1, remediation: "Understand data key generation, CMK wrapping, and the decrypt flow for KMS envelope encryption." },
+      { prompt: "VPC Security Groups differ from Network ACLs because Security Groups are:", options: ["Stateless and subnet-level", "Stateful and instance-level with allow-only rules", "Priority-ordered line rules", "Applied only to RDS"], answer: 1, remediation: "Security Groups = stateful + instance scope + allow-only. NACLs = stateless + subnet scope + allow/deny." },
+      { prompt: "When responding to an EC2 compromise, the first forensic step before isolation is:", options: ["Terminate the instance", "Take an EBS snapshot to preserve forensic evidence", "Rotate all keys immediately", "Remove the IAM role"], answer: 1, remediation: "Always snapshot before isolation — termination or policy changes can destroy volatile evidence." }
     ]
   },
   "siem-tooling-platform-depth": {
@@ -1506,7 +2804,12 @@ Object.assign(topicQuizBank, {
       { prompt: "Strong Palo Alto policy model is:", options: ["Allow-all", "Deny-by-default with explicit governed exceptions", "Static forever", "No ownership"], answer: 1, remediation: "Implement deny-by-default policy and exception lifecycle controls." },
       { prompt: "Most useful incident triage artifact from NGFW:", options: ["License SKU", "Traffic/threat logs correlated with identity and app context", "Theme config", "Hostname only"], answer: 1, remediation: "Correlate firewall telemetry with SIEM/identity context for investigations." },
       { prompt: "Threat profile tuning should prioritize:", options: ["Max noise", "Risk-relevant detections with controlled false positives", "No alerts", "Random blocks"], answer: 1, remediation: "Tune profiles with measured precision and coverage impact." },
-      { prompt: "Best exception governance for firewall rules:", options: ["No expiry", "Owner + reason + review date + validation", "Chat approval", "Permanent bypass"], answer: 1, remediation: "Apply full exception metadata and periodic recertification." }
+      { prompt: "Best exception governance for firewall rules:", options: ["No expiry", "Owner + reason + review date + validation", "Chat approval", "Permanent bypass"], answer: 1, remediation: "Apply full exception metadata and periodic recertification." },
+      { prompt: "App-ID identifies applications using:", options: ["Port numbers only", "Multi-phase pipeline including signatures, protocol decoding, and behavioral analysis", "IP addresses only", "Vendor labels"], answer: 1, remediation: "Review App-ID classification phases: known-port, signature, decode, heuristic." },
+      { prompt: "DNS Sinkhole in Anti-Spyware profile is used to:", options: ["Block all DNS", "Identify infected hosts that resolve known-malicious domains", "Speed up DNS", "Replace DNS server"], answer: 1, remediation: "Configure DNS sinkhole IP and monitor Traffic logs for hosts attempting sinkhole connections." },
+      { prompt: "Panorama Device Groups are used to:", options: ["Manage hardware inventory", "Distribute shared policy to a set of managed firewalls", "Store log files", "Handle VPN routing"], answer: 1, remediation: "Understand Panorama Device Group pre-rules, post-rules, and local rule hierarchy." },
+      { prompt: "SSL Forward Proxy decryption requires:", options: ["Server private key on firewall", "Firewall CA cert trusted by endpoints", "No certificate changes", "Only HTTP traffic"], answer: 1, remediation: "Deploy your CA cert to endpoints via GPO/MDM before enabling Forward Proxy decryption." },
+      { prompt: "GlobalProtect HIP checks enforce:", options: ["Application performance", "Endpoint posture conditions for network access", "Bandwidth limits", "DNS speed"], answer: 1, remediation: "Configure HIP objects for disk encryption, EDR presence, and OS patch level requirements." }
     ]
   },
   "xsoar-and-security-automation-platforms": {
@@ -1737,7 +3040,7 @@ function createExtendedStudySection(moduleId, module, indexOffset) {
   section.innerHTML = `
     <h2>${indexOffset}. ${module.title}</h2>
     <div class="study-content">
-      <div class="reading-time">Reading time: ${module.readingTime} | Job-aligned hands-on topic module</div>
+      <div class="reading-time">Reading time: ${module.readingTime} | Hands-on topic module</div>
       <h3>Section Overview</h3>
       <p>${module.overview}</p>
       <h3>Operational Architecture</h3>
@@ -1748,6 +3051,7 @@ function createExtendedStudySection(moduleId, module, indexOffset) {
       <ul>${module.tools.map((item) => `<li>${item}</li>`).join("")}</ul>
       <h3>Expected Outcomes</h3>
       <ul>${module.outcomes.map((item) => `<li>${item}</li>`).join("")}</ul>
+      ${module.deepContent || ""}
     </div>
   `;
   return section;
@@ -1831,7 +3135,7 @@ function organizeStudyNav() {
       ids: ["palo-alto-firewall-operations", "checkpoint-and-firewall-technologies"]
     },
     {
-      title: "Automation, Workflow, and Career Track",
+      title: "Automation, Workflow, and Operations Track",
       ids: ["security-automation", "xsoar-and-security-automation-platforms", "atlassian-jira-confluence-security-workflows", "security-scripting-programming-practice", "certification-and-standards-roadmap"]
     }
   ];
@@ -1974,6 +3278,7 @@ function enhanceStudiesPage() {
       <h4>Guided Learning Path for This Topic</h4>
       ${buildStudyExplainer(section.id)}
       ${buildAppliedFieldGuide(section.id)}
+      ${buildRealisticTrainingPackage(section.id)}
       <div class="study-guide-grid">
         <div class="study-guide-card">
           <h5>Prerequisites</h5>
@@ -2114,7 +3419,7 @@ function enhanceStudiesPage() {
       renderWeakAreaPlan();
 
       if (score === total) {
-        result.innerHTML = `<p><strong>Score: ${score}/${total} (${pct}%)</strong> Excellent. You are ready to apply this topic in labs and interviews.</p>`;
+        result.innerHTML = `<p><strong>Score: ${score}/${total} (${pct}%)</strong> Excellent. You are ready to apply this topic in hands-on labs and practice exercises.</p>`;
       } else {
         const uniqueRemediation = [...new Set(remediation)].map((item) => `<li>${item}</li>`).join("");
         result.innerHTML = `<p><strong>Score: ${score}/${total} (${pct}%)</strong> Review these remediation points:</p><ul>${uniqueRemediation}</ul>`;
@@ -2207,7 +3512,7 @@ function enhanceStudiesPage() {
               <li>Mastery: ${entry.mastered ? "Mastered" : "In progress"}</li>
               <li>Quiz average: ${entry.quizPct}%</li>
               <li>Exam misses: ${entry.examMisses}</li>
-              <li>Interview rubric: ${entry.rubric ? entry.rubric.toFixed(1) : "Not attempted"} / 5</li>
+              <li>Practice score: ${entry.rubric ? entry.rubric.toFixed(1) : "Not attempted"} / 5</li>
             </ul>
             <div class="remediation-box">
               <h4>Priority Next Steps</h4>
@@ -2250,7 +3555,7 @@ function enhanceStudiesPage() {
 
         panel.innerHTML = `
           <div class="interview-result">
-            <p><strong>Interview complete.</strong> Average rubric score: ${average.toFixed(1)} / 5.</p>
+            <p><strong>Session complete.</strong> Average practice score: ${average.toFixed(1)} / 5.</p>
             <p>Use the weak-area study plan below to focus your next practice block.</p>
           </div>
         `;
@@ -2259,7 +3564,7 @@ function enhanceStudiesPage() {
 
       panel.innerHTML = `
         <p class="prep-question">Q${interviewState.index + 1}. ${current.question}</p>
-        <textarea class="prep-answer" id="interviewAnswer" placeholder="Answer this exactly as if you were in a live interview."></textarea>
+        <textarea class="prep-answer" id="interviewAnswer" placeholder="Write your answer as if explaining to a technical peer."></textarea>
         <div class="prep-guidance">
           <h4>Strong answer should include</h4>
           <ul>${current.include.map((item) => `<li>${item}</li>`).join("")}</ul>
@@ -3218,7 +4523,7 @@ function buildWalkthroughContent(labTitle, existingSteps, guidance, categoryKey)
         <ul>
           <li>Publish a concise markdown case summary with architecture and outcome metrics.</li>
           <li>Attach screenshots, config snippets, and one measurable improvement value.</li>
-          <li>Record what failed first and how you corrected it for interview storytelling.</li>
+          <li>Record what failed first and how you corrected it — this context is valuable for documentation and future retrospectives.</li>
         </ul>
       </div>
     `

@@ -147,7 +147,7 @@
           <div class="hero-badges">
             <span>Architecture Focused</span>
             <span>Code + Diagrams</span>
-            <span>Interview Ready</span>
+            <span>Practice Ready</span>
           </div>
         </div>
         <figure class="hero-visual" aria-label="Learning blueprint visual">
@@ -180,7 +180,7 @@
         </article>
       </div>
       <div class="best-practice">
-        <strong>Recommended weekly cadence:</strong> 2 study sections + 2 labs + 1 retrospective write-up. This keeps theory, implementation, and interview storytelling tightly connected.
+        <strong>Recommended weekly cadence:</strong> 2 study sections + 2 labs + 1 retrospective write-up. This keeps theory, hands-on implementation, and explanation depth tightly connected.
       </div>
     </section>
 
@@ -211,12 +211,12 @@
 
     <section class="content-section reveal">
       <div class="section-head">
-        <p class="eyebrow">Interview and Exam Studio</p>
-        <h2>Mock Interviews, Timed Exams, and Personalized Remediation</h2>
+        <p class="eyebrow">Practice and Assessment Studio</p>
+        <h2>Technical Practice, Timed Exams, and Personalized Remediation</h2>
       </div>
       <div class="prep-studio-grid">
         <article class="prep-panel">
-          <h3>Mock Interview Mode</h3>
+          <h3>Technical Q&A Practice</h3>
           <div class="prep-controls">
             <label for="interviewTopicSelect">Topic</label>
             <select id="interviewTopicSelect">
@@ -234,7 +234,7 @@
               <option value="soc-ops-analyst-track">SOC Analyst Track</option>
               <option value="capstone-track">Capstone Track</option>
             </select>
-            <button id="startInterviewBtn" class="btn btn-primary" type="button">Start Mock Interview</button>
+            <button id="startInterviewBtn" class="btn btn-primary" type="button">Start Practice Session</button>
           </div>
           <div id="interviewPanel" class="interview-panel"></div>
         </article>
@@ -270,7 +270,7 @@
 
       <article class="prep-panel">
         <h3>Personalized Weak-Area Study Plan</h3>
-        <p class="helper">Auto-generated from quiz misses, timed exam misses, mastery status, and interview rubric scores.</p>
+        <p class="helper">Auto-generated from quiz misses, timed exam misses, mastery status, and practice session scores.</p>
         <div id="weakAreaPlan" class="weak-plan"></div>
       </article>
     </section>
@@ -456,14 +456,111 @@ New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Services\USBSTOR" -Name "Start" -
           <li>Deploy and tune EDR with phased rollout, baseline establishment, and feedback loops</li>
         </ul>
 
+        <h3>EDR Platform Comparison</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Platform</th><th>Telemetry Strength</th><th>Response Actions</th><th>Cloud Coverage</th><th>Key Differentiator</th></tr></thead>
+          <tbody>
+            <tr><td><strong>CrowdStrike Falcon</strong></td><td>Process tree, network, registry, memory</td><td>Contain, RTR shell, block hash</td><td>Native cloud sensor</td><td>Threat graph correlation engine and 1-second telemetry</td></tr>
+            <tr><td><strong>SentinelOne</strong></td><td>Full process lineage, file ops, DNS</td><td>Isolate, rollback, kill process</td><td>Singularity cloud workload</td><td>Autonomous AI-driven response; 1-click rollback</td></tr>
+            <tr><td><strong>Microsoft Defender for Endpoint</strong></td><td>Deep OS integration, Entra signals</td><td>Isolate, live response, remediate</td><td>Defender for Cloud native</td><td>Best MSFT stack integration; M365 Defender XDR</td></tr>
+            <tr><td><strong>Cortex XDR</strong></td><td>Endpoint + network + cloud combined</td><td>Isolate, script-based response</td><td>Prisma Cloud integration</td><td>Broadest cross-surface correlation with Palo Alto stack</td></tr>
+            <tr><td><strong>Carbon Black (VMware)</strong></td><td>Process event streaming</td><td>Isolate, ban process, live query</td><td>Carbon Black Cloud</td><td>Strong behavioral prevention with watchlists</td></tr>
+          </tbody>
+        </table>
+
+        <h3>macOS Hardening Cheat Sheet</h3>
+        <div class="cheat-sheet">
+          <h5>macOS Security Commands (Terminal / MDM Profile)</h5>
+          <div class="cmd-row"><span class="cmd">sudo fdesetup enable</span><span class="cmd-desc">Enable FileVault full-disk encryption</span></div>
+          <div class="cmd-row"><span class="cmd">sudo spctl --master-enable</span><span class="cmd-desc">Enable Gatekeeper (block unsigned apps)</span></div>
+          <div class="cmd-row"><span class="cmd">sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on</span><span class="cmd-desc">Enable application firewall</span></div>
+          <div class="cmd-row"><span class="cmd">sudo pfctl -e</span><span class="cmd-desc">Enable pf packet filter</span></div>
+          <div class="cmd-row"><span class="cmd">defaults write com.apple.screensaver askForPassword -int 1</span><span class="cmd-desc">Require password after screensaver</span></div>
+          <div class="cmd-row"><span class="cmd">sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2</span><span class="cmd-desc">Enable stealth mode (no ICMP response)</span></div>
+          <div class="cmd-row"><span class="cmd">csrutil status</span><span class="cmd-desc">Check System Integrity Protection (SIP) status</span></div>
+          <div class="cmd-row"><span class="cmd">sudo profiles -P</span><span class="cmd-desc">List installed MDM configuration profiles</span></div>
+        </div>
+
+        <h3>Endpoint ATT&CK Coverage Map</h3>
+        <p>Key MITRE ATT&CK techniques that endpoint controls detect and prevent:</p>
+        <div class="attck-grid">
+          <div class="attck-cell"><span class="tactic">T1059 — Execution</span><span class="technique">Command/Script Interpreter: EDR behavioral rules on powershell.exe, cmd.exe, wscript.exe with suspicious child processes</span></div>
+          <div class="attck-cell"><span class="tactic">T1547 — Persistence</span><span class="technique">Boot Autostart: Monitor registry Run keys, startup folder changes, LaunchAgent/LaunchDaemon additions</span></div>
+          <div class="attck-cell"><span class="tactic">T1003 — Credential Access</span><span class="technique">OS Credential Dumping: Protect LSASS, detect direct memory reads, prevent mimikatz via Credential Guard</span></div>
+          <div class="attck-cell"><span class="tactic">T1055 — Defense Evasion</span><span class="technique">Process Injection: Detect cross-process memory writes, hollowing, and thread hijacking via EDR</span></div>
+          <div class="attck-cell"><span class="tactic">T1021 — Lateral Movement</span><span class="technique">Remote Services: Alert on unusual RDP/SMB/WMI authentications, especially admin→admin hops</span></div>
+          <div class="attck-cell"><span class="tactic">T1486 — Impact</span><span class="technique">Data Encryption (Ransomware): Detect rapid file rename/overwrite patterns; trigger automated isolation</span></div>
+          <div class="attck-cell"><span class="tactic">T1078 — Defense Evasion</span><span class="technique">Valid Accounts: Anomalous login time/location for known user; correlate with identity risk signals</span></div>
+          <div class="attck-cell"><span class="tactic">T1070 — Defense Evasion</span><span class="technique">Indicator Removal: Detect log clearing (wevtutil cl), history deletion, volume shadow copy deletion</span></div>
+        </div>
+
+        <h3>Endpoint Baseline vs Advanced Controls</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Level 1: Baseline (All Endpoints)</h5>
+            <ul>
+              <li>Full-disk encryption active</li>
+              <li>Antivirus/EDR deployed and reporting</li>
+              <li>OS patched within SLA</li>
+              <li>Screen lock at 5 min</li>
+              <li>Local admin removed</li>
+              <li>Firewall enabled</li>
+              <li>USB storage restricted</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Level 2: Advanced (Priveleged/Sensitive)</h5>
+            <ul>
+              <li>Application allowlist enforced</li>
+              <li>Exploit protection (EMET/Exploit Guard)</li>
+              <li>Credential Guard active</li>
+              <li>Controlled Folder Access</li>
+              <li>Network isolation on anomaly</li>
+              <li>Hardware security key for login</li>
+              <li>Memory integrity (HVCI)</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Level 3: Executive / Sensitive (Highest Risk)</h5>
+            <ul>
+              <li>Managed device only (no BYOD)</li>
+              <li>Zero-trust network access only</li>
+              <li>No local data storage permitted</li>
+              <li>Enhanced logging forwarded in real-time</li>
+              <li>Dedicated threat hunting coverage</li>
+              <li>Physical security requirements</li>
+              <li>Periodic forensic hygiene checks</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Incident Investigation Workflow: Endpoint Triage</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Alert Received</strong><span>EDR fires on suspicious process — note process name, PID, parent, command line, timestamp, user context</span></div></div>
+          <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Scope Check</strong><span>Check if device is unique or if the behavior is seen on other hosts (lateral movement indicator)</span></div></div>
+          <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Network Context</strong><span>Review outbound connections from the process — is it beaconing, DNS tunneling, or touching data stores?</span></div></div>
+          <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Persistence Check</strong><span>Look at startup entries, scheduled tasks, services, and registry Run keys modified near the event timestamp</span></div></div>
+          <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Contain or Monitor</strong><span>If confirmed malicious: isolate device, revoke user tokens, snapshot before remediation. If uncertain: apply sensor-only response and continue investigation.</span></div></div>
+          <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Evidence Package</strong><span>Capture: process tree screenshot, network connection log, hash of suspicious file, timeline of events for the IR ticket</span></div></div>
+        </div>
+
+        <div class="visual-warning">
+          <strong>Common Endpoint Security Mistakes:</strong><br/>
+          ✗ Deploying EDR in "monitor-only" mode indefinitely — you get telemetry but no prevention<br/>
+          ✗ Patching production servers without a tested rollback plan — service outages from bad patches are expensive<br/>
+          ✗ Treating compliance checkbox as security — a compliant-but-misconfigured system offers false confidence<br/>
+          ✗ Ignoring endpoint performance when deploying security tools — agent conflicts cause instability and removal requests
+        </div>
+
         <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://www.cisecurity.org/" target="_blank">CIS Benchmarks - Industry standard hardening guides</a></li>
-          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-53/rev-5" target="_blank">NIST SP 800-53 Rev 5 - Security and Privacy Controls</a></li>
-          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-88" target="_blank">NIST SP 800-88 - Guidelines for Media Sanitization</a></li>
-          <li><a href="https://docs.microsoft.com/en-us/windows/security/" target="_blank">Microsoft Windows Security Baseline</a></li>
-          <li><a href="https://www.apple.com/business/security/" target="_blank">Apple Enterprise Security Guidelines</a></li>
-        </ul>
+        <div class="resource-links">
+          <a class="resource-link" href="https://www.cisecurity.org/" target="_blank">CIS Benchmarks — Hardening guides for all major OS</a>
+          <a class="resource-link" href="https://csrc.nist.gov/publications/detail/sp/800-53/rev-5" target="_blank">NIST SP 800-53 Rev 5 — Security &amp; Privacy Controls</a>
+          <a class="resource-link" href="https://csrc.nist.gov/publications/detail/sp/800-88" target="_blank">NIST SP 800-88 — Media Sanitization Guidelines</a>
+          <a class="resource-link" href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK — Adversary technique catalog</a>
+          <a class="resource-link" href="https://docs.microsoft.com/en-us/windows/security/" target="_blank">Microsoft Windows Security Baseline</a>
+          <a class="resource-link" href="https://www.crowdstrike.com/cybersecurity-101" target="_blank">CrowdStrike Cybersecurity 101 Resource Hub</a>
+        </div>
       </div>
     </section>
 
@@ -611,13 +708,109 @@ Review quarterly for drift and effectiveness
           <li>Configure conditional access policies balancing security and usability</li>
         </ul>
 
-        <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-207" target="_blank">NIST SP 800-207 - Zero Trust Architecture</a></li>
-          <li><a href="https://www.microsoft.com/en-us/security/business/solutions/zero-trust" target="_blank">Microsoft Zero Trust Model & Implementation</a></li>
-          <li><a href="https://www.paloaltonetworks.com/cyberpedia/what-is-microsegmentation" target="_blank">Palo Alto Networks - Microsegmentation Guide</a></li>
-          <li><a href="https://attack.mitre.org/tactics/TA0011/" target="_blank">MITRE ATT&CK - Command and Control Tactics</a></li>
-        </ul>
+        <h3>Zero Trust vs Perimeter: Side-by-Side</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Dimension</th><th>Perimeter (Castle-and-Moat)</th><th>Zero Trust</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Trust model</strong></td><td>Implicit trust inside the network</td><td>No implicit trust anywhere — verify every request</td></tr>
+            <tr><td><strong>Identity</strong></td><td>Network location = identity</td><td>Authenticated identity + device posture required</td></tr>
+            <tr><td><strong>Lateral movement</strong></td><td>Flat internal network enables free movement</td><td>Microsegmentation limits blast radius per breach</td></tr>
+            <tr><td><strong>Remote users</strong></td><td>VPN = full network tunnel access</td><td>App-specific access with per-session authorization</td></tr>
+            <tr><td><strong>Cloud workloads</strong></td><td>Cloud resources outside perimeter = untrusted</td><td>Same policy regardless of workload location</td></tr>
+            <tr><td><strong>Breach impact</strong></td><td>One compromised credential = network-wide access</td><td>One compromised credential = limited scope</td></tr>
+            <tr><td><strong>Visibility</strong></td><td>Traffic inside perimeter often unlogged</td><td>All access logged with identity + device context</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Network Traffic Analysis: Key Indicators of Compromise</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Beaconing Patterns</h5>
+            <ul>
+              <li>Regular outbound connections every N seconds/minutes</li>
+              <li>Small, consistent payload sizes</li>
+              <li>Connection to newly-registered or low-reputation domains</li>
+              <li>HTTPS to non-standard ports (443 on unusual IPs)</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Lateral Movement Signals</h5>
+            <ul>
+              <li>New SMB/RDP connections between workstations</li>
+              <li>Admin share access (C$, ADMIN$) outside change windows</li>
+              <li>WMI remote execution from unusual source</li>
+              <li>Pass-the-hash/Pass-the-ticket Kerberos anomalies</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Data Exfiltration Indicators</h5>
+            <ul>
+              <li>Unusual volume spikes in outbound traffic</li>
+              <li>DNS queries with long subdomains (tunneling)</li>
+              <li>Upload volume to new cloud storage endpoints</li>
+              <li>Compressed archive creation followed by transfer</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>C2 Infrastructure Signals</h5>
+            <ul>
+              <li>Low TTL DNS responses with frequent IP changes</li>
+              <li>Domain generation algorithm (DGA) patterns: random-looking domains</li>
+              <li>HTTPS with self-signed or mismatched certificates</li>
+              <li>Traffic to TOR exit nodes or known proxy services</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Firewall Rule Design Cheat Sheet</h3>
+        <div class="cheat-sheet">
+          <h5>Baseline Deny-by-Default Rule Pattern (palo-alto / iptables concept)</h5>
+          <div class="cmd-row"><span class="cmd">RULE 1: Allow established,related</span><span class="cmd-desc">Permit return traffic for existing sessions (stateful)</span></div>
+          <div class="cmd-row"><span class="cmd">RULE 2: Allow corp→internet TCP 443</span><span class="cmd-desc">HTTPS outbound for corp users — log all</span></div>
+          <div class="cmd-row"><span class="cmd">RULE 3: Allow corp→internet TCP 80</span><span class="cmd-desc">HTTP outbound — route through proxy for inspection</span></div>
+          <div class="cmd-row"><span class="cmd">RULE 4: Allow dmz→internet TCP 443</span><span class="cmd-desc">DMZ servers need API/update access — minimal</span></div>
+          <div class="cmd-row"><span class="cmd">RULE 5: Allow mgmt→any TCP 22</span><span class="cmd-desc">SSH only from management VLAN — log all</span></div>
+          <div class="cmd-row"><span class="cmd">RULE N-1: Alert on any→any</span><span class="cmd-desc">Cleanup rule: log all unmatched traffic before deny</span></div>
+          <div class="cmd-row"><span class="cmd">RULE N: Deny all</span><span class="cmd-desc">Implicit default deny — never rely on implicit; make it explicit</span></div>
+        </div>
+
+        <h3>Network Ports and Protocol Quick Reference</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Port/Protocol</th><th>Service</th><th>Common Attack Vector</th><th>Monitoring Priority</th></tr></thead>
+          <tbody>
+            <tr><td><strong>22/TCP</strong></td><td>SSH</td><td>Brute force, credential stuffing, stolen key use</td><td>HIGH — log all auth events</td></tr>
+            <tr><td><strong>80/443/TCP</strong></td><td>HTTP/HTTPS</td><td>Web exploitation, C2 over HTTP, malware download</td><td>HIGH — inspect traffic</td></tr>
+            <tr><td><strong>445/TCP</strong></td><td>SMB</td><td>EternalBlue, ransomware propagation, lateral movement</td><td>CRITICAL — block internet-facing; monitor internal</td></tr>
+            <tr><td><strong>3389/TCP</strong></td><td>RDP</td><td>Brute force, BlueKeep, credential theft for pivoting</td><td>CRITICAL — never expose to internet</td></tr>
+            <tr><td><strong>53/UDP</strong></td><td>DNS</td><td>DNS tunneling, C2 over DNS, data exfiltration</td><td>HIGH — baseline query volume; alert on anomalies</td></tr>
+            <tr><td><strong>636/TCP</strong></td><td>LDAPS</td><td>LDAP injection, directory enumeration</td><td>MEDIUM — alert on anonymous binds</td></tr>
+            <tr><td><strong>1433/TCP</strong></td><td>MSSQL</td><td>SQL injection, stored procedure abuse</td><td>HIGH — never internet-facing</td></tr>
+          </tbody>
+        </table>
+
+        <h3>DNS Investigation Queries</h3>
+        <div class="cheat-sheet">
+          <h5>DNS Threat Hunting (Splunk SPL format)</h5>
+          <div class="cmd-row"><span class="cmd">index=dns | stats count by query | sort -count | head 50</span><span class="cmd-desc">Top 50 queried domains — check for DGA patterns</span></div>
+          <div class="cmd-row"><span class="cmd">index=dns query_length>40 | table src_ip, query, query_type</span><span class="cmd-desc">Long subdomain queries — potential DNS tunneling</span></div>
+          <div class="cmd-row"><span class="cmd">index=dns NOT answer="NXDOMAIN" | rare query</span><span class="cmd-desc">Rare resolved domains — newly seen destinations</span></div>
+          <div class="cmd-row"><span class="cmd">index=dns | eval entropy=... | where entropy>3.5</span><span class="cmd-desc">High-entropy domain names — DGA indicator</span></div>
+        </div>
+
+        <div class="visual-tip">
+          <strong>Zero Trust Implementation Sequence:</strong><br/>
+          Start with identity (MFA + conditional access) — this gives the biggest ROI for least disruption. Then add device compliance checks. Then network segmentation. Finally, continuous session monitoring. Trying to implement all pillars simultaneously leads to project failure and security gaps.
+        </div>
+
+        <h3>References &amp; Standards</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://csrc.nist.gov/publications/detail/sp/800-207" target="_blank">NIST SP 800-207 — Zero Trust Architecture</a>
+          <a class="resource-link" href="https://attack.mitre.org/tactics/TA0008/" target="_blank">MITRE ATT&amp;CK — Lateral Movement Tactics</a>
+          <a class="resource-link" href="https://attack.mitre.org/tactics/TA0011/" target="_blank">MITRE ATT&amp;CK — Command &amp; Control Tactics</a>
+          <a class="resource-link" href="https://www.cloudflare.com/learning/security/glossary/what-is-zero-trust/" target="_blank">Cloudflare — Zero Trust Explained</a>
+          <a class="resource-link" href="https://www.cisco.com/site/us/en/learn/topics/security/what-is-microsegmentation.html" target="_blank">Cisco — Microsegmentation Guide</a>
+          <a class="resource-link" href="https://docs.microsoft.com/en-us/azure/active-directory/conditional-access/" target="_blank">Azure AD Conditional Access Documentation</a>
+        </div>
       </div>
     </section>
 
@@ -762,7 +955,7 @@ VERIFICATION:
         </div>
 
         <h3>Building Your Professional Pentesting Portfolio</h3>
-        <p>Create GitHub repositories demonstrating capabilities to prospective employers:</p>
+        <p>Build practice repositories documenting your applied understanding of security concepts:</p>
         <ul>
           <li><strong>Assessment Reports:</strong> Lab reports from scoped, controlled environments (home lab, target practice environments)</li>
           <li><strong>Vulnerability Findings:</strong> 10-20 documented findings with CVSS scoring, business impact, PoC</li>
@@ -781,14 +974,116 @@ VERIFICATION:
           <li>Manage evidence collection and maintain confidentiality of sensitive information</li>
         </ul>
 
-        <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-115" target="_blank">NIST SP 800-115 - Technical Security Testing and Assessment</a></li>
-          <li><a href="https://owasp.org/www-project-web-security-testing-guide/" target="_blank">OWASP Testing Guide - Web Application Security Testing</a></li>
-          <li><a href="https://www.pentest-standard.org/" target="_blank">PTES - Penetration Testing Execution Standard</a></li>
-          <li><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&CK - Adversary Tactics, Techniques &Procedures</a></li>
-          <li><a href="https://nvd.nist.gov/vuln/metrics/cvss" target="_blank">CVSS v3.1 Calculator & Scoring Guidance</a></li>
-        </ul>
+        <h3>Penetration Testing Tool Comparison</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Tool</th><th>Category</th><th>Primary Use Case</th><th>Key Strength</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Nmap</strong></td><td>Recon/Scanning</td><td>Port scanning, service discovery, OS fingerprinting</td><td>Scriptable (NSE), widely supported output formats</td></tr>
+            <tr><td><strong>Burp Suite</strong></td><td>Web App Testing</td><td>Proxy for intercepting &amp; modifying HTTP traffic, fuzzing, scan</td><td>Best-in-class web app testing; Pro has active scanner</td></tr>
+            <tr><td><strong>Metasploit</strong></td><td>Exploit Framework</td><td>Exploit execution, post-exploitation, payload generation</td><td>Largest public exploit database; Meterpreter shell</td></tr>
+            <tr><td><strong>BloodHound</strong></td><td>AD Analysis</td><td>Active Directory attack path discovery/visualization</td><td>Graphs shortest path to Domain Admin</td></tr>
+            <tr><td><strong>Nikto</strong></td><td>Web Scanner</td><td>Web server misconfiguration, software version checks</td><td>Fast, open source; good for quick audits</td></tr>
+            <tr><td><strong>Wireshark</strong></td><td>Packet Analysis</td><td>Network capture, protocol analysis, credential sniffing</td><td>Deep protocol analysis; follow TCP streams</td></tr>
+            <tr><td><strong>CrackMapExec</strong></td><td>AD Exploitation</td><td>SMB enumeration, password spraying, lateral movement</td><td>Combines multiple AD attack vectors in one tool</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Kali Linux Recon Cheat Sheet</h3>
+        <div class="cheat-sheet">
+          <h5>Network &amp; Service Discovery (Legal, Scoped Targets Only)</h5>
+          <div class="cmd-row"><span class="cmd">nmap -sV -sC -O -p- --open TARGET_IP</span><span class="cmd-desc">Full port scan with service version + script scan + OS detection</span></div>
+          <div class="cmd-row"><span class="cmd">nmap -sU -p 53,161,500,4500 TARGET_IP</span><span class="cmd-desc">UDP scan common ports (DNS, SNMP, IKE)</span></div>
+          <div class="cmd-row"><span class="cmd">nmap --script vuln TARGET_IP</span><span class="cmd-desc">Run NSE vulnerability detection scripts against target</span></div>
+          <div class="cmd-row"><span class="cmd">gobuster dir -u http://TARGET -w /usr/share/wordlists/dirbuster/dir.txt</span><span class="cmd-desc">Directory brute-force on web targets</span></div>
+          <div class="cmd-row"><span class="cmd">nikto -h http://TARGET -C all</span><span class="cmd-desc">Web server misconfiguration + vulnerability scan</span></div>
+          <div class="cmd-row"><span class="cmd">enum4linux -A TARGET_IP</span><span class="cmd-desc">Full SMB/NetBIOS enumeration (users, shares, policies)</span></div>
+          <div class="cmd-row"><span class="cmd">crackmapexec smb TARGET_IP -u users.txt -p 'Password123!'</span><span class="cmd-desc">Password spray SMB — watch for account lockout!</span></div>
+        </div>
+
+        <h3>OWASP Top 10 Web Application Risks</h3>
+        <div class="attck-grid">
+          <div class="attck-cell"><strong>A01</strong><br/>Broken Access Control</div>
+          <div class="attck-cell"><strong>A02</strong><br/>Cryptographic Failures</div>
+          <div class="attck-cell"><strong>A03</strong><br/>Injection (SQL, XSS, LDAP)</div>
+          <div class="attck-cell"><strong>A04</strong><br/>Insecure Design</div>
+          <div class="attck-cell"><strong>A05</strong><br/>Security Misconfiguration</div>
+          <div class="attck-cell"><strong>A06</strong><br/>Vulnerable Components</div>
+          <div class="attck-cell"><strong>A07</strong><br/>ID &amp; Auth Failures</div>
+          <div class="attck-cell"><strong>A08</strong><br/>Software Integrity Failures</div>
+          <div class="attck-cell"><strong>A09</strong><br/>Security Logging &amp; Monitoring Failures</div>
+          <div class="attck-cell"><strong>A10</strong><br/>SSRF</div>
+        </div>
+
+        <h3>Finding Severity Reference Cards</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Critical (CVSS 9.0–10.0)</h5>
+            <ul>
+              <li>Remote code execution without auth</li>
+              <li>SQL injection with admin access</li>
+              <li>Authentication bypass on production</li>
+              <li>SLA: Patch within 24–48 hours</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>High (CVSS 7.0–8.9)</h5>
+            <ul>
+              <li>Authenticated RCE</li>
+              <li>Cross-site scripting + session hijack</li>
+              <li>Privilege escalation to admin</li>
+              <li>SLA: Patch within 7–14 days</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Medium (CVSS 4.0–6.9)</h5>
+            <ul>
+              <li>CSRF on sensitive actions</li>
+              <li>Information disclosure (limited)</li>
+              <li>Weak cryptography in non-critical data</li>
+              <li>SLA: Patch within 30 days</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Low (CVSS 0.1–3.9)</h5>
+            <ul>
+              <li>Banner disclosure / version info</li>
+              <li>Missing security headers</li>
+              <li>Weak TLS config (not exploitable)</li>
+              <li>SLA: Patch within 90 days</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Engagement Scoping Document Template</h3>
+        <div class="cheat-sheet">
+          <h5>Rules of Engagement (Fill Before Testing)</h5>
+          <div class="cmd-row"><span class="cmd">Scope: [List IPs, domains, apps in scope]</span><span class="cmd-desc">Be explicit — test ONLY what is listed</span></div>
+          <div class="cmd-row"><span class="cmd">Out of Scope: [List exclusions explicitly]</span><span class="cmd-desc">Shared infra, third-party SaaS, partner networks</span></div>
+          <div class="cmd-row"><span class="cmd">Testing Window: [Start date/time – End date/time TZ]</span><span class="cmd-desc">Restrict to business hours unless agreed otherwise</span></div>
+          <div class="cmd-row"><span class="cmd">Emergency Contact: [Name, phone, email — 24hr]</span><span class="cmd-desc">Know who to call if you accidentally cause an outage</span></div>
+          <div class="cmd-row"><span class="cmd">Authorization Letter: [Signed by authorized exec]</span><span class="cmd-desc">Written proof of legal authorization — keep forever</span></div>
+          <div class="cmd-row"><span class="cmd">Data Handling: [How to handle discovered sensitive data]</span><span class="cmd-desc">Don't read/store customer PII — document, don't exfiltrate</span></div>
+        </div>
+
+        <div class="visual-warning">
+          <strong>Common Pentesting Mistakes to Avoid:</strong><br/>
+          ✗ Testing out of scope — always verify scope document before each test<br/>
+          ✗ Running exploits in production without change window — causes real outages<br/>
+          ✗ Reporting vulns without business impact — technical details alone don't drive remediation<br/>
+          ✗ Not preserving evidence — test outcomes must be reproducible; take screenshots, terminal logs<br/>
+          ✗ Skipping the retest — a finding without validation of the fix is incomplete
+        </div>
+
+        <h3>References &amp; Standards</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://csrc.nist.gov/publications/detail/sp/800-115" target="_blank">NIST SP 800-115 — Technical Security Testing</a>
+          <a class="resource-link" href="https://owasp.org/www-project-web-security-testing-guide/" target="_blank">OWASP Testing Guide — Web App Security</a>
+          <a class="resource-link" href="https://www.pentest-standard.org/" target="_blank">PTES — Penetration Testing Execution Standard</a>
+          <a class="resource-link" href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK Framework</a>
+          <a class="resource-link" href="https://nvd.nist.gov/vuln/metrics/cvss" target="_blank">NIST NVD — CVSSv3.1 Calculator</a>
+          <a class="resource-link" href="https://www.hackthebox.com/" target="_blank">HackTheBox — Practical Lab Environments</a>
+          <a class="resource-link" href="https://tryhackme.com/" target="_blank">TryHackMe — Guided Security Learning</a>
+        </div>
       </div>
     </section>
 
@@ -893,13 +1188,101 @@ If Phase 1 shows &gt;5% failure rate or &gt;30% performance degradation:
           <li>Communicate architecture decisions to business and technical audiences</li>
         </ul>
 
-        <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank">Architecture Decision Records (ADRs)</a></li>
-          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-37" target="_blank">NIST Risk Management Framework (RMF)</a></li>
-          <li><a href="https://www.microsoft.com/en-us/securityengineering/sdl/threatmodeling" target="_blank">Microsoft SDL Threat Modeling</a></li>
-          <li><a href="https://owasp.org/www-community/Threat_Modeling_Process" target="_blank">OWASP Threat Modeling Process</a></li>
-        </ul>
+        <h3>STRIDE Threat Categories Reference</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>STRIDE Category</th><th>Description</th><th>Example Threat</th><th>Mitigations</th><th>ATT&amp;CK Mapping</th></tr></thead>
+          <tbody>
+            <tr><td><strong>S</strong>poofing</td><td>Attacker impersonates a user, device, or service</td><td>Stolen JWT token reused; forged email sender</td><td>MFA, certificate pinning, signed tokens</td><td>T1078 Valid Accounts</td></tr>
+            <tr><td><strong>T</strong>ampering</td><td>Attacker modifies data in transit or at rest</td><td>MITM modifies API request; SQL injection modifies data</td><td>TLS + HSTS, input validation, HMAC signing</td><td>T1565 Data Manipulation</td></tr>
+            <tr><td><strong>R</strong>epudiation</td><td>Actor denies performing an action</td><td>"I didn't approve that transfer" (no audit log)</td><td>Immutable audit logs, digital signatures, NTP sync</td><td>T1070 Indicator Removal</td></tr>
+            <tr><td><strong>I</strong>nformation Disclosure</td><td>Unauthorized access to sensitive data</td><td>Verbose error returns DB schema; unencrypted PII</td><td>Encryption at rest/transit, error sanitization, RBAC</td><td>T1530 Data from Cloud Storage</td></tr>
+            <tr><td><strong>D</strong>enial of Service</td><td>System made unavailable</td><td>API flooded with requests; resource exhaustion attack</td><td>Rate limiting, DDoS protection, capacity planning</td><td>T1498 Network Denial of Service</td></tr>
+            <tr><td><strong>E</strong>levation of Privilege</td><td>Gain higher access than authorized</td><td>User exploits kernel bug to become root; misconfig RBAC</td><td>Least privilege, patching, mandatory access controls</td><td>T1068 Exploitation for Privilege Escalation</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Trust Boundary Architecture Reference</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Internet → DMZ Boundary</h5>
+            <ul>
+              <li>WAF inspection for all inbound web traffic</li>
+              <li>Only HTTPS (443) allowed inbound</li>
+              <li>Egress filtering: DMZ cannot initiate to corporate LAN</li>
+              <li>IDS/IPS sensors on both sides of boundary</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Corporate LAN → Cloud Boundary</h5>
+            <ul>
+              <li>All API calls encrypted + authenticated (OAuth2/SAML)</li>
+              <li>Network proxy for egress inspection</li>
+              <li>CASB for unauthorized SaaS discovery</li>
+              <li>Cloud workload logs shipped to central SIEM</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>App → Database Boundary</h5>
+            <ul>
+              <li>Application authenticates to DB (no shared admin credentials)</li>
+              <li>All queries parameterized (SQL injection prevention)</li>
+              <li>Database traffic encrypted in transit (TLS)</li>
+              <li>DB access restricted to app service account by IP/cert</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>User Device → Corp Network</h5>
+            <ul>
+              <li>Device compliance check before access granted (MDM)</li>
+              <li>MFA required at every session</li>
+              <li>Network access segmented by device health score</li>
+              <li>All access logged with user + device + risk context</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Threat Modeling Process Flow</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Define Scope &amp; System</strong> — Draw data flow diagram showing all actors, systems, data stores, and communication channels. Include all trust boundaries.</div></div>
+          <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Identify Threats (STRIDE)</strong> — For each component and trust boundary, enumerate threats in each STRIDE category. Use threat library templates to speed this up.</div></div>
+          <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Score Risk</strong> — Rate each threat by likelihood and impact (DREAD, CVSS, or qualitative). Prioritize high-likelihood + high-impact threats first.</div></div>
+          <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Select Mitigations</strong> — For each prioritized threat, select one or more controls: prevent (design), detect (monitor), or accept (document risk with owner sign-off).</div></div>
+          <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Validate Controls</strong> — Test whether mitigations actually prevent or detect each threat. Document evidence of effectiveness.</div></div>
+          <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Track &amp; Update</strong> — Review threat model when system changes. Any new feature, integration, or data type should trigger a re-review of affected boundaries.</div></div>
+        </div>
+
+        <h3>Architecture Principles Cheat Sheet</h3>
+        <div class="cheat-sheet">
+          <h5>Security-First Architecture Principles</h5>
+          <div class="cmd-row"><span class="cmd">Least Privilege</span><span class="cmd-desc">Every actor gets minimum access necessary — no "just in case" access</span></div>
+          <div class="cmd-row"><span class="cmd">Defense in Depth</span><span class="cmd-desc">Multiple layers — if one control fails, another must catch the attack</span></div>
+          <div class="cmd-row"><span class="cmd">Fail Secure</span><span class="cmd-desc">On failure, default to most restrictive state (deny, not allow)</span></div>
+          <div class="cmd-row"><span class="cmd">Separation of Duties</span><span class="cmd-desc">No single person can approve AND execute high-risk actions</span></div>
+          <div class="cmd-row"><span class="cmd">Economy of Mechanism</span><span class="cmd-desc">Keep security design simple — complex systems have more vulnerabilities</span></div>
+          <div class="cmd-row"><span class="cmd">Complete Mediation</span><span class="cmd-desc">Every access to every resource must be checked — no exceptions, no caching</span></div>
+          <div class="cmd-row"><span class="cmd">Assume Breach</span><span class="cmd-desc">Design as if attackers are already inside — minimize blast radius of any compromise</span></div>
+        </div>
+
+        <div class="visual-tip">
+          <strong>When to threat model:</strong> During initial design review (cheapest), after major feature changes, and at least annually for all production systems handling sensitive data. A lightweight STRIDE checklist review takes 30 minutes and can surface critical flaws before code is written.
+        </div>
+
+        <div class="visual-warning">
+          <strong>Architecture Review Anti-Patterns:</strong><br/>
+          ✗ Security controls added after design sign-off (too late and too expensive)<br/>
+          ✗ Missing owners for trust boundaries and control decisions<br/>
+          ✗ No rollback strategy for high-impact security architecture changes<br/>
+          ✓ Require architecture security sign-off with explicit control ownership before implementation
+        </div>
+
+        <h3>References &amp; Standards</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank">Architecture Decision Records (ADR Pattern)</a>
+          <a class="resource-link" href="https://csrc.nist.gov/publications/detail/sp/800-37" target="_blank">NIST RMF — Risk Management Framework</a>
+          <a class="resource-link" href="https://www.microsoft.com/en-us/securityengineering/sdl/threatmodeling" target="_blank">Microsoft SDL — Threat Modeling Tool</a>
+          <a class="resource-link" href="https://owasp.org/www-community/Threat_Modeling_Process" target="_blank">OWASP — Threat Modeling Process</a>
+          <a class="resource-link" href="https://csf.tools/" target="_blank">NIST CSF Tools — Control Mapping Reference</a>
+        </div>
       </div>
     </section>
 
@@ -1160,14 +1543,97 @@ subjects:
           <li>Implement remediation automation for non-critical violations</li>
         </ul>
 
-        <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://github.com/aquasecurity/trivy" target="_blank">Trivy - Container & IaC Scanner</a></li>
-          <li><a href="https://www.checkov.io/" target="_blank">Checkov - Infrastructure-as-Code Scanner</a></li>
-          <li><a href="https://docs.github.com/en/actions" target="_blank">GitHub Actions - CI/CD Automation</a></li>
-          <li><a href="https://www.owasp.org/index.php/OWASP_Dependency_Check" target="_blank">OWASP Dependency Check</a></li>
-          <li><a href="https://kubernetes.io/docs/concepts/security/" target="_blank">Kubernetes Security Best Practices</a></li>
-        </ul>
+        <h3>DevSecOps Tool Comparison: SAST / DAST / SCA / IaC</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Tool Type</th><th>When It Runs</th><th>What It Finds</th><th>Popular Tools</th><th>False Positive Rate</th></tr></thead>
+          <tbody>
+            <tr><td><strong>SAST</strong> (Static Analysis)</td><td>At code commit/build</td><td>Code-level bugs, injection patterns, hardcoded secrets</td><td>SonarQube, Semgrep, CodeQL, Checkmarx</td><td>High — requires tuning</td></tr>
+            <tr><td><strong>DAST</strong> (Dynamic Analysis)</td><td>Against running app (QA/staging)</td><td>Runtime vulnerabilities, auth flaws, headers, injection</td><td>OWASP ZAP, Burp Suite Pro, Invicti</td><td>Low — tests real behavior</td></tr>
+            <tr><td><strong>SCA</strong> (Dependency Analysis)</td><td>At build / PR merge</td><td>CVEs in open source libraries and packages</td><td>Snyk, OWASP Dependency-Check, Black Duck</td><td>Low — matched against CVE DB</td></tr>
+            <tr><td><strong>IaC Scanning</strong></td><td>Before infra provisioning</td><td>Misconfigs in Terraform/CloudFormation/Kubernetes</td><td>Checkov, Terrascan, tfsec, KICS</td><td>Medium — contextual</td></tr>
+            <tr><td><strong>Secret Scanning</strong></td><td>At commit (pre-commit hook)</td><td>API keys, passwords, tokens in code/configs</td><td>GitLeaks, TruffleHog, GitHub Advanced Security</td><td>Low — pattern matched</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Security CI/CD Gate Decision Flow</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Pre-commit (Developer Machine)</strong> — Secret scanning, linting, basic SAST rules. Fast — must complete in &lt;30 seconds or developers bypass it.</div></div>
+          <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>PR / Merge Request Gate</strong> — Full SAST + SCA + IaC scan. Results posted as PR comments. Critical findings must be resolved before merge.</div></div>
+          <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Build Pipeline</strong> — Container image scan (Trivy), generate SBOM, compliance check. Build fails on Critical/High CVEs without approved exception.</div></div>
+          <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Deploy to Staging</strong> — DAST scan against running application. Any new Critical/High findings block promotion to production.</div></div>
+          <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Production Release</strong> — Final security sign-off gate. Security engineer approves if all gates passed. Exceptions logged with risk owner signature.</div></div>
+          <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Post-Deploy Monitoring</strong> — CSPM/CNAPP checks for runtime drift vs. IaC baseline. Any deviation triggers alert to security team within 15 min.</div></div>
+        </div>
+
+        <h3>Automation Maturity Model</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Level 1: Manual</h5>
+            <ul>
+              <li>Security checks done manually at release</li>
+              <li>No automated scanning in pipeline</li>
+              <li>Findings tracked in spreadsheets</li>
+              <li>Security is a bottleneck</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Level 2: Scan-Only</h5>
+            <ul>
+              <li>Automated scans run but don't block builds</li>
+              <li>Findings reported but rarely actioned</li>
+              <li>False positive fatigue begins</li>
+              <li>Some reduction in critical issues</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Level 3: Policy-Enforced</h5>
+            <ul>
+              <li>Critical findings block deployment</li>
+              <li>Exception process for false positives</li>
+              <li>Security metrics tracked by team</li>
+              <li>MTTR for security issues &lt;14 days</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Level 4: Shift-Left</h5>
+            <ul>
+              <li>Security checks at IDE + commit + PR</li>
+              <li>Developers own fixing their findings</li>
+              <li>Security team consults; devs resolve</li>
+              <li>MTTR for security issues &lt;3 days</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Security-as-Code: GitHub Actions Reference</h3>
+        <div class="cheat-sheet">
+          <h5>Common Security Actions (GitHub Actions Marketplace)</h5>
+          <div class="cmd-row"><span class="cmd">aquasecurity/trivy-action</span><span class="cmd-desc">Container + filesystem + IaC vulnerability scanning</span></div>
+          <div class="cmd-row"><span class="cmd">bridgecrewio/checkov-action</span><span class="cmd-desc">Terraform, CloudFormation, Kubernetes IaC scanning</span></div>
+          <div class="cmd-row"><span class="cmd">trufflesecurity/trufflehog</span><span class="cmd-desc">Secrets/credential scanning across Git history</span></div>
+          <div class="cmd-row"><span class="cmd">github/codeql-action</span><span class="cmd-desc">GitHub's built-in SAST for 10+ languages</span></div>
+          <div class="cmd-row"><span class="cmd">dependency-check/Dependency-Check_Action</span><span class="cmd-desc">OWASP Dependency-Check for SCA scanning</span></div>
+          <div class="cmd-row"><span class="cmd">zaproxy/action-full-scan</span><span class="cmd-desc">OWASP ZAP DAST scan against running application</span></div>
+        </div>
+
+        <div class="visual-warning">
+          <strong>Common DevSecOps Implementation Mistakes:</strong><br/>
+          ✗ Running all scans in one slow serial pipeline — leads to developer bypass; parallelize scans<br/>
+          ✗ No exception process — developers need a way to document and accept acceptable risk<br/>
+          ✗ Blocking on everything — only block on confirmed Critical/High; warn on Medium<br/>
+          ✗ Not tracking false positive rate — if &gt;30% are FP, developers stop trusting the scanner<br/>
+          ✗ Security team owns all remediations — shift responsibility to dev teams with security coaching
+        </div>
+
+        <h3>References &amp; Standards</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://github.com/aquasecurity/trivy" target="_blank">Trivy — Container &amp; IaC Scanner</a>
+          <a class="resource-link" href="https://www.checkov.io/" target="_blank">Checkov — IaC Security Scanner</a>
+          <a class="resource-link" href="https://docs.github.com/en/actions" target="_blank">GitHub Actions — CI/CD Automation</a>
+          <a class="resource-link" href="https://kubernetes.io/docs/concepts/security/" target="_blank">Kubernetes Security Docs</a>
+          <a class="resource-link" href="https://snyk.io/" target="_blank">Snyk — Dependency &amp; Container Security</a>
+          <a class="resource-link" href="https://owasp.org/www-project-devsecops-guideline/" target="_blank">OWASP DevSecOps Guideline</a>
+        </div>
       </div>
     </section>
 
@@ -1275,12 +1741,100 @@ subjects:
           <li>Build enrichment pipelines for context and investigation acceleration</li>
         </ul>
 
-        <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://www.elastic.co/guide/en/ecs/current/" target="_blank">Elastic Common Schema (ECS)</a></li>
-          <li><a href="https://oasis-open.github.io/cti-documentation/" target="_blank">OASIS Cyber Threat Intelligence (CTI) Format</a></li>
-          <li><a href="https://www.splunk.com/en_us/form/log-types.html" target="_blank">Splunk Common Information Model (CIM)</a></li>
-        </ul>
+        <h3>Log Source Categories &amp; Coverage</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Log Source</th><th>Key Events</th><th>Critical Fields</th><th>Retention</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Endpoint (EDR)</strong></td><td>Process execution, file ops, network connections, registry changes</td><td>hostname, user, process_name, parent_process, commandline, hash</td><td>365 days</td></tr>
+            <tr><td><strong>Identity (AD/AAD)</strong></td><td>Login success/fail, group changes, password reset, MFA events</td><td>user_id, timestamp, src_ip, auth_method, failure_reason</td><td>365 days</td></tr>
+            <tr><td><strong>Network (Firewall/IDS)</strong></td><td>Allow/deny decisions, protocol anomalies, intrusion signatures</td><td>src_ip, dst_ip, port, protocol, rule_name, bytes_sent</td><td>180 days</td></tr>
+            <tr><td><strong>Cloud (AWS/Azure/GCP)</strong></td><td>API calls, IAM changes, resource provisioning, config changes</td><td>principal, event_name, resource_arn, region, timestamp</td><td>90 days</td></tr>
+            <tr><td><strong>Application</strong></td><td>Login, data access, admin actions, error events, API calls</td><td>user_id, session_id, action, resource, outcome, src_ip</td><td>365 days</td></tr>
+            <tr><td><strong>Email (O365/GSuite)</strong></td><td>Inbound/outbound, phishing indicators, attachment info, DLP events</td><td>sender, recipient, subject, attachment_name, delivery_action</td><td>90 days</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Data Enrichment Pipeline Flow</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Ingest</strong> — Collect raw logs from all sources via Syslog, API pull, or agent-based collection. Validate receipt and volume against baselines.</div></div>
+          <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Normalize</strong> — Parse raw logs into common schema fields (ECS, CIM, or custom). Handle timestamp normalization across timezones.</div></div>
+          <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Enrich</strong> — Append contextual data: device owner from CMDB, user dept/role from HR system, IP reputation from threat intel, geolocation.</div></div>
+          <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Deduplicate</strong> — Remove duplicate events (especially from HA pairs). Hash event fingerprint on key fields to identify and collapse duplicates.</div></div>
+          <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Risk Score</strong> — Apply ML or rule-based scoring to each event. High-risk events get elevated priority in detection queues.</div></div>
+          <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Route &amp; Store</strong> — Route high-severity events to real-time alert pipeline. Store all normalized events in searchable data lake for historical investigation.</div></div>
+        </div>
+
+        <h3>Log Quality Metrics Reference</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Completeness</h5>
+            <ul>
+              <li>% of required schema fields populated</li>
+              <li>Target: &gt;95% of events have all required fields</li>
+              <li>Alert when critical sources stop logging</li>
+              <li>Measure: field_population_rate per source</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Timeliness</h5>
+            <ul>
+              <li>Latency from event to SIEM ingestion</li>
+              <li>Target: &lt;60 seconds for endpoint events</li>
+              <li>Target: &lt;5 minutes for batch/cloud events</li>
+              <li>Alert on P95 latency spikes</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Accuracy</h5>
+            <ul>
+              <li>Event correlation matches actual activity</li>
+              <li>Measure: False positive rate per rule</li>
+              <li>Validate with tabletop or A/B testing</li>
+              <li>Target: &lt;20% false-positive rate per alert</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Coverage</h5>
+            <ul>
+              <li>% of assets sending logs</li>
+              <li>Target: 100% of critical assets; 90%+ overall</li>
+              <li>Monthly audit: identify dark assets (no logs)</li>
+              <li>Map coverage against MITRE ATT&amp;CK</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Common Security Log Formats</h3>
+        <div class="cheat-sheet">
+          <h5>Key Log Format Standards</h5>
+          <div class="cmd-row"><span class="cmd">ECS (Elastic Common Schema)</span><span class="cmd-desc">Elastic's open schema for all log types — widely adopted by SIEM tools</span></div>
+          <div class="cmd-row"><span class="cmd">Splunk CIM (Common Information Model)</span><span class="cmd-desc">Splunk's field naming standard — required for premium apps &amp; correlation</span></div>
+          <div class="cmd-row"><span class="cmd">CEF (Common Event Format)</span><span class="cmd-desc">ArcSight format: device/vendor|name|severity|extension key=value pairs</span></div>
+          <div class="cmd-row"><span class="cmd">LEEF (Log Event Enhanced Format)</span><span class="cmd-desc">IBM QRadar format — tab-delimited key=value with source &amp; event name</span></div>
+          <div class="cmd-row"><span class="cmd">OCSF (Open Cybersecurity Schema Framework)</span><span class="cmd-desc">AWS-sponsored open schema — cross-vendor normalization</span></div>
+          <div class="cmd-row"><span class="cmd">STIX / TAXII</span><span class="cmd-desc">Structured threat intelligence sharing format — for IOC and TTP exchange</span></div>
+        </div>
+
+        <div class="visual-tip">
+          <strong>Data Quality Monitoring:</strong> Treat SIEM data pipelines like production services. Set up monitoring dashboards for event volume per source, ingestion latency, and schema field coverage. A source that goes dark (stops logging) is a critical blind spot — you'll miss attacks from that vector.
+        </div>
+
+        <div class="visual-warning">
+          <strong>Data Engineering Failure Modes:</strong><br/>
+          ✗ Ingesting logs without schema validation (breaks downstream detections)<br/>
+          ✗ No ingestion latency SLA for critical telemetry sources<br/>
+          ✗ Dropping parse errors silently instead of alerting pipeline owners<br/>
+          ✓ Treat parser errors and missing fields as production incidents, not minor issues
+        </div>
+
+        <h3>References &amp; Standards</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://www.elastic.co/guide/en/ecs/current/" target="_blank">Elastic Common Schema (ECS)</a>
+          <a class="resource-link" href="https://schema.ocsf.io/" target="_blank">OCSF — Open Cybersecurity Schema Framework</a>
+          <a class="resource-link" href="https://docs.splunk.com/Documentation/CIM/latest/" target="_blank">Splunk CIM Documentation</a>
+          <a class="resource-link" href="https://oasis-open.github.io/cti-documentation/" target="_blank">STIX/TAXII CTI Format</a>
+          <a class="resource-link" href="https://attack.mitre.org/datasources/" target="_blank">MITRE ATT&amp;CK Data Sources Reference</a>
+        </div>
       </div>
     </section>
 
@@ -1355,12 +1909,85 @@ AND risk_score >= 7.0
           <li>Map detections to tactics/techniques for coverage visualization</li>
         </ul>
 
-        <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&CK Framework</a></li>
-          <li><a href="https://sigma.readthedocs.io/" target="_blank">Sigma Rule Format - Detection-as-Code</a></li>
-          <li><a href="https://www.elastic.co/guide/en/security/current/" target="_blank">Elastic Detection Engineering Guide</a></li>
-        </ul>
+        <h3>SIEM Platform Comparison</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Platform</th><th>Query Language</th><th>Strengths</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Splunk Enterprise</strong></td><td>SPL (Splunk Processing Language)</td><td>Powerful search, mature ecosystem, excellent correlation</td><td>Large enterprises with high data volumes</td></tr>
+            <tr><td><strong>Elastic / Kibana</strong></td><td>KQL + ESQL (new)</td><td>Open source core, fast indexing, ECS schema</td><td>Teams with engineering capacity; cost-sensitive</td></tr>
+            <tr><td><strong>Microsoft Sentinel</strong></td><td>KQL (Kusto Query Language)</td><td>Native Azure/M365 integration, auto-scaling</td><td>Microsoft-heavy environments; cloud-native teams</td></tr>
+            <tr><td><strong>IBM QRadar</strong></td><td>AQL (Ariel Query Language)</td><td>Deep network analysis, compliance reporting, UEBA</td><td>Regulated industries (financial, healthcare)</td></tr>
+            <tr><td><strong>Sumo Logic</strong></td><td>Sumo Query Language</td><td>Cloud-native SaaS, easy deployment, tiered pricing</td><td>Mid-market; cloud-first organizations</td></tr>
+            <tr><td><strong>Security Onion</strong></td><td>Kibana + custom</td><td>Free, open source, IDS + SIEM + PCAP storage</td><td>Small teams, training labs, home labs</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Sigma Detection Rule Format</h3>
+        <div class="cheat-sheet">
+          <h5>Sigma Rule Structure (Detection-as-Code)</h5>
+          <div class="cmd-row"><span class="cmd">title: Suspicious PowerShell Encoded Command</span><span class="cmd-desc">Human-readable rule name</span></div>
+          <div class="cmd-row"><span class="cmd">status: experimental | test | stable</span><span class="cmd-desc">Maturity level for rule deployment</span></div>
+          <div class="cmd-row"><span class="cmd">logsource: category: process_creation, product: windows</span><span class="cmd-desc">What log type and platform this detects on</span></div>
+          <div class="cmd-row"><span class="cmd">detection: selection: Image|endswith: '\powershell.exe'</span><span class="cmd-desc">Field conditions to match</span></div>
+          <div class="cmd-row"><span class="cmd">CommandLine|contains|all: ['-EncodedCommand', '-enc']</span><span class="cmd-desc">Multiple conditions with AND logic</span></div>
+          <div class="cmd-row"><span class="cmd">filter: CommandLine|contains: 'software\\update'</span><span class="cmd-desc">Exclusion to reduce false positives</span></div>
+          <div class="cmd-row"><span class="cmd">level: high | tags: [attack.execution, attack.t1059.001]</span><span class="cmd-desc">MITRE ATT&CK tag for coverage tracking</span></div>
+        </div>
+
+        <h3>KQL Detection Examples (Microsoft Sentinel/Elastic)</h3>
+        <div class="cheat-sheet">
+          <h5>Kusto Query Language (KQL) — Common Detection Patterns</h5>
+          <div class="cmd-row"><span class="cmd">SecurityEvent | where EventID == 4625 | summarize count() by Account, IpAddress | where count_ > 10</span><span class="cmd-desc">Brute force: &gt;10 failed logins per account/IP</span></div>
+          <div class="cmd-row"><span class="cmd">DeviceProcessEvents | where FileName == "powershell.exe" | where ProcessCommandLine contains "-enc"</span><span class="cmd-desc">Encoded PowerShell execution detection</span></div>
+          <div class="cmd-row"><span class="cmd">SigninLogs | where ResultType != "0" | where AppDisplayName == "Office 365" | summarize fails=count() by UserPrincipalName | where fails > 5</span><span class="cmd-desc">Office 365 login failures by user</span></div>
+          <div class="cmd-row"><span class="cmd">AWSCloudTrail | where EventName == "ConsoleLogin" | where ResponseElements contains "Failure"</span><span class="cmd-desc">AWS Console login failures</span></div>
+          <div class="cmd-row"><span class="cmd">DeviceNetworkEvents | where RemotePort == 4444 | where ActionType == "ConnectionSuccess"</span><span class="cmd-desc">Metasploit default port outbound connection</span></div>
+        </div>
+
+        <h3>MITRE ATT&amp;CK Detection Coverage Map</h3>
+        <div class="attck-grid">
+          <div class="attck-cell"><strong>TA0001</strong><br/>Initial Access<br/><small>Phishing, Drive-by</small></div>
+          <div class="attck-cell"><strong>TA0002</strong><br/>Execution<br/><small>Scripts, Scheduled Tasks</small></div>
+          <div class="attck-cell"><strong>TA0003</strong><br/>Persistence<br/><small>Registry, Services</small></div>
+          <div class="attck-cell"><strong>TA0004</strong><br/>Privilege Escalation<br/><small>UAC Bypass, Exploits</small></div>
+          <div class="attck-cell"><strong>TA0005</strong><br/>Defense Evasion<br/><small>Obfuscation, Masquerading</small></div>
+          <div class="attck-cell"><strong>TA0006</strong><br/>Credential Access<br/><small>Kerberoasting, LSASS</small></div>
+          <div class="attck-cell"><strong>TA0007</strong><br/>Discovery<br/><small>Network Scan, Account Enum</small></div>
+          <div class="attck-cell"><strong>TA0008</strong><br/>Lateral Movement<br/><small>RDP, SMB, PsExec</small></div>
+          <div class="attck-cell"><strong>TA0009</strong><br/>Collection<br/><small>Email, Screen, Clipboard</small></div>
+          <div class="attck-cell"><strong>TA0010</strong><br/>Exfiltration<br/><small>DNS, C2, Cloud Storage</small></div>
+          <div class="attck-cell"><strong>TA0011</strong><br/>Command &amp; Control<br/><small>Beaconing, DGA, Proxy</small></div>
+          <div class="attck-cell"><strong>TA0040</strong><br/>Impact<br/><small>Ransom, Wipe, DoS</small></div>
+        </div>
+
+        <h3>Detection Lifecycle Flow</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Hypothesis</strong> — Start with an ATT&amp;CK technique. "What behavior would I expect to see if an attacker performed T1059.001 (PowerShell)?"</div></div>
+          <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Data Analysis</strong> — Identify what log sources capture this behavior. Are those logs available and normalized? Check coverage before writing rules.</div></div>
+          <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Rule Creation</strong> — Write detection logic matching the hypothesis. Start broad, then narrow with exclusions based on observed false positives.</div></div>
+          <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Testing</strong> — Validate rule in dev/test environment. Simulate the technique (Atomic Red Team). Confirm rule fires; confirm exclusions work.</div></div>
+          <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Tuning</strong> — Monitor false positive rate in production. Add exclusions for known-safe patterns. Track TP/FP/FN rates weekly.</div></div>
+          <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Review &amp; Retire</strong> — quarterly review cycle. Retire rules that never fire for 180 days; re-evaluate rules with &gt;50% false positive rate.</div></div>
+        </div>
+
+        <div class="visual-warning">
+          <strong>Alert Fatigue Prevention:</strong><br/>
+          ✗ Never send raw SIEM alerts without enrichment — analysts can't act without context<br/>
+          ✗ Don't run untested rules in production — validate in development first<br/>
+          ✗ Never ignore alert volume growth — &gt;20% increase week-over-week needs root cause analysis<br/>
+          ✗ Avoid duplicate detections for the same event from multiple rules — consolidate<br/>
+          ✓ Measure analyst response rate per alert type — declining rate predicts fatigue
+        </div>
+
+        <h3>References &amp; Standards</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK Framework</a>
+          <a class="resource-link" href="https://sigmahq.io/" target="_blank">SigmaHQ — Detection Rules Repository</a>
+          <a class="resource-link" href="https://github.com/redcanaryco/atomic-red-team" target="_blank">Atomic Red Team — Technique Testing Library</a>
+          <a class="resource-link" href="https://www.elastic.co/guide/en/security/current/" target="_blank">Elastic Detection Engineering Docs</a>
+          <a class="resource-link" href="https://learn.microsoft.com/en-us/azure/sentinel/" target="_blank">Microsoft Sentinel Documentation</a>
+          <a class="resource-link" href="https://docs.splunk.com/Documentation/ES" target="_blank">Splunk Enterprise Security Docs</a>
+        </div>
       </div>
     </section>
 
@@ -1444,12 +2071,98 @@ Phase 7: LESSONS LEARNED & IMPROVEMENT
           <li>Conduct blameless post-mortems that focus on control improvements</li>
         </ul>
 
-        <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://www.nist.gov/cyberframework/guidance" target="_blank">NIST Cybersecurity Framework</a></li>
-          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-61/rev-2" target="_blank">NIST SP 800-61 Computer Security Incident Handling</a></li>
-          <li><a href="https://www.sans.org/white-papers/" target="_blank">SANS Incident Handling Guide</a></li>
-        </ul>
+        <h3>Incident Severity Classification Matrix</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Severity</th><th>Criteria</th><th>Response SLA</th><th>Escalation</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>SEV 1 — Critical</strong></td><td>Active breach, data exfiltration, production system down</td><td>Immediate response; CISO notified within 15 min</td><td>CISO, Legal, PR, Exec team</td><td>Ransomware encrypting servers</td></tr>
+            <tr><td><strong>SEV 2 — High</strong></td><td>Confirmed compromise, multiple accounts affected, regulatory scope</td><td>Response within 1 hour; Manager notified</td><td>Security Manager, Compliance</td><td>Admin account taken over</td></tr>
+            <tr><td><strong>SEV 3 — Medium</strong></td><td>Suspicious activity, potential compromise not confirmed, limited scope</td><td>Investigated within 4 hours; ticket created</td><td>Senior Analyst</td><td>User clicking phishing link</td></tr>
+            <tr><td><strong>SEV 4 — Low</strong></td><td>Policy violation, anomalous but likely benign, no evidence of harm</td><td>Reviewed within 24 hours; no escalation needed</td><td>Analyst handles independently</td><td>Failed login below threshold</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Stakeholder Communication Templates</h3>
+        <div class="cheat-sheet">
+          <h5>Incident Communication Templates — What to Send and When</h5>
+          <div class="cmd-row"><span class="cmd">Initial Notification (T+15 min)</span><span class="cmd-desc">Who: All stakeholders. What: "We are investigating a potential security incident. More details to follow in 1 hour."</span></div>
+          <div class="cmd-row"><span class="cmd">Technical Briefing (T+1 hr)</span><span class="cmd-desc">Who: Technical teams. What: Current indicators, containment steps taken, scope assessment, resource needs.</span></div>
+          <div class="cmd-row"><span class="cmd">Executive Update (T+2 hr)</span><span class="cmd-desc">Who: CISO, CFO, CEO. What: Business impact, which systems affected, customer data at risk, projected timeline.</span></div>
+          <div class="cmd-row"><span class="cmd">All-Clear Notification</span><span class="cmd-desc">Who: All stakeholders. What: Incident resolved, root cause, remediation completed, no further risk.</span></div>
+          <div class="cmd-row"><span class="cmd">Post-Incident Report (T+72 hr)</span><span class="cmd-desc">Who: Leadership + board. What: Full timeline, root cause, corrective actions, metrics improvement plan.</span></div>
+        </div>
+
+        <h3>IR Metrics Reference</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Detection Metrics</h5>
+            <ul>
+              <li>MTTD: Mean time to detect (from event to alert)</li>
+              <li>Target: MTTD &lt;15 minutes for Critical events</li>
+              <li>Alert volume per analyst per shift</li>
+              <li>Alert-to-investigation conversion rate (&gt;20% = problem)</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Response Metrics</h5>
+            <ul>
+              <li>MTTR: Mean time to respond/contain</li>
+              <li>Target: Critical &lt;4 hrs; High &lt;24 hrs</li>
+              <li>SLA compliance rate (target: &gt;95%)</li>
+              <li>Escalation rate per alert type</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Quality Metrics</h5>
+            <ul>
+              <li>False positive rate per detection rule</li>
+              <li>Investigation quality score (peer reviewed)</li>
+              <li>Post-incident control improvements made</li>
+              <li>Repeat incidents from same root cause (&lt;5%)</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Business Impact Metrics</h5>
+            <ul>
+              <li>Cost per incident (forensics + staffing + business)</li>
+              <li>Revenue impact from downtime</li>
+              <li>Regulatory obligations triggered (GDPR: 72h notify)</li>
+              <li>Customer notification rate</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Post-Incident Review Template</h3>
+        <div class="cheat-sheet">
+          <h5>Blameless Post-Mortem Structure</h5>
+          <div class="cmd-row"><span class="cmd">Timeline</span><span class="cmd-desc">Chronological record of all events, actions, and decisions during the incident</span></div>
+          <div class="cmd-row"><span class="cmd">Root Cause</span><span class="cmd-desc">The fundamental technical/process failure that enabled the incident (not "human error")</span></div>
+          <div class="cmd-row"><span class="cmd">Contributing Factors</span><span class="cmd-desc">Environmental, organizational, or systemic factors that made the incident possible</span></div>
+          <div class="cmd-row"><span class="cmd">What Went Well</span><span class="cmd-desc">Controls, processes, and people that limited impact — reinforce and scale these</span></div>
+          <div class="cmd-row"><span class="cmd">What Could Have Gone Better</span><span class="cmd-desc">Detection gaps, slow escalation, process failures — fix these without blame</span></div>
+          <div class="cmd-row"><span class="cmd">Corrective Actions</span><span class="cmd-desc">Specific improvements with owner + due date. Track completion in ticketing system.</span></div>
+        </div>
+
+        <div class="visual-tip">
+          <strong>IR Preparation saves time in crisis:</strong> Run quarterly tabletop exercises for common scenarios (ransomware, insider threat, cloud breach). Have out-of-band communication channels (Signal, secondary email) pre-configured — if primary comms are compromised, you need a backup. Pre-stage forensic tools on a jump box you can access without credentials from primary systems.
+        </div>
+
+        <div class="visual-warning">
+          <strong>Incident Response Pitfalls:</strong><br/>
+          ✗ Delayed escalation on suspected SEV1 incidents due to uncertainty<br/>
+          ✗ Closing incidents without verified root-cause remediation evidence<br/>
+          ✗ No single incident commander leading cross-team decisions<br/>
+          ✓ Escalate early, then downgrade with evidence if necessary
+        </div>
+
+        <h3>References &amp; Standards</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://csrc.nist.gov/publications/detail/sp/800-61/rev-2" target="_blank">NIST SP 800-61 — Computer Security Incident Handling</a>
+          <a class="resource-link" href="https://www.sans.org/white-papers/" target="_blank">SANS Incident Handling Resources</a>
+          <a class="resource-link" href="https://www.cisa.gov/resources-tools/resources/federal-government-cybersecurity-incident-and-vulnerability-response-playbooks" target="_blank">CISA Federal IR Playbooks</a>
+          <a class="resource-link" href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK — Adversary Behavior Reference</a>
+          <a class="resource-link" href="https://github.com/certsocietegenerale/IRM" target="_blank">Societe Generale — Open Source IR Playbooks</a>
+        </div>
       </div>
     </section>
 
@@ -1527,12 +2240,137 @@ MITIGATIONS SUMMARY:
           <li>Track threat model ROI: how many controls prevented real incidents?</li>
         </ul>
 
-        <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://www.microsoft.com/en-us/securityengineering/sdl/threatmodeling" target="_blank">Microsoft SDL Threat Modeling</a></li>
-          <li><a href="https://owasp.org/www-community/Threat_Modeling_Process" target="_blank">OWASP Threat Modeling</a></li>
-          <li><a href="https://www.threatsmodeler.com/" target="_blank">Threats Modeler Tool</a></li>
-        </ul>
+        <h3>Threat Modeling Methodology Comparison</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Framework</th><th>Approach</th><th>Best For</th><th>Output</th></tr></thead>
+          <tbody>
+            <tr><td><strong>STRIDE</strong></td><td>Categorize threats by type (Spoofing, Tampering, etc.) for each component</td><td>Defensive teams; architecture review</td><td>Threat list per component + mitigation mapping</td></tr>
+            <tr><td><strong>PASTA</strong></td><td>Process the environment after identifying attacker motivations and business impact</td><td>Risk-aligned business decisions; executives</td><td>Attack scenarios + risk-priority ordered mitigations</td></tr>
+            <tr><td><strong>DREAD</strong></td><td>Score each threat: Damage + Reproducibility + Exploitability + Affected users + Discoverability</td><td>Prioritizing threat list after STRIDE analysis</td><td>Numeric risk score per threat for prioritization</td></tr>
+            <tr><td><strong>Attack Trees</strong></td><td>Decompose attack goals into sub-goals (tree structure)</td><td>Complex systems; adversary simulation</td><td>Visual tree showing attack paths and defenses</td></tr>
+            <tr><td><strong>LINDDUN</strong></td><td>Privacy-specific threat modeling (Linkability, Identifiability, Non-repudiation, etc.)</td><td>PII systems; data-intensive applications</td><td>Privacy threat list + GDPR-aligned mitigations</td></tr>
+          </tbody>
+        </table>
+
+        <h3>DREAD Risk Scoring Reference</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>D — Damage Potential</h5>
+            <ul>
+              <li>10: Complete system compromise</li>
+              <li>7: Sensitive data exposed</li>
+              <li>5: Limited data exposure</li>
+              <li>3: Non-sensitive data exposure</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>R — Reproducibility</h5>
+            <ul>
+              <li>10: Always reproducible</li>
+              <li>7: Reproducible with custom tools</li>
+              <li>5: Sometimes reproducible</li>
+              <li>3: Hard to reproduce</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>E — Exploitability</h5>
+            <ul>
+              <li>10: Novice using script-kiddie tools</li>
+              <li>7: Skilled attacker, standard tools</li>
+              <li>5: Expert attacker</li>
+              <li>3: Requires very specialized knowledge</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>A+D — Affected &amp; Discoverable</h5>
+            <ul>
+              <li>Affected: 10 = all users; 1 = single user</li>
+              <li>Discoverable: 10 = info in browser; 1 = hidden in audit data</li>
+              <li>Total DREAD: (D+R+E+A+D)/5</li>
+              <li>Score &gt; 7.5 = High Priority</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Threat Actor Profile Reference</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Nation-State Actors</h5>
+            <ul>
+              <li>Motivation: Espionage, strategic disruption</li>
+              <li>Capability: Very high (0-day, custom malware)</li>
+              <li>Example: APT28, APT41, Lazarus Group</li>
+              <li>Defense: Assume breach; detect persistence</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Cybercriminal Groups</h5>
+            <ul>
+              <li>Motivation: Financial gain (ransomware, fraud)</li>
+              <li>Capability: High (RaaS toolkits, phishing infra)</li>
+              <li>Example: LockBit, Scattered Spider, Clop</li>
+              <li>Defense: Backup + detection + email filtering</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Hacktivists</h5>
+            <ul>
+              <li>Motivation: Political/ideological goals</li>
+              <li>Capability: Medium (defacement, DDoS)</li>
+              <li>Example: Anonymous, KillNet</li>
+              <li>Defense: DDoS protection, public-facing hardening</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Insider Threats</h5>
+            <ul>
+              <li>Motivation: Financial, grievance, espionage</li>
+              <li>Capability: Context-dependent (knows the environment)</li>
+              <li>Example: Disgruntled employee, privileged contractor</li>
+              <li>Defense: UEBA, access governance, offboarding process</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Control Effectiveness Rating Cheat Sheet</h3>
+        <div class="cheat-sheet">
+          <h5>How to Rate Controls Against Each Threat</h5>
+          <div class="cmd-row"><span class="cmd">Prevent: Stops the attack entirely</span><span class="cmd-desc">Example: MFA prevents credential replay (99% effectiveness)</span></div>
+          <div class="cmd-row"><span class="cmd">Detect: Identifies attack in progress</span><span class="cmd-desc">Example: EDR detects process injection (detects ~80% of techniques)</span></div>
+          <div class="cmd-row"><span class="cmd">Delay: Slows attacker enough for detection</span><span class="cmd-desc">Example: Multi-hop credential required — adds 30+ minutes</span></div>
+          <div class="cmd-row"><span class="cmd">Reduce: Limits blast radius if successful</span><span class="cmd-desc">Example: Microsegmentation limits lateral movement to one segment</span></div>
+          <div class="cmd-row"><span class="cmd">Accept: Risk documented; owner signs off</span><span class="cmd-desc">Use for low-risk, high-cost-to-fix items with compensating controls</span></div>
+        </div>
+
+        <div class="visual-warning">
+          <strong>Threat Modeling Anti-Patterns:</strong><br/>
+          ✗ Threat modeling once only at initial design — must repeat at every major change<br/>
+          ✗ Only technical teams in the room — business and legal stakeholders must weigh in on impact<br/>
+          ✗ Over-engineering every threat — focus on top 20% that represent 80% of risk<br/>
+          ✗ Treating threat model as documentation checkbox — must tie to actual control changes<br/>
+          ✓ A threat model without corrective actions is just a risk register; ensure each threat has an owner
+        </div>
+
+        <h3>Rapid Threat Model Review Flow</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>List System Changes:</strong> Capture new endpoints, integrations, auth flows, and data stores introduced in this release.</div></div>
+          <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Re-check STRIDE:</strong> Re-evaluate each changed component against all STRIDE categories.</div></div>
+          <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Re-score Risk:</strong> Update risk score and ownership for new or changed threats.</div></div>
+          <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Gate Release:</strong> Require mitigation plan or documented risk acceptance for high-risk items before deploy.</div></div>
+        </div>
+
+        <div class="visual-tip">
+          <strong>Fast Review Rule:</strong> If a release changes auth, secrets handling, or trust boundaries, run a threat model delta review before deployment. This 20-minute check catches high-impact design regressions early.
+        </div>
+
+        <h3>References &amp; Standards</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://www.microsoft.com/en-us/securityengineering/sdl/threatmodeling" target="_blank">Microsoft SDL Threat Modeling Tool</a>
+          <a class="resource-link" href="https://owasp.org/www-community/Threat_Modeling_Process" target="_blank">OWASP Threat Modeling Process</a>
+          <a class="resource-link" href="https://attack.mitre.org/groups/" target="_blank">MITRE ATT&amp;CK — Threat Actor Groups</a>
+          <a class="resource-link" href="https://github.com/OWASP/threat-dragon" target="_blank">OWASP Threat Dragon — Free TM Tool</a>
+          <a class="resource-link" href="https://csrc.nist.gov/publications/detail/sp/800-154" target="_blank">NIST SP 800-154 — Data-Centric Threat Modeling</a>
+        </div>
       </div>
     </section>
 
@@ -1665,23 +2503,89 @@ Vulnerability Tracking Process:
           <li>Close the feedback loop: learn from remediation difficulties and prevent them next time</li>
         </ul>
 
-        <h3>References & Standards</h3>
-        <ul class="reference-list">
-          <li><a href="https://nvd.nist.gov/vuln/metrics/cvss" target="_blank">NIST NVD - CVSS v3.1 Calculator & Scoring</a></li>
-          <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA Known Exploited Vulnerabilities (KEV) Catalog</a></li>
-          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-40/rev-4" target="_blank">NIST SP 800-40 - Guide to Software Vulnerability Disclosure</a></li>
-          <li><a href="https://www.rapid7.com/blog/post/vulnerability-management/" target="_blank">Rapid7 - Vulnerability Management Best Practices</a></li>
-        </ul>
+        <h3>CVSS v3.1 Key Metrics Reference</h3>
+        <div class="cheat-sheet">
+          <h5>CVSSv3.1 Base Score Metrics Quick Reference</h5>
+          <div class="cmd-row"><span class="cmd">AV: Network (N) / Adjacent (A) / Local (L) / Physical (P)</span><span class="cmd-desc">Attack Vector — Network is highest risk</span></div>
+          <div class="cmd-row"><span class="cmd">AC: Low (L) / High (H)</span><span class="cmd-desc">Attack Complexity — Low means no special conditions needed</span></div>
+          <div class="cmd-row"><span class="cmd">PR: None (N) / Low (L) / High (H)</span><span class="cmd-desc">Privileges Required — None = unauthenticated</span></div>
+          <div class="cmd-row"><span class="cmd">UI: None (N) / Required (R)</span><span class="cmd-desc">User Interaction — None = fully remote exploit</span></div>
+          <div class="cmd-row"><span class="cmd">S: Unchanged (U) / Changed (C)</span><span class="cmd-desc">Scope — Changed means attack impacts other components</span></div>
+          <div class="cmd-row"><span class="cmd">C/I/A: None (N) / Low (L) / High (H)</span><span class="cmd-desc">Confidentiality, Integrity, Availability impact</span></div>
+          <div class="cmd-row"><span class="cmd">Vector: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H = 9.8</span><span class="cmd-desc">Critical: Network, low complexity, no auth → Full CIA impact</span></div>
+        </div>
+
+        <h3>Vulnerability Scanner Comparison</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Scanner</th><th>Type</th><th>Strengths</th><th>Deployment</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Nessus (Tenable)</strong></td><td>Agent + agentless</td><td>Widest plugin library, compliance scanning, active community</td><td>On-prem or cloud</td><td>Commercial</td></tr>
+            <tr><td><strong>Qualys VMDR</strong></td><td>SaaS + agent</td><td>Asset inventory + CI/CD integration + cloud scanning</td><td>Cloud SaaS</td><td>Commercial</td></tr>
+            <tr><td><strong>Rapid7 InsightVM</strong></td><td>Agent-based SaaS</td><td>Live monitoring, risk scoring with business context, good reporting</td><td>Cloud SaaS</td><td>Commercial</td></tr>
+            <tr><td><strong>OpenVAS / Greenbone</strong></td><td>Agentless open source</td><td>Free, extensible, large CVE coverage</td><td>On-prem</td><td>Free / OSS</td></tr>
+            <tr><td><strong>Microsoft Defender TVM</strong></td><td>Integrated (no agent needed)</td><td>Real-time from EDR telemetry; no separate scanning agent</td><td>Cloud (Defender)</td><td>Included in Defender</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Remediation Tracking Flow</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Scan &amp; Discover</strong> — Run authenticated scans against all assets (100% coverage target). Schedule recurring scans: weekly for Critical assets; monthly for others.</div></div>
+          <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Triage &amp; Validate</strong> — Confirm scan findings are real vulnerabilities (not false positives). Check if compensating controls already mitigate risk. Confirm business context.</div></div>
+          <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Score &amp; Prioritize</strong> — Apply risk score: CVSS + exploitability + exposure + asset criticality. Assign remediation priority and SLA based on combined risk score.</div></div>
+          <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Assign &amp; Track</strong> — Create tickets in JIRA/ServiceNow with owner, SLA deadline, and reference CVE. Set automated SLA breach alerting.</div></div>
+          <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Patch &amp; Deploy</strong> — Apply patches in pilot → wave → full deployment pattern. Monitor for application regressions. Document completion evidence.</div></div>
+          <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Validate &amp; Close</strong> — Re-scan after patch to confirm vulnerability is resolved. Update ticket with evidence. Track MTTR and SLA compliance metrics.</div></div>
+        </div>
+
+        <h3>Vulnerability Risk Communication Cards</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>For Executives</h5>
+            <ul>
+              <li>% of Critical vulns remediated within SLA</li>
+              <li>Number of internet-facing Critical vulns open</li>
+              <li>Estimated breach probability without patches</li>
+              <li>Cost of remediation vs. cost of breach</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>For Compliance Team</h5>
+            <ul>
+              <li>SLA compliance rate by severity tier</li>
+              <li>Known exploited vulnerabilities (KEV) open</li>
+              <li>Scan coverage rate: % of assets scanned</li>
+              <li>Exception tracking with owner signatures</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>For IT Operations</h5>
+            <ul>
+              <li>Pending patches by system and team</li>
+              <li>Patch reliability: Post-deployment incident rate</li>
+              <li>Change window utilization for patching</li>
+              <li>Rollback rate and issue tracking</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>References &amp; Standards</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://nvd.nist.gov/vuln/metrics/cvss" target="_blank">NIST NVD — CVSSv3.1 Scoring Calculator</a>
+          <a class="resource-link" href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" target="_blank">CISA KEV — Known Exploited Vulnerabilities Catalog</a>
+          <a class="resource-link" href="https://csrc.nist.gov/publications/detail/sp/800-40/rev-4" target="_blank">NIST SP 800-40 — Vulnerability Patching Guide</a>
+          <a class="resource-link" href="https://www.rapid7.com/fundamentals/vulnerability-management/" target="_blank">Rapid7 — Vulnerability Management Guide</a>
+          <a class="resource-link" href="https://www.tenable.com/blog" target="_blank">Tenable Blog — Vulnerability Intelligence</a>
+        </div>
       </div>
     </section>
 
     <section id="soc-ops-analyst-track" class="study-section reveal">
-      <h2>11. Cybersecurity Operations Analyst Track (Job-Aligned Master Plan)</h2>
+      <h2>11. Cybersecurity Operations Analyst Track: End-to-End Operations Study</h2>
       <div class="study-content">
         <div class="reading-time">Reading time: 110 minutes | End-to-end SOC operations program mapped to the role responsibilities and requirements</div>
 
         <h3>Role Mission Mapping</h3>
-        <p>This track is designed for a Cybersecurity Operations Analyst role in a regulated enterprise with on-call participation, SIEM/EDR ownership support, phishing response, incident handling, IAM approvals, audit support, and awareness training. It translates the job description into an executable study system.</p>
+        <p>This track covers the full operational responsibilities of a security analyst working in a regulated enterprise: shift monitoring, incident response, phishing analysis, threat intelligence integration, IAM governance, audit readiness, and awareness program support. Each phase builds practical capability through hands-on exercises, lab outputs, and written documentation.</p>
 
         <table class="comparison-table">
           <tr>
@@ -1765,7 +2669,7 @@ Vulnerability Tracking Process:
         <h4>Weeks 11-12: Audit, Compliance, and Regulated Environment Operations</h4>
         <ul>
           <li>Build evidence pipeline mapped to controls (firewall, EDR, vulnerability management, IAM)</li>
-          <li>Prepare for auditor interviews with traceable narratives and ticket references</li>
+          <li>Understand auditor expectations and produce traceable narratives with ticket references</li>
           <li>Practice handling findings with root cause, corrective action, and due date governance</li>
           <li>Create a quarterly cybersecurity posture report for leadership</li>
         </ul>
@@ -1799,14 +2703,101 @@ Vulnerability Tracking Process:
           <li>Can collaborate in cross-functional enterprise environments under changing priorities</li>
         </ul>
 
+        <h3>SOC Analyst Daily Operations Timeline</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-step-num">~0:00</div><div class="flow-step-body"><strong>Shift Handoff</strong> — Review open incidents from previous shift. Note any anomalies still under investigation. Get situational awareness briefing in 5 min.</div></div>
+          <div class="flow-step"><div class="flow-step-num">~0:15</div><div class="flow-step-body"><strong>Queue Review</strong> — Assess alert queue: clear low-priority items, triage Medium+, escalate anything that looks Critical before touching others.</div></div>
+          <div class="flow-step"><div class="flow-step-num">~1:00</div><div class="flow-step-body"><strong>Threat Intel Sync</strong> — Check threat intel feeds for new IOCs relevant to your environment. Update IOC blocklists and detection rules if needed.</div></div>
+          <div class="flow-step"><div class="flow-step-num">~2:30</div><div class="flow-step-body"><strong>Proactive Hunting</strong> — Dedicate 30-60 min to threat hunting based on current threat landscape or findings from recent incidents in peer organizations.</div></div>
+          <div class="flow-step"><div class="flow-step-num">~4:00</div><div class="flow-step-body"><strong>Continued Monitoring</strong> — Continue alert review. Document all investigation decisions. Escalate anything that develops into confirmed incident.</div></div>
+          <div class="flow-step"><div class="flow-step-num">~7:30</div><div class="flow-step-body"><strong>Shift Close</strong> — Update all open tickets with current status. Draft shift handoff notes. Summarize any open investigations for incoming analyst.</div></div>
+        </div>
+
+        <h3>Alert Triage Decision Tree</h3>
+        <div class="cheat-sheet">
+          <h5>SOC Alert Investigation Workflow (Step by Step)</h5>
+          <div class="cmd-row"><span class="cmd">Step 1: Read alert — what technique/behavior is it detecting?</span><span class="cmd-desc">Understand what the rule is looking for before investigating</span></div>
+          <div class="cmd-row"><span class="cmd">Step 2: Context — who is the user? What device? Normal role?</span><span class="cmd-desc">Look up in CMDB, HR system, past incidents</span></div>
+          <div class="cmd-row"><span class="cmd">Step 3: Timeline — what events happened before/after this alert?</span><span class="cmd-desc">Pull process tree, login history, network connections ±30 min</span></div>
+          <div class="cmd-row"><span class="cmd">Step 4: Expand — correlated events on related devices/accounts?</span><span class="cmd-desc">Check for lateral movement indicators across the environment</span></div>
+          <div class="cmd-row"><span class="cmd">Step 5: Classify — True Positive / False Positive / Inconclusive</span><span class="cmd-desc">Document evidence for each verdict; FPs need suppression rule</span></div>
+          <div class="cmd-row"><span class="cmd">Step 6: Action — contain/escalate (TP) or tune/close (FP)</span><span class="cmd-desc">For TPs: isolate device, revoke tokens, notify incident commander</span></div>
+        </div>
+
+        <h3>SOC Metrics Dashboard Reference</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Metric</th><th>Formula</th><th>Target</th><th>Why It Matters</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MTTD</strong></td><td>Time from event occurrence to alert generation</td><td>&lt;15 min for Critical</td><td>Measures detection layer effectiveness</td></tr>
+            <tr><td><strong>MTTR</strong></td><td>Time from alert to containment action</td><td>&lt;4 hrs for Critical</td><td>Measures response speed; reduces blast radius</td></tr>
+            <tr><td><strong>Alert Volume/Analyst</strong></td><td>Total alerts / analyst count per shift</td><td>&lt;50 actionable/shift</td><td>Early warning for alert fatigue</td></tr>
+            <tr><td><strong>True Positive Rate</strong></td><td>Confirmed TPs / Total alerts investigated</td><td>&gt;30% per rule</td><td>Rules below 30% TP = needs tuning or retirement</td></tr>
+            <tr><td><strong>SLA Compliance</strong></td><td>% incidents resolved within defined SLA</td><td>&gt;95%</td><td>Contractual obligation; audit evidence</td></tr>
+            <tr><td><strong>Escalation Rate</strong></td><td>Escalated incidents / Total incidents</td><td>Track trend; &lt;25%</td><td>High rate = analysts lacking confidence or skills</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Phishing Analysis Checklist</h3>
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Email Header Analysis</h5>
+            <ul>
+              <li>Check SPF/DKIM/DMARC authentication results</li>
+              <li>Verify "Reply-To" differs from "From" address</li>
+              <li>Examine X-Originating-IP for geolocation anomalies</li>
+              <li>Check received header chain for relay anomalies</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Link Analysis</h5>
+            <ul>
+              <li>Expand shortened URLs before clicking (use VirusTotal)</li>
+              <li>Check domain against threat intel (recently registered?)</li>
+              <li>Review redirect chain (multi-hop C2 pattern)</li>
+              <li>Screenshot URLs instead of clicking on analyst machine</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Attachment Analysis</h5>
+            <ul>
+              <li>Hash file and check VirusTotal before opening</li>
+              <li>Use sandbox (Any.run, Joe Sandbox) for dynamic analysis</li>
+              <li>Check for embedded macros, OLE objects, scripts</li>
+              <li>Never open on production machine — use isolated VM</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Remediation Actions</h5>
+            <ul>
+              <li>Block sender domain in mail gateway</li>
+              <li>Search email logs for same campaign to other users</li>
+              <li>Notify clicked users for credential reset</li>
+              <li>Add IOCs to SIEM blocklist + playbook follow-up</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="visual-tip">
+          <strong>SOC Career Progression Tip:</strong> Analysts who document their investigation decisions (not just outcomes) build institutional knowledge and get promoted faster. Write in your tickets: "I investigated X because of Y, saw Z in the logs, concluded TP/FP because of W." This trains the next analyst and shows your reasoning under review.
+        </div>
+
+        <div class="visual-warning">
+          <strong>SOC Operations Risks:</strong><br/>
+          ✗ Analysts skipping documentation due to queue pressure (knowledge loss)<br/>
+          ✗ Reopening recurring incidents without root-cause remediation<br/>
+          ✗ Over-reliance on single analysts for critical workflows<br/>
+          ✓ Rotate runbook ownership and enforce ticket quality standards
+        </div>
+
         <h3>Reference Targets</h3>
-        <ul class="reference-list">
-          <li><a href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK - Detection and response framework</a></li>
-          <li><a href="https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final" target="_blank">NIST SP 800-61 - Incident Handling Guide</a></li>
-          <li><a href="https://www.cisa.gov/topics/cyber-threats-and-advisories" target="_blank">CISA Advisories and threat trend monitoring</a></li>
-          <li><a href="https://www.sans.org/white-papers/" target="_blank">SANS white papers for SOC and IR practical operations</a></li>
-          <li><a href="https://www.isaca.org/resources/isaca-journal" target="_blank">ISACA resources for governance and audit context</a></li>
-        </ul>
+        <div class="resource-links">
+          <a class="resource-link" href="https://attack.mitre.org/" target="_blank">MITRE ATT&amp;CK — Detection &amp; Response Framework</a>
+          <a class="resource-link" href="https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final" target="_blank">NIST SP 800-61 — Incident Handling Guide</a>
+          <a class="resource-link" href="https://www.cisa.gov/topics/cyber-threats-and-advisories" target="_blank">CISA — Cyber Threat Advisories</a>
+          <a class="resource-link" href="https://www.sans.org/white-papers/" target="_blank">SANS — SOC &amp; IR Technical White Papers</a>
+          <a class="resource-link" href="https://any.run/" target="_blank">Any.run — Malware Sandbox Analysis</a>
+          <a class="resource-link" href="https://www.virustotal.com/" target="_blank">VirusTotal — File &amp; URL Analysis</a>
+        </div>
       </div>
     </section>
 
@@ -1849,8 +2840,88 @@ Vulnerability Tracking Process:
           </tr>
         </table>
 
-        <div class="best-practice">
-          <strong>Portfolio strategy:</strong> Treat each capstone as a recruiter-facing artifact. Publish architecture diagram, implementation notes, measurable outcomes, and lessons learned in a consistent template.
+        <h3>Portfolio Evidence Collection Flow</h3>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><strong>Define Scope</strong> — For each capstone project, write a one-page scope document: objectives, systems simulated, tools used, success criteria.</div></div>
+          <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><strong>Execute &amp; Document</strong> — Screenshot every key step. Export terminal logs. Export detection alert data. Capture before/after states to show change.</div></div>
+          <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><strong>Measure Outcomes</strong> — Quantify results against success criteria. "Reduced false positives from 20/day to 3/day." Numbers are more persuasive than descriptions.</div></div>
+          <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><strong>Write Narrative</strong> — Describe what you did, why, what you found, and what you'd do differently. Include architecture diagrams where relevant.</div></div>
+          <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><strong>Publish &amp; Organize</strong> — Commit to GitHub with README. Structure folders: /docs /evidence /scripts /diagrams. Link from LinkedIn/portfolio site.</div></div>
+          <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><strong>Peer Review</strong> — Have another analyst review your documentation for clarity and technical accuracy. Refine based on feedback before finalizing.</div></div>
+        </div>
+
+        <h3>Capstone Documentation Quality Checklist</h3>
+        <div class="cheat-sheet">
+          <h5>Every Capstone Artifact Should Have</h5>
+          <div class="cmd-row"><span class="cmd">README.md with project summary (&lt;500 words)</span><span class="cmd-desc">Busy reviewers read this first — make it clear and outcome-focused</span></div>
+          <div class="cmd-row"><span class="cmd">Scope and constraints documented</span><span class="cmd-desc">What was in scope? What tools? What environment (home lab/cloud)?</span></div>
+          <div class="cmd-row"><span class="cmd">Architecture diagram (even simple boxes-and-lines)</span><span class="cmd-desc">Shows you understand system design, not just execution</span></div>
+          <div class="cmd-row"><span class="cmd">Measured outcomes with before/after comparison</span><span class="cmd-desc">Quantified results are 10x more persuasive than descriptions</span></div>
+          <div class="cmd-row"><span class="cmd">Lessons learned section</span><span class="cmd-desc">Shows intellectual honesty and continuous improvement mindset</span></div>
+          <div class="cmd-row"><span class="cmd">References to relevant standards (NIST, MITRE, CIS)</span><span class="cmd-desc">Demonstrates you know industry frameworks, not just tools</span></div>
+        </div>
+
+        <h3>Capstone Success Metrics</h3>
+        <table class="comparison-matrix">
+          <thead><tr><th>Capstone</th><th>Key Success Metric</th><th>Stretch Goal</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Endpoint Baseline + Drift</strong></td><td>95%+ baseline compliance rate across simulated fleet</td><td>Automated remediation for top 3 drift types</td></tr>
+            <tr><td><strong>Detection Engineering Sprint</strong></td><td>False positive rate reduced &gt;50% while maintaining 95% TP coverage</td><td>ATT&amp;CK technique coverage map showing before/after</td></tr>
+            <tr><td><strong>IAM Escalation Governance</strong></td><td>100% TTL revocation within defined window; clean audit trail</td><td>Quarterly access recertification workflow documented</td></tr>
+            <tr><td><strong>Cloud + Endpoint IR Simulation</strong></td><td>Incident contained within defined SLA; full timeline produced</td><td>Executive summary written in plain language; post-mortem with 3 corrective actions</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Portfolio GitHub Structure (Recommended)</h3>
+        <div class="cheat-sheet">
+          <h5>Repository Structure for Each Capstone Project</h5>
+          <div class="cmd-row"><span class="cmd">/README.md</span><span class="cmd-desc">Project summary, objectives, tools, outcomes — write this last, but prominently</span></div>
+          <div class="cmd-row"><span class="cmd">/docs/architecture.md</span><span class="cmd-desc">System architecture, trust boundaries, data flows</span></div>
+          <div class="cmd-row"><span class="cmd">/docs/findings.md</span><span class="cmd-desc">Key findings, risk ratings, and recommendations</span></div>
+          <div class="cmd-row"><span class="cmd">/scripts/</span><span class="cmd-desc">All automation scripts, detection rules, IaC configs used</span></div>
+          <div class="cmd-row"><span class="cmd">/evidence/</span><span class="cmd-desc">Screenshots, exported reports, terminal logs (scrub sensitive data!)</span></div>
+          <div class="cmd-row"><span class="cmd">/diagrams/</span><span class="cmd-desc">Architecture diagrams (draw.io XML, SVG, or PNG)</span></div>
+        </div>
+
+        <div class="visual-card-grid">
+          <div class="visual-card">
+            <h5>Making Capstones Stand Out</h5>
+            <ul>
+              <li>Use real-world data formats (not invented examples)</li>
+              <li>Reference actual CVEs, ATT&amp;CK techniques, CIS controls</li>
+              <li>Include a "what went wrong" section — shows intellectual honesty</li>
+              <li>Write executive summary in plain language (no jargon)</li>
+            </ul>
+          </div>
+          <div class="visual-card">
+            <h5>Common Presentation Mistakes</h5>
+            <ul>
+              <li>Only showing screenshots without explanation of what they prove</li>
+              <li>Listing tools used without showing outcomes they produced</li>
+              <li>Technical only — no connection to business risk or compliance</li>
+              <li>Overly long documentation — aim for clear and concise</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="visual-tip">
+          <strong>Capstone Value Multiplier:</strong> Connect each capstone to a regulatory framework. "My endpoint baseline project demonstrates compliance with CIS Benchmark Level 1 controls (CIS Controls 4 and 10) and maps directly to NIST CSF Protect (PR.IP-1)." This level of framing shows operational maturity that few candidates demonstrate.
+        </div>
+
+        <div class="visual-warning">
+          <strong>Capstone Portfolio Pitfalls:</strong><br/>
+          ✗ Publishing outputs without context on scope, constraints, and assumptions<br/>
+          ✗ No measurable baseline vs outcome comparison in final write-ups<br/>
+          ✗ Missing reproducibility instructions for reviewers and interview panels<br/>
+          ✓ Include a reproducibility section with exact steps, versions, and expected results
+        </div>
+
+        <div class="resource-links">
+          <a class="resource-link" href="https://github.com/" target="_blank">GitHub — Portfolio Hosting</a>
+          <a class="resource-link" href="https://www.cisecurity.org/cis-benchmarks/" target="_blank">CIS Benchmarks — Configuration Reference</a>
+          <a class="resource-link" href="https://csf.tools/" target="_blank">NIST CSF Tools — Control Mapping</a>
+          <a class="resource-link" href="https://attack.mitre.org/matrices/enterprise/" target="_blank">MITRE ATT&amp;CK Enterprise Matrix</a>
+          <a class="resource-link" href="https://www.draw.io/" target="_blank">draw.io — Free Architecture Diagrams</a>
         </div>
       </div>
     </section>
@@ -1858,7 +2929,7 @@ Vulnerability Tracking Process:
   </main>
 
   <footer>
-    <p><span id="year"></span> CyberSkillForge. Study materials for endpoint security engineering career development.</p>
+    <p><span id="year"></span> CyberSkillForge. Hands-on cybersecurity study platform.</p>
   </footer>
 
   <script src="script.js"></script>

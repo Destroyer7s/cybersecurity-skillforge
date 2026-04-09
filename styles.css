@@ -537,6 +537,235 @@ fieldset label {
   margin: 1rem 0;
 }
 
+/* Visual content helper classes for study sections */
+.visual-warning {
+  border-left: 3px solid #ff7a7a;
+  background: rgba(255, 122, 122, 0.07);
+  border-radius: 6px;
+  padding: 0.78rem 0.9rem;
+  color: var(--text-1);
+  margin: 1rem 0;
+}
+
+.visual-tip {
+  border-left: 3px solid #49c8f0;
+  background: rgba(73, 200, 240, 0.07);
+  border-radius: 6px;
+  padding: 0.78rem 0.9rem;
+  color: var(--text-1);
+  margin: 1rem 0;
+}
+
+.visual-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.visual-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.85rem;
+  background: rgba(8, 26, 39, 0.7);
+}
+
+.visual-card h5 {
+  color: var(--accent);
+  margin: 0 0 0.4rem;
+  font-size: 0.88rem;
+}
+
+.visual-card p,
+.visual-card li {
+  color: var(--text-1);
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+
+.visual-card ul {
+  padding-left: 1.1rem;
+  margin: 0;
+}
+
+.cheat-sheet {
+  border: 1px solid rgba(73, 200, 240, 0.3);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  background: rgba(8, 20, 32, 0.8);
+  margin: 1rem 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+}
+
+.cheat-sheet h5 {
+  color: #49c8f0;
+  margin: 0 0 0.6rem;
+  font-family: "Sora", sans-serif;
+  font-size: 0.88rem;
+}
+
+.cheat-sheet .cmd-row {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.25rem 0;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.cheat-sheet .cmd {
+  color: #78e7bd;
+  min-width: 220px;
+}
+
+.cheat-sheet .cmd-desc {
+  color: #7aa3b8;
+}
+
+.flow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1rem 0;
+  position: relative;
+}
+
+.flow-step {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: rgba(8, 20, 32, 0.6);
+  border-bottom: none;
+}
+
+.flow-step:first-child { border-radius: 8px 8px 0 0; }
+.flow-step:last-child { border-radius: 0 0 8px 8px; border-bottom: 1px solid var(--line); }
+
+.flow-step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(73, 200, 240, 0.15);
+  border: 1px solid #49c8f0;
+  color: #49c8f0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.flow-step-body { flex: 1; }
+
+.flow-step-body strong {
+  color: #d9eeff;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.flow-step-body p,
+.flow-step-body span {
+  color: #7aa3b8;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.resource-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.6rem;
+  margin: 0.75rem 0;
+}
+
+.resource-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: rgba(8, 20, 32, 0.6);
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.84rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.resource-link:hover {
+  border-color: var(--accent);
+  background: rgba(73, 200, 240, 0.06);
+}
+
+.resource-link::before {
+  content: "↗";
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.attck-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.attck-cell {
+  border: 1px solid rgba(73, 200, 240, 0.2);
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  background: rgba(8, 22, 36, 0.7);
+}
+
+.attck-cell .tactic {
+  color: #49c8f0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.attck-cell .technique {
+  color: #7aa3b8;
+  font-size: 0.75rem;
+}
+
+.comparison-matrix {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  font-size: 0.84rem;
+}
+
+.comparison-matrix th {
+  background: rgba(73, 200, 240, 0.1);
+  color: #49c8f0;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border: 1px solid rgba(73, 200, 240, 0.2);
+  font-weight: 600;
+}
+
+.comparison-matrix td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  color: #8ca8b8;
+  vertical-align: top;
+}
+
+.comparison-matrix td strong {
+  color: #c8e6ff;
+}
+
+.comparison-matrix tr:hover td {
+  background: rgba(73, 200, 240, 0.03);
+}
+
 .lab-controls {
   display: grid;
   grid-template-columns: auto minmax(180px, 1fr) auto minmax(140px, 220px);
@@ -677,6 +906,87 @@ fieldset label {
   border-radius: 6px;
   font-size: 0.84rem;
   letter-spacing: 0.01em;
+}
+
+/* Deep content sections rendered from module.deepContent */
+.deep-content {
+  margin-top: 2rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.5rem;
+}
+
+.deep-content h3 {
+  color: var(--accent);
+  font-size: 1.05rem;
+  margin: 1.75rem 0 0.5rem;
+  border-bottom: 1px solid rgba(73, 200, 240, 0.15);
+  padding-bottom: 0.4rem;
+}
+
+.deep-content h3:first-child {
+  margin-top: 0;
+}
+
+.deep-content h4 {
+  color: var(--text-secondary, #a8cfdf);
+  font-size: 0.95rem;
+  margin: 1rem 0 0.4rem;
+}
+
+.deep-content p,
+.deep-content li {
+  color: var(--text-muted, #8ca8b8);
+  line-height: 1.65;
+  font-size: 0.9rem;
+}
+
+.deep-content ul,
+.deep-content ol {
+  padding-left: 1.4rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.deep-content pre {
+  background: rgba(8, 26, 39, 0.8);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1rem 1.2rem;
+  margin: 0.75rem 0 1.25rem;
+  overflow-x: auto;
+}
+
+.deep-content code {
+  font-family: "Fira Code", "Cascadia Code", monospace;
+  font-size: 0.82rem;
+  color: #78e7bd;
+  white-space: pre;
+}
+
+.deep-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0 1.25rem;
+  font-size: 0.85rem;
+}
+
+.deep-table th {
+  background: rgba(73, 200, 240, 0.08);
+  color: #49c8f0;
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(73, 200, 240, 0.25);
+  font-weight: 600;
+}
+
+.deep-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: #8ca8b8;
+  vertical-align: top;
+}
+
+.deep-table tr:hover td {
+  background: rgba(73, 200, 240, 0.03);
 }
 
 .lab .lab-success {
@@ -961,6 +1271,86 @@ fieldset label {
   background: rgba(120, 231, 189, 0.08);
   color: #cfe7d9;
   line-height: 1.58;
+}
+.training-pack {
+  margin: 0.9rem 0 1rem;
+  border: 1px solid rgba(110, 168, 213, 0.24);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at top left, rgba(120, 231, 189, 0.08), transparent 36%),
+    rgba(8, 24, 36, 0.86);
+  padding: 0.92rem;
+}
+.training-pack-head h5 {
+  margin: 0.22rem 0 0.38rem;
+  color: #ddf2ff;
+  font-size: 0.98rem;
+}
+.training-pack-head p {
+  margin: 0;
+  color: var(--text-1);
+  line-height: 1.58;
+}
+.training-pack-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.8rem;
+}
+.training-pack-card {
+  border: 1px solid rgba(110, 168, 213, 0.2);
+  border-radius: 12px;
+  background: rgba(10, 27, 40, 0.8);
+  padding: 0.72rem 0.78rem;
+}
+.training-pack-card h6,
+.training-rubric h6,
+.training-debrief h6 {
+  margin: 0 0 0.42rem;
+  color: #d4ebfa;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.75rem;
+}
+.training-pack-card ul,
+.training-pack-card ol,
+.training-debrief ul {
+  margin: 0;
+  padding-left: 1.05rem;
+}
+.training-pack-card li,
+.training-debrief li {
+  color: var(--text-1);
+  line-height: 1.5;
+  margin-bottom: 0.3rem;
+}
+.training-rubric,
+.training-debrief {
+  margin-top: 0.75rem;
+  border: 1px solid rgba(110, 168, 213, 0.2);
+  border-radius: 12px;
+  background: rgba(10, 27, 40, 0.74);
+  padding: 0.72rem 0.78rem;
+}
+.training-rubric table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+}
+.training-rubric th {
+  text-align: left;
+  color: #8fd6ff;
+  border-bottom: 1px solid rgba(110, 168, 213, 0.28);
+  padding: 0.4rem 0.45rem;
+}
+.training-rubric td {
+  color: var(--text-1);
+  border-bottom: 1px solid rgba(110, 168, 213, 0.16);
+  padding: 0.42rem 0.45rem;
+  vertical-align: top;
+}
+.training-rubric tbody tr:last-child td {
+  border-bottom: 0;
 }
 
 .study-subchapter {
