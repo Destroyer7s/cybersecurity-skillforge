@@ -2344,17 +2344,16 @@ function inferStudyPlaybook(sectionId) {
         : sectionId.includes("automation") || sectionId.includes("script") || sectionId.includes("xsoar") || sectionId.includes("atlassian") || sectionId.includes("capstone")
           ? "automation"
           : "endpoint";
-
   return {
     category: imageCategory,
-    scenarioTitle: `Real-Life Scenario: ${title.replace(/\b\w/g, (char) => char.toUpperCase())} in Production`,
+    scenarioTitle: module?.title || `Real-Life Scenario: Applied ${title.replace(/\b\w/g, c => c.toUpperCase())} Practice`,
     scenarioSummary: module?.overview || explainer?.what || `This topic affects day-to-day security work when teams need to make fast decisions with incomplete information and real business impact.`,
     situation: [
       `A production team depends on this capability to keep risk low without blocking the business.`,
       `Security must balance control quality, investigation speed, and operational realism.`,
       `Good execution requires both technical depth and clear evidence capture.`
     ],
-    responseSteps: guide?.practiceDrills || explainer?.how || ["Understand the environment", "Validate assumptions", "Implement controls", "Measure outcomes"],
+    responseSteps: explainer?.how || ["Understand the environment", "Validate assumptions", "Implement controls", "Measure outcomes"],
     helpfulTips: [
       "Tie every technical action to a risk-reduction reason.",
       "Record assumptions, owners, and validation evidence as you go.",
@@ -2368,6 +2367,114 @@ function inferStudyPlaybook(sectionId) {
     analystNotes: explainer?.success || "Strong execution is visible when the team can explain the change, prove the result, and repeat the workflow confidently."
   };
 }
+
+Object.assign(studyAppliedPlaybooks, {
+  "cloud-security": {
+    category: "cloud",
+    scenarioTitle: "Real-Life Scenario: Exposed Metadata Service Leads to IAM Key Exfiltration",
+    scenarioSummary: "A web application on EC2 is vulnerable to SSRF. An attacker exploits the vulnerability to reach the IMDSv1 endpoint, retrieves temporary IAM credentials, and begins enumerating S3 buckets and Secrets Manager in the background. GuardDuty fires an UnauthorizedAccess:IAMUser/InstanceCredentialExfiltration finding.",
+    situation: ["The development team was unaware IMDSv1 was still enabled on the instance.", "The compromised role has broad read access across multiple AWS services.", "The incident is discovered 4 hours after the initial SSRF."],
+    responseSteps: ["Isolate the GuardDuty finding and confirm IAM key activity in CloudTrail", "Revoke the compromised session immediately using deny-all policy", "Check CloudTrail for all API calls made with the stolen credentials across all regions", "Rotate instance profile, enforce IMDSv2, and validate no exfiltrated data remains accessible"],
+    helpfulTips: ["GuardDuty finding confidence is high but verify the source IP and API call pattern independently.", "CloudTrail global service events must be enabled to catch IAM and STS calls outside the home region.", "Revoking session tokens on the role (not just the instance) stops all active sessions using that role.", "Document the blast radius: which services were queried, what data was accessible, and whether any writes occurred."],
+    artifacts: ["GuardDuty finding JSON export", "CloudTrail event history for compromised principal", "IAM policy revocation change record", "Post-incident IMDSv2 enforcement validation"],
+    toolchain: ["GuardDuty", "CloudTrail", "IAM Access Analyzer", "AWS CLI", "Jira incident ticket"],
+    workflow: ["Detect", "Validate", "Revoke", "Investigate", "Harden"],
+    metrics: ["Time to revoke compromised credentials", "API calls made with stolen credentials", "Number of services accessed before revocation"],
+    analystNotes: "Cloud incidents move fast once credentials are exfiltrated. Speed of revocation is the most important metric. SSRF-to-IMDS is one of the highest-frequency cloud attack paths — IMDSv2 enforcement is a non-negotiable baseline control."
+  },
+  "identity-access-management": {
+    category: "endpoint",
+    scenarioTitle: "Real-Life Scenario: Stale Admin Account Used in Business Email Compromise",
+    scenarioSummary: "An attacker obtains credentials for a former employee's account that was never deprovisioned. The account had direct admin access to a financial application. Using the account, the attacker modifies vendor payment details and initiates a $200K fraudulent transfer before the activity is noticed.",
+    situation: ["The former employee left 6 months ago but the account was never fully removed.", "MFA was enforced for new accounts but this old account predated the policy rollout.", "Detection came from a finance team member noticing an unfamiliar change in the payment system, not from security tooling."],
+    responseSteps: ["Disable the compromised account immediately and revoke all active sessions", "Investigate full activity history for the past 6 months", "Audit all accounts for similar stale or MFA-exempt conditions", "Build an automated offboarding workflow with HR system integration"],
+    helpfulTips: ["Never assume HR notifies IT automatically. Build verified offboarding workflows with audit trails.", "MFA policy exceptions for legacy accounts are a critical gap — review and track all exemptions quarterly.", "Access reviews are not box-checking exercises; they prevent exactly this scenario.", "Stale accounts are low-effort targets for attackers — prioritize remediation at 30-day thresholds."],
+    artifacts: ["Compromised account activity log", "Access review gap report", "Offboarding workflow design document", "MFA exemption register with remediation plan"],
+    toolchain: ["Entra ID / Okta", "HR system", "SIEM", "Change management ticket"],
+    workflow: ["Detect", "Disable", "Investigate", "Remediate", "Prevent"],
+    metrics: ["Stale account count (>90 days inactive)", "MFA coverage rate", "Mean time from offboarding trigger to account disable"],
+    analystNotes: "Identity hygiene is unglamorous but account lifecycle failures are behind a significant fraction of real breaches. Access reviews and automated provisioning workflows are higher-value than many detection tools."
+  },
+  "cryptography-pki": {
+    category: "endpoint",
+    scenarioTitle: "Real-Life Scenario: Expired Certificate Causes Production Outage and Triggers Incident",
+    scenarioSummary: "A wildcard certificate for *.corp.com expires over a weekend. The internal API gateway, three microservices, and an authentication callback endpoint all go offline. On-call engineers discover the expiry was flagged in a CSPM finding 30 days earlier but never assigned an owner.",
+    situation: ["Cert expiry monitoring was in place but the finding went to a shared queue with no owner.", "The teams responsible for each service all assumed another team owned the cert.", "The renewal process required a manual CSR and approval workflow that took 3 business days."],
+    responseSteps: ["Issue emergency leaf certificate from internal CA while permanent renewal is processed", "Validate all affected services are back online with new cert", "Post-incident: implement automated cert renewal with alerting at 45-, 30-, and 7-day thresholds", "Assign cert ownership by system and tie to a certificate management platform"],
+    helpfulTips: ["Certificate management is a shared-ownership failure waiting to happen. Assign clear owners, not team queues.", "Automate renewal where possible (Let's Encrypt + cert-manager for K8s, AWS ACM for managed services).", "Test cert rotation procedures annually so the process is not learned for the first time during an outage.", "Track the full cert inventory including internal CAs, pinned certs in mobile apps, and client certs."],
+    artifacts: ["Certificate inventory spreadsheet", "Outage timeline with root cause", "Automated renewal implementation design", "Ownership assignment register"],
+    toolchain: ["OpenSSL", "AWS ACM or internal CA", "Monitoring platform", "Jira"],
+    workflow: ["Detect", "Mitigate", "Restore", "Root Cause", "Prevent"],
+    metrics: ["Certificate coverage in inventory", "Certs expiring within 30 days without owner", "Renewal mean lead time"],
+    analystNotes: "Expired certificates cause more availability incidents than most security vulnerabilities. Certificate lifecycle automation is one of the highest ROI security engineering projects available."
+  },
+  "malware-analysis": {
+    category: "incident",
+    scenarioTitle: "Real-Life Scenario: Cobalt Strike Beacon Identified in Finance Department",
+    scenarioSummary: "EDR firings on a finance workstation show an unusual DLL loaded into explorer.exe via process injection. The process is beaconing to a domain registered 3 days ago. Sandbox detonation reveals Cobalt Strike default configuration with a malleable C2 profile.",
+    situation: ["The workstation belongs to a finance director with access to payment systems.", "The beacon has been active for approximately 18 hours based on EDR telemetry.", "The domain hosting C2 infrastructure resolves to a fast-flux provider using multiple IPs."],
+    responseSteps: ["Isolate workstation immediately while preserving memory for forensic analysis", "Extract and analyze the Cobalt Strike beacon payload to recover C2 configuration", "Hunt across the fleet for same DLL hash, injected process signatures, and C2 domain/IP contacts", "Block all C2 infrastructure at DNS, proxy, and firewall layers"],
+    helpfulTips: ["Cobalt Strike artifacts in memory are recoverable with Volatility's malfind module — always dump memory before reimaging.", "Extract the beacon configuration using CobaltStrikeParser or BeaconEye to find C2 IPs, sleep time, jitter, and user-agent.", "Assume lateral movement has begun if the beacon has been active more than 4 hours without detection.", "Report ATT&CK techniques mapped to evidence, not just tool names, for threat intel and SOC improvement."],
+    artifacts: ["Memory dump with extracted beacon config", "Fleet-wide hunt query results", "C2 infrastructure block list with evidence", "ATT&CK technique mapping table"],
+    toolchain: ["EDR console", "Volatility 3", "Any.run / CAPE sandbox", "SIEM correlation", "Jira incident ticket"],
+    workflow: ["Detect", "Isolate", "Analyze", "Hunt", "Block", "Recover"],
+    metrics: ["Time from beacon activation to detection", "Number of systems reached by attacker", "C2 infrastructure takedown time"],
+    analystNotes: "Cobalt Strike is the most common post-exploitation framework used in targeted attacks. Recognizing its artifacts in memory and network traffic is a baseline skill for any DFIR or threat hunting role."
+  },
+  "digital-forensics": {
+    category: "incident",
+    scenarioTitle: "Real-Life Scenario: Ransomware Root Cause Requires Full Forensic Reconstruction",
+    scenarioSummary: "A mid-size company suffers a ransomware event affecting 200 servers. Leadership wants to know the initial access vector, dwell time, lateral movement path, and which data was accessed or exfiltrated before encryption. Your team is responsible for the forensic investigation.",
+    situation: ["EDR only covers 60% of the affected systems — the others have no agent.", "Ransomware encrypted most log files on affected hosts.", "Insurance carrier and legal counsel require forensically sound evidence chain."],
+    responseSteps: ["Collect memory and disk images from surviving unencrypted hosts before remediation proceeds", "Reconstruct initial access using perimeter firewall, email gateway, and VPN logs", "Build a lateral movement timeline from authentication logs, SMB traffic, and scheduled task artifacts", "Produce a formal report with chain of custody documentation and defensible conclusions"],
+    helpfulTips: ["Do not allow IT to reimage systems before forensic copies are collected — this destroys evidence.", "Phishing is the most common ransomware initial access; check email gateway logs for 2-4 weeks before the event.", "Windows event IDs 4624, 4625, 4648, 4688, and 7045 are your lateral movement and persistence breadcrumbs.", "Timeline discrepancies between host timestamps and UTC are common in ransomware cases — normalize all timestamps to UTC first."],
+    artifacts: ["Disk and memory images with hash verification", "Lateral movement timeline in chronological order", "Initial access evidence package", "Final forensic report with chain of custody"],
+    toolchain: ["FTK Imager", "Volatility 3", "Plaso/log2timeline", "Autopsy", "SIEM"],
+    workflow: ["Preserve", "Collect", "Parse", "Correlate", "Report"],
+    metrics: ["Evidence coverage across affected systems", "Timeline completeness (gaps identified)", "Initial access vector confidence level"],
+    analystNotes: "Ransomware forensics is where speed and evidence preservation conflict. The biggest mistake is letting remediation destroy evidence before the investigation scope is understood. Always image before reimaging."
+  },
+  "grc-compliance": {
+    category: "automation",
+    scenarioTitle: "Real-Life Scenario: SOC 2 Type II Audit Window Opens in 60 Days",
+    scenarioSummary: "Your company is seeking SOC 2 Type II certification for the first time. The audit window covers 6 months of operations. Your security team must coordinate evidence collection across engineering, DevOps, HR, and legal — all while maintaining normal operations.",
+    situation: ["Multiple teams are unfamiliar with SOC 2 requirements and what evidence looks like.", "Some key controls (access reviews, change management) have been executed manually with no audit trail.", "The external auditor is already scheduled and the timeline cannot move."],
+    responseSteps: ["Map all Trust Services Criteria to existing controls and identify gaps", "Assign control owners and evidence collection templates to each team", "Implement missing controls (access review process, change log) with formal workflows", "Conduct pre-audit internal review to validate evidence quality before auditor arrival"],
+    helpfulTips: ["SOC 2 auditors check operating effectiveness over time, not just policy documents. Screenshots, tickets, and logs dated within the audit window matter more than policies.", "Access reviews must show manager approval, not just IT action. Design your review process to capture both.", "Change management evidence should include approval, test results, and rollback plan — not just the change ticket.", "Start collecting evidence from day 1 of the audit period. Reconstruction after the fact always has gaps."],
+    artifacts: ["Control matrix with owner and evidence type", "Access review results with manager sign-off", "Change management ticket export", "Vendor questionnaire responses with review dates"],
+    toolchain: ["GRC platform (Vanta, Drata, Secureframe, or spreadsheet)", "Jira", "Confluence", "HR system", "Evidence storage"],
+    workflow: ["Map", "Assign", "Implement", "Collect", "Validate", "Submit"],
+    metrics: ["Controls with completed evidence", "Gap closure rate", "Days to audit readiness"],
+    analystNotes: "SOC 2 audits reveal organizational maturity as much as technical security. The most common failures are not technical — they are process and documentation gaps. Start early, assign owners, and build evidence collection into normal workflows."
+  },
+  "application-security": {
+    category: "incident",
+    scenarioTitle: "Real-Life Scenario: SQL Injection in Production API Exposes Customer Records",
+    scenarioSummary: "A security researcher submits a bug bounty report showing a SQL injection vulnerability in a search endpoint. The researcher was able to enumerate database tables, extract a sample of 500 customer records including emails and hashed passwords, and confirm the query runs as a privileged database user.",
+    situation: ["The vulnerable endpoint has been in production for 14 months.", "SAST was not configured for this API repository and no DAST scan had been run against staging.", "The customer data exposure triggers GDPR notification requirements within 72 hours."],
+    responseSteps: ["Validate the vulnerability with a controlled reproduction on a staging copy of production", "Deploy immediate WAF rule to block exploitation of the specific parameter while fix is developed", "Parameterize the query and deploy a fix through the standard emergency release process", "Notify DPA within 72 hours with evidence of scope, containment, and remediation actions"],
+    helpfulTips: ["WAF rules are compensating controls, not fixes. Always pursue parameterized query remediation in parallel.", "Assess whether the database user has excessive privileges; a read-only user would have reduced blast radius.", "Check server access logs for earlier exploitation attempts before the bug report — GDPR notification scope may depend on this.", "Use the incident to mandate SAST/DAST integration and pentest coverage for all API repositories going forward."],
+    artifacts: ["Vulnerability reproduction evidence", "WAF rule deployment record", "Code fix with parameterized query", "GDPR notification draft with timeline and scope"],
+    toolchain: ["WAF (AWS, Cloudflare, or ModSecurity)", "SAST (Semgrep)", "Burp Suite", "Database access logs", "Jira"],
+    workflow: ["Validate", "Contain", "Remediate", "Notify", "Prevent"],
+    metrics: ["Time from report to WAF rule", "Time from report to code fix deployed", "Number of similar patterns found in codebase scan"],
+    analystNotes: "SQL injection is 30 years old and still in OWASP Top 10 A03. The root cause is always the same: user input passed to an interpreter without parameterization. AppSec programs that catch this in code review or SAST prevent incidents that trigger regulatory notification requirements."
+  },
+  "container-security": {
+    category: "cloud",
+    scenarioTitle: "Real-Life Scenario: Cryptominer Deployed via Compromised Container Registry Credentials",
+    scenarioSummary: "An attacker obtains CI/CD pipeline credentials and pushes a modified container image to a private registry. The compromised image is pulled by a Kubernetes deployment and begins mining cryptocurrency, consuming cluster resources. Falco detects the anomalous process within 8 minutes.",
+    situation: ["The CI/CD credentials were found in a public GitHub repository commit from 3 months ago.", "The compromised image passed automated image scanning because the miner was staged in an init container that ran post-scan.", "Several production namespaces are affected because the image tag was shared across environments."],
+    responseSteps: ["Delete compromised deployments and drain affected nodes to stop the miner", "Revoke and rotate all CI/CD credentials and registry tokens immediately", "Audit image registry for other unauthorized pushes using registry access logs", "Implement image signing (cosign) and digest pinning to prevent unsigned image deployment"],
+    helpfulTips: ["Image signing prevents this attack class entirely — cosign + Kubernetes policy enforcement should be a baseline control.", "Registry access logs are critical. Ensure they are retained and monitored just like API logs.", "Post-scan staging attacks (hiding payloads in init containers or late-stage layers) require runtime detection, not just build-time scanning.", "Review all CI/CD service account permissions — they almost always have more access than necessary."],
+    artifacts: ["Falco alert export with process and syscall details", "Image registry access log showing unauthorized push", "Credential revocation change records", "Image signing and digest pinning implementation design"],
+    toolchain: ["Falco", "Container registry (ECR/GCR/Harbor)", "cosign", "Kubernetes audit logs", "Jira"],
+    workflow: ["Detect", "Contain", "Revoke", "Investigate", "Harden"],
+    metrics: ["Time to Falco detection", "Number of compromised deployments", "Time to credential revocation"],
+    analystNotes: "Container supply chain attacks are increasing. The CI/CD pipeline is now a primary attack surface. Credential hygiene in pipelines, image signing, and runtime detection are three controls that work together to close this gap."
+  }
+});
+
 
 function getStudyPlaybook(sectionId) {
   return studyAppliedPlaybooks[sectionId] || inferStudyPlaybook(sectionId);
@@ -3119,17 +3226,97 @@ function organizeStudyNav() {
         "security-operations",
         "threat-modeling",
         "vulnerability-management",
-        "capstone-track"
-      ]
-    },
-    {
-      title: "Cloud Security",
-      ids: ["aws-security-hub-and-detection", "aws-cloud-security-engineering", "cloud-security-gcp-and-azure"]
-    },
-    {
-      title: "Detection and SOC Tooling",
-      ids: ["security-information", "siem", "siem-tooling-platform-depth", "edr-and-edrm-operations", "threat-intelligence-and-ioc-engineering", "soc-ops-analyst-track"]
-    },
+        "capstone-track": {
+          prerequisites: ["Comfort across multiple security domains", "Project scoping and planning", "Basic metrics definition"],
+          coreConcepts: ["Integrated security delivery", "Evidence-based storytelling", "Outcome measurement"],
+          practiceDrills: [
+            "Build one end-to-end project combining detection, response, and governance controls.",
+            "Capture baseline, intervention, and post-change metrics with reproducible evidence.",
+            "Publish a case-study narrative with tradeoffs, failures, and final outcomes."
+          ],
+          selfCheck: ["Can you explain your decisions and tradeoffs clearly?", "Can you prove impact with measurable outcomes?"]
+        },
+        "cloud-security": {
+          prerequisites: ["Cloud platform account basics", "IAM fundamentals", "Networking concepts (VPC, subnets, security groups)"],
+          coreConcepts: ["Cloud-native threat model", "Least-privilege IAM design", "Immutable logging and CSPM"],
+          practiceDrills: [
+            "Audit an AWS account for public S3 buckets, over-permissive IAM roles, and logging gaps using CLI commands.",
+            "Write an SCP that enforces deny-CloudTrail-delete and deny-public-S3 at the organization level.",
+            "Map 5 GuardDuty finding types to ATT&CK techniques and write a response playbook for each."
+          ],
+          selfCheck: ["Can you explain the cloud shared responsibility model for each service type?", "Can you detect and contain a compromised IAM key in under 30 minutes?"]
+        },
+        "identity-access-management": {
+          prerequisites: ["Authentication vs authorization basics", "Active Directory or LDAP familiarity", "MFA concepts"],
+          coreConcepts: ["Zero standing privilege", "Federation and SSO protocols", "Access lifecycle governance"],
+          practiceDrills: [
+            "Conduct a stale-account audit: find accounts inactive >90 days and build a disable/delete workflow.",
+            "Design a JIT access process for admin roles using existing tooling (Azure PIM, AWS Identity Center, or equivalent).",
+            "Write a Conditional Access policy that blocks legacy authentication and enforces MFA outside corporate IP."
+          ],
+          selfCheck: ["Can you explain the difference between SAML and OIDC and when to use each?", "Can you scope a service account to minimum viable permissions?"]
+        },
+        "cryptography-pki": {
+          prerequisites: ["Basic networking (TLS handshake)", "Public vs private key concept", "Linux CLI comfort"],
+          coreConcepts: ["Cipher suite evaluation", "PKI and certificate lifecycle", "Key management practices"],
+          practiceDrills: [
+            "Scan 10 internal hosts with testssl.sh and produce a remediation list grouped by risk (weak cipher, expired cert, TLS 1.0/1.1).",
+            "Generate a CA, issue a server cert, and verify the full chain using OpenSSL commands.",
+            "Audit a codebase for 3 common crypto mistakes: hardcoded keys, ECB mode, and MD5 password hashing."
+          ],
+          selfCheck: ["Can you explain why AES-GCM is preferred over AES-CBC?", "Can you identify a certificate misconfiguration from openssl s_client output?"]
+        },
+        "malware-analysis": {
+          prerequisites: ["Basic command line (Windows and Linux)", "Understanding of PE file format", "Networking basics (DNS, HTTP)"],
+          coreConcepts: ["Static triage workflow", "Behavioral analysis interpretation", "IOC extraction and ATT&CK mapping"],
+          practiceDrills: [
+            "Perform a full static triage on a sample from MalwareBazaar: hash, strings, PE imports, packed indicators.",
+            "Submit a sample to Any.run and extract: dropped files, network IOCs, registry modifications, and ATT&CK techniques.",
+            "Write a YARA rule for a malware family based on unique strings or byte patterns extracted from a sample."
+          ],
+          selfCheck: ["Can you explain the difference between process injection and process hollowing?", "Can you build a detection from a malware analysis report?"]
+        },
+        "digital-forensics": {
+          prerequisites: ["Incident response basics", "Windows and Linux file systems", "Log formats (Windows Event Log, syslog)"],
+          coreConcepts: ["Order of volatility", "Chain of custody", "Timeline correlation across sources"],
+          practiceDrills: [
+            "Practice a Windows live triage using PowerShell: running processes, network connections, recently modified files, scheduled tasks.",
+            "Create a forensic disk image of a VM using FTK Imager or dc3dd and verify integrity with hashes.",
+            "Use Volatility 3 to analyze a memory dump: process list, network artifacts, injected code regions."
+          ],
+          selfCheck: ["Can you explain chain of custody requirements for a legal investigation?", "Can you reconstruct an attacker timeline from logs, memory, and disk artifacts?"]
+        },
+        "grc-compliance": {
+          prerequisites: ["Basic security concepts", "Risk management concepts", "Familiarity with at least one framework (NIST, ISO, SOC 2)"],
+          coreConcepts: ["Risk quantification and registers", "Audit evidence management", "Control mapping across frameworks"],
+          practiceDrills: [
+            "Build a 10-row risk register for a fictional SaaS company with likelihood, impact, inherent risk, controls, and residual risk.",
+            "Map 5 security controls to NIST CSF 2.0 functions and at least one other framework (ISO 27001, SOC 2, or PCI DSS).",
+            "Write a compensating control justification for a PCI DSS requirement that cannot be met in full, including evidence plan."
+          ],
+          selfCheck: ["Can you explain the difference between Type I and Type II SOC 2 reports?", "Can you articulate business risk in executive-friendly language without technical jargon?"]
+        },
+        "application-security": {
+          prerequisites: ["Basic web development concepts", "HTTP request/response model", "One scripting language (Python, JS, or similar)"],
+          coreConcepts: ["OWASP Top 10 exploitation and prevention", "Secure SDLC integration", "SAST/DAST/SCA toolchain"],
+          practiceDrills: [
+            "Run Semgrep against an open-source app (DVWA or Juice Shop source) and triage findings by exploitability.",
+            "Exploit 3 OWASP Top 10 vulnerabilities in DVWA (SQL injection, XSS, IDOR) and write a developer-facing remediation note for each.",
+            "Write a GitHub Actions pipeline step that blocks PRs with HIGH or CRITICAL SAST findings."
+          ],
+          selfCheck: ["Can you explain IDOR and why authz checks must be server-side?", "Can you integrate a SAST tool into a CI/CD pipeline and tune it to reduce false positives?"]
+        },
+        "container-security": {
+          prerequisites: ["Docker basics", "Kubernetes pod and deployment concepts", "YAML familiarity"],
+          coreConcepts: ["Container image hardening", "Kubernetes RBAC and admission control", "Runtime detection"],
+          practiceDrills: [
+            "Scan a publicly available Docker image with Trivy and produce an exploitability-prioritized remediation report.",
+            "Write a Kubernetes NetworkPolicy that denies all ingress by default and allows only labeled frontend pods to reach the API service.",
+            "Audit a K8s cluster for privileged pods, host namespace mounts, and service accounts with cluster-admin bindings."
+          ],
+          selfCheck: ["Can you explain how a container breakout could escalate to node compromise?", "Can you enforce non-root and read-only file system requirements using Pod Security Admission?"]
+        }
+      };
     {
       title: "Firewalls and Network Controls",
       ids: ["palo-alto-firewall-operations", "checkpoint-and-firewall-technologies"]
@@ -4650,3 +4837,26 @@ function enhanceLabsPage() {
 }
 
 enhanceLabsPage();
+
+// ── Practice Studio collapse toggle ──────────────────────────────
+(function initStudioToggle() {
+  const btn = document.getElementById("toggleStudioBtn");
+  const body = document.getElementById("studioBody");
+  if (!btn || !body) return;
+
+  const STORAGE_KEY = "studioCollapsed";
+  const isCollapsed = localStorage.getItem(STORAGE_KEY) === "true";
+
+  function applyState(collapsed) {
+    body.classList.toggle("studio-collapsed", collapsed);
+    btn.setAttribute("aria-expanded", String(!collapsed));
+    btn.textContent = collapsed ? "Show Practice Studio ▼" : "Hide Practice Studio ▲";
+    localStorage.setItem(STORAGE_KEY, collapsed);
+  }
+
+  applyState(isCollapsed);
+
+  btn.addEventListener("click", () => {
+    applyState(!body.classList.contains("studio-collapsed"));
+  });
+})();

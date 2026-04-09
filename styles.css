@@ -2113,6 +2113,46 @@ footer {
 }
 
 .tutorial-split {
+
+  /* ── Collapsible Practice Studio ─────────────────────────────── */
+  .studio-section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .btn-toggle-studio {
+    margin-left: auto;
+    padding: 0.45rem 1rem;
+    border: 1.5px solid var(--accent, #6c63ff);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--accent, #6c63ff);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    white-space: nowrap;
+  }
+
+  .btn-toggle-studio:hover {
+    background: var(--accent, #6c63ff);
+    color: #fff;
+  }
+
+  .studio-body {
+    overflow: hidden;
+    transition: max-height 0.38s ease, opacity 0.28s ease;
+    max-height: 9999px;
+    opacity: 1;
+  }
+
+  .studio-body.studio-collapsed {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.2rem;

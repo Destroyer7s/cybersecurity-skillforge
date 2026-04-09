@@ -210,10 +210,12 @@
     </section>
 
     <section class="content-section reveal">
-      <div class="section-head">
+      <div class="section-head studio-section-head">
         <p class="eyebrow">Practice and Assessment Studio</p>
         <h2>Technical Practice, Timed Exams, and Personalized Remediation</h2>
+        <button id="toggleStudioBtn" class="btn-toggle-studio" type="button" aria-expanded="true" aria-controls="studioBody">Hide Practice Studio ▲</button>
       </div>
+      <div id="studioBody" class="studio-body">
       <div class="prep-studio-grid">
         <article class="prep-panel">
           <h3>Technical Q&A Practice</h3>
@@ -233,6 +235,14 @@
               <option value="vulnerability-management">Vulnerability Management</option>
               <option value="soc-ops-analyst-track">SOC Analyst Track</option>
               <option value="capstone-track">Capstone Track</option>
+              <option value="cloud-security">Cloud Security</option>
+              <option value="identity-access-management">Identity &amp; Access Management</option>
+              <option value="cryptography-pki">Cryptography &amp; PKI</option>
+              <option value="malware-analysis">Malware Analysis</option>
+              <option value="digital-forensics">Digital Forensics &amp; DFIR</option>
+              <option value="grc-compliance">GRC &amp; Compliance</option>
+              <option value="application-security">Application Security</option>
+              <option value="container-security">Container &amp; Kubernetes Security</option>
             </select>
             <button id="startInterviewBtn" class="btn btn-primary" type="button">Start Practice Session</button>
           </div>
@@ -261,6 +271,14 @@
               <option value="vulnerability-management">Vulnerability Management</option>
               <option value="soc-ops-analyst-track">SOC Analyst Track</option>
               <option value="capstone-track">Capstone Track</option>
+              <option value="cloud-security">Cloud Security</option>
+              <option value="identity-access-management">Identity &amp; Access Management</option>
+              <option value="cryptography-pki">Cryptography &amp; PKI</option>
+              <option value="malware-analysis">Malware Analysis</option>
+              <option value="digital-forensics">Digital Forensics &amp; DFIR</option>
+              <option value="grc-compliance">GRC &amp; Compliance</option>
+              <option value="application-security">Application Security</option>
+              <option value="container-security">Container &amp; Kubernetes Security</option>
             </select>
             <button id="startExamBtn" class="btn btn-primary" type="button">Start Timed Exam</button>
           </div>
@@ -273,6 +291,7 @@
         <p class="helper">Auto-generated from quiz misses, timed exam misses, mastery status, and practice session scores.</p>
         <div id="weakAreaPlan" class="weak-plan"></div>
       </article>
+      </div><!-- /studioBody -->
     </section>
 
     <div class="study-nav">
@@ -288,6 +307,14 @@
       <a href="#vulnerability-management">Vulnerability Management</a>
       <a href="#soc-ops-analyst-track">SOC Analyst Track</a>
       <a href="#capstone-track">Capstone Track</a>
+      <a href="#cloud-security">Cloud Security</a>
+      <a href="#identity-access-management">IAM</a>
+      <a href="#cryptography-pki">Cryptography &amp; PKI</a>
+      <a href="#malware-analysis">Malware Analysis</a>
+      <a href="#digital-forensics">Digital Forensics</a>
+      <a href="#grc-compliance">GRC &amp; Compliance</a>
+      <a href="#application-security">Application Security</a>
+      <a href="#container-security">Container Security</a>
     </div>
 
     <!-- Endpoint Security Section -->
@@ -3773,6 +3800,670 @@ Vulnerability Tracking Process:
           <a class="resource-link" href="https://csf.tools/" target="_blank">NIST CSF Tools — Control Mapping</a>
           <a class="resource-link" href="https://attack.mitre.org/matrices/enterprise/" target="_blank">MITRE ATT&amp;CK Enterprise Matrix</a>
           <a class="resource-link" href="https://www.draw.io/" target="_blank">draw.io — Free Architecture Diagrams</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cloud Security Section -->
+    <section id="cloud-security" class="study-section reveal">
+      <h2>13. Cloud Security Engineering</h2>
+      <p class="section-intro">Cloud security covers the controls, architecture patterns, and operational practices needed to protect workloads running on AWS, Azure, and GCP. Cloud-native threats—SSRF to IMDS, IAM misconfiguration, public storage, and lateral movement through service accounts—are now core attack surfaces in virtually every enterprise environment.</p>
+
+      <div class="content-block">
+        <h3>Core Attack Surfaces &amp; Controls</h3>
+        <div class="table-wrapper">
+          <table class="study-table">
+            <thead><tr><th>Attack Surface</th><th>Common Exploit</th><th>Primary Control</th></tr></thead>
+            <tbody>
+              <tr><td>IAM roles &amp; policies</td><td>Wildcard permissions, trust misconfiguration</td><td>IAM Access Analyzer, SCPs, least-privilege policies</td></tr>
+              <tr><td>Public object storage</td><td>Unintended public S3/Blob/GCS bucket</td><td>Block Public Access settings, bucket policies, Security Hub CIS</td></tr>
+              <tr><td>Instance Metadata (IMDS)</td><td>SSRF to steal IAM credentials via v1 endpoint</td><td>Enforce IMDSv2 (require session tokens), WAF SSRF rules</td></tr>
+              <tr><td>Service account keys</td><td>Leaked key files enable full service account access</td><td>Keyless auth (Workload Identity), key rotation, CSPM alerts</td></tr>
+              <tr><td>Security group / NSG gaps</td><td>0.0.0.0/0 ingress to sensitive ports (22, 3389, 5900)</td><td>Terraform policy checks, CSPM alerts, VPC Flow Logs</td></tr>
+              <tr><td>CloudTrail / Audit log gaps</td><td>Attacker disables logging to hide activity</td><td>CloudTrail integrity validation, immutable log destinations</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>AWS Security Commands — Hands-On Cheat Sheet</h3>
+        <pre class="code-block"><code># ── Check S3 bucket public access block ──────────────────────────
+aws s3api get-public-access-block --bucket my-bucket
+
+# ── List IAM roles with wildcard actions ─────────────────────────
+aws iam list-roles --query "Roles[*].RoleName" --output text | \
+  xargs -I{} aws iam list-role-policies --role-name {}
+
+# ── Enable GuardDuty in all regions ──────────────────────────────
+for region in $(aws ec2 describe-regions --query "Regions[*].RegionName" --output text); do
+  aws guardduty create-detector --enable --region "$region"
+done
+
+# ── Enforce IMDSv2 on running instances ──────────────────────────
+aws ec2 modify-instance-metadata-options \
+  --instance-id i-0abc123 \
+  --http-tokens required \
+  --http-endpoint enabled
+
+# ── CloudTrail: verify log integrity ─────────────────────────────
+aws cloudtrail validate-logs \
+  --trail-arn arn:aws:cloudtrail:us-east-1:123456789012:trail/my-trail \
+  --start-time 2024-01-01T00:00:00Z
+
+# ── List Security Hub high/critical findings ──────────────────────
+aws securityhub get-findings \
+  --filters '{"SeverityLabel":[{"Value":"CRITICAL","Comparison":"EQUALS"},{"Value":"HIGH","Comparison":"EQUALS"}]}' \
+  --query "Findings[*].[Title,AwsAccountId,Resources[0].Id]" \
+  --output table</code></pre>
+      </div>
+
+      <div class="content-block">
+        <h3>Cloud Security Architecture Patterns</h3>
+        <ul class="key-points">
+          <li><strong>Landing zone &amp; account hierarchy:</strong> Use AWS Organizations SCPs / Azure Management Groups to enforce deny-by-default guardrails across all child accounts. Security is infrastructure, not per-team opt-in.</li>
+          <li><strong>Zero standing privilege:</strong> Combine short-lived role sessions with JIT access tools (AWS IAM Identity Center, Azure PIM). Eliminate long-lived IAM user keys for human access entirely.</li>
+          <li><strong>Immutable logging pipeline:</strong> CloudTrail → S3 WORM bucket → SIEM. Separate log account with deny-delete SCP. Enable CloudTrail log integrity.</li>
+          <li><strong>CSPM continuous scanning:</strong> AWS Security Hub + CIS Benchmarks standard. Azure Defender for Cloud secure score. Treat CSPM findings as a risk backlog with SLA owners.</li>
+          <li><strong>Network perimeter:</strong> VPC with private subnets + NAT. WAF in front of public endpoints. VPC Flow Logs to detect unexpected egress. No 0.0.0.0/0 ingress except port 443 through a load balancer.</li>
+          <li><strong>Secrets management:</strong> AWS Secrets Manager or HashiCorp Vault. Never store credentials in environment variables, user data, or container images. Rotate secrets automatically.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3>Key Certifications &amp; Resources</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://cloudsecurityalliance.org/research/guidance/" target="_blank">CSA Cloud Security Guidance</a>
+          <a class="resource-link" href="https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html" target="_blank">AWS Well-Architected Security Pillar</a>
+          <a class="resource-link" href="https://www.microsoft.com/en-us/security/business/microsoft-defender-for-cloud" target="_blank">Microsoft Defender for Cloud Docs</a>
+          <a class="resource-link" href="https://cloud.google.com/security/products/security-command-center" target="_blank">GCP Security Command Center</a>
+          <a class="resource-link" href="https://github.com/toniblyx/prowler" target="_blank">Prowler — AWS Security Tool</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Identity & Access Management Section -->
+    <section id="identity-access-management" class="study-section reveal">
+      <h2>14. Identity &amp; Access Management (IAM)</h2>
+      <p class="section-intro">Identity is the new perimeter. IAM covers authentication, authorization, federation, privileged access, and lifecycle governance. Misconfigured identity is the root cause of the majority of cloud breaches and remains the top attack vector across on-prem and hybrid environments.</p>
+
+      <div class="content-block">
+        <h3>IAM Concepts at a Glance</h3>
+        <div class="table-wrapper">
+          <table class="study-table">
+            <thead><tr><th>Concept</th><th>What It Means</th><th>Why It Matters in Jobs</th></tr></thead>
+            <tbody>
+              <tr><td>RBAC</td><td>Access determined by assigned roles</td><td>Standard enterprise model; you must design roles that don't over-provision</td></tr>
+              <tr><td>ABAC</td><td>Access determined by resource/user attributes</td><td>Fine-grained, scales well for cloud-native environments</td></tr>
+              <tr><td>PAM</td><td>Privileged Access Management (CyberArk, BeyondTrust)</td><td>Vaults admin credentials; records sessions; key for SOX/PCI audit</td></tr>
+              <tr><td>JIT Access</td><td>Just-in-time elevation, zero standing privilege</td><td>Eliminates permanent admin accounts; reduces breach blast radius</td></tr>
+              <tr><td>SSO / Federation</td><td>Single sign-on via SAML 2.0 or OIDC</td><td>Centralized auth; reduces password sprawl; enables MFA enforcement</td></tr>
+              <tr><td>MFA</td><td>Multi-factor authentication</td><td>Phishing-resistant MFA (FIDO2) is now a requirements for most roles</td></tr>
+              <tr><td>Conditional Access</td><td>Policy-based access restrictions (device, location, risk)</td><td>Enforces context-aware auth; key Microsoft Entra / Okta pattern</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>SAML &amp; OAuth/OIDC Flow — What You Need to Know</h3>
+        <pre class="code-block"><code># ── OAuth 2.0 / OIDC flows you must explain in interviews ────────
+# Authorization Code Flow (web apps with server-side backend)
+1. User → App: click "Login"
+2. App → IdP (Okta/Entra): redirect with client_id, scope, redirect_uri
+3. User authenticates → IdP issues authorization code
+4. App exchanges code for access_token + id_token (backend-only)
+5. App uses access_token to call APIs on user's behalf
+
+# PKCE (Proof Key for Code Exchange) — for SPAs and mobile apps
+# Prevents auth code interception — required for public clients
+
+# Client Credentials Flow (M2M / service accounts)
+POST /token
+  client_id=svc-app&amp;client_secret=SECRET&amp;grant_type=client_credentials
+
+# ── Entra ID Conditional Access via PowerShell ────────────────────
+# List all policies and their enabled state
+Get-MgIdentityConditionalAccessPolicy | Select-Object DisplayName, State
+
+# ── Check user's group membership and MFA status ─────────────────
+Get-MgUserMemberOf -UserId user@corp.com | Select-Object -Expand AdditionalProperties
+
+# ── Check for stale service principals with secrets ──────────────
+Get-MgServicePrincipal -All | Where-Object { $_.PasswordCredentials.Count -gt 0 } | \
+  Select-Object DisplayName, AppId</code></pre>
+      </div>
+
+      <div class="content-block">
+        <h3>Key IAM Audit Checks</h3>
+        <ul class="key-points">
+          <li><strong>Orphaned accounts:</strong> Users who left the org but still have active accounts. Check last-login timestamps. Disable after 30 days of inactivity; delete after 90.</li>
+          <li><strong>Over-privileged service accounts:</strong> Automated service accounts with human-level permissions. Use RBAC minimum viable scope and rotate credentials quarterly.</li>
+          <li><strong>MFA coverage gaps:</strong> Calculate MFA enrollment rate. Flag admin accounts without phishing-resistant MFA. FIDO2 &gt; TOTP &gt; SMS.</li>
+          <li><strong>Privileged account monitoring:</strong> Alert on admin logins from new locations, off-hours, or unfamiliar devices. PAM session recording for all privileged actions.</li>
+          <li><strong>Access recertification:</strong> Quarterly access reviews where managers certify each user's access. Automate revocation for non-responses.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3>Resources</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/" target="_blank">Microsoft Entra Conditional Access Docs</a>
+          <a class="resource-link" href="https://www.okta.com/resources/whitepaper/iam-security-guide/" target="_blank">Okta IAM Security Guide</a>
+          <a class="resource-link" href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html" target="_blank">AWS IAM Best Practices</a>
+          <a class="resource-link" href="https://attack.mitre.org/tactics/TA0006/" target="_blank">MITRE ATT&amp;CK — Credential Access</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cryptography & PKI Section -->
+    <section id="cryptography-pki" class="study-section reveal">
+      <h2>15. Cryptography &amp; PKI</h2>
+      <p class="section-intro">Cryptography underpins nearly every security control: TLS sessions, signed tokens, encrypted storage, and certificate-based authentication. Understanding cipher suites, key management, and certificate lifecycle is critical for architecture reviews, incident investigations, and compliance audits.</p>
+
+      <div class="content-block">
+        <h3>Cryptography Reference Table</h3>
+        <div class="table-wrapper">
+          <table class="study-table">
+            <thead><tr><th>Category</th><th>Algorithm / Protocol</th><th>Status / Use Case</th></tr></thead>
+            <tbody>
+              <tr><td>Symmetric encryption</td><td>AES-128/256-GCM</td><td>Current standard — bulk data encryption, disk, TLS record layer</td></tr>
+              <tr><td>Symmetric (legacy)</td><td>3DES, RC4, DES</td><td>Deprecated — do not use; fail audit findings if in use</td></tr>
+              <tr><td>Asymmetric encryption</td><td>RSA-2048+, ECDSA P-256</td><td>Key exchange, signatures; RSA-1024 is broken</td></tr>
+              <tr><td>Key exchange</td><td>ECDHE, DHE</td><td>Forward secrecy for TLS — required; DHE &lt; 2048 is weak</td></tr>
+              <tr><td>Hashing</td><td>SHA-256, SHA-3</td><td>Integrity; SHA-1 deprecated for signatures; MD5 broken</td></tr>
+              <tr><td>TLS versions</td><td>TLS 1.2, TLS 1.3</td><td>TLS 1.3 preferred; TLS 1.0/1.1 disabled for PCI/HIPAA compliance</td></tr>
+              <tr><td>Certificates</td><td>X.509 v3</td><td>TLS, code signing, S/MIME; check SANs, expiry, issuer chain</td></tr>
+              <tr><td>Passwords</td><td>bcrypt, scrypt, Argon2id</td><td>Password hashing — not encryption; MD5/SHA-1 passwords are crackable</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>PKI &amp; TLS Operations — Hands-On Commands</h3>
+        <pre class="code-block"><code># ── Inspect a remote certificate ─────────────────────────────────
+echo | openssl s_client -connect example.com:443 -servername example.com 2>/dev/null \
+  | openssl x509 -noout -text | grep -A2 "Subject:\|Issuer:\|Not After\|SAN"
+
+# ── Check TLS versions and cipher suites supported ───────────────
+nmap --script ssl-enum-ciphers -p 443 example.com
+# or
+testssl.sh --fast example.com
+
+# ── Generate RSA private key + CSR ───────────────────────────────
+openssl genrsa -out server.key 4096
+openssl req -new -key server.key -out server.csr \
+  -subj "/C=US/ST=CA/O=Corp/CN=api.corp.com"
+
+# ── Verify certificate chain ─────────────────────────────────────
+openssl verify -CAfile ca-bundle.crt server.crt
+
+# ── Check certificate expiry across internal hosts ───────────────
+for host in app1.corp api.corp vault.corp; do
+  expiry=$(echo | openssl s_client -connect "$host:443" 2>/dev/null \
+    | openssl x509 -noout -enddate 2>/dev/null)
+  echo "$host: $expiry"
+done
+
+# ── Decode a JWT to inspect claims ──────────────────────────────
+# Header.Payload.Signature — base64url encoded
+echo "eyJhbGciOiJSUzI1NiJ9..." | cut -d. -f2 | \
+  base64 -d 2>/dev/null | python3 -m json.tool</code></pre>
+      </div>
+
+      <div class="content-block">
+        <h3>Common Crypto Mistakes to Catch in Code Reviews</h3>
+        <ul class="key-points">
+          <li><strong>Hardcoded keys or secrets:</strong> Any encryption key in source code is compromised at commit time. Use KMS, Vault, or Secrets Manager with rotation.</li>
+          <li><strong>ECB mode cipher usage:</strong> AES-ECB leaks patterns. Require GCM or CBC with HMAC. Flag any <code>Cipher.getInstance("AES/ECB")</code> in Java code reviews.</li>
+          <li><strong>Predictable IVs or nonces:</strong> Reusing IV with the same key in GCM mode is catastrophic. IVs must be random for every encryption operation.</li>
+          <li><strong>Storing passwords with reversible encryption:</strong> Passwords must use adaptive hashing (Argon2id, bcrypt) — never AES, never SHA-256 alone.</li>
+          <li><strong>Disabled certificate validation:</strong> <code>ssl.CERT_NONE</code>, <code>InsecureSkipVerify: true</code>, custom TrustManagers returning null — immediate findings.</li>
+          <li><strong>Weak PRNG:</strong> <code>Math.random()</code> or <code>random.random()</code> for tokens/keys. Must use <code>secrets</code> module (Python) or <code>SecureRandom</code> (Java).</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3>Resources</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html" target="_blank">OWASP Cryptographic Storage Cheat Sheet</a>
+          <a class="resource-link" href="https://www.feistyduck.com/library/openssl-cookbook/" target="_blank">OpenSSL Cookbook (free)</a>
+          <a class="resource-link" href="https://testssl.sh/" target="_blank">testssl.sh — TLS Scanner</a>
+          <a class="resource-link" href="https://cryptopals.com/" target="_blank">Cryptopals — Hands-On Crypto Challenges</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Malware Analysis Section -->
+    <section id="malware-analysis" class="study-section reveal">
+      <h2>16. Malware Analysis &amp; Reverse Engineering</h2>
+      <p class="section-intro">Malware analysis turns suspicious files and behaviors into actionable intelligence: IOCs for detection, TTPs for ATT&amp;CK mapping, and evidence for incident scoping. Every SOC analyst, threat hunter, and DFIR engineer needs at minimum static and sandbox analysis skills.</p>
+
+      <div class="content-block">
+        <h3>Analysis Methodology — Static → Dynamic → Behavioral</h3>
+        <div class="table-wrapper">
+          <table class="study-table">
+            <thead><tr><th>Phase</th><th>Technique</th><th>Tools</th><th>What You Extract</th></tr></thead>
+            <tbody>
+              <tr><td>Static (Quick triage)</td><td>Hash lookup, file type, strings, PE header</td><td>VirusTotal, PEStudio, strings, Detect-It-Easy</td><td>Hash IOCs, packed/compiled info, embedded URLs/IPs, imphash</td></tr>
+              <tr><td>Static (Deep)</td><td>Disassembly, decompilation, YARA rule authoring</td><td>Ghidra, IDA Free, Binary Ninja, Cutter</td><td>Function logic, anti-analysis tricks, crypto constants, C2 protocol</td></tr>
+              <tr><td>Dynamic (Sandbox)</td><td>Execute in isolated VM, monitor all behaviors</td><td>Any.run, Cuckoo, Cape Sandbox, Joe Sandbox</td><td>Network IOCs, registry changes, file drops, process injection</td></tr>
+              <tr><td>Memory forensics</td><td>Dump and analyze running process memory</td><td>Volatility 3, Rekall</td><td>Injected code, decrypted strings, in-memory C2 config</td></tr>
+              <tr><td>Network analysis</td><td>Capture and decode C2 traffic</td><td>Wireshark, Zeek, Suricata</td><td>C2 URLs, beaconing intervals, exfil patterns, JA3 fingerprints</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>Quick Triage Workflow &amp; YARA Rule Example</h3>
+        <pre class="code-block"><code># ── Static triage — first 5 minutes ─────────────────────────────
+# 1. Hash the file
+sha256sum suspicious.exe
+md5sum suspicious.exe
+
+# 2. Check VirusTotal (do NOT upload if potentially sensitive)
+curl -s "https://www.virustotal.com/api/v3/files/&lt;sha256&gt;" \
+  -H "x-apikey: $VT_API_KEY" | python3 -m json.tool | grep -A5 "last_analysis_stats"
+
+# 3. Extract printable strings
+strings -n 6 suspicious.exe | grep -iE "http|\.exe|cmd|powershell|base64"
+
+# 4. Check PE structure (non-Windows: use PEFile)
+python3 -c "
+import pefile
+pe = pefile.PE('suspicious.exe')
+print(pe.OPTIONAL_HEADER.AddressOfEntryPoint)
+for entry in pe.DIRECTORY_ENTRY_IMPORT:
+    print(entry.dll.decode(), [imp.name for imp in entry.imports if imp.name])
+"
+
+# ── YARA rule for Emotet-style dropped batch scripts ─────────────
+rule Dropped_Batch_Downloader {
+    meta:
+        description = "Detects dropped .bat downloader with PowerShell download cradle"
+        author      = "Analyst"
+        date        = "2024-01-01"
+    strings:
+        $cmd1 = "powershell" nocase
+        $cmd2 = "DownloadString" nocase
+        $cmd3 = "IEX" nocase
+        $url  = /https?:\/\/[0-9]{1,3}\.[0-9]{1,3}/ nocase
+    condition:
+        filesize &lt; 50KB and 3 of them
+}
+
+# Run YARA against a directory
+yara -r rules/ /path/to/samples/</code></pre>
+      </div>
+
+      <div class="content-block">
+        <h3>Key Analysis Skills for Cyber Jobs</h3>
+        <ul class="key-points">
+          <li><strong>IOC extraction and tiering:</strong> Distinguish high-confidence IOCs (unique dropped filenames, C2 IPs) from weak ones (common strings). Map IOCs to ATT&amp;CK techniques before writing detections.</li>
+          <li><strong>Anti-analysis technique recognition:</strong> Packing, obfuscation, sleep calls, sandbox detection (checking CPU cores, username, disk size). Flag these in reports so DFIR knows to dig deeper.</li>
+          <li><strong>Behavioral baseline comparison:</strong> A process spawning cmd.exe from Word → malicious. Use process-level baselining (normal parent-child trees) to identify anomalies quickly.</li>
+          <li><strong>Reporting for operations:</strong> Malware analysis reports need: hash, file type, observed behaviors, network IOCs, host IOCs, ATT&amp;CK mapping, and recommended detections. Not just "it looks bad."</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3>Resources</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://any.run/" target="_blank">Any.run — Interactive Sandbox</a>
+          <a class="resource-link" href="https://github.com/VirusTotal/yara" target="_blank">YARA — Pattern Matching Tool</a>
+          <a class="resource-link" href="https://ghidra-sre.org/" target="_blank">Ghidra — NSA Reverse Engineering Tool</a>
+          <a class="resource-link" href="https://github.com/volatilityfoundation/volatility3" target="_blank">Volatility 3 — Memory Forensics</a>
+          <a class="resource-link" href="https://malware.news/" target="_blank">Malware News — IOC Feed Aggregator</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Digital Forensics & DFIR Section -->
+    <section id="digital-forensics" class="study-section reveal">
+      <h2>17. Digital Forensics &amp; DFIR</h2>
+      <p class="section-intro">Digital forensics and incident response (DFIR) combines evidence preservation, timeline reconstruction, and root cause analysis. DFIR skills are required for security engineering, SOC, and IR roles. The ability to reconstruct what happened, in what order, and with what impact separates junior analysts from senior responders.</p>
+
+      <div class="content-block">
+        <h3>Evidence Collection Priority (Order of Volatility)</h3>
+        <div class="table-wrapper">
+          <table class="study-table">
+            <thead><tr><th>Priority</th><th>Evidence Type</th><th>Collection Method</th><th>Tool</th></tr></thead>
+            <tbody>
+              <tr><td>1 (Most Volatile)</td><td>CPU registers &amp; running processes</td><td>Live system only — collect before shutdown</td><td>EDR, <code>ps aux</code>, <code>netstat -antp</code></td></tr>
+              <tr><td>2</td><td>RAM / memory dump</td><td>winpmem, LiME kernel module, EDR live response</td><td>WinPmem, LiME, Magnet RAM Capture</td></tr>
+              <tr><td>3</td><td>Running network connections</td><td>Live capture before isolation</td><td>Wireshark, <code>ss -antp</code></td></tr>
+              <tr><td>4</td><td>Disk image (logical &amp; physical)</td><td>FTK Imager, dd (write-block device)</td><td>FTK Imager, Autopsy, dc3dd</td></tr>
+              <tr><td>5</td><td>Log files (OS, application, security)</td><td>Copy to write-once destination, verify hash</td><td>rsync, Log Collector agents</td></tr>
+              <tr><td>6 (Least Volatile)</td><td>Remote / cloud logs</td><td>Export from SIEM, CloudTrail, Azure Monitor</td><td>SIEM query, AWS CLI, az CLI</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>DFIR Toolkit — Key Commands</h3>
+        <pre class="code-block"><code># ── Windows live triage (PowerShell) ─────────────────────────────
+# Running processes with full paths
+Get-Process | Select-Object Name, Id, Path | Sort-Object Name | Format-Table -Auto
+
+# Network connections with PIDs
+Get-NetTCPConnection | Where-Object State -eq Established | \
+  Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, OwningProcess | \
+  Sort-Object RemoteAddress | Format-Table -Auto
+
+# Recently modified files in temp dirs (IOC hunting)
+Get-ChildItem -Path "$env:TEMP","$env:APPDATA\Local\Temp" -Recurse -ErrorAction SilentlyContinue | \
+  Where-Object { $_.LastWriteTime -gt (Get-Date).AddHours(-24) } | \
+  Select-Object FullName, LastWriteTime, Length
+
+# ── Disk imaging with dc3dd (with hash verification) ─────────────
+dc3dd if=/dev/sdb hof=/evidence/disk.img \
+  hash=sha256 log=/evidence/disk-hash.log
+
+# Verify image integrity
+sha256sum /evidence/disk.img > /evidence/disk.sha256
+sha256sum -c /evidence/disk.sha256
+
+# ── Volatility 3 — rapid memory triage ────────────────────────────
+# List processes from memory dump
+python3 vol.py -f memory.raw windows.pslist
+
+# Find injected code (process hollowing, shellcode)
+python3 vol.py -f memory.raw windows.malfind
+
+# Network artifacts from memory
+python3 vol.py -f memory.raw windows.netstat
+
+# Extract process memory for a specific PID
+python3 vol.py -f memory.raw windows.dumpfiles --pid 1234</code></pre>
+      </div>
+
+      <div class="content-block">
+        <h3>Chain of Custody &amp; Investigation Discipline</h3>
+        <ul class="key-points">
+          <li><strong>Document before you touch:</strong> Record who collected what evidence, when, with what tools, and the hash before and after. Chain of custody breaks admissibility.</li>
+          <li><strong>Write-block everything:</strong> Never mount a disk image read-write. Use hardware write blockers or mount with <code>-o ro,noexec</code>. Image source media before analysis.</li>
+          <li><strong>Timeline correlation:</strong> Merge host logs, EDR telemetry, authentication logs, and network flows into one timeline. Attackers create artifacts across multiple sources — single-source investigations miss the full story.</li>
+          <li><strong>Scope before you contain:</strong> Understand the full blast radius (all affected systems, data types, lateral movement paths) before pulling the plug on a host. Premature containment destroys evidence.</li>
+          <li><strong>Communicate in impact, not just artifacts:</strong> Stakeholders need: what data was accessed, is the attacker still present, what systems are affected, what business operations are at risk. Not just raw IOCs.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3>Resources</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://github.com/volatilityfoundation/volatility3" target="_blank">Volatility 3 Framework</a>
+          <a class="resource-link" href="https://www.sans.org/posters/windows-forensics-and-incident-response/" target="_blank">SANS Windows Forensics Poster</a>
+          <a class="resource-link" href="https://ericzimmerman.github.io/" target="_blank">Eric Zimmerman Tools — Windows Forensics</a>
+          <a class="resource-link" href="https://github.com/log2timeline/plaso" target="_blank">Plaso / log2timeline — Timeline Analysis</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRC & Compliance Section -->
+    <section id="grc-compliance" class="study-section reveal">
+      <h2>18. Governance, Risk &amp; Compliance (GRC)</h2>
+      <p class="section-intro">GRC is where security policy, risk quantification, and regulatory requirements converge into operational programs. Analysts and engineers who understand frameworks like NIST CSF 2.0, SOC 2, ISO 27001, and PCI DSS can bridge the gap between technical controls and business accountability — a high-value skill for any senior role.</p>
+
+      <div class="content-block">
+        <h3>Framework Comparison</h3>
+        <div class="table-wrapper">
+          <table class="study-table">
+            <thead><tr><th>Framework</th><th>Scope</th><th>Structure</th><th>Common For</th></tr></thead>
+            <tbody>
+              <tr><td>NIST CSF 2.0</td><td>Voluntary, all sectors</td><td>6 Functions: Govern, Identify, Protect, Detect, Respond, Recover</td><td>Enterprise security programs, vendor assessments, executive reporting</td></tr>
+              <tr><td>ISO 27001</td><td>Certifiable ISMS standard</td><td>Clauses 4–10 + Annex A controls (93 controls)</td><td>Enterprise certification, EU/UK contracts, supply chain assurance</td></tr>
+              <tr><td>SOC 2 Type II</td><td>Service organizations (SaaS)</td><td>5 Trust Services Criteria: Security, Availability, Confidentiality, Processing Integrity, Privacy</td><td>B2B SaaS, cloud service providers, enterprise sales</td></tr>
+              <tr><td>PCI DSS v4.0</td><td>Payment card data</td><td>12 Requirements, 250+ sub-requirements</td><td>Any org processing card payments; tested annually by QSA</td></tr>
+              <tr><td>HIPAA</td><td>US healthcare data (PHI)</td><td>Administrative, Physical, Technical Safeguards</td><td>Healthcare orgs, BAs, health tech companies</td></tr>
+              <tr><td>DORA</td><td>EU financial sector</td><td>5 pillars: ICT Risk, Incident Reporting, Testing, 3rd Party, Info Sharing</td><td>EU banks/insurers; operational resilience focus</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>Risk Register &amp; Program Management</h3>
+        <pre class="code-block"><code># ── Risk register entry template (CSV format for Excel/Sheets) ───
+# Fields: Risk ID, Description, Category, Likelihood (1-5), Impact (1-5),
+#         Inherent Risk Score (L×I), Controls, Residual Risk, Owner, Review Date
+
+RISK-001,"Unpatched internet-facing servers exploited via known CVE",Technical,4,5,20,"EDR + monthly patching + vuln scan",8,Security Eng,2024-03-01
+RISK-002,"Privileged user account compromised via phishing",IAM,4,5,20,"MFA enforcement + PAM session recording",6,IAM Team,2024-03-01
+RISK-003,"Third-party vendor data breach exposing customer PII",Third Party,3,4,12,"Vendor security reviews + DPA + contractual controls",6,Legal/Security,2024-06-01
+
+# ── NIST CSF 2.0 Functions mapped to operational actions ─────────
+GOVERN:   Security policy, roles, risk appetite, supply chain governance
+IDENTIFY: Asset inventory, data classification, risk assessment, threat modeling
+PROTECT:  IAM, awareness training, data security, secure config, change mgmt
+DETECT:   Continuous monitoring, anomaly detection, SIEM, threat hunting
+RESPOND:  IR planning, comms, analysis, mitigation, improvement
+RECOVER:  Recovery planning, communications, disaster recovery tests
+
+# ── SOC 2 evidence collection checklist (sample) ─────────────────
+CC6.1 - Logical access controls:   screenshot of MFA policy + user access review results
+CC6.2 - Account provisioning:      HR-to-IT workflow configs + sample access tickets
+CC7.2 - System monitoring:         SIEM alert config export + sample resolved incidents
+CC9.2 - Vendor management:         vendor assessment questionnaires + review sign-offs</code></pre>
+      </div>
+
+      <div class="content-block">
+        <h3>GRC Skill Application in Interviews</h3>
+        <ul class="key-points">
+          <li><strong>Map controls to business outcomes:</strong> Every control should answer "what risk does this reduce?" Auditors and executives want risk language, not just technical descriptions.</li>
+          <li><strong>Understand evidence quality:</strong> Policy documents alone don't pass audits. You need operating effectiveness evidence: logs, ticket exports, approved exceptions, meeting minutes, or screenshots with timestamps.</li>
+          <li><strong>Exception management:</strong> Know how to write a compensating control when a strict requirement can't be met. PCI DSS and ISO 27001 both have formal exception processes with defined fields.</li>
+          <li><strong>Risk quantification basics:</strong> Expected loss = Probability × Impact. Annualized Loss Expectancy (ALE) = Single Loss Expectancy × Annual Rate of Occurrence. FAIR model for quantitative risk.</li>
+          <li><strong>Third-party risk:</strong> Vendor questionnaires (SIG Lite, CAIQ) alone are not assurance. Combine with SOC 2 reports, pen test evidence, and contractual SLAs. Review annually.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3>Resources</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://www.nist.gov/cyberframework" target="_blank">NIST CSF 2.0 Official Site</a>
+          <a class="resource-link" href="https://www.aicpa-cima.com/resources/article/soc-2-overview" target="_blank">AICPA SOC 2 Overview</a>
+          <a class="resource-link" href="https://www.pcisecuritystandards.org/document_library/" target="_blank">PCI DSS v4.0 Document Library</a>
+          <a class="resource-link" href="https://csf.tools/" target="_blank">CSF.tools — NIST Framework Mapping</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Application Security Section -->
+    <section id="application-security" class="study-section reveal">
+      <h2>19. Application Security (AppSec)</h2>
+      <p class="section-intro">Application security integrates security into the software development lifecycle to catch vulnerabilities before they ship. AppSec engineering roles—and any senior security role—require understanding of OWASP Top 10, SAST/DAST tooling, secure code review techniques, and how to build security gates into CI/CD pipelines.</p>
+
+      <div class="content-block">
+        <h3>OWASP Top 10 (2021) — Impact &amp; Detection</h3>
+        <div class="table-wrapper">
+          <table class="study-table">
+            <thead><tr><th>Rank</th><th>Vulnerability</th><th>Root Cause</th><th>How to Detect</th></tr></thead>
+            <tbody>
+              <tr><td>A01</td><td>Broken Access Control</td><td>Missing authz checks, IDOR, privilege escalation</td><td>DAST fuzzing, code review (authz logic), pen test</td></tr>
+              <tr><td>A02</td><td>Cryptographic Failures</td><td>Weak algo, cleartext storage, missing TLS</td><td>SAST, TLS scanner (testssl.sh), dependency audit</td></tr>
+              <tr><td>A03</td><td>Injection (SQL, LDAP, NoSQL)</td><td>Unsanitized user input in interpreter</td><td>SAST pattern matching, DAST fuzz testing</td></tr>
+              <tr><td>A04</td><td>Insecure Design</td><td>Missing threat model, no secure design patterns</td><td>Architecture review, threat modeling sessions</td></tr>
+              <tr><td>A05</td><td>Security Misconfiguration</td><td>Default credentials, debug flags, open cloud storage</td><td>CSPM, configuration scanners, DAST</td></tr>
+              <tr><td>A06</td><td>Vulnerable &amp; Outdated Components</td><td>Unpatched libraries with known CVEs</td><td>SCA tools (Snyk, Dependabot, OWASP DepCheck)</td></tr>
+              <tr><td>A07</td><td>Identification &amp; Authentication Failures</td><td>Weak passwords, missing MFA, broken session mgmt</td><td>Auth flow review, DAST session testing</td></tr>
+              <tr><td>A08</td><td>Software &amp; Data Integrity Failures</td><td>Unsigned artifacts, insecure deserialization</td><td>CI/CD artifact signing, SAST deserialization checks</td></tr>
+              <tr><td>A09</td><td>Security Logging &amp; Monitoring Failures</td><td>Insufficient audit trail</td><td>Log coverage review, SIEM detection testing</td></tr>
+              <tr><td>A10</td><td>Server-Side Request Forgery (SSRF)</td><td>Unvalidated URLs fetched by server</td><td>Code review, DAST SSRF payloads, WAF</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>AppSec Toolchain — SAST, DAST, SCA in CI/CD</h3>
+        <pre class="code-block"><code># ── SAST with Semgrep (open source, fast) ────────────────────────
+# Scan codebase for OWASP patterns
+semgrep --config=p/owasp-top-ten --config=p/python ./src/
+
+# Custom rule: detect hardcoded tokens in Python
+semgrep --pattern 'API_KEY = "..."' --lang python ./
+
+# ── SCA with pip-audit (Python dependency check) ─────────────────
+pip-audit --requirement requirements.txt
+# or with Snyk
+snyk test --file=requirements.txt --severity-threshold=high
+
+# ── DAST with OWASP ZAP (baseline scan) ──────────────────────────
+docker run -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py \
+  -t https://staging.app.corp \
+  -r zap-report.html
+
+# ── GitLab CI security gate example ──────────────────────────────
+# .gitlab-ci.yml snippet
+sast:
+  stage: test
+  image: returntocorp/semgrep
+  script:
+    - semgrep ci --config=p/owasp-top-ten
+  allow_failure: false   # Block merge on high findings
+
+dependency_scan:
+  stage: test
+  script:
+    - pip-audit -r requirements.txt
+  artifacts:
+    reports:
+      dependency_scanning: gl-dependency-scanning-report.json</code></pre>
+      </div>
+
+      <div class="content-block">
+        <h3>Secure Code Review Checklist</h3>
+        <ul class="key-points">
+          <li><strong>Input validation:</strong> All user-controlled input validated server-side, not just client-side. Check for SQL injection (parameterized queries only), command injection (<code>subprocess</code> with list args), and path traversal (<code>../ </code> in file paths).</li>
+          <li><strong>Authentication &amp; session management:</strong> Passwords hashed with bcrypt/Argon2id. Session tokens are cryptographically random (≥128 bits). Sessions invalidated on logout and privilege change.</li>
+          <li><strong>Authorization checks:</strong> Every endpoint checks authorization, not just authentication. Object-level authorization (IDOR checks): verify the requesting user owns the resource being accessed.</li>
+          <li><strong>Secrets management:</strong> No credentials in code, environment variable dumps, or log output. Check for <code>print(password)</code>, logging of authorization headers, or config files committed to git.</li>
+          <li><strong>Error handling:</strong> Generic error messages to users; detailed errors only in server-side logs. Stack traces in HTTP responses are an immediate finding.</li>
+          <li><strong>Security headers:</strong> CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy. Verify they're set in responses with curl or browser DevTools.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3>Resources</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://owasp.org/Top10/" target="_blank">OWASP Top 10 2021</a>
+          <a class="resource-link" href="https://cheatsheetseries.owasp.org/" target="_blank">OWASP Cheat Sheet Series</a>
+          <a class="resource-link" href="https://semgrep.dev/r" target="_blank">Semgrep Rules Registry</a>
+          <a class="resource-link" href="https://portswigger.net/web-security" target="_blank">PortSwigger Web Security Academy (free)</a>
+          <a class="resource-link" href="https://snyk.io/learn/" target="_blank">Snyk Learn — Developer Security Training</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Container & Kubernetes Security Section -->
+    <section id="container-security" class="study-section reveal">
+      <h2>20. Container &amp; Kubernetes Security</h2>
+      <p class="section-intro">Containers and Kubernetes have fundamentally changed deployment architectures—and with them, the attack surface. Container security requires hardening images, enforcing K8s RBAC, writing network policies, scanning for vulnerabilities at build time, and detecting runtime anomalies with tools like Falco. These skills are required for cloud-native and DevSecOps roles.</p>
+
+      <div class="content-block">
+        <h3>Container Security Controls — Docker to Kubernetes</h3>
+        <div class="table-wrapper">
+          <table class="study-table">
+            <thead><tr><th>Layer</th><th>Risk</th><th>Control</th></tr></thead>
+            <tbody>
+              <tr><td>Image build</td><td>Vulnerable packages, secrets in layers, root user</td><td>Multi-stage builds, non-root USER, image scanning (Trivy), no secrets in Dockerfile</td></tr>
+              <tr><td>Registry</td><td>Tampered or outdated images pulled by workloads</td><td>Private registry, image signing (cosign/Notary), digest pinning</td></tr>
+              <tr><td>Pod runtime</td><td>Privilege escalation, host namespace breakout</td><td>Pod Security Admission, securityContext (readOnlyRootFilesystem, nonRoot, drop caps)</td></tr>
+              <tr><td>K8s RBAC</td><td>Over-privileged service accounts, cluster-admin abuse</td><td>Least-privilege Roles/ClusterRoles, no default SA tokens mounted, audit RBAC regularly</td></tr>
+              <tr><td>Network</td><td>Unrestricted pod-to-pod and pod-to-internet traffic</td><td>Network Policies (Calico/Cilium), deny-all default, explicit ingress/egress allowlist</td></tr>
+              <tr><td>Runtime</td><td>Process anomalies, unexpected syscalls, container breakouts</td><td>Falco or Tetragon rules, seccomp profiles, AppArmor, read-only file systems</td></tr>
+              <tr><td>Secrets</td><td>Secrets in env vars or plain ConfigMaps</td><td>External Secrets Operator (Vault, AWS Secrets Manager), encrypted etcd at rest</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>Container Security Commands</h3>
+        <pre class="code-block"><code># ── Scan a Docker image for CVEs with Trivy ──────────────────────
+trivy image --severity HIGH,CRITICAL my-app:latest
+
+# Scan in CI (fail on HIGH or above)
+trivy image --exit-code 1 --severity HIGH,CRITICAL my-app:$CI_COMMIT_SHA
+
+# ── Build a hardened Docker image (Dockerfile best practices) ────
+FROM python:3.12-slim AS builder
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM python:3.12-slim
+RUN groupadd -r appuser &amp;&amp; useradd -r -g appuser appuser
+WORKDIR /app
+COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
+COPY . .
+USER appuser                       # Non-root user
+# No secrets in ENV, no COPY of .env files
+
+# ── Kubernetes security audit with kube-bench ────────────────────
+kubectl apply -f https://raw.githubusercontent.com/aquasecurity/kube-bench/main/job.yaml
+kubectl logs job/kube-bench
+
+# ── Check for privileged pods and host namespace mounts ──────────
+kubectl get pods -A -o json | jq '
+  .items[] | select(.spec.hostPID==true or .spec.hostNetwork==true
+    or (.spec.containers[].securityContext.privileged==true))
+  | {name: .metadata.name, ns: .metadata.namespace}'
+
+# ── Network policy — deny all ingress, allow from specific label ─
+# deny-all-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress
+  namespace: production
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+
+# allow-from-frontend.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-to-api
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: api-server
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: frontend
+      ports:
+        - protocol: TCP
+          port: 8080</code></pre>
+      </div>
+
+      <div class="content-block">
+        <h3>Kubernetes Security Hardening — Key Points</h3>
+        <ul class="key-points">
+          <li><strong>Pod Security Admission:</strong> Replace deprecated PSPs with PSA labels on namespaces (<code>enforce: restricted</code>). Restricted profile blocks privileged pods, hostPath mounts, and non-root violations.</li>
+          <li><strong>RBAC least privilege:</strong> Audit with <code>kubectl auth can-i --list --as=system:serviceaccount:ns:sa</code>. Remove <code>cluster-admin</code> bindings for non-bootstrapping components. Prefer Roles over ClusterRoles.</li>
+          <li><strong>Image provenance:</strong> Pin images by digest (<code>image: repo/app@sha256:abc123</code>). Use OPA/Gatekeeper or Kyverno policies to enforce digest pinning and block <code>:latest</code> tags in production.</li>
+          <li><strong>etcd encryption:</strong> Secrets are base64-encoded at rest by default — not encrypted. Enable EncryptionConfiguration for AES-GCM encryption of Secret objects in etcd.</li>
+          <li><strong>Admission controllers:</strong> OPA Gatekeeper or Kyverno as policy engines. Required checks: no privileged containers, image registry allowlist, resource limits set, non-root enforcement.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3>Resources</h3>
+        <div class="resource-links">
+          <a class="resource-link" href="https://github.com/aquasecurity/trivy" target="_blank">Trivy — Container Vulnerability Scanner</a>
+          <a class="resource-link" href="https://falco.org/" target="_blank">Falco — Runtime Security for Containers</a>
+          <a class="resource-link" href="https://github.com/aquasecurity/kube-bench" target="_blank">kube-bench — CIS Kubernetes Benchmark</a>
+          <a class="resource-link" href="https://kubernetes.io/docs/concepts/security/pod-security-standards/" target="_blank">Kubernetes Pod Security Standards</a>
+          <a class="resource-link" href="https://www.cncf.io/blog/2021/08/05/top-10-kubernetes-security-risks-and-vulnerabilities/" target="_blank">CNCF Top 10 K8s Security Risks</a>
         </div>
       </div>
     </section>
