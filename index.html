@@ -12,8 +12,141 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    body.home-page .site-header {
+      background: linear-gradient(180deg, rgba(3, 12, 20, 0.92), rgba(3, 12, 20, 0.72));
+      border-bottom-color: rgba(110, 168, 213, 0.38);
+    }
+
+    body.home-page .brand {
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      color: #dff3ff;
+    }
+
+    body.home-page .hero {
+      padding-top: 6.1rem;
+    }
+
+    body.home-page .hero-shell {
+      gap: 1.4rem;
+    }
+
+    body.home-page .hero-copy-wrap {
+      padding: 1.55rem;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(106, 255, 188, 0.08), transparent 44%),
+        linear-gradient(165deg, rgba(13, 33, 51, 0.92), rgba(10, 25, 40, 0.8));
+      border-color: rgba(110, 168, 213, 0.42);
+    }
+
+    body.home-page h1 {
+      font-size: clamp(2.2rem, 4.4vw, 4.1rem);
+      max-width: 17ch;
+      margin-bottom: 0.85rem;
+    }
+
+    .hero-subline {
+      margin: 0 0 1rem;
+      font-family: "JetBrains Mono", monospace;
+      color: var(--accent);
+      font-size: 0.84rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-proof-grid {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.55rem;
+    }
+
+    .hero-proof-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(8, 23, 36, 0.74);
+      padding: 0.55rem 0.65rem;
+    }
+
+    .hero-proof-item strong {
+      display: block;
+      font-size: 1rem;
+      color: #d9f3ff;
+      margin-bottom: 0.2rem;
+    }
+
+    .hero-proof-item span {
+      font-size: 0.72rem;
+      color: var(--text-2);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .trust-strip {
+      margin-top: 1.15rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(7, 20, 31, 0.75);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.6rem;
+      padding: 0.75rem 0.85rem;
+    }
+
+    .trust-cell {
+      border-left: 1px solid rgba(110, 168, 213, 0.22);
+      padding-left: 0.6rem;
+    }
+
+    .trust-cell:first-child {
+      border-left: 0;
+      padding-left: 0;
+    }
+
+    .trust-cell .mono {
+      display: block;
+      color: var(--accent-2);
+      font-size: 0.72rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .trust-cell span:last-child {
+      color: var(--text-1);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 900px) {
+      .hero-proof-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .trust-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .trust-cell {
+        border-left: 0;
+        border-top: 1px solid rgba(110, 168, 213, 0.22);
+        padding-left: 0;
+        padding-top: 0.55rem;
+      }
+
+      .trust-cell:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="home-page">
   <div class="bg-grid" aria-hidden="true"></div>
   <header class="site-header">
     <a class="brand" href="#home">CyberSkillForge</a>
@@ -34,6 +167,7 @@
         <div class="hero-copy-wrap">
           <p class="eyebrow">Cybersecurity Education Platform</p>
           <h1>Deep cybersecurity learning: endpoint security, cloud operations, and SOC engineering.</h1>
+          <p class="hero-subline">Operator-grade learning paths for security engineering, detection, and incident response readiness.</p>
           <p class="hero-copy">This site covers endpoint security engineering, cloud security, and SOC operations through practical study sections, hands-on labs, and real-world investigation workflows. Every topic builds genuine operational depth, not surface-level familiarity.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="studies.html">Start Learning (10+ hrs)</a>
@@ -44,6 +178,11 @@
             <span>50+ Labs</span>
             <span>Mastery Focused</span>
           </div>
+          <div class="hero-proof-grid" aria-label="Program proof points">
+            <div class="hero-proof-item"><strong>80+</strong><span>Practice Hours</span></div>
+            <div class="hero-proof-item"><strong>25</strong><span>Documented Labs</span></div>
+            <div class="hero-proof-item"><strong>12</strong><span>Applied Projects</span></div>
+          </div>
         </div>
         <figure class="hero-visual" aria-label="Security dashboard visual">
           <img src="assets/hero-shield.svg" alt="Stylized endpoint security dashboard with trust metrics and detection pipeline" />
@@ -52,6 +191,24 @@
       <div class="status-ticker" aria-live="polite">
         <span class="mono">current_focus:</span>
         <span id="tickerText"></span>
+      </div>
+      <div class="trust-strip" aria-label="Program strengths">
+        <div class="trust-cell">
+          <span class="mono">TRACK_01</span>
+          <span>Endpoint hardening and privilege reduction with measurable control outcomes.</span>
+        </div>
+        <div class="trust-cell">
+          <span class="mono">TRACK_02</span>
+          <span>Cloud and IAM security workflows mapped to real triage and governance tasks.</span>
+        </div>
+        <div class="trust-cell">
+          <span class="mono">TRACK_03</span>
+          <span>SOC detection and investigation depth focused on operational reproducibility.</span>
+        </div>
+        <div class="trust-cell">
+          <span class="mono">TRACK_04</span>
+          <span>Hands-on simulations and labs designed for interview and on-the-job readiness.</span>
+        </div>
       </div>
     </section>
 
