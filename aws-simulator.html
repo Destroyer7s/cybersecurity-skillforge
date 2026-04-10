@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Simulator | CyberSkillForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { min-height: 100vh; }
+    .aws-wrap { max-width: 1280px; margin: 0 auto; padding: 1.2rem; }
+    .aws-head { display: flex; justify-content: space-between; align-items: center; gap: 0.9rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+    .aws-title { margin: 0; font-size: 1.45rem; }
+    .aws-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .aws-link { border: 1px solid var(--line); color: var(--text-1); padding: 0.35rem 0.72rem; border-radius: 999px; text-decoration: none; font-size: 0.8rem; }
+    .aws-link:hover { border-color: var(--accent); color: var(--accent); }
+    .aws-grid { display: grid; grid-template-columns: 290px 1fr 290px; gap: 0.9rem; min-height: 73vh; }
+    .aws-card { border: 1px solid var(--line); background: rgba(3,12,20,0.85); border-radius: 14px; overflow: hidden; }
+    .aws-panel-head { padding: 0.78rem 0.9rem; border-bottom: 1px solid var(--line); font-size: 0.78rem; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.08em; }
+    .aws-list { padding: 0.55rem; display: flex; flex-direction: column; gap: 0.35rem; max-height: 62vh; overflow-y: auto; }
+    .aws-btn { text-align: left; border: 1px solid transparent; background: transparent; color: var(--text-1); padding: 0.6rem; border-radius: 10px; cursor: pointer; font-family: inherit; }
+    .aws-btn:hover { background: rgba(255,255,255,0.04); color: var(--text-0); }
+    .aws-btn.active { border-color: rgba(80,212,255,0.5); color: var(--accent); background: rgba(80,212,255,0.12); }
+    .aws-btn small { display: block; color: var(--text-2); margin-top: 0.2rem; }
+    .aws-progress-wrap { padding: 0.75rem 0.9rem; border-top: 1px solid var(--line); }
+    .aws-progress-bar { height: 6px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; }
+    .aws-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.25s ease; }
+    .aws-progress-label { margin-top: 0.38rem; font-size: 0.75rem; color: var(--text-2); font-family: "JetBrains Mono", monospace; display: flex; justify-content: space-between; }
+    .term { display: flex; flex-direction: column; height: 100%; }
+    .term-top { border-bottom: 1px solid var(--line); padding: 0.55rem 0.8rem; font-family: "JetBrains Mono", monospace; font-size: 0.78rem; color: var(--text-2); display: flex; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; }
+    .term-meta { color: var(--accent-2); }
+    .term-dots { display: inline-flex; gap: 0.35rem; align-items: center; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.22); }
+    .dot.active { background: var(--accent); border-color: var(--accent); }
+    .dot.done { background: var(--accent-2); border-color: var(--accent-2); }
+    .term-out { flex: 1; overflow-y: auto; padding: 0.8rem; font-family: "JetBrains Mono", monospace; font-size: 0.82rem; line-height: 1.5; }
+    .line { margin: 0 0 0.25rem; white-space: pre-wrap; word-break: break-word; }
+    .cmd { color: #d9eefb; }
+    .ok { color: var(--accent-2); }
+    .warn { color: #ffbd2e; }
+    .err { color: var(--danger); }
+    .sys { color: var(--text-2); }
+    .hint { color: #c084fc; }
+    .term-in { border-top: 1px solid var(--line); padding: 0.55rem 0.8rem; display: flex; gap: 0.5rem; align-items: center; }
+    .prompt { font-family: "JetBrains Mono", monospace; color: var(--accent); white-space: nowrap; }
+    #awsInput { flex: 1; background: transparent; border: none; outline: none; color: var(--text-0); font-family: "JetBrains Mono", monospace; font-size: 0.82rem; }
+    .aws-right { display: flex; flex-direction: column; }
+    .aws-box { padding: 0.8rem; border-bottom: 1px solid var(--line); }
+    .aws-box h3 { margin: 0 0 0.45rem; font-size: 0.76rem; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.08em; }
+    .aws-box p { margin: 0; font-size: 0.83rem; color: var(--text-1); line-height: 1.5; }
+    .aws-stage { font-size: 0.86rem; color: var(--text-0); line-height: 1.55; }
+    .aws-chip-row { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+    .chip { font-size: 0.74rem; font-family: "JetBrains Mono", monospace; border-radius: 999px; padding: 0.22rem 0.58rem; border: 1px solid var(--line); color: var(--text-2); }
+    .chip.good { border-color: rgba(106,255,188,0.4); color: var(--accent-2); background: rgba(106,255,188,0.12); }
+    .chip.info { border-color: rgba(80,212,255,0.4); color: var(--accent); background: rgba(80,212,255,0.12); }
+    .aws-actions { display: flex; flex-direction: column; gap: 0.45rem; }
+    .aws-action { border: 1px solid var(--line); color: var(--text-1); background: transparent; border-radius: 8px; padding: 0.45rem 0.7rem; font-family: inherit; font-size: 0.8rem; cursor: pointer; text-align: left; }
+    .aws-action:hover { border-color: var(--accent); color: var(--accent); }
+    .aws-action.primary { border-color: rgba(80,212,255,0.4); color: var(--accent); background: rgba(80,212,255,0.1); }
+    .aws-ref { flex: 1; overflow-y: auto; }
+    .aws-ref-item { padding: 0.45rem 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .aws-ref-cmd { font-family: "JetBrains Mono", monospace; font-size: 0.76rem; color: var(--accent); }
+    .aws-ref-desc { font-size: 0.77rem; color: var(--text-2); margin-top: 0.1rem; }
+    @media (max-width: 1080px) { .aws-grid { grid-template-columns: 1fr; } .aws-list { max-height: 230px; } .aws-right { max-height: 420px; } }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html">CyberSkillForge</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">Menu</button>
+    <nav id="mainNav" class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="studies.html">Studies</a>
+      <a href="labs.html">Labs</a>
+      <a href="simulator.html">Simulator</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="aws-wrap">
+    <div class="aws-head">
+      <h1 class="aws-title">AWS Security Simulator</h1>
+      <div class="aws-links">
+        <a class="aws-link" href="simulator.html">General Simulator</a>
+        <a class="aws-link" href="paloalto-simulator.html">Palo Alto Simulator</a>
+      </div>
+    </div>
+
+    <div class="aws-grid">
+      <section class="aws-card">
+        <div class="aws-panel-head">AWS Scenarios</div>
+        <div id="awsScenarioList" class="aws-list"></div>
+        <div class="aws-progress-wrap">
+          <div class="aws-progress-bar"><div id="awsOverallFill" class="aws-progress-fill"></div></div>
+          <div class="aws-progress-label"><span id="awsOverallLabel">0 / 8 complete</span><span id="awsOverallPct">0%</span></div>
+        </div>
+      </section>
+
+      <section class="aws-card term">
+        <div class="term-top">
+          <span id="awsTitle">No scenario selected</span>
+          <span class="term-meta" id="awsStats">0 accepted | score 0</span>
+          <span class="term-dots" id="awsDots"></span>
+        </div>
+        <div id="awsOutput" class="term-out"></div>
+        <div class="term-in">
+          <span class="prompt" id="awsPrompt">analyst@aws:~$</span>
+          <input id="awsInput" type="text" placeholder="Enter AWS CLI, shell, or synthetic commands" spellcheck="false" />
+        </div>
+      </section>
+
+      <aside class="aws-card aws-right">
+        <div class="aws-box">
+          <h3>Objective</h3>
+          <p id="awsObjective">Select a scenario to start.</p>
+        </div>
+        <div class="aws-box">
+          <h3>Current Stage</h3>
+          <p id="awsStageInstruction" class="aws-stage">No active stage</p>
+          <div class="aws-chip-row" style="margin-top:0.55rem;">
+            <span class="chip info" id="awsStageCounter">Stage 0 / 0</span>
+            <span class="chip good" id="awsHintState">Hint: off</span>
+          </div>
+        </div>
+        <div class="aws-box aws-actions">
+          <button id="awsHintBtn" class="aws-action primary" type="button">Reveal Hint</button>
+          <button id="awsRevealBtn" class="aws-action" type="button">Reveal Exact Command Pattern</button>
+          <button id="awsSkipBtn" class="aws-action" type="button">Skip Stage</button>
+          <button id="awsResetBtn" class="aws-action" type="button">Reset Scenario</button>
+          <button id="awsNextBtn" class="aws-action" type="button">Next Scenario</button>
+        </div>
+        <div class="aws-panel-head">Quick Reference</div>
+        <div id="awsRef" class="aws-ref"></div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="aws-simulator.js"></script>
+</body>
+</html>

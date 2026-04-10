@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palo Alto Simulator | CyberSkillForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body { min-height: 100vh; }
+    .pa-wrap { max-width: 1280px; margin: 0 auto; padding: 1.2rem; }
+    .pa-head { display: flex; justify-content: space-between; align-items: center; gap: 0.9rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
+    .pa-title { margin: 0; font-size: 1.45rem; }
+    .pa-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .pa-link { border: 1px solid var(--line); color: var(--text-1); padding: 0.35rem 0.72rem; border-radius: 999px; text-decoration: none; font-size: 0.8rem; }
+    .pa-link:hover { border-color: var(--accent); color: var(--accent); }
+    .pa-grid { display: grid; grid-template-columns: 290px 1fr 290px; gap: 0.9rem; min-height: 73vh; }
+    .pa-card { border: 1px solid var(--line); background: rgba(3,12,20,0.85); border-radius: 14px; overflow: hidden; }
+    .pa-panel-head { padding: 0.78rem 0.9rem; border-bottom: 1px solid var(--line); font-size: 0.78rem; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.08em; }
+    .pa-list { padding: 0.55rem; display: flex; flex-direction: column; gap: 0.35rem; max-height: 62vh; overflow-y: auto; }
+    .pa-btn { text-align: left; border: 1px solid transparent; background: transparent; color: var(--text-1); padding: 0.6rem; border-radius: 10px; cursor: pointer; font-family: inherit; }
+    .pa-btn:hover { background: rgba(255,255,255,0.04); color: var(--text-0); }
+    .pa-btn.active { border-color: rgba(80,212,255,0.5); color: var(--accent); background: rgba(80,212,255,0.12); }
+    .pa-btn small { display: block; color: var(--text-2); margin-top: 0.2rem; }
+    .pa-progress-wrap { padding: 0.75rem 0.9rem; border-top: 1px solid var(--line); }
+    .pa-progress-bar { height: 6px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; }
+    .pa-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.25s ease; }
+    .pa-progress-label { margin-top: 0.38rem; font-size: 0.75rem; color: var(--text-2); font-family: "JetBrains Mono", monospace; display: flex; justify-content: space-between; }
+    .term { display: flex; flex-direction: column; height: 100%; }
+    .term-top { border-bottom: 1px solid var(--line); padding: 0.55rem 0.8rem; font-family: "JetBrains Mono", monospace; font-size: 0.78rem; color: var(--text-2); display: flex; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; }
+    .term-meta { color: var(--accent-2); }
+    .term-dots { display: inline-flex; gap: 0.35rem; align-items: center; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.22); }
+    .dot.active { background: var(--accent); border-color: var(--accent); }
+    .dot.done { background: var(--accent-2); border-color: var(--accent-2); }
+    .term-out { flex: 1; overflow-y: auto; padding: 0.8rem; font-family: "JetBrains Mono", monospace; font-size: 0.82rem; line-height: 1.5; }
+    .line { margin: 0 0 0.25rem; white-space: pre-wrap; word-break: break-word; }
+    .cmd { color: #d9eefb; }
+    .ok { color: var(--accent-2); }
+    .warn { color: #ffbd2e; }
+    .err { color: var(--danger); }
+    .sys { color: var(--text-2); }
+    .hint { color: #c084fc; }
+    .term-in { border-top: 1px solid var(--line); padding: 0.55rem 0.8rem; display: flex; gap: 0.5rem; align-items: center; }
+    .prompt { font-family: "JetBrains Mono", monospace; color: var(--accent); white-space: nowrap; }
+    #paInput { flex: 1; background: transparent; border: none; outline: none; color: var(--text-0); font-family: "JetBrains Mono", monospace; font-size: 0.82rem; }
+    .pa-right { display: flex; flex-direction: column; }
+    .pa-box { padding: 0.8rem; border-bottom: 1px solid var(--line); }
+    .pa-box h3 { margin: 0 0 0.45rem; font-size: 0.76rem; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.08em; }
+    .pa-box p { margin: 0; font-size: 0.83rem; color: var(--text-1); line-height: 1.5; }
+    .pa-stage { font-size: 0.86rem; color: var(--text-0); line-height: 1.55; }
+    .pa-chip-row { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+    .chip { font-size: 0.74rem; font-family: "JetBrains Mono", monospace; border-radius: 999px; padding: 0.22rem 0.58rem; border: 1px solid var(--line); color: var(--text-2); }
+    .chip.good { border-color: rgba(106,255,188,0.4); color: var(--accent-2); background: rgba(106,255,188,0.12); }
+    .chip.info { border-color: rgba(80,212,255,0.4); color: var(--accent); background: rgba(80,212,255,0.12); }
+    .pa-actions { display: flex; flex-direction: column; gap: 0.45rem; }
+    .pa-action { border: 1px solid var(--line); color: var(--text-1); background: transparent; border-radius: 8px; padding: 0.45rem 0.7rem; font-family: inherit; font-size: 0.8rem; cursor: pointer; text-align: left; }
+    .pa-action:hover { border-color: var(--accent); color: var(--accent); }
+    .pa-action.primary { border-color: rgba(80,212,255,0.4); color: var(--accent); background: rgba(80,212,255,0.1); }
+    .pa-ref { flex: 1; overflow-y: auto; }
+    .pa-ref-item { padding: 0.45rem 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .pa-ref-cmd { font-family: "JetBrains Mono", monospace; font-size: 0.76rem; color: var(--accent); }
+    .pa-ref-desc { font-size: 0.77rem; color: var(--text-2); margin-top: 0.1rem; }
+    @media (max-width: 1080px) { .pa-grid { grid-template-columns: 1fr; } .pa-list { max-height: 230px; } .pa-right { max-height: 420px; } }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html">CyberSkillForge</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">Menu</button>
+    <nav id="mainNav" class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="studies.html">Studies</a>
+      <a href="labs.html">Labs</a>
+      <a href="simulator.html">Simulator</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="pa-wrap">
+    <div class="pa-head">
+      <h1 class="pa-title">Palo Alto Firewall Simulator</h1>
+      <div class="pa-links">
+        <a class="pa-link" href="simulator.html">General Simulator</a>
+        <a class="pa-link" href="aws-simulator.html">AWS Simulator</a>
+      </div>
+    </div>
+
+    <div class="pa-grid">
+      <section class="pa-card">
+        <div class="pa-panel-head">PAN-OS Scenarios</div>
+        <div id="paScenarioList" class="pa-list"></div>
+        <div class="pa-progress-wrap">
+          <div class="pa-progress-bar"><div id="paOverallFill" class="pa-progress-fill"></div></div>
+          <div class="pa-progress-label"><span id="paOverallLabel">0 / 8 complete</span><span id="paOverallPct">0%</span></div>
+        </div>
+      </section>
+
+      <section class="pa-card term">
+        <div class="term-top">
+          <span id="paTitle">No scenario selected</span>
+          <span class="term-meta" id="paStats">0 accepted | score 0</span>
+          <span class="term-dots" id="paDots"></span>
+        </div>
+        <div id="paOutput" class="term-out"></div>
+        <div class="term-in">
+          <span class="prompt" id="paPrompt">admin@PA-VM&gt;</span>
+          <input id="paInput" type="text" placeholder="Enter PAN-OS, shell, or synthetic commands" spellcheck="false" />
+        </div>
+      </section>
+
+      <aside class="pa-card pa-right">
+        <div class="pa-box">
+          <h3>Objective</h3>
+          <p id="paObjective">Select a scenario to start.</p>
+        </div>
+        <div class="pa-box">
+          <h3>Current Stage</h3>
+          <p id="paStageInstruction" class="pa-stage">No active stage</p>
+          <div class="pa-chip-row" style="margin-top:0.55rem;">
+            <span class="chip info" id="paStageCounter">Stage 0 / 0</span>
+            <span class="chip good" id="paHintState">Hint: off</span>
+          </div>
+        </div>
+        <div class="pa-box pa-actions">
+          <button id="paHintBtn" class="pa-action primary" type="button">Reveal Hint</button>
+          <button id="paRevealBtn" class="pa-action" type="button">Reveal Exact Command Pattern</button>
+          <button id="paSkipBtn" class="pa-action" type="button">Skip Stage</button>
+          <button id="paResetBtn" class="pa-action" type="button">Reset Scenario</button>
+          <button id="paNextBtn" class="pa-action" type="button">Next Scenario</button>
+        </div>
+        <div class="pa-panel-head">Quick Reference</div>
+        <div id="paRef" class="pa-ref"></div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="paloalto-simulator.js"></script>
+</body>
+</html>
