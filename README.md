@@ -1,119 +1,311 @@
 # CyberSkillForge
 
-CyberSkillForge is a polished, single-page cybersecurity education and portfolio website designed for GitHub hosting and targeted at Advanced Endpoint Security Engineer roles.
+CyberSkillForge is an interactive cybersecurity learning and simulation platform built as a static web application. It combines structured study content, hands-on labs, and advanced terminal-style simulators into a portfolio-ready training experience.
 
-## What this project demonstrates
+## Recruiter Snapshot
 
-- Intentional UI/UX design with custom styling, gradients, and animated reveals
-- Endpoint-security-focused content architecture for learning and employer evaluation
-- Full required-skills matrix with explicit ways to learn and prove each skill area
-- Interactive JavaScript components:
-  - rotating mission ticker
-  - learning pathway filters
-  - command lab simulator
-  - self-scoring quiz
-- Fully static deployment (no backend), ideal for GitHub Pages
+CyberSkillForge is designed to demonstrate practical security engineering capability, not just coursework completion.
 
-## Required skills covered in this site
+- Role alignment: SOC analyst, detection engineer, cloud security engineer, security automation engineer
+- Evidence style: hands-on labs, staged simulations, measurable progress signals, reproducible workflows
+- Technical depth: web app security, endpoint security, cloud operations, SIEM-driven triage, threat modeling
+- Delivery model: static architecture with fast deployment and no backend dependencies
+- Portfolio value: interview-ready artifacts, scenario-driven reasoning, and operationally grounded training
+
+Quick links:
+
+- Live site: https://destroyer7s.github.io/cybersecurity-skillforge/
+- Main study index: studies.html
+- Labs catalog: labs.html
+- Simulator hub: simulator.html
+
+## Live Site
+
+Primary live page:
+
+- https://destroyer7s.github.io/cybersecurity-skillforge/
+
+If you fork this repo and deploy via GitHub Pages, your URL will be:
+
+- https://<your-username>.github.io/cybersecurity-skillforge/
+
+## Core Capabilities
+
+- Production-style front-end experience with responsive design and strong visual hierarchy
+- Deep study track across major cybersecurity domains
+- 50+ practical labs with clear objectives, success criteria, and advanced challenges
+- High-interaction simulator suite:
+  - General cybersecurity simulator
+  - Palo Alto simulator
+  - AWS simulator
+  - Web Security Deep Simulator
+- Large command-space simulation logic (including synthetic command roots)
+- Persistent learner progress and scoring via browser localStorage
+
+## Simulator Suite
+
+### 1) General Simulator
+
+File entry:
+
+- simulator.html
+
+Purpose:
+
+- Broad command and scenario simulation across topics
+- High command variation and parser breadth
+- Skill progression and scoring loops
+
+### 2) Palo Alto Simulator
+
+File entry:
+
+- paloalto-simulator.html
+
+Purpose:
+
+- Platform-oriented workflows and staged security operations drills
+- Scenario progression with command validation and guided hints
+
+### 3) AWS Simulator
+
+File entry:
+
+- aws-simulator.html
+
+Purpose:
+
+- Cloud security simulation with realistic operational workflows
+- Stage-based investigations and mitigation flow
+
+### 4) Web Security Deep Simulator
+
+File entry:
+
+- web-simulator.html
+
+Purpose:
+
+- 12 scenario campaign with multi-stage objectives
+- Attack-chain visualization, activity timeline, achievements, and report export
+- Keyboard shortcuts, command suggestions, and after-action reporting
+
+## Learning Content
+
+### Study Track
+
+File entry:
+
+- studies.html
+
+Coverage includes:
 
 - Endpoint Security
 - Network Security
 - Penetration Testing
 - Security Architecture Design
 - Security Automation
-- Security Information
-- Security Information and Event Management (SIEM)
-- Security Operations
-- Threat Modeling
+- Security Information and Data Engineering
+- SIEM and Detection Engineering
+- Security Operations and Incident Response
+- Threat Modeling and Risk Analysis
 - Vulnerability Management
 
-Each skill area includes:
+### Labs Track
 
-- A practical learning path (what to study and practice)
-- A portfolio proof path (what artifacts and metrics to publish)
+File entry:
 
-## Project structure
+- labs.html
 
-- `index.html` - homepage with role alignment, qualifications strategy, deep-dive skills matrix, and CTAs
-- `studies.html` - 10+ hours of comprehensive study material covering all 10 required skills
-  - Endpoint Security Fundamentals
-  - Network Security & Segmentation (zero trust, defense-in-depth)
-  - Penetration Testing & Assessment Methodology
-  - Security Architecture Design (STRIDE, trust boundaries, ADRs)
-  - Security Automation & DevSecOps (CI/CD, IaC, Python automation)
-  - Security Information & Data Engineering (log normalization, telemetry quality)
-  - SIEM & Detection Engineering (ATT&CK-mapped rules, tuning)
-  - Security Operations & Incident Response (IR lifecycle, runbooks)
-  - Threat Modeling & Risk Analysis (attack trees, abuse cases)
-  - Vulnerability Management & Patch Operations (CVSS, SLA enforcement)
-  - Each section includes diagrams (SVG), code examples, and key references
-- `labs.html` - 50+ hands-on labs across all 10 skill areas:
-  - 5 Endpoint Security labs (hardening, FDE, USB controls, patch automation, EDR)
-  - 5 Network Security labs (firewall, segmentation, zero trust VPN, DNS filtering, packet analysis)
-  - 5 Penetration Testing labs (scoped assessments, AD exploitation, web app security, phishing, threat simulation)
-  - 5 Architecture Design labs (device lifecycle, IAM, zero trust design, threat models, IR architecture)
-  - 5 Security Automation labs (endpoint checks, CI/CD pipeline, IaC scanning, threat simulation, drift detection)
-  - 5 Data Engineering labs (log normalization, enrichment, quality benchmarking, forensics, dashboards)
-  - 5 SIEM labs (detection rules, response automation, alert tuning, hunting, coverage testing)
-  - 5 Security Operations labs (incident runbooks, tabletop exercises, evidence collection, post-mortems, metrics)
-  - 5 Threat Modeling labs (STRIDE analysis, attack trees, abuse cases, control validation, supply chain risk)
-  - 5 Vulnerability Management labs (scanning, CVSS scoring, patch deployment, false positive tuning, compliance)
-  - Each lab includes time estimate, step-by-step instructions, success criteria, and advanced challenges
-- `styles.css` - visual system, responsive layout, motion, and components
-- `script.js` - interaction logic for routing, labs, filters, quiz, and animations
+Coverage includes:
 
-## Run locally
+- 50+ labs distributed across all major skill areas
+- Time estimates, execution steps, success criteria, advanced challenges
 
-From this folder, start any static server. Example with Python:
+## Project Structure
+
+- index.html: Landing page and primary navigation hub
+- studies.html: Long-form curriculum and deep-dive references
+- labs.html: Hands-on lab catalog and practical exercises
+- simulator.html: General simulator hub and command simulation experience
+- paloalto-simulator.html: Palo Alto focused simulator UI
+- paloalto-simulator.js: Palo Alto simulator engine
+- aws-simulator.html: AWS focused simulator UI
+- aws-simulator.js: AWS simulator engine
+- web-simulator.html: Web security simulator UI
+- web-simulator.js: Web security simulator engine
+- script.js: Shared site interactions and study/lab behavior
+- styles.css: Visual design system and responsive styling
+
+## Tech Stack
+
+- HTML5
+- CSS3
+- Vanilla JavaScript (ES6+)
+- Browser localStorage for persistent client-side state
+- Static hosting via GitHub Pages
+
+## Local Development
+
+Run from the project root with any static file server.
+
+Example using Python:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Then open http://localhost:8080
+Open:
 
-## Deploy to GitHub Pages
+- http://localhost:8080
 
-1. Create a new GitHub repository (example: `cyberskillforge-portfolio`).
-2. Push this folder to the repository root.
-3. In GitHub, open Settings -> Pages.
-4. Under Build and deployment, select:
+## Deployment (GitHub Pages)
+
+1. Push repository to GitHub.
+2. Open repository Settings -> Pages.
+3. Under Build and deployment:
    - Source: Deploy from a branch
-   - Branch: `main` (or `master`) and `/ (root)`
-5. Save and wait for deployment.
-6. Your site will be available at `https://<your-username>.github.io/<repo-name>/`.
+   - Branch: main (root)
+4. Save and wait for deployment completion.
+5. Access your live URL.
 
-## How to use this site
+## Data and Persistence
 
-1. **Study Phase** (10+ hours)
-   - Review `studies.html` for each required skill area
-   - Read references provided
-   - Take notes on key concepts
-   - Research certifications (AZ-500, SC-300 recommended)
+- The app is fully client-side.
+- Progress, scores, and simulator state are stored in browser localStorage.
+- No backend services are required for normal usage.
 
-2. **Lab Phase** (50+ hours)
-   - Complete labs from `labs.html` in order of difficulty
-   - Document your work (screenshots, configs, reports)
-   - Push lab evidence to GitHub for portfolio
-   - Build real proof artifacts: scripts, tool configs, analysis reports
+## Recommended Browser Support
 
-3. **Portfolio Building**
-   - Create GitHub repos for each project
-   - Link to your best lab work from portfolio cards
-   - Add write-ups and lessons learned
-   - Track metrics: MTTR improvements, CVE coverage, automation ROI
+- Chrome (latest)
+- Edge (latest)
+- Firefox (latest)
+- Safari (latest)
 
-4. **Interview Preparation**
-   - Be able to explain each skill at STAR format (Situation, Task, Action, Result)
-   - Reference your lab work and improvements
-   - Show quantified impact (e.g., "reduced MTTR from 30min to 10min")
-   - Practice explaining your architecture decisions
+## Customization Guide
 
-## Customization checklist for job applications
+Common edits before sharing publicly:
 
-- Replace placeholder email in `index.html`
-- Add links to your LinkedIn, GitHub profile, resume, and portfolio repos
-- Link lab evidence and project repos from portfolio cards
-- Add real project screenshots and measurable impact statements
-- Keep the site updated as you finish new labs and certifications
-- Create a `/blog/` subdirectory with write-ups of major projects
+1. Update contact details and profile links in index.html.
+2. Replace placeholder portfolio references with your own project artifacts.
+3. Add screenshots or evidence links for completed labs.
+4. Tune simulator scenarios and scoring logic for your preferred difficulty.
+5. Update branding text and metadata in page headers.
+
+## Suggested Portfolio Workflow
+
+1. Complete a study module in studies.html.
+2. Execute matching labs in labs.html.
+3. Run related simulator scenarios to demonstrate decision-making.
+4. Publish artifacts (reports, scripts, screenshots, metrics) in GitHub repos.
+5. Link those artifacts back into this site.
+
+## Contributing Standards
+
+This repository is currently maintained as a portfolio-grade project. If you collaborate, use the standards below to keep quality consistent.
+
+### Branch Naming
+
+Use one of these formats:
+
+- feature/<short-description>
+- fix/<short-description>
+- docs/<short-description>
+- refactor/<short-description>
+
+Examples:
+
+- feature/web-sim-achievements
+- fix/aws-sim-stage-validation
+- docs/readme-professionalization
+
+### Commit Message Format
+
+Use concise, intention-first commits:
+
+- feat: add after action report drawer for web simulator
+- fix: correct stage progression reset on scenario swap
+- docs: add recruiter snapshot and live page links
+- style: refine simulator panel spacing on mobile
+
+### Pull Request Checklist
+
+Before opening a PR, verify:
+
+1. Feature behavior is validated manually in desktop and mobile layouts.
+2. No navigation regressions were introduced across index, studies, labs, and simulator pages.
+3. Console is free of runtime errors in edited flows.
+4. README or documentation is updated when behavior changes.
+5. Screenshots or short notes are added for major UI changes.
+
+## Release and Changelog Workflow
+
+Use lightweight semantic versioning for portfolio releases:
+
+- MAJOR: breaking navigation/content changes or large rewrites
+- MINOR: new simulator features, new labs, major UX additions
+- PATCH: bug fixes, copy updates, styling corrections
+
+Recommended tags:
+
+- v1.0.0 initial stable portfolio launch
+- v1.1.0 simulator feature expansion
+- v1.1.1 regression and polish fixes
+
+### Changelog Template
+
+Create or update CHANGELOG.md using this structure:
+
+```md
+# Changelog
+
+## [Unreleased]
+
+### Added
+-
+
+### Changed
+-
+
+### Fixed
+-
+
+## [1.1.0] - YYYY-MM-DD
+
+### Added
+- Web Security Deep Simulator with scenario timeline and achievements.
+
+### Changed
+- Improved simulator hub navigation and cross-links.
+
+### Fixed
+- Stage reset edge cases in specialized simulators.
+```
+
+If publishing frequently, keep an "Unreleased" section and roll it into a version section at release time.
+
+## Troubleshooting
+
+### Site changes not visible on GitHub Pages
+
+- Confirm commits are pushed to main.
+- Check Pages deployment status under repository Actions/Pages.
+- Hard refresh browser cache.
+
+### Simulator progress reset unexpectedly
+
+- Verify localStorage is enabled in browser settings.
+- Avoid private/incognito mode if persistence is required.
+
+### Navigation or layout issues on mobile
+
+- Confirm responsive CSS from styles.css is loaded.
+- Verify no stale cached files are overriding current assets.
+
+## License
+
+Add your preferred license here (for example, MIT) if you intend public reuse.
+
+## Maintainer
+
+- GitHub: https://github.com/Destroyer7s

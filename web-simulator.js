@@ -233,6 +233,7 @@
     objective: document.getElementById("webObjective"),
     stageText: document.getElementById("webStageText"),
     stageCounter: document.getElementById("webStageCounter"),
+    attackChain: document.getElementById("webAttackChain"),
     hintState: document.getElementById("webHintState"),
     hintBtn: document.getElementById("webHintBtn"),
     revealBtn: document.getElementById("webRevealBtn"),
@@ -241,9 +242,14 @@
     nextBtn: document.getElementById("webNextBtn"),
     suggestBtn: document.getElementById("webSuggestBtn"),
     exportBtn: document.getElementById("webExportBtn"),
+    aarBtn: document.getElementById("webAarBtn"),
     achievements: document.getElementById("webAchievements"),
     achSummary: document.getElementById("webAchSummary"),
     timeline: document.getElementById("webTimeline"),
+    drawer: document.getElementById("webDrawer"),
+    drawerBody: document.getElementById("webDrawerBody"),
+    drawerClose: document.getElementById("webDrawerClose"),
+    toastWrap: document.getElementById("webToastWrap"),
     modal: document.getElementById("webModal"),
     modalBody: document.getElementById("webModalBody"),
     modalClose: document.getElementById("webModalClose"),
@@ -394,6 +400,9 @@
     const done = Object.keys(state.completed).length;
     const pct = total ? Math.round((done / total) * 100) : 0;
     ui.overallFill.style.width = pct + "%";
+    ui.overallFill.classList.remove("pulse");
+    void ui.overallFill.offsetWidth;
+    ui.overallFill.classList.add("pulse");
     ui.overallLabel.textContent = done + " / " + total + " complete";
     ui.overallPct.textContent = pct + "%";
   }
@@ -443,6 +452,7 @@
         state.unlocked[achievement.key] = true;
         line("ok", "Achievement unlocked: " + achievement.label);
         pushEvent("Achievement: " + achievement.label);
+        showToast("Achievement", achievement.label);
       }
     }
     renderAchievements();
@@ -471,6 +481,7 @@
       state.events = state.events.slice(-120);
     }
     renderTimeline();
+    renderAar();
   }
 
   function renderDots(total, index) {
@@ -487,6 +498,51 @@
     }
   }
 
+  function renderAttackChain() {
+    if (!ui.attackChain) {
+      return;
+    }
+    const scenario = getScenario();
+    const stages = ["detect", "triage", "contain", "remediate", "verify"];
+    if (!scenario) {
+      ui.attackChain.innerHTML = stages.map((label) => '<div class="chain-node">' + label + '<span>pending</span></div>').join("");
+      return;
+    }
+    const total = scenario.stages.length;
+    const doneIndex = Math.min(state.stageIndex, total);
+    ui.attackChain.innerHTML = stages.map((label, idx) => {
+      const mapped = Math.floor((idx / stages.length) * total);
+      let klass = "";
+      let status = "pending";
+      if (mapped < doneIndex) {
+        klass = " done";
+        status = "done";
+      } else if (mapped === doneIndex && doneIndex < total) {
+        klass = " on";
+        status = "active";
+      }
+      return '<div class="chain-node' + klass + '">' + label + '<span>' + status + '</span></div>';
+    }).join("");
+  }
+
+  function showToast(title, message) {
+    if (!ui.toastWrap) {
+      return;
+    }
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.innerHTML = "<strong>" + escapeHtml(title) + "</strong>" + escapeHtml(message);
+    ui.toastWrap.appendChild(toast);
+    while (ui.toastWrap.children.length > 4) {
+      ui.toastWrap.removeChild(ui.toastWrap.firstChild);
+    }
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, 2600);
+  }
+
   function renderScenarioState(announce) {
     const scenario = getScenario();
     if (!scenario) {
@@ -501,6 +557,7 @@
       ui.dots.innerHTML = "";
       state.scenarioStart = Date.now();
       updateTimers();
+      renderAttackChain();
       return;
     }
 
@@ -514,6 +571,7 @@
       ui.stageText.textContent = "Scenario complete";
       ui.stageCounter.textContent = "Stage " + scenario.stages.length + " / " + scenario.stages.length;
       renderDots(scenario.stages.length, scenario.stages.length);
+      renderAttackChain();
       return;
     }
 
@@ -521,12 +579,14 @@
     ui.stageCounter.textContent = "Stage " + (state.stageIndex + 1) + " / " + scenario.stages.length;
     ui.hintState.textContent = "Hint: " + (state.hintUsed ? state.revealUsed ? "reveal" : "used" : "off");
     renderDots(scenario.stages.length, state.stageIndex);
+    renderAttackChain();
 
     if (announce) {
       line("sys", "Scenario loaded: " + scenario.title);
       line("sys", "Objective: " + scenario.objective);
       line("sys", "Stage " + (state.stageIndex + 1) + ": " + stage.instruction);
       pushEvent("Loaded " + scenario.id + " - " + scenario.title);
+      showToast("Scenario Loaded", scenario.id + " ready for execution");
     }
   }
 
@@ -675,6 +735,7 @@
     line("ok", "Stage complete (+" + gained + " pts)");
     line("sys", stage.output);
     pushEvent("Stage " + (state.stageIndex + 1) + " completed (" + gained + " pts)");
+    showToast("Stage Cleared", "+" + gained + " points");
 
     state.stageIndex += 1;
     state.hintUsed = false;
@@ -687,6 +748,7 @@
         state.score += POINTS.complete;
         line("ok", "Scenario completion bonus ( +" + POINTS.complete + " pts )");
         pushEvent("Scenario completed: " + scenario.id);
+        showToast("Scenario Complete", scenario.id + " closed successfully");
       }
       line("ok", "Scenario complete: " + scenario.title);
       openModal("Scenario Complete", "<p>You completed <strong>" + escapeHtml(scenario.title) + "</strong>.</p><p>Continue to the next scenario or export your report for review.</p>", "Next Scenario", nextScenario);
@@ -845,6 +907,44 @@
     pushEvent("Report exported");
   }
 
+  function renderAar() {
+    if (!ui.drawerBody) {
+      return;
+    }
+    const completedCount = Object.keys(state.completed).length;
+    const totalStages = SCENARIOS.reduce((acc, s) => acc + s.stages.length, 0);
+    const completionRate = totalStages ? Math.round((state.completedStages / totalStages) * 100) : 0;
+    const recent = state.events.slice(-12).reverse();
+    ui.drawerBody.innerHTML =
+      '<div class="metric-grid">' +
+      '<div class="metric-card"><div class="metric-label">Score</div><div class="metric-value">' + state.score + '</div></div>' +
+      '<div class="metric-card"><div class="metric-label">Accepted Cmds</div><div class="metric-value">' + state.accepted + '</div></div>' +
+      '<div class="metric-card"><div class="metric-label">Stages Cleared</div><div class="metric-value">' + state.completedStages + '/' + totalStages + '</div></div>' +
+      '<div class="metric-card"><div class="metric-label">Completion Rate</div><div class="metric-value">' + completionRate + '%</div></div>' +
+      '<div class="metric-card"><div class="metric-label">Scenarios</div><div class="metric-value">' + completedCount + '/' + SCENARIOS.length + '</div></div>' +
+      '<div class="metric-card"><div class="metric-label">Best Streak</div><div class="metric-value">' + state.bestStreak + '</div></div>' +
+      '</div>' +
+      '<h4>Recent Operations</h4>' +
+      '<div>' + (recent.length ? recent.map((event) => '<p>- ' + escapeHtml(event.when + ' | ' + event.message) + '</p>').join("") : '<p>No events yet.</p>') + '</div>';
+  }
+
+  function openDrawer() {
+    if (!ui.drawer) {
+      return;
+    }
+    renderAar();
+    ui.drawer.classList.add("open");
+    ui.drawer.setAttribute("aria-hidden", "false");
+  }
+
+  function closeDrawer() {
+    if (!ui.drawer) {
+      return;
+    }
+    ui.drawer.classList.remove("open");
+    ui.drawer.setAttribute("aria-hidden", "true");
+  }
+
   function printHistory() {
     if (!state.history.length) {
       line("sys", "History is empty.");
@@ -916,6 +1016,7 @@
     if (lower === "reset") { resetScenario(); return; }
     if (lower === "next") { nextScenario(); return; }
     if (lower === "suggest") { printSuggestions(); return; }
+    if (lower === "aar" || lower === "report view") { openDrawer(); return; }
     if (lower === "guide") {
       openModal("Simulator Guide", "<p>Use <strong>list</strong> to browse scenarios and <strong>start ws-01</strong> to begin.</p><p>Clear stages with exact objective-aligned commands. Use <strong>hint</strong> if blocked, then recover your streak with clean completions.</p>", "Start ws-01", function () {
         processInput("start ws-01");
@@ -950,6 +1051,7 @@
 
     state.accepted += 1;
     pushEvent("Accepted command: " + shorten(input, 58));
+    renderAar();
     renderStats();
 
     const result = commandResponse(input);
@@ -1032,6 +1134,11 @@
       }
       if (event.key === "Escape") {
         closeModal();
+        closeDrawer();
+      }
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "j") {
+        event.preventDefault();
+        openDrawer();
       }
     });
   }
@@ -1044,12 +1151,14 @@
     ui.nextBtn.addEventListener("click", nextScenario);
     ui.suggestBtn.addEventListener("click", printSuggestions);
     ui.exportBtn.addEventListener("click", exportReport);
+    ui.aarBtn.addEventListener("click", openDrawer);
     ui.scnSearch.addEventListener("input", renderScenarioList);
     ui.scnDifficulty.addEventListener("change", renderScenarioList);
     ui.hotkeysBtn.addEventListener("click", () => {
       openModal("Keyboard Shortcuts", "<p><kbd>Enter</kbd> run command</p><p><kbd>Tab</kbd> stage hint fill</p><p><kbd>Up</kbd>/<kbd>Down</kbd> command history</p><p><kbd>Ctrl</kbd>+<kbd>K</kbd> focus input</p><p><kbd>Ctrl</kbd>+<kbd>L</kbd> clear output</p>", "Close", closeModal);
     });
     ui.modalClose.addEventListener("click", closeModal);
+    ui.drawerClose.addEventListener("click", closeDrawer);
     ui.modal.addEventListener("click", (event) => {
       if (event.target === ui.modal) {
         closeModal();
@@ -1079,6 +1188,8 @@
     bindShortcuts();
     renderTimeline();
     renderAchievements();
+    renderAttackChain();
+    renderAar();
     state.timerId = setInterval(updateTimers, 1000);
     updateTimers();
 
@@ -1086,6 +1197,7 @@
     line("sys", "Loaded " + SCENARIOS.length + " scenarios with " + (SCENARIOS.length * 5) + " guided stages.");
     line("sys", "Command roots: " + ROOT_SET.size + " | Generated command forms: " + COMMAND_SET.size + ".");
     line("sys", "Use 'list' to browse scenarios or 'start ws-01' to begin.");
+    line("sys", "Use 'aar' or Ctrl+J to open the After Action Report.");
     openModal("Welcome to Web Security Deep Simulator", "<p>Train through 12 multi-stage scenarios with scoring, streaks, achievements, and incident timeline tracking.</p><p>Use <strong>help</strong> for commands or press <strong>?</strong> for keyboard shortcuts.</p>", "Start ws-01", function () {
       processInput("start ws-01");
     });
