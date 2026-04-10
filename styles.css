@@ -180,6 +180,8 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -191,6 +193,8 @@ body {
     radial-gradient(circle at 88% 18%, var(--bg-radial-2), transparent 36%),
     linear-gradient(155deg, var(--bg-0), var(--bg-1) 46%, var(--bg-2));
   min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
   transition:
     background var(--theme-duration) var(--theme-ease),
     color calc(var(--theme-duration) - 40ms) var(--theme-ease);
@@ -215,6 +219,7 @@ html.theme-animating body {
 .site-header {
   position: sticky;
   top: 0;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   background: var(--header-bg);
   border-bottom: 1px solid var(--line);
@@ -261,6 +266,7 @@ html.theme-animating body {
 
 .theme-toggle {
   border: 1px solid var(--theme-chip-border);
+  background: var(--surface-solid);
   background: color-mix(in srgb, var(--surface-solid) 82%, transparent);
   color: var(--text-0);
   border-radius: 999px;
@@ -284,7 +290,9 @@ html.theme-animating body {
   margin-top: 0.45rem;
   border: 1px solid var(--line);
   border-radius: 14px;
+  background: var(--surface-solid);
   background: color-mix(in srgb, var(--surface-solid) 88%, transparent);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   box-shadow: var(--shadow);
   padding: 0.55rem;
@@ -321,6 +329,8 @@ html.theme-animating body {
 }
 
 .theme-option.active {
+  border-color: var(--accent);
+  background: rgba(80, 212, 255, 0.14);
   border-color: color-mix(in srgb, var(--accent) 60%, white 4%);
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent);
@@ -357,6 +367,7 @@ html.theme-animating body {
 .theme-toast {
   border: 1px solid var(--line);
   border-radius: 12px;
+  background: var(--surface-solid);
   background: color-mix(in srgb, var(--surface-solid) 88%, transparent);
   color: var(--text-0);
   font-size: 0.78rem;
@@ -372,6 +383,88 @@ html.theme-animating body {
   color: var(--accent);
 }
 
+.compat-diag {
+  position: fixed;
+  left: calc(0.8rem + env(safe-area-inset-left));
+  bottom: calc(0.85rem + env(safe-area-inset-bottom));
+  z-index: 96;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-solid);
+  box-shadow: var(--shadow-soft);
+  width: min(360px, calc(100vw - 1.6rem));
+  max-height: min(52vh, 420px);
+  overflow: auto;
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.compat-diag-head {
+  position: sticky;
+  top: 0;
+  background: color-mix(in srgb, var(--surface-solid) 88%, transparent);
+  border-bottom: 1px solid var(--line);
+  padding: 0.46rem 0.58rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.compat-diag-body {
+  padding: 0.5rem 0.58rem;
+}
+
+.compat-diag-body p {
+  margin: 0.24rem 0;
+  color: var(--text-1);
+}
+
+.compat-diag-actions {
+  margin-top: 0.45rem;
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.compat-diag-actions button {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-1);
+  border-radius: 7px;
+  font-size: 0.7rem;
+  padding: 0.24rem 0.5rem;
+  cursor: pointer;
+}
+
+.compat-diag-actions button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.compat-results {
+  margin-top: 0.48rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.42rem;
+}
+
+.compat-results p {
+  margin: 0.22rem 0;
+}
+
+.compat-diag-head button {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-1);
+  border-radius: 7px;
+  font-size: 0.7rem;
+  padding: 0.22rem 0.42rem;
+  cursor: pointer;
+}
+
+.compat-ok { color: var(--accent-2); }
+.compat-bad { color: var(--danger); }
+
 @keyframes themePop {
   from {
     transform: scale(0.96);
@@ -386,10 +479,12 @@ html.theme-animating body {
 @keyframes swatchPulse {
   0% {
     transform: scale(0.85);
+    box-shadow: 0 0 0 0 rgba(80, 212, 255, 0.45);
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
   }
   70% {
     transform: scale(1.15);
+    box-shadow: 0 0 0 5px rgba(80, 212, 255, 0);
     box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 0%, transparent);
   }
   100% {
@@ -2295,6 +2390,13 @@ footer {
 
   .theme-switcher.theme-floating {
     display: block;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 16px;
   }
 
   .theme-toast-wrap {

@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* ── Simulator Layout ─────────────────────────────────────────────── */
-    .sim-page { display: flex; flex-direction: column; min-height: 100vh; }
+    .sim-page { display: flex; flex-direction: column; min-height: var(--app-vh, 100vh); }
 
     .sim-body {
       display: grid;
@@ -19,7 +19,7 @@
       grid-template-rows: 1fr;
       flex: 1;
       min-height: 0;
-      height: calc(100vh - 58px);
+      height: calc(var(--app-vh, 100vh) - 58px);
       overflow: hidden;
     }
 

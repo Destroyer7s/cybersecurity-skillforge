@@ -182,6 +182,37 @@ Open:
 - Firefox (latest)
 - Safari (latest)
 
+## Browser Compatibility Diagnostics
+
+The project includes a built-in diagnostics overlay for cross-browser QA.
+
+Open with query parameters:
+
+- `?diag=1` or `?compat=1`: opens compatibility panel
+- `?diag=1&autotest=1`: opens panel and runs browser sanity checks automatically
+
+Example URLs:
+
+- `http://localhost:8080/?diag=1`
+- `http://localhost:8080/?diag=1&autotest=1`
+
+Diagnostics panel reports:
+
+- Detected platform and touch status
+- Theme runtime mode and active theme
+- Feature support (`matchMedia`, `localStorage`, `color-mix`, `100dvh`, `backdrop-filter`)
+- Browser sanity check pass/fail summary
+
+## Cross-Browser Validation Checklist
+
+Run this matrix before release:
+
+1. Chrome (Windows/macOS): theme switching, simulator navigation, responsive breakpoints.
+2. Edge (Windows): verify fallback visuals and diagnostics pass score.
+3. Firefox (Windows/macOS): check gradients, overlays, and simulator input behavior.
+4. Safari (macOS + iOS): verify backdrop rendering, mobile viewport sizing, and form usability.
+5. Android Chrome: orientation changes, toast placement, and simulator scroll behavior.
+
 ## Customization Guide
 
 Common edits before sharing publicly:

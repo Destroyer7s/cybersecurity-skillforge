@@ -25,6 +25,8 @@
   var toastTimer = null;
   var toastWrap = null;
   var pulseThemeId = null;
+  var viewportTicking = false;
+  var diagnosticsNode = null;
 
   function validTheme(themeId) {
     for (var i = 0; i < THEMES.length; i += 1) {
@@ -165,17 +167,19 @@
       var isPulseTarget = theme.id === pulseThemeId;
       option.className = "theme-option" + (isManualActive || isPulseTarget ? " active" : "");
       option.setAttribute("data-theme-id", theme.id);
+      option.setAttribute("data-theme-label", theme.label);
       option.textContent = theme.label;
       option.appendChild(buildSwatch(theme.swatch));
       option.addEventListener("click", function (event) {
         var target = event.currentTarget;
         var next = target.getAttribute("data-theme-id") || "ocean";
+        var label = target.getAttribute("data-theme-label") || next;
         state.mode = "manual";
         state.manualTheme = validTheme(next) ? next : "ocean";
         syncTheme();
         pulseThemeId = state.manualTheme;
         renderAll();
-        showThemeToast("Switched to " + theme.label);
+        showThemeToast("Switched to " + label);
       });
       panel.appendChild(option);
     }
@@ -285,6 +289,8 @@
 
   function mount() {
     setPageKind();
+    setPlatformFlags();
+    syncViewportHeightVar();
     var nav = document.querySelector(".site-header .main-nav");
     if (nav) {
       createSwitcher("theme-inline", nav);
@@ -294,6 +300,243 @@
     setupKeyboardShortcuts();
     setupOutsideClickClose();
     observeSystemTheme();
+    bindViewportListeners();
+    maybeMountDiagnostics();
+  }
+
+  function setPlatformFlags() {
+    var ua = "";
+    try {
+      ua = (navigator.userAgent || "").toLowerCase();
+    } catch (_error) {
+    }
+
+    var platform = "other";
+    if (ua.indexOf("windows") >= 0) {
+      platform = "windows";
+    } else if (ua.indexOf("mac os") >= 0 || ua.indexOf("macintosh") >= 0) {
+      platform = "mac";
+    } else if (ua.indexOf("android") >= 0) {
+      platform = "android";
+    } else if (ua.indexOf("iphone") >= 0 || ua.indexOf("ipad") >= 0 || ua.indexOf("ipod") >= 0) {
+      platform = "ios";
+    }
+
+    var touch = false;
+    try {
+      touch = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
+    } catch (_error) {
+    }
+
+    document.documentElement.setAttribute("data-platform", platform);
+    document.documentElement.setAttribute("data-touch", touch ? "true" : "false");
+  }
+
+  function syncViewportHeightVar() {
+    var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    if (vh > 0) {
+      document.documentElement.style.setProperty("--app-vh", vh + "px");
+    }
+  }
+
+  function bindViewportListeners() {
+    var handler = function () {
+      if (viewportTicking) {
+        return;
+      }
+      viewportTicking = true;
+      runLater(function () {
+        syncViewportHeightVar();
+        viewportTicking = false;
+      });
+    };
+    addWindowListener("resize", handler);
+    addWindowListener("orientationchange", handler);
+  }
+
+  function runLater(callback) {
+    if (window.requestAnimationFrame) {
+      window.requestAnimationFrame(callback);
+    } else {
+      setTimeout(callback, 16);
+    }
+  }
+
+  function addWindowListener(name, handler) {
+    try {
+      window.addEventListener(name, handler, { passive: true });
+    } catch (_error) {
+      window.addEventListener(name, handler, false);
+    }
+  }
+
+  function supportsCss(property, value) {
+    try {
+      return !!(window.CSS && CSS.supports && CSS.supports(property, value));
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function shouldShowDiagnostics() {
+    try {
+      return /(?:\?|&)(diag|compat)=1(?:&|$)/i.test(window.location.search || "");
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function shouldAutoRunDiagnostics() {
+    try {
+      return /(?:\?|&)(autotest|runchecks)=1(?:&|$)/i.test(window.location.search || "");
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function diagLine(label, ok) {
+    return '<p><strong>' + label + ':</strong> <span class="' + (ok ? 'compat-ok' : 'compat-bad') + '">' + (ok ? 'yes' : 'no') + '</span></p>';
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function runBrowserSanityChecks() {
+    var checks = [];
+    var add = function (name, pass, detail) {
+      checks.push({ name: name, pass: !!pass, detail: detail || "" });
+    };
+
+    add("DOM ready", !!document.body, "document.body exists");
+    add("Theme switcher mounted", switchers.length >= 1, "switchers: " + switchers.length);
+    add("Viewport var set", !!getComputedStyle(document.documentElement).getPropertyValue("--app-vh").trim(), "--app-vh is present");
+    add("matchMedia available", typeof window.matchMedia === "function", "required for system mode sync");
+
+    var storageOk = false;
+    try {
+      var key = "__csf_browser_test__";
+      localStorage.setItem(key, "ok");
+      storageOk = localStorage.getItem(key) === "ok";
+      localStorage.removeItem(key);
+    } catch (_error) {
+      storageOk = false;
+    }
+    add("localStorage roundtrip", storageOk, "set/get/remove test");
+
+    var hasHorizontalOverflow = false;
+    try {
+      hasHorizontalOverflow = document.documentElement.scrollWidth > (window.innerWidth + 2);
+    } catch (_error) {
+      hasHorizontalOverflow = true;
+    }
+    add("No horizontal overflow", !hasHorizontalOverflow, "scrollWidth vs viewport width");
+
+    add("CSS color-mix support", supportsCss("background", "color-mix(in srgb, black 50%, white 50%)"), "fallbacks provided when unsupported");
+    add("Backdrop filter support", supportsCss("backdrop-filter", "blur(8px)") || supportsCss("-webkit-backdrop-filter", "blur(8px)"), "UI remains usable if unavailable");
+
+    var passCount = 0;
+    for (var i = 0; i < checks.length; i += 1) {
+      if (checks[i].pass) {
+        passCount += 1;
+      }
+    }
+    return {
+      checks: checks,
+      passCount: passCount,
+      total: checks.length
+    };
+  }
+
+  function renderBrowserSanityResults(target) {
+    if (!target) {
+      return;
+    }
+    var result = runBrowserSanityChecks();
+    var rows = [];
+    rows.push('<p><strong>Sanity score:</strong> <span class="' + (result.passCount === result.total ? 'compat-ok' : 'compat-bad') + '">' + result.passCount + '/' + result.total + '</span></p>');
+    for (var i = 0; i < result.checks.length; i += 1) {
+      var item = result.checks[i];
+      rows.push('<p><strong>' + escapeHtml(item.name) + ':</strong> <span class="' + (item.pass ? 'compat-ok' : 'compat-bad') + '">' + (item.pass ? 'pass' : 'fail') + '</span> <span>' + escapeHtml(item.detail) + '</span></p>');
+    }
+    target.innerHTML = rows.join("");
+  }
+
+  function maybeMountDiagnostics() {
+    if (!shouldShowDiagnostics()) {
+      return;
+    }
+    diagnosticsNode = document.createElement("div");
+    diagnosticsNode.className = "compat-diag";
+
+    var ua = "unknown";
+    try {
+      ua = navigator.userAgent || "unknown";
+    } catch (_error) {
+    }
+
+    var supports = {
+      matchMedia: typeof window.matchMedia === "function",
+      localStorage: (function () {
+        try {
+          var key = "__diag_test__";
+          localStorage.setItem(key, "1");
+          localStorage.removeItem(key);
+          return true;
+        } catch (_error) {
+          return false;
+        }
+      })(),
+      colorMix: supportsCss("background", "color-mix(in srgb, black 50%, white 50%)"),
+      dvh: supportsCss("height", "100dvh"),
+      backdropFilter: supportsCss("backdrop-filter", "blur(8px)") || supportsCss("-webkit-backdrop-filter", "blur(8px)")
+    };
+
+    diagnosticsNode.innerHTML =
+      '<div class="compat-diag-head">Compatibility Diagnostics <button type="button" id="compatDiagClose">Close</button></div>' +
+      '<div class="compat-diag-body">' +
+      '<p><strong>Platform:</strong> ' + (document.documentElement.getAttribute("data-platform") || "other") + '</p>' +
+      '<p><strong>Touch:</strong> ' + (document.documentElement.getAttribute("data-touch") || "false") + '</p>' +
+      '<p><strong>Theme mode:</strong> ' + state.mode + '</p>' +
+      '<p><strong>Applied theme:</strong> ' + state.appliedTheme + '</p>' +
+      '<p><strong>Viewport:</strong> ' + (window.innerWidth || 0) + ' x ' + (window.innerHeight || 0) + '</p>' +
+      diagLine('matchMedia', supports.matchMedia) +
+      diagLine('localStorage', supports.localStorage) +
+      diagLine('color-mix', supports.colorMix) +
+      diagLine('100dvh', supports.dvh) +
+      diagLine('backdrop-filter', supports.backdropFilter) +
+      '<p><strong>UA:</strong> ' + escapeHtml(ua) + '</p>' +
+      '<div class="compat-diag-actions"><button type="button" id="compatRunChecks">Run Browser Checks</button></div>' +
+      '<div class="compat-results" id="compatDiagResults"></div>' +
+      '</div>';
+
+    document.body.appendChild(diagnosticsNode);
+
+    var close = document.getElementById("compatDiagClose");
+    if (close) {
+      close.addEventListener("click", function () {
+        if (diagnosticsNode && diagnosticsNode.parentNode) {
+          diagnosticsNode.parentNode.removeChild(diagnosticsNode);
+          diagnosticsNode = null;
+        }
+      });
+    }
+
+    var run = document.getElementById("compatRunChecks");
+    var output = document.getElementById("compatDiagResults");
+    if (run && output) {
+      run.addEventListener("click", function () {
+        renderBrowserSanityResults(output);
+      });
+      if (shouldAutoRunDiagnostics()) {
+        renderBrowserSanityResults(output);
+      }
+    }
   }
 
   loadState();
